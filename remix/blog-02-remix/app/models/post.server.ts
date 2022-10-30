@@ -10,3 +10,9 @@ export async function getPosts() {
 export async function getFirstPost() {
   return await prisma.post.findFirst()
 }
+
+export async function createPost(
+  post: Pick<Post, 'slug' | 'title' | 'markdown'>
+) {
+  return await prisma.post.create({ data: post })
+}

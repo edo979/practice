@@ -15,6 +15,7 @@ export default function Admin() {
   return (
     <div className="row">
       <div className="list-group col-md-6">
+        <p className="lead">Posts:</p>
         {posts.map((post) => (
           <Link
             to={post.slug}
