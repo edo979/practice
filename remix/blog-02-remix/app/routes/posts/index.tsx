@@ -16,14 +16,14 @@ export default function Posts() {
   const { posts } = useLoaderData() as unknown as LoaderData
 
   return (
-    <div className="container">
+    <>
       <div className="row">
         <div className="col">
           <h1>Posts</h1>
         </div>
       </div>
 
-      <main className="row">
+      <div className="row">
         <div className="col">
           <ul>
             {posts.map((post) => (
@@ -33,7 +33,7 @@ export default function Posts() {
             ))}
           </ul>
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   )
 }

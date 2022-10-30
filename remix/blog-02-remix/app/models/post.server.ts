@@ -6,3 +6,7 @@ export type { Post }
 export async function getPosts() {
   return await prisma.post.findMany()
 }
+
+export async function getFirstPost() {
+  return await prisma.post.findFirst()
+}
