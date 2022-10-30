@@ -1,5 +1,7 @@
 import { ActionFunction, json, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import classNames from 'classnames'
+import invariant from 'tiny-invariant'
 import { createPost } from '~/models/post.server'
 
 type ActionData =
@@ -22,51 +24,60 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (hasErrors) return json<ActionData>(errors)
 
-  if (typeof title !== 'string') throw new Error('Title cant be empty!')
-  if (typeof slug !== 'string') throw new Error('Slug cant be empty!')
-  if (typeof markdown !== 'string') throw new Error('Markdown cant be empty!')
+  invariant(typeof title === 'string', 'title must be a string')
+  invariant(typeof slug === 'string', 'slug must be a string')
+  invariant(typeof markdown === 'string', 'markdown must be a string')
 
   await createPost({ title, slug, markdown })
   return redirect('/posts/admin')
 }
 
 export default function NewPost() {
-  const errors = useActionData()
-  console.log(errors)
+  const errors = useActionData() as unknown as ActionData
+
   return (
     <Form method="post">
       <p className="lead">Create new post:</p>
       <div className="form-floating mb-2">
         <input
           type="text"
-          className="form-control"
+          className={classNames('form-control', {
+            'is-invalid': errors?.title,
+          })}
           id="title"
           name="title"
           placeholder="example-slug-like-post-title"
-        ></input>
+        />
         <label htmlFor="title">Title</label>
+        <div className="invalid-feedback">{errors?.title}</div>
       </div>
 
       <div className="form-floating mb-2">
         <input
           type="text"
-          className="form-control"
+          className={classNames('form-control', {
+            'is-invalid': errors?.slug,
+          })}
           id="slug"
           name="slug"
           placeholder="example-slug-like-post-title"
-        ></input>
+        />
         <label htmlFor="slug">Slug</label>
+        <div className="invalid-feedback">{errors?.slug}</div>
       </div>
 
       <div className="form-floating">
         <textarea
           name="markdown"
           id="markdown"
-          className="form-control"
+          className={classNames('form-control', {
+            'is-invalid': errors?.markdown,
+          })}
           placeholder="Body of the post"
           style={{ height: '300px' }}
         ></textarea>
         <label htmlFor="markdown">Post body content</label>
+        <div className="invalid-feedback">{errors?.markdown}</div>
       </div>
 
       <button className="mt-2 btn btn-outline-dark" type="submit">
