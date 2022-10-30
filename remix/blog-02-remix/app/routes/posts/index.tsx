@@ -25,6 +25,7 @@ export default function Posts() {
 
       <div className="row">
         <div className="col">
+          <Link to={'admin'}>Admin</Link>
           <ul>
             {posts.map((post) => (
               <li key={post.slug}>

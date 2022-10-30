@@ -35,7 +35,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <header className="container blog-header lh-1 py-3">
+        <header className="container blog-header lh-1 py-3 mb-4">
           <div className="row flex-nowrap justify-content-between align-items-center">
             <div className="col-4 pt-1">
               <a className="link-secondary" href="#">
@@ -67,9 +67,9 @@ export default function App() {
                   <path d="M21 21l-5.2-5.2"></path>
                 </svg>
               </a>
-              <a className="btn btn-sm btn-outline-secondary" href="#">
+              <Link className="btn btn-sm btn-outline-secondary" to="/posts">
                 Sign up
-              </a>
+              </Link>
             </div>
           </div>
         </header>
