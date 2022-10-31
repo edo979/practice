@@ -1,5 +1,5 @@
 import { json, LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Form, Link, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { marked } from 'marked'
 import { getPost } from '~/models/post.server'
@@ -28,9 +28,21 @@ export default function EditPost() {
         <Link to={'edit'} className="btn btn-outline-dark btn-sm mb-3 ms-auto">
           Edit
         </Link>
-        <Link to={'edit'} className="btn btn-outline-dark btn-sm mb-3 ms-2">
-          Delete
-        </Link>
+        <Form
+          method="post"
+          action="delete"
+          onSubmit={(event) => {
+            if (!confirm('Please confirm you want to delete this post?'))
+              event.preventDefault()
+          }}
+        >
+          <button
+            type="submit"
+            className="btn btn-outline-dark btn-sm mb-3 ms-2"
+          >
+            Delete
+          </button>
+        </Form>
       </div>
       <h2>{post?.title}</h2>
 

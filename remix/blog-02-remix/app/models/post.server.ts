@@ -30,3 +30,7 @@ export async function updatePost(
     data: { title: post.title, slug: post.slug, markdown: post.markdown },
   })
 }
+
+export async function deletePost(slug: string) {
+  return await prisma.post.delete({ where: { slug: slug } })
+}
