@@ -1,5 +1,5 @@
 import { ActionFunction, json, redirect } from '@remix-run/node'
-import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import classNames from 'classnames'
 import invariant from 'tiny-invariant'
 import { createPost } from '~/models/post.server'
@@ -80,9 +80,14 @@ export default function NewPost() {
         <div className="invalid-feedback">{errors?.markdown}</div>
       </div>
 
-      <button className="mt-2 btn btn-outline-dark" type="submit">
-        Save
-      </button>
+      <div className="mt-2 btn-group">
+        <button className="btn btn-outline-dark" type="submit">
+          Save
+        </button>
+        <Link to={'/posts/admin'} className="btn btn-outline-dark">
+          Cancel
+        </Link>
+      </div>
     </Form>
   )
 }
