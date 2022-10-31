@@ -14,8 +14,11 @@ export default function Admin() {
   const { posts } = useLoaderData() as unknown as LoaderData
   return (
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-md-5">
         <p className="lead">Posts:</p>
+        <Link to={'new'} className="btn btn-dark mb-2 d-block">
+          New
+        </Link>
         <div className="list-group ">
           {posts.map((post) => (
             <Link
@@ -28,7 +31,7 @@ export default function Admin() {
           ))}
         </div>
       </div>
-      <div className="col-md-6">
+      <div className="col-md-7">
         <Outlet />
       </div>
     </div>

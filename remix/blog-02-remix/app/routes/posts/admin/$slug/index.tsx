@@ -25,7 +25,10 @@ export default function EditPost() {
   return (
     <>
       <div className="hstack">
-        <Link to={'edit'} className="btn btn-outline-dark btn-sm mb-3 ms-auto">
+        <Link
+          to={'edit'}
+          className="btn btn-outline-secondary btn-sm mb-3 ms-auto"
+        >
           Edit
         </Link>
         <Form
@@ -38,7 +41,7 @@ export default function EditPost() {
         >
           <button
             type="submit"
-            className="btn btn-outline-dark btn-sm mb-3 ms-2"
+            className="btn btn-outline-secondary btn-sm mb-3 ms-2"
           >
             Delete
           </button>
