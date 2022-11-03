@@ -1,6 +1,7 @@
 import { ActionFunction, json } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import classNames from 'classnames'
+import { createUserSession } from '~/utils/session.server'
 
 type ActionData = {
   formError?: string
@@ -44,12 +45,11 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(fieldErrors).some(Boolean))
     return badRequest({ fieldErrors, fields })
 
-  return badRequest({})
+  return createUserSession(username, '/jokes')
 }
 
 export default function Login() {
   const actionData = useActionData<ActionData>()
-  console.log(actionData)
 
   return (
     <div className="container">
