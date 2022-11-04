@@ -1,7 +1,9 @@
-import { ActionFunction, json } from '@remix-run/node'
+import { ActionFunction, json, LinksFunction } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import classNames from 'classnames'
+
 import { createUserSession } from '~/utils/session.server'
+import stylesUrl from '~/style/login.css'
 
 type ActionData = {
   formError?: string
@@ -14,6 +16,10 @@ type ActionData = {
     password: string
   }
 }
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesUrl },
+]
 
 function validateUsername(username: unknown) {
   if (typeof username !== 'string' || username.length < 3)
@@ -52,58 +58,90 @@ export default function Login() {
   const actionData = useActionData<ActionData>()
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <form method="post">
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                Email address
-              </label>
+    <div className="container bg-light">
+      <div className="row align-items-center" style={{ height: '100vh' }}>
+        <form method="post" className="mx-auto">
+          <h1 className="h3 mb-3 fw-normal text-center">
+            Please login <span className="text-muted fs-4">or register</span>
+          </h1>
+
+          <div className="mx-auto mb-2" style={{ width: 'fit-content' }}>
+            <div className="form-check form-check-inline">
               <input
-                type="text"
-                className={classNames('form-control', {
-                  'is-invalid': actionData?.fieldErrors?.username,
-                })}
-                id="username"
-                name="username"
-                defaultValue={actionData?.fields?.username}
-                aria-describedby="validationUsernameFeedback"
+                className="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio1"
+                value="option1"
               />
-              <div className="invalid-feedback" id="validationUsernameFeedback">
-                {actionData?.fieldErrors?.username}
-              </div>
+              <label className="form-check-label" htmlFor="inlineRadio1">
+                Login
+              </label>
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
+            <div className="form-check form-check-inline me-0">
               <input
-                type="password"
-                className={classNames('form-control', {
-                  'is-invalid': actionData?.fieldErrors?.password,
-                })}
-                id="password"
-                name="password"
-                defaultValue={actionData?.fields?.password}
-                aria-describedby="validationPasswordFeedback"
+                className="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio2"
+                value="option2"
               />
-              <div className="invalid-feedback" id="validationPasswordFeedback">
-                {actionData?.fieldErrors?.password}
-              </div>
+              <label className="form-check-label" htmlFor="inlineRadio2">
+                Register
+              </label>
             </div>
+          </div>
 
-            {actionData?.formError && (
-              <div className="invalid-feedback d-block">
-                {actionData?.formError}
-              </div>
-            )}
-            <button className="btn btn-primary" type="submit">
-              Login
-            </button>
-          </form>
-        </div>
+          <div className="form-floating">
+            <input
+              type="text"
+              className={classNames('form-control', {
+                'is-invalid': actionData?.fieldErrors?.username,
+              })}
+              id="username"
+              name="username"
+              defaultValue={actionData?.fields?.username}
+              aria-describedby="validationUsernameFeedback"
+              placeholder="User Name"
+            />
+            <label htmlFor="username" className="form-label">
+              Username
+            </label>
+            <div className="invalid-feedback" id="validationUsernameFeedback">
+              {actionData?.fieldErrors?.username}
+            </div>
+          </div>
+
+          <div className="form-floating">
+            <input
+              type="password"
+              className={classNames('form-control', {
+                'is-invalid': actionData?.fieldErrors?.password,
+              })}
+              id="password"
+              name="password"
+              defaultValue={actionData?.fields?.password}
+              aria-describedby="validationPasswordFeedback"
+              placeholder="Password"
+            />
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <div className="invalid-feedback" id="validationPasswordFeedback">
+              {actionData?.fieldErrors?.password}
+            </div>
+          </div>
+
+          {actionData?.formError && (
+            <div className="invalid-feedback d-block">
+              {actionData?.formError}
+            </div>
+          )}
+          <button className="btn btn-primary btn-lg w-100" type="submit">
+            Login
+          </button>
+        </form>
       </div>
     </div>
   )
