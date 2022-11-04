@@ -1,5 +1,5 @@
 import { ActionFunction, json, LinksFunction } from '@remix-run/node'
-import { useActionData } from '@remix-run/react'
+import { useActionData, useSearchParams } from '@remix-run/react'
 import classNames from 'classnames'
 
 import { createUserSession, login, register } from '~/utils/session.server'
@@ -33,6 +33,12 @@ function validatePassword(password: unknown) {
     return `passwords must be at least 6 characters long`
 }
 
+function validateUrl(url: any) {
+  const urls = ['/jokes', '/']
+  if (urls.includes(url)) return url
+  return '/jokes'
+}
+
 const badRequest = (data: ActionData) => json(data, { status: 400 })
 
 export const action: ActionFunction = async ({ request }) => {
@@ -40,6 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
   const username = formData.get('username')
   const password = formData.get('password')
   const loginType = formData.get('loginType')
+  const redirectTo = validateUrl(formData.get('redirectTo') || '/jokes')
 
   if (
     typeof username !== 'string' ||
@@ -67,7 +74,7 @@ export const action: ActionFunction = async ({ request }) => {
           fields,
           formError: `Username/Password combination is incorrect`,
         })
-      return createUserSession(user.id, '/jokes')
+      return createUserSession(user.id, redirectTo)
     }
 
     case 'register': {
@@ -83,16 +90,17 @@ export const action: ActionFunction = async ({ request }) => {
           fields,
           formError: 'Something went wrong trying create a new user',
         })
-      return createUserSession(user.id, '/jokes')
+      return createUserSession(user.id, redirectTo)
     }
 
     default:
-      return createUserSession(username, '/jokes')
+      return badRequest({ fields, formError: 'Login type invalid' })
   }
 }
 
 export default function Login() {
   const actionData = useActionData<ActionData>()
+  const [searchParams] = useSearchParams()
 
   return (
     <div className="container bg-light">
@@ -101,6 +109,11 @@ export default function Login() {
           <h1 className="h3 mb-3 fw-normal text-center">
             Please login <span className="text-muted fs-4">or register</span>
           </h1>
+          <input
+            type="hidden"
+            name="redirectTo"
+            value={searchParams.get('redirectTo') ?? undefined}
+          />
 
           <div className="mx-auto mb-2" style={{ width: 'fit-content' }}>
             <div className="form-check form-check-inline">
