@@ -2,8 +2,9 @@ import { ActionFunction, json, LinksFunction } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import classNames from 'classnames'
 
-import { createUserSession, login } from '~/utils/session.server'
+import { createUserSession, login, register } from '~/utils/session.server'
 import stylesUrl from '~/style/login.css'
+import { db } from '~/utils/db.server'
 
 type ActionData = {
   formError?: string
@@ -58,7 +59,7 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ fieldErrors, fields })
 
   switch (loginType) {
-    case 'login':
+    case 'login': {
       const user = await login({ username, password })
       console.log(user)
       if (!user)
@@ -67,9 +68,23 @@ export const action: ActionFunction = async ({ request }) => {
           formError: `Username/Password combination is incorrect`,
         })
       return createUserSession(user.id, '/jokes')
+    }
 
-    case 'register':
-      console.log(loginType)
+    case 'register': {
+      const userExist = await db.user.findFirst({ where: { username } })
+      if (userExist)
+        return badRequest({
+          fields,
+          formError: `User with username ${username} alredy exist`,
+        })
+      const user = await register({ username, password })
+      if (!user)
+        return badRequest({
+          fields,
+          formError: 'Something went wrong trying create a new user',
+        })
+      return createUserSession(user.id, '/jokes')
+    }
 
     default:
       return createUserSession(username, '/jokes')
