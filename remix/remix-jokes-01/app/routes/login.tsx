@@ -2,7 +2,7 @@ import { ActionFunction, json, LinksFunction } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import classNames from 'classnames'
 
-import { createUserSession } from '~/utils/session.server'
+import { createUserSession, login } from '~/utils/session.server'
 import stylesUrl from '~/style/login.css'
 
 type ActionData = {
@@ -14,6 +14,7 @@ type ActionData = {
   fields?: {
     username: string
     password: string
+    loginType: string
   }
 }
 
@@ -37,12 +38,17 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const username = formData.get('username')
   const password = formData.get('password')
+  const loginType = formData.get('loginType')
 
-  if (typeof username !== 'string' || typeof password !== 'string') {
+  if (
+    typeof username !== 'string' ||
+    typeof password !== 'string' ||
+    typeof loginType !== 'string'
+  ) {
     return badRequest({ formError: 'Form not submittet correctly' })
   }
 
-  const fields = { username, password }
+  const fields = { username, password, loginType }
   const fieldErrors = {
     username: validateUsername(username),
     password: validatePassword(password),
@@ -51,7 +57,23 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(fieldErrors).some(Boolean))
     return badRequest({ fieldErrors, fields })
 
-  return createUserSession(username, '/jokes')
+  switch (loginType) {
+    case 'login':
+      const user = await login({ username, password })
+      console.log(user)
+      if (!user)
+        return badRequest({
+          fields,
+          formError: `Username/Password combination is incorrect`,
+        })
+      return createUserSession(user.id, '/jokes')
+
+    case 'register':
+      console.log(loginType)
+
+    default:
+      return createUserSession(username, '/jokes')
+  }
 }
 
 export default function Login() {
@@ -70,11 +92,15 @@ export default function Login() {
               <input
                 className="form-check-input"
                 type="radio"
-                name="inlineRadioOptions"
-                id="inlineRadio1"
-                value="option1"
+                name="loginType"
+                id="login"
+                value="login"
+                defaultChecked={
+                  !actionData?.fields?.loginType ||
+                  actionData.fields.loginType === 'login'
+                }
               />
-              <label className="form-check-label" htmlFor="inlineRadio1">
+              <label className="form-check-label" htmlFor="login">
                 Login
               </label>
             </div>
@@ -83,11 +109,12 @@ export default function Login() {
               <input
                 className="form-check-input"
                 type="radio"
-                name="inlineRadioOptions"
-                id="inlineRadio2"
-                value="option2"
+                name="loginType"
+                id="register"
+                value="register"
+                defaultChecked={actionData?.fields?.loginType === 'register'}
               />
-              <label className="form-check-label" htmlFor="inlineRadio2">
+              <label className="form-check-label" htmlFor="register">
                 Register
               </label>
             </div>
@@ -133,14 +160,19 @@ export default function Login() {
             </div>
           </div>
 
-          {actionData?.formError && (
-            <div className="invalid-feedback d-block">
-              {actionData?.formError}
-            </div>
-          )}
-          <button className="btn btn-primary btn-lg w-100 mt-3" type="submit">
-            Login
-          </button>
+          <div className="mt-3">
+            {actionData?.formError && (
+              <div
+                className="invalid-feedback d-block text-center mb-1"
+                style={{ marginTop: '-10px' }}
+              >
+                {actionData?.formError}
+              </div>
+            )}
+            <button className="btn btn-primary btn-lg w-100" type="submit">
+              Login
+            </button>
+          </div>
         </form>
       </div>
     </div>
