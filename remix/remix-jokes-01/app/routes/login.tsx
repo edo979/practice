@@ -138,7 +138,7 @@ export default function Login() {
               {actionData?.formError}
             </div>
           )}
-          <button className="btn btn-primary btn-lg w-100" type="submit">
+          <button className="btn btn-primary btn-lg w-100 mt-3" type="submit">
             Login
           </button>
         </form>
