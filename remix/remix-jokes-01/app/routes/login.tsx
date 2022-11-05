@@ -1,5 +1,10 @@
-import { ActionFunction, json, LinksFunction } from '@remix-run/node'
-import { useActionData, useSearchParams } from '@remix-run/react'
+import {
+  ActionFunction,
+  json,
+  LinksFunction,
+  LoaderFunction,
+} from '@remix-run/node'
+import { useActionData, useLoaderData, useSearchParams } from '@remix-run/react'
 import classNames from 'classnames'
 
 import { createUserSession, login, register } from '~/utils/session.server'
@@ -15,8 +20,11 @@ type ActionData = {
   fields?: {
     username: string
     password: string
-    loginType: string
   }
+}
+
+type LoadarData = {
+  loginType: string
 }
 
 export const links: LinksFunction = () => [
@@ -45,18 +53,15 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const username = formData.get('username')
   const password = formData.get('password')
-  const loginType = formData.get('loginType')
+  const loginType =
+    new URL(request.url).searchParams.get('logintype') ?? 'login'
   const redirectTo = validateUrl(formData.get('redirectTo') || '/jokes')
 
-  if (
-    typeof username !== 'string' ||
-    typeof password !== 'string' ||
-    typeof loginType !== 'string'
-  ) {
+  if (typeof username !== 'string' || typeof password !== 'string') {
     return badRequest({ formError: 'Form not submittet correctly' })
   }
 
-  const fields = { username, password, loginType }
+  const fields = { username, password }
   const fieldErrors = {
     username: validateUsername(username),
     password: validatePassword(password),
@@ -98,55 +103,31 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const loginType =
+    new URL(request.url).searchParams.get('logintype') ?? 'login'
+
+  const data = { loginType }
+  return json<LoadarData>(data)
+}
+
 export default function Login() {
   const actionData = useActionData<ActionData>()
   const [searchParams] = useSearchParams()
+  const { loginType } = useLoaderData<LoadarData>()
 
   return (
     <div className="my-5 py-5 bg-light rounded-3">
       <div className="row align-items-center" style={{ height: '100%' }}>
         <form method="post" className="mx-auto">
           <h1 className="h3 mb-3 fw-normal text-center">
-            Please login <span className="text-muted fs-4">or register</span>
+            {loginType === 'login' ? 'Please login' : 'Please register'}
           </h1>
           <input
             type="hidden"
             name="redirectTo"
             value={searchParams.get('redirectTo') ?? undefined}
           />
-
-          <div className="mx-auto mb-2" style={{ width: 'fit-content' }}>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="loginType"
-                id="login"
-                value="login"
-                defaultChecked={
-                  !actionData?.fields?.loginType ||
-                  actionData.fields.loginType === 'login'
-                }
-              />
-              <label className="form-check-label" htmlFor="login">
-                Login
-              </label>
-            </div>
-
-            <div className="form-check form-check-inline me-0">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="loginType"
-                id="register"
-                value="register"
-                defaultChecked={actionData?.fields?.loginType === 'register'}
-              />
-              <label className="form-check-label" htmlFor="register">
-                Register
-              </label>
-            </div>
-          </div>
 
           <div className="form-floating">
             <input
@@ -198,7 +179,7 @@ export default function Login() {
               </div>
             )}
             <button className="btn btn-primary btn-lg w-100" type="submit">
-              Login
+              {loginType === 'login' ? 'Login' : 'Register'}
             </button>
           </div>
         </form>
