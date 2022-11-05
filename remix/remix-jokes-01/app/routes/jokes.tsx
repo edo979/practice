@@ -1,22 +1,14 @@
-import { json, LoaderFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
-import { getUserId } from '~/utils/session.server'
+import { Outlet } from '@remix-run/react'
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const data = await getUserId(request)
-  return json(data)
-}
-
-export default function Jokes() {
-  const data = useLoaderData()
-  console.log(data)
-
+export default function Index() {
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <p>{data}</p>
-        </div>
+    <div className="row">
+      <div className="col col-sm-4 p-3 text-bg-light">
+        <h1 className="display-6 text-center border-bottom pb-2">Jokes</h1>
+      </div>
+
+      <div className="col col-sm-8">
+        <Outlet />
       </div>
     </div>
   )
