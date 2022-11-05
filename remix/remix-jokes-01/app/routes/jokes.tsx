@@ -43,7 +43,10 @@ export default function Index() {
         </nav>
       </div>
 
-      <div className="col col-sm-8">
+      <div
+        className="col col-sm-8 d-grid p-4"
+        style={{ placeContent: 'center' }}
+      >
         <Outlet />
       </div>
     </div>
