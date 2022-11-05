@@ -103,8 +103,8 @@ export default function Login() {
   const [searchParams] = useSearchParams()
 
   return (
-    <div className="container bg-light">
-      <div className="row align-items-center" style={{ height: '100vh' }}>
+    <div className="my-5 py-5 bg-light rounded-3">
+      <div className="row align-items-center" style={{ height: '100%' }}>
         <form method="post" className="mx-auto">
           <h1 className="h3 mb-3 fw-normal text-center">
             Please login <span className="text-muted fs-4">or register</span>
