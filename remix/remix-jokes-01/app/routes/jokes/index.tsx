@@ -9,7 +9,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Jokes() {
   const data = useLoaderData()
-  console.log(data)
 
   return (
     <div className="container">
