@@ -41,12 +41,12 @@ export default function Index() {
             </Link>
           ))}
         </nav>
+        <Link to="new" className="btn btn-warning mt-3 w-100">
+          Create New Joke
+        </Link>
       </div>
 
-      <div
-        className="col col-sm-8 d-grid p-4"
-        style={{ placeContent: 'center' }}
-      >
+      <div className="col col-sm-8 d-grid p-4">
         <Outlet />
       </div>
     </div>
