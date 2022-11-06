@@ -34,10 +34,6 @@ export const links: LinksFunction = () => {
         'sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi',
       crossOrigin: 'anonymous',
     },
-    {
-      rel: 'stylesheet',
-      href: userMenuStyle,
-    },
   ]
 }
 type LoaderData = {

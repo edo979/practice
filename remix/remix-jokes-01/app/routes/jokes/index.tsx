@@ -17,7 +17,6 @@ export default function Jokes() {
           <h1 className="fs-4 text-center">
             Welcome to jokes, pik one from the left.
           </h1>
-          <p>{data}</p>
         </div>
       </div>
     </div>
