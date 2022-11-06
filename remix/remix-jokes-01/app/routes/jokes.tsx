@@ -28,7 +28,7 @@ export default function Index() {
 
   return (
     <div className="row">
-      <div className="col col-sm-4 p-3 text-bg-light">
+      <div className="col col-md-4 p-3 text-bg-light">
         <h1 className="display-6 text-center border-bottom pb-2">Jokes</h1>
         <nav className="list-group | jokes-list" aria-label="jokes navigation">
           {jokes.map((joke) => (
@@ -46,7 +46,7 @@ export default function Index() {
         </Link>
       </div>
 
-      <div className="col col-sm-8 d-grid p-4">
+      <div className="col-12 col-md-8 col-lg-5 d-grid mx-auto p-4">
         <Outlet />
       </div>
     </div>

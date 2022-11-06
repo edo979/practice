@@ -20,11 +20,13 @@ export default function Joke() {
   const { joke } = useLoaderData<LoaderData>()
 
   return (
-    <blockquote className="blockquote">
-      <header className="blockquote-footer">
-        <cite title="Source Title">{joke.name}</cite>
-      </header>
-      <p>{joke.content}</p>
-    </blockquote>
+    <div className="d-grid align-items-center">
+      <blockquote className="blockquote">
+        <header className="blockquote-footer">
+          <cite title="Source Title">{joke.name}</cite>
+        </header>
+        <p>{joke.content}</p>
+      </blockquote>
+    </div>
   )
 }
