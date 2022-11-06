@@ -3,7 +3,6 @@ import { Link, Outlet, useLoaderData } from '@remix-run/react'
 
 import jokesStyle from '~/style/jokes.css'
 import { db } from '~/utils/db.server'
-import { getUser } from '~/utils/session.server'
 
 type LoaderData = {
   jokes: { id: string; name: string }[]
@@ -19,8 +18,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     orderBy: { createdAt: 'desc' },
     select: { id: true, name: true },
   })
-
-  const user = await getUser(request)
 
   const data = { jokes }
   return json<LoaderData>(data)

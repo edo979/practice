@@ -17,6 +17,8 @@ import {
 import Header from './components/header'
 import { getUser } from './utils/session.server'
 
+import userMenuStyle from '~/style/user-profile-menu.css'
+
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'New Remix App',
@@ -32,6 +34,10 @@ export const links: LinksFunction = () => {
         'sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi',
       crossOrigin: 'anonymous',
     },
+    {
+      rel: 'stylesheet',
+      href: userMenuStyle,
+    },
   ]
 }
 type LoaderData = {
@@ -43,7 +49,6 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request)
-  console.log(user)
 
   const data = { user }
   return json<LoaderData>(data)

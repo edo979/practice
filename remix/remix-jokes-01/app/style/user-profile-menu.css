@@ -1,0 +1,4 @@
+.dropdown-menu > li.dropdown-item:last-of-type,
+.dropdown-menu > li.dropdown-item:last-of-type :active {
+  background-color: transparent !important;
+}
