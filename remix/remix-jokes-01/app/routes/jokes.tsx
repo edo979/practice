@@ -3,9 +3,11 @@ import { Link, Outlet, useLoaderData } from '@remix-run/react'
 
 import jokesStyle from '~/style/jokes.css'
 import { db } from '~/utils/db.server'
+import { getUserId } from '~/utils/session.server'
 
 type LoaderData = {
   jokes: { id: string; name: string }[]
+  userId: string | null
 }
 
 export const links: LinksFunction = () => {
@@ -19,12 +21,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     select: { id: true, name: true },
   })
 
-  const data = { jokes }
+  const userId = await getUserId(request)
+
+  const data = { jokes, userId }
   return json<LoaderData>(data)
 }
 
 export default function Index() {
-  const { jokes } = useLoaderData<LoaderData>()
+  const { jokes, userId } = useLoaderData<LoaderData>()
 
   return (
     <div className="row">
@@ -41,9 +45,11 @@ export default function Index() {
             </Link>
           ))}
         </nav>
-        <Link to="new" className="btn btn-warning mt-3 w-100">
-          Create New Joke
-        </Link>
+        {userId && (
+          <Link to="new" className="btn btn-warning mt-3 w-100">
+            Create New Joke
+          </Link>
+        )}
       </div>
 
       <div className="col-12 col-md-8 col-lg-5 d-grid mx-auto p-4">
