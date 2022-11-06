@@ -75,3 +75,12 @@ export async function login({ username, password }: LoginForm) {
 
   return { id: user.id, username }
 }
+
+export async function logout(request: Request) {
+  const session = await getUserSession(request)
+  return redirect('/login', {
+    headers: {
+      'Set-Cookie': await storage.destroySession(session),
+    },
+  })
+}
