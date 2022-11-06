@@ -88,7 +88,7 @@ export default function App() {
               </ul>
 
               <form
-                className="col-12 col-md-auto mb-3 mb-md-0 me-md-3"
+                className="col-12 col-sm-auto mb-3 mb-sm-0 me-sm-3"
                 role="search"
               >
                 <input
@@ -99,7 +99,7 @@ export default function App() {
                 />
               </form>
 
-              <div className="text-end">
+              <div className="text-end mb-3 mb-sm-0 ms-3 ms-sm-0">
                 <Link to="/login" className="btn btn-outline-light me-2">
                   Login
                 </Link>
