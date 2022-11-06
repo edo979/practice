@@ -3,6 +3,7 @@ import { Link, Outlet, useLoaderData } from '@remix-run/react'
 
 import jokesStyle from '~/style/jokes.css'
 import { db } from '~/utils/db.server'
+import { getUser } from '~/utils/session.server'
 
 type LoaderData = {
   jokes: { id: string; name: string }[]
@@ -12,12 +13,14 @@ export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: jokesStyle }]
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
   const jokes = await db.joke.findMany({
     take: 5,
     orderBy: { createdAt: 'desc' },
     select: { id: true, name: true },
   })
+
+  const user = await getUser(request)
 
   const data = { jokes }
   return json<LoaderData>(data)

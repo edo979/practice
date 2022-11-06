@@ -1,15 +1,21 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
-  Link,
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from '@remix-run/node'
+import {
   Links,
   LiveReload,
   Meta,
-  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react'
-import classname from 'classnames'
+
+import Header from './components/header'
+import { getUser } from './utils/session.server'
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -28,8 +34,23 @@ export const links: LinksFunction = () => {
     },
   ]
 }
+type LoaderData = {
+  user: {
+    id: string
+    username: string
+  } | null
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const user = await getUser(request)
+  console.log(user)
+
+  const data = { user }
+  return json<LoaderData>(data)
+}
 
 export default function App() {
+  const { user } = useLoaderData<LoaderData>()
   return (
     <html lang="en">
       <head>
@@ -37,83 +58,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <header className="p-3 text-bg-dark">
-          <div className="container">
-            <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-              <a
-                href="/"
-                className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
-              >
-                {/* <svg
-                  className="bi me-2"
-                  width="40"
-                  height="32"
-                  role="img"
-                  aria-label="Bootstrap"
-                >
-                  <use xlink:href="#bootstrap"></use>
-                </svg> */}
-              </a>
-
-              <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li>
-                  <NavLink
-                    to="/"
-                    end
-                    className={({ isActive }) =>
-                      classname(
-                        { 'text-secondary': isActive },
-                        { 'text-white': !isActive },
-                        'nav-link px-2'
-                      )
-                    }
-                  >
-                    Home
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to={'/jokes'}
-                    className={({ isActive }) =>
-                      classname(
-                        { 'text-secondary': isActive },
-                        { 'text-white': !isActive },
-                        'nav-link px-2'
-                      )
-                    }
-                  >
-                    Jokes
-                  </NavLink>
-                </li>
-              </ul>
-
-              <form
-                className="col-12 col-sm-auto mb-3 mb-sm-0 me-sm-3"
-                role="search"
-              >
-                <input
-                  type="search"
-                  className="form-control border border-secondary text-bg-dark"
-                  placeholder="Search..."
-                  aria-label="Search"
-                />
-              </form>
-
-              <div className="text-end mb-3 mb-sm-0 ms-3 ms-sm-0">
-                <Link to="/login" className="btn btn-outline-light me-2">
-                  Login
-                </Link>
-                <Link
-                  to="/login?logintype=register"
-                  type="button"
-                  className="btn btn-warning"
-                >
-                  Sign-up
-                </Link>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header user={user} />
 
         <main className="container">
           <Outlet />
