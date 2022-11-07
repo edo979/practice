@@ -1,6 +1,8 @@
 import { ActionFunction, json, redirect } from '@remix-run/node'
-import { useActionData, useTransition } from '@remix-run/react'
+import { Form, useActionData, useTransition } from '@remix-run/react'
 import classNames from 'classnames'
+import { db } from '~/utils/db.server'
+import { getUser, getUserId } from '~/utils/session.server'
 
 type ActionData = {
   formError?: string
@@ -36,8 +38,6 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ formError: 'Form not submittet correctly' })
   }
 
-  await new Promise((res) => setTimeout(res, 1000))
-
   const fields = { name, content }
   const fieldErrors = {
     name: validateJokeName(name),
@@ -47,17 +47,27 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(fieldErrors).some(Boolean))
     return badRequest({ fields, fieldErrors })
 
-  return redirect('/')
+  const user = await getUser(request)
+  if (!user) return badRequest({ formError: 'User not valid' })
+
+  try {
+    await db.joke.create({
+      data: { jokesterId: user.id, name, content },
+    })
+  } catch {
+    throw new Error('Server Error')
+  }
+
+  return redirect('/jokes')
 }
 
 export default function NewJokes() {
   let transition = useTransition()
   const actionData = useActionData<ActionData>()
-  let isCreating = Boolean(transition.submission)
-  console.log(isCreating)
+
   return (
     <div className="d-grid align-items-center">
-      <form method="POST">
+      <Form method="post">
         <label htmlFor="name" className="form-label">
           Name
         </label>
@@ -105,13 +115,20 @@ export default function NewJokes() {
           )}
           <button
             className="btn btn-secondary w-100 px-5"
-            disabled={isCreating}
+            disabled={
+              transition.state === 'submitting' ||
+              transition.state === 'loading'
+            }
             type="submit"
           >
-            Save
+            {transition.state === 'submitting'
+              ? 'Saving...'
+              : transition.state === 'loading'
+              ? 'Saved'
+              : 'Save'}
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }
