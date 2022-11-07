@@ -1,5 +1,5 @@
-import { ActionFunction, json } from '@remix-run/node'
-import { useActionData } from '@remix-run/react'
+import { ActionFunction, json, redirect } from '@remix-run/node'
+import { useActionData, useTransition } from '@remix-run/react'
 import classNames from 'classnames'
 
 type ActionData = {
@@ -36,6 +36,8 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ formError: 'Form not submittet correctly' })
   }
 
+  await new Promise((res) => setTimeout(res, 1000))
+
   const fields = { name, content }
   const fieldErrors = {
     name: validateJokeName(name),
@@ -45,15 +47,17 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(fieldErrors).some(Boolean))
     return badRequest({ fields, fieldErrors })
 
-  return badRequest({ formError: 'Not implemented' })
+  return redirect('/')
 }
 
 export default function NewJokes() {
+  let transition = useTransition()
   const actionData = useActionData<ActionData>()
-
+  let isCreating = Boolean(transition.submission)
+  console.log(isCreating)
   return (
     <div className="d-grid align-items-center">
-      <form method="post">
+      <form method="POST">
         <label htmlFor="name" className="form-label">
           Name
         </label>
@@ -99,7 +103,13 @@ export default function NewJokes() {
               {actionData?.formError}
             </div>
           )}
-          <button className="btn btn-secondary w-100 px-5">Save</button>
+          <button
+            className="btn btn-secondary w-100 px-5"
+            disabled={isCreating}
+            type="submit"
+          >
+            Save
+          </button>
         </div>
       </form>
     </div>

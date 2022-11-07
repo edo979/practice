@@ -17,8 +17,6 @@ import {
 import Header from './components/header'
 import { getUser } from './utils/session.server'
 
-import userMenuStyle from '~/style/user-profile-menu.css'
-
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'New Remix App',
@@ -52,6 +50,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function App() {
   const { user } = useLoaderData<LoaderData>()
+
   return (
     <html lang="en">
       <head>
@@ -64,8 +63,8 @@ export default function App() {
         <main className="container">
           <Outlet />
         </main>
-        <ScrollRestoration />
         <Scripts />
+        <ScrollRestoration />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
         <LiveReload />
       </body>
