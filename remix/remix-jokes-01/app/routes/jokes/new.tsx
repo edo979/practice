@@ -1,8 +1,14 @@
-import { ActionFunction, json, redirect } from '@remix-run/node'
-import { Form, useActionData, useTransition } from '@remix-run/react'
+import { ActionFunction, json, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  Form,
+  Link,
+  useActionData,
+  useCatch,
+  useTransition,
+} from '@remix-run/react'
 import classNames from 'classnames'
 import { db } from '~/utils/db.server'
-import { getUser, getUserId } from '~/utils/session.server'
+import { getUser, getUserId, requireUserId } from '~/utils/session.server'
 
 type ActionData = {
   formError?: string
@@ -29,7 +35,17 @@ const validateJokeContent = (jokeContent: unknown) => {
 
 const badRequest = (data: ActionData) => json(data, { status: 400 })
 
+// LOADER
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request)
+  if (!userId) throw new Response('Unauthorized', { status: 401 })
+
+  return json({})
+}
+
+// ACTION
 export const action: ActionFunction = async ({ request }) => {
+  const userId = await requireUserId(request)
   const formData = await request.formData()
   const name = formData.get('name')
   const content = formData.get('content')
@@ -47,18 +63,11 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(fieldErrors).some(Boolean))
     return badRequest({ fields, fieldErrors })
 
-  const user = await getUser(request)
-  if (!user) return badRequest({ formError: 'User not valid' })
+  const joke = await db.joke.create({
+    data: { jokesterId: userId, name, content },
+  })
 
-  try {
-    await db.joke.create({
-      data: { jokesterId: user.id, name, content },
-    })
-  } catch {
-    throw new Error('Server Error')
-  }
-
-  return redirect('/jokes')
+  return redirect(`/jokes/${joke.id}`)
 }
 
 export default function NewJokes() {
@@ -129,6 +138,31 @@ export default function NewJokes() {
           </button>
         </div>
       </Form>
+    </div>
+  )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  if (caught.status === 401) {
+    return (
+      <div className="alert alert-danger align-self-start" role="alert">
+        <h4 className="alert-heading">Nice try!!!</h4>
+        <p>You most be logedin to create new joke!</p>
+        <hr />
+        <Link to="/login" className="btn btn-warning px-4">
+          Login
+        </Link>
+      </div>
+    )
+  }
+}
+
+export function ErrorBoundary() {
+  return (
+    <div className="alert alert-danger align-self-start">
+      Something unexpected went wrong. Sorry about that.
     </div>
   )
 }
