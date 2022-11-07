@@ -1,6 +1,56 @@
+import { ActionFunction, json } from '@remix-run/node'
+import { useActionData } from '@remix-run/react'
 import classNames from 'classnames'
 
+type ActionData = {
+  formError?: string
+  fieldErrors?: {
+    name: string | undefined
+    content: string | undefined
+  }
+  fields?: {
+    name: string
+    content: string
+  }
+}
+
+const validateJokeName = (jokeName: unknown) => {
+  if (typeof jokeName !== 'string' || jokeName.length < 3) {
+    return 'Joke name must be at least 3 charachters long'
+  }
+}
+const validateJokeContent = (jokeContent: unknown) => {
+  if (typeof jokeContent !== 'string' || jokeContent.length < 10) {
+    return 'Joke content must be at least 10 charachters long'
+  }
+}
+
+const badRequest = (data: ActionData) => json(data, { status: 400 })
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const name = formData.get('name')
+  const content = formData.get('content')
+
+  if (typeof name !== 'string' || typeof content !== 'string') {
+    return badRequest({ formError: 'Form not submittet correctly' })
+  }
+
+  const fields = { name, content }
+  const fieldErrors = {
+    name: validateJokeName(name),
+    content: validateJokeContent(content),
+  }
+
+  if (Object.values(fieldErrors).some(Boolean))
+    return badRequest({ fields, fieldErrors })
+
+  return badRequest({ formError: 'Not implemented' })
+}
+
 export default function NewJokes() {
+  const actionData = useActionData<ActionData>()
+
   return (
     <div className="d-grid align-items-center">
       <form method="post">
@@ -9,30 +59,48 @@ export default function NewJokes() {
         </label>
         <input
           type="text"
-          className={classNames('form-control')}
+          className={classNames('form-control', {
+            'is-invalid': actionData?.fieldErrors?.name,
+          })}
           id="name"
+          name="name"
+          defaultValue={actionData?.fields?.name}
           placeholder="Joke name..."
           aria-describedby="invalid-name-feedback"
         />
         <div className="invalid-feedback" id="invalid-name-feedback">
-          Please valid joke name.
+          {actionData?.fieldErrors?.name}
         </div>
 
-        <label htmlFor="joke" className="form-label">
-          Name
+        <label htmlFor="content" className="form-label">
+          Content
         </label>
         <textarea
           rows={6}
-          className={classNames('form-control')}
-          id="joke"
+          className={classNames('form-control', {
+            'is-invalid': actionData?.fieldErrors?.content,
+          })}
+          id="content"
+          name="content"
+          defaultValue={actionData?.fields?.content}
           placeholder="New joke..."
-          aria-describedby="invalid-joke-feedback"
+          aria-describedby="invalid-content-feedback"
         />
-        <div className="invalid-feedback" id="invalid-joke-feedback">
-          Please valid joke name.
+        <div className="invalid-feedback" id="invalid-content-feedback">
+          {actionData?.fieldErrors?.content}
         </div>
 
-        <button className="btn btn-secondary w-100 mt-3 px-5">Save</button>
+        <div className="mt-3">
+          {actionData?.formError && (
+            <div
+              className="invalid-feedback d-block text-center mb-1"
+              style={{ marginTop: '-10px' }}
+            >
+              {actionData?.formError}
+            </div>
+          )}
+          <button className="btn btn-secondary w-100 px-5">Save</button>
+        </div>
       </form>
     </div>
   )
