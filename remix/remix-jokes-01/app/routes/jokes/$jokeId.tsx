@@ -35,12 +35,22 @@ export default function Joke() {
         <p>{joke.content}</p>
       </blockquote>
       {userId && (
-        <Link
-          to="delete"
-          className="btn btn-danger ms-auto px-4 align-self-start"
+        <form
+          action={`/jokes/${joke.id}/delete`}
+          method="post"
+          onSubmit={(e) => {
+            if (!confirm('Are you shure')) {
+              e.preventDefault()
+            }
+          }}
         >
-          Delete
-        </Link>
+          <button
+            type="submit"
+            className="btn btn-danger ms-auto px-4 align-self-start"
+          >
+            Delete
+          </button>
+        </form>
       )}
     </div>
   )
