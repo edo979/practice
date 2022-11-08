@@ -22,3 +22,11 @@ export default function Jokes() {
     </div>
   )
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="alert alert-danger align-self-start">
+      Something unexpected went wrong while deleting user. Sorry about that.
+    </div>
+  )
+}
