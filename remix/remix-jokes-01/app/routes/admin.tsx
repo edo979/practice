@@ -1,9 +1,16 @@
-import { LinksFunction } from '@remix-run/node'
+import { json, LinksFunction, LoaderFunction } from '@remix-run/node'
 import { Link, Outlet } from '@remix-run/react'
 import adminStyle from '~/style/admin.css'
+import { requireUserId } from '~/utils/session.server'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: adminStyle }]
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireUserId(request)
+
+  return json({})
 }
 
 export default function AdminRoute() {
@@ -32,9 +39,9 @@ export default function AdminRoute() {
         />
         <div className="navbar-nav">
           <div className="nav-item text-nowrap">
-            <a className="nav-link px-3" href="#">
+            <Link to="/logout" className="nav-link px-3">
               Sign out
-            </a>
+            </Link>
           </div>
         </div>
       </header>
@@ -48,7 +55,11 @@ export default function AdminRoute() {
             <div className="position-sticky pt-3 sidebar-sticky">
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <Link to="/" className="nav-link active" aria-current="page">
+                  <Link
+                    to="/admin"
+                    className="nav-link active"
+                    aria-current="page"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -90,7 +101,6 @@ export default function AdminRoute() {
           </nav>
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <h2>Section title</h2>
             <Outlet />
           </main>
         </div>
