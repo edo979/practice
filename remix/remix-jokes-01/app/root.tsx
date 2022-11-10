@@ -1,9 +1,4 @@
-import {
-  json,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from '@remix-run/node'
+import { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -11,11 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from '@remix-run/react'
-
-import Header from './components/header'
-import { getUser } from './utils/session.server'
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -34,23 +25,8 @@ export const links: LinksFunction = () => {
     },
   ]
 }
-type LoaderData = {
-  user: {
-    id: string
-    username: string
-  } | null
-}
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const user = await getUser(request)
-
-  const data = { user }
-  return json<LoaderData>(data)
-}
 
 export default function App() {
-  const { user } = useLoaderData<LoaderData>()
-
   return (
     <html lang="en">
       <head>
@@ -58,11 +34,8 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Header user={user} />
+        <Outlet />
 
-        <main className="container">
-          <Outlet />
-        </main>
         <Scripts />
         <ScrollRestoration />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
