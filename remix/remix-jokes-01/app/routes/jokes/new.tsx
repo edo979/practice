@@ -8,7 +8,7 @@ import {
 } from '@remix-run/react'
 import classNames from 'classnames'
 import { db } from '~/utils/db.server'
-import { getUser, getUserId, requireUserId } from '~/utils/session.server'
+import { getUserId, requireUserId } from '~/utils/session.server'
 
 type ActionData = {
   formError?: string
