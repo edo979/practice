@@ -16,7 +16,7 @@ export default function AdminIndexRoute() {
   const { user } = useLoaderData<LoaderData>()
 
   return (
-    <div>
+    <div className="my-4">
       <h3>Welcome {user?.username}</h3>
       <Link to="jokes" className="btn btn-sm btn-outline-secondary">
         Edit jokes
