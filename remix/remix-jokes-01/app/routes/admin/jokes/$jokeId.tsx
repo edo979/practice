@@ -41,8 +41,36 @@ const validateJokeContent = (jokeContent: unknown) => {
 
 const badRequest = (data: ActionData) => json(data, { status: 400 })
 
+const getJoke = async (userId: string, jokeId: string | undefined) => {
+  const joke = await db.joke.findUnique({
+    where: { id: jokeId },
+    select: { id: true, jokesterId: true },
+  })
+
+  if (!joke) {
+    throw new Response('Cant delete what does not exist', { status: 404 })
+  }
+  if (joke.jokesterId !== userId) {
+    throw new Response('Can not delete other people joke', { status: 401 })
+  }
+
+  return { jokeId: joke.id }
+}
+
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
+  const userId = await requireUserId(request)
+
+  // Delete
+  if (formData.get('_method') === 'delete') {
+    const { jokeId } = await getJoke(userId, params.jokeId)
+
+    await db.joke.delete({ where: { id: jokeId } })
+
+    return redirect('/admin/jokes')
+  }
+
+  // Edit
   const name = formData.get('name')
   const content = formData.get('content')
 
@@ -58,19 +86,9 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (Object.values(fieldErrors).some(Boolean))
     return badRequest({ fields, fieldErrors })
 
-  const userId = await requireUserId(request)
-  const joke = await db.joke.findUnique({
-    where: { id: params.jokeId },
-    select: { id: true, jokesterId: true },
-  })
+  const { jokeId } = await getJoke(userId, params.jokeId)
 
-  if (!joke) {
-    throw new Response('Cant edit what does not exist', { status: 404 })
-  }
-  if (joke.jokesterId !== userId) {
-    throw new Response('Can not edit other people joke', { status: 401 })
-  }
-  await db.joke.update({ where: { id: joke.id }, data: { name, content } })
+  await db.joke.update({ where: { id: jokeId }, data: { name, content } })
   return redirect('/admin/jokes')
 }
 
@@ -84,7 +102,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 }
 
 export default function AdminEditJokeRoute() {
-  let transition = useTransition()
+  const transition = useTransition()
   const actionData = useActionData<ActionData>()
   const { joke } = useLoaderData<LoaderData>()
 

@@ -19,6 +19,35 @@ export default function JokeComponent({
   return (
     <>
       <div className="card h-100">
+        <h5 className="card-header">
+          <form
+            action={`/admin/jokes/${id}`}
+            method="post"
+            className="hstack"
+            onSubmit={(e) => {
+              if (!confirm('This joke will be deleted. Are you shure?')) {
+                e.preventDefault()
+              }
+            }}
+          >
+            <input type="hidden" name="_method" value="delete" />
+
+            <div className="btn-group ms-auto">
+              <Link
+                to={`${id}`}
+                className="btn btn-sm btn-outline-secondary ms-auto px-3"
+              >
+                Edit
+              </Link>
+              <button
+                className="btn btn-sm btn-outline-secondary"
+                type="submit"
+              >
+                X
+              </button>
+            </div>
+          </form>
+        </h5>
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
           <p className="card-text">{content}</p>
@@ -32,14 +61,6 @@ export default function JokeComponent({
             <small className="text-muted text-end">
               Last update: {toLocalTime(updatedAt)}
             </small>
-            <hr />
-
-            <Link
-              to={`${id}`}
-              className="btn btn-sm btn-outline-secondary ms-auto px-3"
-            >
-              Edit
-            </Link>
           </div>
         </div>
       </div>
