@@ -1,6 +1,6 @@
 import { Joke } from '@prisma/client'
 import { LoaderFunction, json } from '@remix-run/node'
-import { useLoaderData, Link } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import JokeComponent from '~/components/joke'
 import { db } from '~/utils/db.server'
 import { requireUserId } from '~/utils/session.server'

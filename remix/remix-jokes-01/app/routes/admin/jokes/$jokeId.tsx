@@ -1,6 +1,16 @@
-import { ActionFunction } from '@remix-run/node'
-import { Form, useActionData, useTransition } from '@remix-run/react'
+import { Joke } from '@prisma/client'
+import { ActionFunction, json, LoaderFunction, redirect } from '@remix-run/node'
+import {
+  Form,
+  Link,
+  useActionData,
+  useCatch,
+  useLoaderData,
+  useTransition,
+} from '@remix-run/react'
 import classNames from 'classnames'
+import { db } from '~/utils/db.server'
+import { requireUserId } from '~/utils/session.server'
 
 type ActionData = {
   formError?: string
@@ -14,13 +24,69 @@ type ActionData = {
   }
 }
 
+type LoaderData = {
+  joke: Joke | null
+}
+
+const validateJokeName = (jokeName: unknown) => {
+  if (typeof jokeName !== 'string' || jokeName.length < 3) {
+    return 'Joke name must be at least 3 charachters long'
+  }
+}
+const validateJokeContent = (jokeContent: unknown) => {
+  if (typeof jokeContent !== 'string' || jokeContent.length < 10) {
+    return 'Joke content must be at least 10 charachters long'
+  }
+}
+
+const badRequest = (data: ActionData) => json(data, { status: 400 })
+
 export const action: ActionFunction = async ({ request, params }) => {
+  const formData = await request.formData()
+  const name = formData.get('name')
+  const content = formData.get('content')
+
+  if (typeof name !== 'string' || typeof content !== 'string') {
+    return badRequest({ formError: 'Form not submittet correctly' })
+  }
+
+  const fields = { name, content }
+  const fieldErrors = {
+    name: validateJokeName(name),
+    content: validateJokeContent(content),
+  }
+  if (Object.values(fieldErrors).some(Boolean))
+    return badRequest({ fields, fieldErrors })
+
+  const userId = await requireUserId(request)
+  const joke = await db.joke.findUnique({
+    where: { id: params.jokeId },
+    select: { id: true, jokesterId: true },
+  })
+
+  if (!joke) {
+    throw new Response('Cant edit what does not exist', { status: 404 })
+  }
+  if (joke.jokesterId !== userId) {
+    throw new Response('Can not edit other people joke', { status: 401 })
+  }
+  await db.joke.update({ where: { id: joke.id }, data: { name, content } })
+  return redirect('/admin/jokes')
+}
+
+export const loader: LoaderFunction = async ({ request, params }) => {
   const jokeId = params.jokeId
+  const joke = await db.joke.findFirst({ where: { id: jokeId } })
+  if (!joke) throw new Error('Joke not found')
+
+  const data = { joke }
+  return json<LoaderData>(data)
 }
 
 export default function AdminEditJokeRoute() {
   let transition = useTransition()
   const actionData = useActionData<ActionData>()
+  const { joke } = useLoaderData<LoaderData>()
 
   return (
     <Form method="post">
@@ -34,7 +100,7 @@ export default function AdminEditJokeRoute() {
         })}
         id="name"
         name="name"
-        defaultValue={actionData?.fields?.name}
+        defaultValue={actionData?.fields?.name ?? joke?.name}
         placeholder="Joke name..."
         aria-describedby="invalid-name-feedback"
       />
@@ -52,7 +118,7 @@ export default function AdminEditJokeRoute() {
         })}
         id="content"
         name="content"
-        defaultValue={actionData?.fields?.content}
+        defaultValue={actionData?.fields?.content ?? joke?.content}
         placeholder="New joke..."
         aria-describedby="invalid-content-feedback"
       />
@@ -85,4 +151,52 @@ export default function AdminEditJokeRoute() {
       </div>
     </Form>
   )
+}
+
+export function ErrorBoundary() {
+  return (
+    <div className="alert alert-danger align-self-start">
+      Something unexpected went wrong while loading joke. Sorry about that.
+    </div>
+  )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  if (caught.status === 400) {
+    return (
+      <div className="alert alert-danger align-self-start" role="alert">
+        <h4 className="alert-heading">Nice try!!!</h4>
+        <p>What you're trying to do is not allowed.</p>
+        <hr />
+        <Link to="/login" className="btn btn-warning px-4">
+          Login
+        </Link>
+      </div>
+    )
+  }
+
+  if (caught.status === 401) {
+    return (
+      <div className="alert alert-danger align-self-start" role="alert">
+        <h4 className="alert-heading">Nice try!!!</h4>
+        <p>You most be logedin for this action!</p>
+        <hr />
+        <Link to="/login" className="btn btn-warning px-4">
+          Login
+        </Link>
+      </div>
+    )
+  }
+
+  if (caught.status === 404) {
+    return (
+      <div className="alert alert-danger align-self-start" role="alert">
+        <h4 className="alert-heading">Not Found!!!</h4>
+        <p>That joke does not exist!</p>
+        <hr />
+      </div>
+    )
+  }
 }
