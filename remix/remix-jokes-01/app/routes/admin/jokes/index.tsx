@@ -1,5 +1,5 @@
 import { Joke, prisma } from '@prisma/client'
-import { LoaderFunction, json } from '@remix-run/node'
+import { LoaderFunction, json, redirect } from '@remix-run/node'
 import {
   Link,
   useLoaderData,
@@ -19,6 +19,7 @@ type LoaderData = {
     jokeCount: number
   }
 }
+
 export const loader: LoaderFunction = async ({ request }) => {
   // Pagination page
   const page = parseInt(new URL(request.url).searchParams.get('page') ?? '0')
@@ -27,6 +28,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   // Load jokes
   const userId = await requireUserId(request)
   const jokeCount = await db.joke.count({ where: { jokesterId: userId } })
+  const getNumberOfPage = Math.ceil(jokeCount / numOfJokesToShow) - 1
+
+  if (page > getNumberOfPage) {
+    return redirect(`/admin/jokes?page=${getNumberOfPage}`)
+  }
+  if (page < 0) {
+    return redirect(`/admin/jokes?page=0`)
+  }
+
   const jokes = await db.joke.findMany({
     where: { jokesterId: userId },
     skip: page * numOfJokesToShow,
@@ -80,7 +90,7 @@ export default function AdminJokeRoute() {
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 my-0">
         {jokes.map((joke) => (
           <div key={joke.id} className="col">
-            <JokeComponent {...joke} />
+            <JokeComponent {...joke} paginationPage={currentPage} />
           </div>
         ))}
       </div>

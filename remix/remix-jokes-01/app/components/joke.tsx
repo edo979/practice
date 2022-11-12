@@ -7,6 +7,7 @@ type JokeComponentProps = {
   content: string
   createdAt: string
   updatedAt: string
+  paginationPage: number
 }
 
 export default function JokeComponent({
@@ -15,6 +16,7 @@ export default function JokeComponent({
   content,
   createdAt,
   updatedAt,
+  paginationPage,
 }: JokeComponentProps) {
   return (
     <>
@@ -34,7 +36,7 @@ export default function JokeComponent({
 
             <div className="btn-group ms-auto">
               <Link
-                to={`${id}`}
+                to={`${id}?page=${paginationPage}`}
                 className="btn btn-sm btn-outline-secondary ms-auto px-3"
               >
                 Edit

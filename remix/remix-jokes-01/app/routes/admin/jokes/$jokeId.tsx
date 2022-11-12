@@ -60,6 +60,7 @@ const getJoke = async (userId: string, jokeId: string | undefined) => {
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const userId = await requireUserId(request)
+  const paginationPage = new URL(request.url).searchParams.get('page') ?? '0'
 
   // Delete
   if (formData.get('_method') === 'delete') {
@@ -89,7 +90,9 @@ export const action: ActionFunction = async ({ request, params }) => {
   const { jokeId } = await getJoke(userId, params.jokeId)
 
   await db.joke.update({ where: { id: jokeId }, data: { name, content } })
-  return redirect('/admin/jokes')
+
+  const searchParams = new URLSearchParams([['page', paginationPage]])
+  return redirect(`/admin/jokes?${searchParams}`)
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
