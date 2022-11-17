@@ -11,7 +11,7 @@ export default function ProjectCard({ project }) {
             </a>
           </div>
           <p className="small">
-            Status: <strog>{project.status}</strog>
+            Status: <strong>{project.status}</strong>
           </p>
         </div>
       </div>
