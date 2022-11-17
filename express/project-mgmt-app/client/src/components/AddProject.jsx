@@ -111,7 +111,7 @@ export default function AddClient() {
                         id="status"
                         className="form-select"
                         value={status}
-                        onChange={() => setStatus(e.target.value)}
+                        onChange={(e) => setStatus(e.target.value)}
                       >
                         <option value="new">Not Started</option>
                         <option value="progress">In progress</option>
