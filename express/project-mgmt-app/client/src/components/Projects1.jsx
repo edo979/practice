@@ -1,10 +1,12 @@
 import Spiner from './Spinner'
 import ProjectCard from './ProjectCard'
 
-export default function Projects() {
+export default function Projects({ projects }) {
   return (
-    <>
-      <p>projects</p>
-    </>
+    <ul>
+      {projects.map((project) => (
+        <li key={project.id}>{project.name}</li>
+      ))}
+    </ul>
   )
 }
