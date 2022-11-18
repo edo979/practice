@@ -1,13 +1,28 @@
-import { useLoaderData } from 'react-router-dom'
+import { json, useLoaderData } from 'react-router-dom'
 import AddClient from '../components/AddClient1'
 import AddProject from '../components/AddProject1'
 import Projects from '../components/Projects1'
 
 export const loader = async () => {
-  const projects = [
-    { id: 1, name: 'Project' },
-    { id: 2, name: 'Project1' },
-  ]
+  const res = await fetch('http://localhost:5000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `{
+      projects {
+        id
+        name
+        status
+      }
+    }`,
+    }),
+  })
+
+  const {
+    data: { projects },
+  } = await res.json()
 
   return { projects }
 }

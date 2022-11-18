@@ -3,10 +3,10 @@ import ProjectCard from './ProjectCard'
 
 export default function Projects({ projects }) {
   return (
-    <ul>
+    <div className="row mt-4">
       {projects.map((project) => (
-        <li key={project.id}>{project.name}</li>
+        <ProjectCard key={project.id} project={project} />
       ))}
-    </ul>
+    </div>
   )
 }
