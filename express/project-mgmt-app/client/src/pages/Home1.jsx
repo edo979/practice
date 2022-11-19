@@ -1,34 +1,51 @@
 import { json, useLoaderData } from 'react-router-dom'
 import AddClient from '../components/AddClient1'
 import AddProject from '../components/AddProject1'
+import Clients from '../components/Clients1'
 import Projects from '../components/Projects1'
 
 export const loader = async () => {
-  const res = await fetch('http://localhost:5000/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `{
-      projects {
+  const [clients, projects] = await Promise.all([
+    fetch('http://localhost:5000/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `{
+        clients {
         id
         name
-        status
-      }
-    }`,
-    }),
+        email
+        phone
+        }
+      }`,
+      }),
+    }).then((res) => res.json()),
+    fetch('http://localhost:5000/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `{
+        projects {
+          id
+          name
+          status
+        }
+      }`,
+      }),
+    }).then((res) => res.json()),
+  ]).then((values) => {
+    return values.map((v) => v.data)
   })
 
-  const {
-    data: { projects },
-  } = await res.json()
-
-  return { projects }
+  return { ...projects, ...clients }
 }
 
 export default function Home() {
-  const { projects } = useLoaderData()
+  const { projects, clients } = useLoaderData()
 
   return (
     <>
@@ -38,6 +55,7 @@ export default function Home() {
       </div>
       <Projects projects={projects} />
       <hr />
+      <Clients clients={clients} />
     </>
   )
 }
