@@ -7,6 +7,7 @@ import Home from './pages/Home1'
 import { loader as homeLoader } from './pages/Home1'
 
 import './index.css'
+import Project, { loader as projectLoader } from './pages/Project'
 
 // const client = new ApolloClient({
 //   uri: 'http://localhost:5000/graphql',
@@ -35,7 +36,14 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Home />, loader: homeLoader }],
+    children: [
+      { index: true, element: <Home />, loader: homeLoader },
+      {
+        path: '/projects/:projectId',
+        element: <Project />,
+        loader: projectLoader,
+      },
+    ],
   },
 ])
 
