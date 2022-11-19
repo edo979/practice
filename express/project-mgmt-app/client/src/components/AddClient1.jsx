@@ -1,18 +1,68 @@
 import { FaUser } from 'react-icons/fa'
-import { useMutation } from '@apollo/client'
-import { ADD_CLIENT } from '../mutations/clientMutations'
-import { GET_CLIENTS } from '../queries/ClientQueries'
-import { useState } from 'react'
+import { Form, json, redirect, useActionData } from 'react-router-dom'
 
-export default function AddClient() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+const validateName = (name) => {
+  if (name.lenght < 4) {
+    return 'Name must have at least 5 charachters!'
+  }
+}
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+export const action = async ({ request, params }) => {
+  const formData = await request.formData()
+  const name = formData.get('name')
+  const email = formData.get('email')
+  const phone = formData.get('phone')
+
+  const errors = {
+    formError: '',
+    fieldErrors: {
+      name: '',
+      email: '',
+      phone: '',
+    },
+    fields: {
+      name: '',
+      email: '',
+      phone: '',
+    },
   }
 
+  if (
+    typeof name !== 'string' ||
+    typeof email !== 'string' ||
+    typeof phone !== 'string'
+  ) {
+    errors.formError = 'Form not submitted correctly.'
+  }
+
+  errors.fieldErrors = {
+    name: validateName(name),
+  }
+
+  await fetch('http://localhost:5000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `
+        mutation addClient($name: String!, $email: String!, $phone: String!) {
+          addClient(name: $name, email: $email, phone: $phone) {
+            id
+            name
+            email
+            phone
+          }
+        }
+      `,
+      variables: { name, email, phone },
+    }),
+  })
+
+  return redirect('/')
+}
+
+export default function AddClient() {
   return (
     <>
       <button
@@ -46,8 +96,9 @@ export default function AddClient() {
                 aria-label="Close"
               ></button>
             </div>
+
             <div className="modal-body">
-              <form onSubmit={onSubmit}>
+              <Form method="post" action="addClient">
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     Name
@@ -56,10 +107,10 @@ export default function AddClient() {
                     type="text"
                     className="form-control"
                     id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="name"
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email
@@ -68,10 +119,10 @@ export default function AddClient() {
                     type="email"
                     className="form-control"
                     id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="phone" className="form-label">
                     Phone
@@ -80,19 +131,18 @@ export default function AddClient() {
                     type="text"
                     className="form-control"
                     id="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    name="phone"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  data-bs-dismiss="modal"
                   className="btn btn-secondary"
+                  data-bs-dismiss="modal"
                 >
                   Submit
                 </button>
-              </form>
+              </Form>
             </div>
           </div>
         </div>
