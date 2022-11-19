@@ -44,6 +44,28 @@ export const loader = async () => {
   return { ...projects, ...clients }
 }
 
+export const action = async ({ request }) => {
+  const formData = await request.formData()
+  const clientId = formData.get('_clientId')
+
+  await fetch('http://localhost:5000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `mutation  {
+        deleteClient(id: "${clientId}") {
+          id
+          name
+          email
+          phone
+        }
+      }`,
+    }),
+  })
+}
+
 export default function Home() {
   const { projects, clients } = useLoaderData()
 

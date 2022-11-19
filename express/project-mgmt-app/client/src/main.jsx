@@ -7,29 +7,8 @@ import Home from './pages/Home1'
 import { loader as homeLoader } from './pages/Home1'
 import Project, { loader as projectLoader } from './pages/Project'
 import { action as addClientAction } from './components/AddClient1'
+import { action as clientDeleteAction } from './pages/Home1'
 import './index.css'
-
-// const client = new ApolloClient({
-//   uri: 'http://localhost:5000/graphql',
-//   cache: new InMemoryCache({
-//     typePolicies: {
-//       Query: {
-//         fields: {
-//           clients: {
-//             merge(existing, incoming) {
-//               return incoming
-//             },
-//           },
-//           projects: {
-//             merge(existing, incoming) {
-//               return incoming
-//             },
-//           },
-//         },
-//       },
-//     },
-//   }),
-// })
 
 const router = createBrowserRouter([
   {
@@ -37,7 +16,12 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home />, loader: homeLoader },
+      {
+        index: true,
+        element: <Home />,
+        loader: homeLoader,
+        action: clientDeleteAction,
+      },
       {
         path: 'projects/:projectId',
         element: <Project />,
