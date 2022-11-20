@@ -9,11 +9,14 @@
   padding-left: 1rem;
 }
 
-.app > .file,
-.app > .folder {
-  padding: 0;
-}
-
 .app :last-child {
   margin-bottom: 0;
+}
+
+.app > button:first-child {
+  margin-top: 0;
+}
+
+button + .folder > .entry-name:first-child {
+  margin-top: 5px;
 }

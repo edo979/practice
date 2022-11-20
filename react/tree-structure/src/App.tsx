@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 
 const files = {
@@ -38,17 +39,25 @@ type TEntry = {
 }
 
 function Entry({ name, children }: TEntry) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
   return (
     <>
       {children ? (
-        <div className="folder">
-          <p className="">{name}</p>
-          {children.map((entry) => (
-            <Entry {...entry} />
-          ))}
-        </div>
+        <>
+          <button onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? '-' : '+'} {name}
+          </button>
+          {isExpanded && (
+            <div className="folder">
+              {children.map((entry) => (
+                <Entry {...entry} />
+              ))}
+            </div>
+          )}
+        </>
       ) : (
-        <p className="file">{name}</p>
+        <p className="entry-name">{name}</p>
       )}
     </>
   )
