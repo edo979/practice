@@ -7,7 +7,20 @@ const files = {
       children: [
         {
           name: 'joi',
+          children: [
+            {
+              name: 'node_modules',
+              children: [
+                {
+                  name: 'classname',
+                  children: [{ name: 'index.js' }, { name: 'index.css' }],
+                },
+              ],
+            },
+            { name: 'package.json' },
+          ],
         },
+        { name: 'typescript.config' },
       ],
     },
     {
@@ -25,7 +38,20 @@ type TEntry = {
 }
 
 function Entry({ name, children }: TEntry) {
-  return <div className="folder">{name}</div>
+  return (
+    <>
+      {children ? (
+        <div className="folder">
+          <p className="">{name}</p>
+          {children.map((entry) => (
+            <Entry {...entry} />
+          ))}
+        </div>
+      ) : (
+        <p className="file">{name}</p>
+      )}
+    </>
+  )
 }
 
 export default function App() {

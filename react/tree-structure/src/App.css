@@ -4,11 +4,14 @@
   outline: 1px solid blue;
 }
 
+.file,
 .folder {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-  background-color: cornflowerblue;
+  padding-left: 1rem;
+}
+
+.app > .file,
+.app > .folder {
+  padding: 0;
 }
 
 .app :last-child {
