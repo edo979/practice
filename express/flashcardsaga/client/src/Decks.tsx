@@ -1,68 +1,61 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { createCard } from './api/createCard'
+import { Link } from 'react-router-dom'
 import { createDeck } from './api/createDeck'
-import { deleteCard } from './api/deleteCard'
 import { deleteDeck } from './api/deleteDeck'
-import { getDeck } from './api/getDeck'
 import { getDecks, TDeck } from './api/getDecks'
 
 export default function Decks() {
-  const [text, setText] = useState('')
-  const { deckId } = useParams()
-  const [cards, setCards] = useState<string[]>([])
-  const [deck, setDeck] = useState<TDeck | undefined>()
+  const [title, setTitle] = useState('')
+  const [decks, setDecks] = useState<TDeck[]>([])
 
   const handleCreateDeck = async (e: React.FormEvent) => {
     e.preventDefault()
-    const { cards: serverCards } = await createCard(deckId!, text)
-    setCards(serverCards)
-    setText('')
+    const deck = await createDeck(title)
+    setDecks([...decks, deck])
+    setTitle('')
   }
 
-  const handleDeleteCard = async (index: number) => {
-    if (!deckId) return
-    const newDeck = await deleteCard(deckId, index)
-    setCards(newDeck.cards)
+  const handleDeleteDeck = async (deckId: string) => {
+    await deleteDeck(deckId)
+    setDecks((prev) => prev.filter((deck) => deck._id !== deckId))
   }
 
   useEffect(() => {
-    const fetchDeck = async () => {
-      if (!deckId) return
-      const newDeck = await getDeck(deckId)
-      setDeck(newDeck)
-      setCards(newDeck.cards)
+    const fetchDecks = async () => {
+      const newDecks = await getDecks()
+      setDecks(newDecks)
     }
 
-    fetchDeck()
-  }, [deckId])
+    fetchDecks()
+  }, [])
 
   return (
     <div className="App">
-      <ul className="decks">
-        {cards.map((card, index) => (
-          <li key={index}>
+      <ul className="cards-container">
+        {decks.map((deck) => (
+          <li key={deck._id} className="card">
             <button
               className="btn-close"
-              onClick={() => handleDeleteCard(index)}
+              onClick={() => handleDeleteDeck(deck._id)}
             >
               X
             </button>
-            {card}
+
+            <Link to={`decks/${deck._id}`}>{deck.title}</Link>
           </li>
         ))}
       </ul>
       <form onSubmit={handleCreateDeck}>
-        <label htmlFor="deck-text">Card Text</label>
+        <label htmlFor="deck-title">Deck Title</label>
         <input
           type="text"
-          id="deck-text"
+          id="deck-title"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setText(e.target.value)
+            setTitle(e.target.value)
           }}
-          value={text}
+          value={title}
         />
-        <button>Create Card</button>
+        <button>Create Deck</button>
       </form>
     </div>
   )

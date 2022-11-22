@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
 import App from './App'
+import Deck from './Deck'
 import Decks from './Decks'
 import './index.css'
 
@@ -9,10 +10,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-  },
-  {
-    path: 'decks/:deckId',
-    element: <Decks />,
+    children: [
+      { index: true, element: <Decks /> },
+      { path: 'decks/:deckId', element: <Deck /> },
+    ],
   },
 ])
 
