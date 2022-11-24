@@ -12,10 +12,13 @@ import { v4 as uuidV4 } from 'uuid'
 
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
+  const title = formData.get('title')
+  const markdown = formData.get('markdown')
   let labelsFromForm = formData.getAll('tags') as string[]
 
   // TAGS
   // TODO: add validation for empty tags
+  let tagsId: string[] = []
   labelsFromForm = labelsFromForm.filter((label) => label !== '')
 
   if (!labelsFromForm) return
@@ -25,15 +28,21 @@ export const action: ActionFunction = async ({ params, request }) => {
   const tagsFromStorage: Tag[] = jsonValue ? JSON.parse(jsonValue) : []
 
   // Check for new tags
-  const newTags = labelsFromForm.filter((label) => {
+  const newLabels = labelsFromForm.filter((label) => {
     const labelsFromStorage = tagsFromStorage.map((tag) => tag.label)
 
     return !labelsFromStorage.includes(label)
   })
 
   // Save new tags to storage
-  if (newTags.length > 0) {
-    const tagsToSave: Tag[] = newTags.map((label) => ({ id: uuidV4(), label }))
+  if (newLabels.length > 0) {
+    const tagsToSave: Tag[] = newLabels.map((label) => ({
+      id: uuidV4(),
+      label,
+    }))
+
+    // Add new tag to notes tags
+    tagsId = tagsToSave.map((tag) => tag.id)
 
     localStorage.setItem(
       'TAGS',
@@ -42,6 +51,20 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   // NOTE
+  const notesJsonValue = localStorage.getItem('NOTES')
+  const notes = notesJsonValue ? JSON.parse(notesJsonValue) : []
+
+  // Complete notes tags
+  const savedTagsId = tagsFromStorage
+    .filter((tag) => labelsFromForm.includes(tag.label))
+    .map((tag) => tag.id)
+  tagsId = [...tagsId, ...savedTagsId]
+
+  // Save tags
+  localStorage.setItem(
+    'NOTES',
+    JSON.stringify([...notes, { id: uuidV4(), title, markdown, tags: tagsId }])
+  )
 }
 
 export const loader: LoaderFunction = async () => {
@@ -70,6 +93,7 @@ export default function NewNote() {
                 className="form-control"
                 id="title"
                 name="title"
+                required
               />
             </Col>
             <Col>
@@ -78,28 +102,14 @@ export default function NewNote() {
               </label>
 
               <CreatableReactSelect
-                // onCreateOption={(label) => {
-                //   const newTag = { id: uuidV4(), label }
-                //   onAddTag(newTag)
-                //   setSelectedTags((prev) => [...prev, newTag])
-                // }}
-                // value={selectedTags.map((tag) => {
-                //   return { label: tag.label, value: tag.id }
-                // })}
                 options={tags.map((tag) => ({
                   label: tag.label,
                   value: tag.label,
                 }))}
-                // onChange={(tags) => {
-                //   setSelectedTags(
-                //     tags.map((tag) => {
-                //       return { label: tag.label, id: tag.value }
-                //     })
-                //   )
-                // }}
                 isMulti
                 name="tags"
                 id="tags"
+                required
               />
             </Col>
           </Row>
@@ -113,6 +123,7 @@ export default function NewNote() {
                 id="markdown"
                 name="markdown"
                 rows={15}
+                required
               />
             </Col>
           </Row>
