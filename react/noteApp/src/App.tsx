@@ -33,28 +33,28 @@ export type RawNoteData = {
 }
 
 function App() {
-  const [notes, setNotes] = useLocalStorage<RawNote[]>('NOTES', [])
-  const [tags, setTags] = useLocalStorage<Tag[]>('TAGS', [])
+  // const [notes, setNotes] = useLocalStorage<RawNote[]>('NOTES', [])
+  // const [tags, setTags] = useLocalStorage<Tag[]>('TAGS', [])
 
-  const notesWithTags = useMemo(() => {
-    return notes.map((note) => {
-      return {
-        ...note,
-        tags: tags.filter((tag) => note.tagIds.includes(tag.id)),
-      }
-    })
-  }, [notes, tags])
+  // const notesWithTags = useMemo(() => {
+  //   return notes.map((note) => {
+  //     return {
+  //       ...note,
+  //       tags: tags.filter((tag) => note.tagIds.includes(tag.id)),
+  //     }
+  //   })
+  // }, [notes, tags])
 
-  function oneCreateNote({ tags, ...data }: NoteData) {
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      { ...data, id: uuidV4(), tagIds: tags.map((tag) => tag.id) },
-    ])
-  }
+  // function oneCreateNote({ tags, ...data }: NoteData) {
+  //   setNotes((prevNotes) => [
+  //     ...prevNotes,
+  //     { ...data, id: uuidV4(), tagIds: tags.map((tag) => tag.id) },
+  //   ])
+  // }
 
-  function addTag(tag: Tag) {
-    setTags((prev) => [...prev, tag])
-  }
+  // function addTag(tag: Tag) {
+  //   setTags((prev) => [...prev, tag])
+  // }
 
   return (
     <Container className="my-4">

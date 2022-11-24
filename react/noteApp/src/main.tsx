@@ -1,8 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
-import NewNote, { action as createNoteAction } from './NewNote'
+import NewNote, {
+  action as createNoteAction,
+  loader as tagsLoader,
+} from './NewNote'
 import NoteList from './NoteList'
 
 const router = createBrowserRouter([
@@ -18,6 +21,7 @@ const router = createBrowserRouter([
         path: 'new',
         element: <NewNote />,
         action: createNoteAction,
+        loader: tagsLoader,
       },
     ],
   },
