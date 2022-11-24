@@ -14,16 +14,16 @@ export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
   let labelsFromForm = formData.getAll('tags') as string[]
 
+  // TAGS
+  // TODO: add validation for empty tags
   labelsFromForm = labelsFromForm.filter((label) => label !== '')
 
-  // TODO: add validation for empty tags
   if (!labelsFromForm) return
 
   // Get tags from storage
   const jsonValue = localStorage.getItem('TAGS')
   const tagsFromStorage: Tag[] = jsonValue ? JSON.parse(jsonValue) : []
 
-  // TAGS
   // Check for new tags
   const newTags = labelsFromForm.filter((label) => {
     const labelsFromStorage = tagsFromStorage.map((tag) => tag.label)
@@ -46,10 +46,9 @@ export const action: ActionFunction = async ({ params, request }) => {
 
 export const loader: LoaderFunction = async () => {
   const jsonValue = localStorage.getItem('TAGS')
-
   if (!jsonValue) return { tags: [] }
-  const tags: Tag[] = JSON.parse(jsonValue)
 
+  const tags: Tag[] = JSON.parse(jsonValue)
   return { tags }
 }
 
