@@ -81,14 +81,10 @@ export default function NoteList({ availableTags, notes }: NoteListProps) {
       <Row xs={1} sm={2} lg={3} xl={4} className="g-3">
         {filteredNotes.map((note) => (
           <Col key={note.id}>
-            <NoteCard id={note.id} title={note.title} tags={note.tags} />
+            {/* <NoteCard id={note.id} title={note.title} tags={note.tags} /> */}
           </Col>
         ))}
       </Row>
     </>
   )
-}
-
-function NoteCard({ id, title, tags }) {
-  return <p>NoteCard</p>
 }
