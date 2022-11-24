@@ -9,7 +9,6 @@ import {
 import { Tag } from './App'
 import CreatableReactSelect from 'react-select/creatable'
 import { v4 as uuidV4 } from 'uuid'
-import { useLocalStorage } from './useLocalStorage'
 
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
@@ -28,6 +27,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   // Check for new tags
   const newTags = labelsFromForm.filter((label) => {
     const labelsFromStorage = tagsFromStorage.map((tag) => tag.label)
+
     return !labelsFromStorage.includes(label)
   })
 
@@ -46,8 +46,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 
 export const loader: LoaderFunction = async () => {
   const jsonValue = localStorage.getItem('TAGS')
-  if (!jsonValue) return { tags: [] }
 
+  if (!jsonValue) return { tags: [] }
   const tags: Tag[] = JSON.parse(jsonValue)
 
   return { tags }
@@ -55,8 +55,6 @@ export const loader: LoaderFunction = async () => {
 
 export default function NewNote() {
   const { tags } = useLoaderData() as { tags: Tag[] }
-
-  //console.log(tags)
 
   return (
     <>
