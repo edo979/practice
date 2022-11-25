@@ -1,36 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useMemo, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import NewNote from './NewNote'
-import { useLocalStorage } from './useLocalStorage'
-import { v4 as uuidV4 } from 'uuid'
-import NoteList from './NoteList'
-
-export type Note = {
-  id: string
-} & NoteData
-
-export type NoteData = {
-  title: string
-  markdown: string
-  tags: Tag[]
-}
-
-export type Tag = {
-  id: string
-  label: string
-}
-
-export type RawNote = {
-  id: string
-} & RawNoteData
-
-export type RawNoteData = {
-  title: string
-  markdown: string
-  tagIds: string[]
-}
+import { Outlet } from 'react-router-dom'
 
 function App() {
   // const [notes, setNotes] = useLocalStorage<RawNote[]>('NOTES', [])

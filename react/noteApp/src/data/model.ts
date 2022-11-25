@@ -17,10 +17,15 @@ export type Tag = {
   label: string
 }
 
-export const getNotes = () => {
+export const getRawNotes = () => {
   const jsonValue = localStorage.getItem('NOTES')
   const rawNotes: RawNote[] = jsonValue ? JSON.parse(jsonValue) : []
 
+  return rawNotes
+}
+
+export const getNotes = () => {
+  const rawNotes: RawNote[] = getRawNotes()
   const tagsFromStorage: Tag[] = getTags()
 
   const notes: Note[] = rawNotes.map((note) => {

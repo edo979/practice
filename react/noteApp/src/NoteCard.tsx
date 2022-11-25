@@ -14,7 +14,9 @@ export default function NoteCard({ note }: NoteCardProps) {
       </Card.Body>
       <Card.Footer>
         {note.tags.map((tag) => (
-          <Badge key={tag.id}>{tag.label}</Badge>
+          <Badge key={tag.id} pill className="me-1">
+            {tag.label}
+          </Badge>
         ))}
       </Card.Footer>
     </Card>

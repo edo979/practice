@@ -6,9 +6,9 @@ import {
   LoaderFunction,
   useLoaderData,
 } from 'react-router-dom'
-import { Tag } from './App'
 import CreatableReactSelect from 'react-select/creatable'
 import { v4 as uuidV4 } from 'uuid'
+import { getRawNotes, getTags, Tag } from './data/model'
 
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
@@ -24,8 +24,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   if (!labelsFromForm) return
 
   // Get tags from storage
-  const jsonValue = localStorage.getItem('TAGS')
-  const tagsFromStorage: Tag[] = jsonValue ? JSON.parse(jsonValue) : []
+  const tagsFromStorage: Tag[] = getTags()
 
   // Check for new tags
   const newLabels = labelsFromForm.filter((label) => {
@@ -51,8 +50,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   // NOTE
-  const notesJsonValue = localStorage.getItem('NOTES')
-  const notes = notesJsonValue ? JSON.parse(notesJsonValue) : []
+  const notes = getRawNotes()
 
   // Complete notes tags
   const savedTagsId = tagsFromStorage
@@ -60,10 +58,13 @@ export const action: ActionFunction = async ({ params, request }) => {
     .map((tag) => tag.id)
   tagsId = [...tagsId, ...savedTagsId]
 
-  // Save tags
+  // Save notes
   localStorage.setItem(
     'NOTES',
-    JSON.stringify([...notes, { id: uuidV4(), title, markdown, tags: tagsId }])
+    JSON.stringify([
+      ...notes,
+      { id: uuidV4(), title, markdown, tagIds: tagsId },
+    ])
   )
 }
 
