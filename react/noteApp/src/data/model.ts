@@ -47,3 +47,8 @@ export const getTags = () => {
 
   return tags
 }
+
+export const saveNote = (note: RawNote) => {
+  const notes = getRawNotes()
+  localStorage.setItem('NOTES', JSON.stringify([...notes, note]))
+}

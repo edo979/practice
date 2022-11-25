@@ -8,13 +8,16 @@ import {
 } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
 import { v4 as uuidV4 } from 'uuid'
-import { getRawNotes, getTags, Tag } from './data/model'
+import { getRawNotes, getTags, saveNote, Tag } from './data/model'
 
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
   const title = formData.get('title')
   const markdown = formData.get('markdown')
   let labelsFromForm = formData.getAll('tags') as string[]
+
+  // TODO: add validation
+  if (typeof title !== 'string' || typeof markdown !== 'string') return
 
   // TAGS
   // TODO: add validation for empty tags
@@ -50,22 +53,14 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   // NOTE
-  const notes = getRawNotes()
-
   // Complete notes tags
   const savedTagsId = tagsFromStorage
     .filter((tag) => labelsFromForm.includes(tag.label))
     .map((tag) => tag.id)
   tagsId = [...tagsId, ...savedTagsId]
 
-  // Save notes
-  localStorage.setItem(
-    'NOTES',
-    JSON.stringify([
-      ...notes,
-      { id: uuidV4(), title, markdown, tagIds: tagsId },
-    ])
-  )
+  // Save note
+  saveNote({ id: uuidV4(), title, markdown, tagIds: tagsId })
 }
 
 export const loader: LoaderFunction = async () => {
