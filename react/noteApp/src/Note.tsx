@@ -1,6 +1,6 @@
 import { Badge, Button, Col, Row, Stack } from 'react-bootstrap'
 import ReactMarkdown from 'react-markdown'
-import { Link, useLocation } from 'react-router-dom'
+import { Form, Link, useLocation } from 'react-router-dom'
 import { Note as NoteType } from './data/model'
 
 export default function Note() {
@@ -24,7 +24,19 @@ export default function Note() {
         <Col xs="auto">
           <Stack direction="horizontal" gap={2} className="justify-content-end">
             <Button>Edit</Button>
-            <Button variant="outline-danger">Delete</Button>
+            <Form
+              method="post"
+              action={`/${note.id}/delete`}
+              onSubmit={(e) => {
+                if (!confirm('This note will be delete!')) {
+                  e.preventDefault()
+                }
+              }}
+            >
+              <Button variant="outline-danger" type="submit">
+                Delete
+              </Button>
+            </Form>
             <Link to="/">
               <Button variant="outline-secondary">Back</Button>
             </Link>
@@ -33,7 +45,9 @@ export default function Note() {
       </Row>
 
       <Row>
-        <ReactMarkdown>{note.markdown}</ReactMarkdown>
+        <Col>
+          <ReactMarkdown>{note.markdown}</ReactMarkdown>
+        </Col>
       </Row>
     </>
   )

@@ -4,6 +4,7 @@ import {
   Form,
   Link,
   LoaderFunction,
+  redirect,
   useLoaderData,
 } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
@@ -61,6 +62,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   // Save note
   saveNote({ id: uuidV4(), title, markdown, tagIds: tagsId })
+
+  return redirect('/')
 }
 
 export const loader: LoaderFunction = async () => {

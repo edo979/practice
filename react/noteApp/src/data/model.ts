@@ -52,3 +52,7 @@ export const saveNote = (note: RawNote) => {
   const notes = getRawNotes()
   localStorage.setItem('NOTES', JSON.stringify([...notes, note]))
 }
+
+export const saveRawNotes = (notes: RawNote[]) => {
+  localStorage.setItem('NOTES', JSON.stringify(notes))
+}
