@@ -1,4 +1,4 @@
-import { Badge, Card } from 'react-bootstrap'
+import { Badge, Card, Stack } from 'react-bootstrap'
 import { Note } from './data/model'
 
 type NoteCardProps = {
@@ -7,18 +7,25 @@ type NoteCardProps = {
 
 export default function NoteCard({ note }: NoteCardProps) {
   return (
-    <Card>
-      <Card.Body>
+    <Card
+      as="a"
+      href={`notes/${note.id}`}
+      className="text-reset text-decoration-none"
+    >
+      <Card.Body className="text-center">
         <h2 className="h4">{note.title}</h2>
-        <p>{note.markdown}</p>
+        <Stack
+          direction="horizontal"
+          gap={1}
+          className="justify-content-center flex-wrap"
+        >
+          {note.tags.map((tag) => (
+            <Badge key={tag.id} pill>
+              {tag.label}
+            </Badge>
+          ))}
+        </Stack>
       </Card.Body>
-      <Card.Footer>
-        {note.tags.map((tag) => (
-          <Badge key={tag.id} pill className="me-1">
-            {tag.label}
-          </Badge>
-        ))}
-      </Card.Footer>
     </Card>
   )
 }
