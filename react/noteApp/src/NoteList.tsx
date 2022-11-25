@@ -1,13 +1,19 @@
 import { Row, Col, Stack, Button } from 'react-bootstrap'
 import { Link, Form, LoaderFunction, useLoaderData } from 'react-router-dom'
 import ReactSelect from 'react-select'
-import { getNotes, Note } from './data/model'
+import { getNotes, getTags, Note, Tag } from './data/model'
 import NoteCard from './NoteCard'
+
+type LoaderData = {
+  notes: Note[]
+  tags: Tag[]
+}
 
 export const loadar: LoaderFunction = async () => {
   const notes = getNotes()
+  const tags = getTags()
 
-  return { notes }
+  return { notes, tags }
 }
 
 export default function NoteList() {
@@ -27,7 +33,7 @@ export default function NoteList() {
   //   })
   // }, [title, selectedTags, notes])
 
-  const { notes } = useLoaderData() as { notes: Note[] }
+  const { notes, tags } = useLoaderData() as LoaderData
 
   return (
     <>
@@ -60,10 +66,10 @@ export default function NoteList() {
               // value={selectedTags.map((tag) => {
               //   return { label: tag.label, value: tag.id }
               // })}
-              // options={availableTags.map((tag) => ({
-              //   label: tag.label,
-              //   value: tag.id,
-              // }))}
+              options={tags.map((tag) => ({
+                label: tag.label,
+                value: tag.id,
+              }))}
               // onChange={(tags) => {
               //   setSelectedTags(
               //     tags.map((tag) => {
@@ -71,6 +77,7 @@ export default function NoteList() {
               //     })
               //   )
               // }}
+              name="tags"
               isMulti
             />
           </Col>
