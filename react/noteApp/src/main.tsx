@@ -6,7 +6,7 @@ import NewNote, {
   action as createNoteAction,
   loader as tagsLoader,
 } from './NewNote'
-import NoteList from './NoteList'
+import NoteList, { loadar as noteLoader } from './NoteList'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <NoteList availableTags={[]} notes={[]} />,
+        element: <NoteList />,
+        loader: noteLoader,
       },
       {
         path: 'new',
