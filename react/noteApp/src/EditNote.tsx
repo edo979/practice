@@ -8,11 +8,25 @@ import {
   useLoaderData,
 } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
+import {
+  getNote,
+  getTags,
+  Note,
+  saveNote,
+  saveTags,
+  Tag,
+  updateNote,
+} from './data/model'
 import { v4 as uuidV4 } from 'uuid'
-import { getTags, saveNote, saveTags, Tag } from './data/model'
+
+type LoaderData = {
+  note: Note
+  tags: Tag[]
+}
 
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
+  const noteId = params.noteId as string
   const title = formData.get('title')
   const markdown = formData.get('markdown')
   let labelsFromForm = formData.getAll('tags') as string[]
@@ -56,23 +70,25 @@ export const action: ActionFunction = async ({ params, request }) => {
     .map((tag) => tag.id)
   tagsId = [...tagsId, ...savedTagsId]
 
-  // Save note
-  saveNote({ id: uuidV4(), title, markdown, tagIds: tagsId })
+  updateNote({ id: noteId, title, markdown, tagIds: tagsId })
 
-  return redirect('/')
+  return redirect('..')
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+  const noteId = params.noteId
   const tags = getTags()
-  return { tags }
+  const note = getNote(noteId!)
+
+  return { note, tags } as LoaderData
 }
 
-export default function NewNote() {
-  const { tags } = useLoaderData() as { tags: Tag[] }
+export default function EditNote() {
+  const { note, tags } = useLoaderData() as LoaderData
 
   return (
     <>
-      <h1 className="mb-4">New Note</h1>
+      <h1>Edit Note</h1>
       <Form method="post">
         <Stack gap={4}>
           <Row>
@@ -85,6 +101,7 @@ export default function NewNote() {
                 className="form-control"
                 id="title"
                 name="title"
+                defaultValue={note.title}
                 required
               />
             </Col>
@@ -101,6 +118,10 @@ export default function NewNote() {
                 isMulti
                 name="tags"
                 id="tags"
+                defaultValue={note.tags.map((tag) => ({
+                  label: tag.label,
+                  value: tag.label,
+                }))}
                 required
               />
             </Col>
@@ -115,6 +136,7 @@ export default function NewNote() {
                 id="markdown"
                 name="markdown"
                 rows={15}
+                defaultValue={note.markdown}
                 required
               />
             </Col>

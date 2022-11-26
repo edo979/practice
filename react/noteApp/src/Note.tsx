@@ -23,7 +23,9 @@ export default function Note() {
 
         <Col xs="auto">
           <Stack direction="horizontal" gap={2} className="justify-content-end">
-            <Button>Edit</Button>
+            <Link to="edit">
+              <Button>Edit</Button>
+            </Link>
             <Form
               method="post"
               action={`/${note.id}/delete`}

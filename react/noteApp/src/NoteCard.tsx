@@ -9,7 +9,7 @@ type NoteCardProps = {
 export default function NoteCard({ note }: NoteCardProps) {
   return (
     <Link
-      to={`:${note.id}`}
+      to={`${note.id}`}
       state={{ note }}
       className="text-reset text-decoration-none"
     >

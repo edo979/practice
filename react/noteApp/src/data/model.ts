@@ -41,6 +41,15 @@ export const getNotes = () => {
   return notes
 }
 
+export const getNote = (noteId: string) => {
+  const notes = getNotes()
+  const note = notes.find((note) => note.id === noteId)
+
+  if (!note) return []
+
+  return note
+}
+
 export const saveNote = (note: RawNote) => {
   const notes = getRawNotes()
   localStorage.setItem('NOTES', JSON.stringify([...notes, note]))
@@ -48,6 +57,18 @@ export const saveNote = (note: RawNote) => {
 
 export const saveRawNotes = (notes: RawNote[]) => {
   localStorage.setItem('NOTES', JSON.stringify(notes))
+}
+
+export const updateNote = (updateNote: RawNote) => {
+  const notes = getRawNotes()
+  const updateNotes = notes.map((note) => {
+    if (note.id === updateNote.id) {
+      return updateNote
+    }
+    return note
+  })
+
+  saveRawNotes(updateNotes)
 }
 
 export const getTags = () => {
