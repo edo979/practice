@@ -3,6 +3,7 @@ import { Row, Col, Stack, Button } from 'react-bootstrap'
 import { Link, Form, LoaderFunction, useLoaderData } from 'react-router-dom'
 import ReactSelect from 'react-select'
 import { getNotes, getTags, Note, Tag } from './data/model'
+import EditTagsModal from './EditTagsModal'
 import NoteCard from './NoteCard'
 
 type LoaderData = {
@@ -21,6 +22,7 @@ export default function NoteList() {
   const { notes, tags } = useLoaderData() as LoaderData
   const [selectedTags, setSelectedTags] = useState<Tag[]>([])
   const [title, setTitle] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
@@ -35,6 +37,9 @@ export default function NoteList() {
     })
   }, [title, selectedTags])
 
+  const handleShowModal = () => setShowModal(true)
+  const handleHideModal = () => setShowModal(false)
+
   return (
     <>
       <Row className="align-items-center mb-4">
@@ -46,10 +51,13 @@ export default function NoteList() {
             <Link to="/new">
               <Button variant="primary">Create</Button>
             </Link>
-            <Button variant="outline-secondary">Edit Tags</Button>
+            <Button variant="outline-secondary" onClick={handleShowModal}>
+              Edit Tags
+            </Button>
           </Stack>
         </Col>
       </Row>
+
       <Form onSubmit={(e) => e.preventDefault()}>
         <Row className="mb-4">
           <Col>
@@ -97,6 +105,12 @@ export default function NoteList() {
           </Col>
         ))}
       </Row>
+
+      <EditTagsModal
+        show={showModal}
+        handleClose={handleHideModal}
+        tags={tags}
+      />
     </>
   )
 }
