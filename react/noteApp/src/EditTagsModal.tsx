@@ -49,7 +49,14 @@ export default function EditTagsModal({
                 </Form>
 
                 <Col xs="auto">
-                  <Form method="post" action="/tags/delete">
+                  <Form
+                    method="post"
+                    action="/tags/delete"
+                    onSubmit={(e) => {
+                      if (!confirm('This tag will be deleted, are you shoure?'))
+                        e.preventDefault()
+                    }}
+                  >
                     <input type="hidden" name="_id" value={tag.id} />
 
                     <Button
