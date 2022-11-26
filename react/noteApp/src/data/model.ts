@@ -41,13 +41,6 @@ export const getNotes = () => {
   return notes
 }
 
-export const getTags = () => {
-  const jsonValue = localStorage.getItem('TAGS')
-  const tags: Tag[] = jsonValue ? JSON.parse(jsonValue) : []
-
-  return tags
-}
-
 export const saveNote = (note: RawNote) => {
   const notes = getRawNotes()
   localStorage.setItem('NOTES', JSON.stringify([...notes, note]))
@@ -55,4 +48,30 @@ export const saveNote = (note: RawNote) => {
 
 export const saveRawNotes = (notes: RawNote[]) => {
   localStorage.setItem('NOTES', JSON.stringify(notes))
+}
+
+export const getTags = () => {
+  const jsonValue = localStorage.getItem('TAGS')
+  const tags: Tag[] = jsonValue ? JSON.parse(jsonValue) : []
+
+  return tags
+}
+
+export const saveTags = (tags: Tag[]) => {
+  localStorage.setItem('TAGS', JSON.stringify(tags))
+}
+
+export const deleteTag = (tagId: string) => {
+  const tags = getTags()
+  const notes = getRawNotes()
+
+  const newTags = tags.filter((tag) => tag.id !== tagId)
+  saveTags(newTags)
+
+  // Delete tag in notes
+  const newNotes = notes.map((note) => {
+    note.tagIds = note.tagIds.filter((id) => id !== tagId)
+    return note
+  })
+  saveRawNotes(newNotes)
 }

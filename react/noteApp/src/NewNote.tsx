@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
 import { v4 as uuidV4 } from 'uuid'
-import { getRawNotes, getTags, saveNote, Tag } from './data/model'
+import { getRawNotes, getTags, saveNote, saveTags, Tag } from './data/model'
 
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
@@ -46,11 +46,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 
     // Add new tag to notes tags
     tagsId = tagsToSave.map((tag) => tag.id)
-
-    localStorage.setItem(
-      'TAGS',
-      JSON.stringify([...tagsFromStorage, ...tagsToSave])
-    )
+    //Save to storage
+    saveTags([...tagsFromStorage, ...tagsToSave])
   }
 
   // NOTE
