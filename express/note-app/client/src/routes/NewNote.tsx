@@ -1,4 +1,5 @@
 import { Form } from 'react-router-dom'
+import CreatableReactSelect from 'react-select/creatable'
 
 export default function NewNote() {
   return (
@@ -24,7 +25,7 @@ export default function NewNote() {
             <label htmlFor="tags" className="form-label">
               Tags
             </label>
-            <select name="" id="" className="form-control"></select>
+            <CreatableReactSelect name="tags" />
           </div>
         </div>
 
