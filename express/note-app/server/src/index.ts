@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import cors from 'cors'
 import { config } from 'dotenv'
 import connectDB from './config/db'
 import Note from './model/Note'
@@ -9,9 +10,12 @@ const app = express()
 app.use(express.json())
 connectDB()
 
+app.use(cors())
+
 // Index
-app.get('/', (req: Request, res: Response) => {
-  res.send('Index note')
+app.get('/', async (req: Request, res: Response) => {
+  const notes = await Note.find().select('_id title body')
+  return res.json(notes)
 })
 
 // Show notes

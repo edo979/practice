@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './routes/ErrorPage'
-import Home from './routes/Home'
+import Home, { loader as homeLoader } from './routes/Home'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Home /> }],
+    children: [
+      {
+        index: true,
+        element: <Home />,
+        loader: homeLoader,
+      },
+    ],
   },
 ])
 
