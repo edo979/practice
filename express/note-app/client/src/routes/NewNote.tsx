@@ -1,13 +1,42 @@
-import { ActionFunction, Form, useActionData } from 'react-router-dom'
+import { ActionFunction, Form, redirect, useActionData } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
 import { Note } from './Home'
+import classNames from 'classnames'
+
+type ActionData = {
+  formError?: string
+  fieldErrors?: {
+    title: string | undefined
+    body: string | undefined
+  }
+  fields?: {
+    title: string
+    body: string
+  }
+}
+
+function validateLength(data: string) {
+  if (data.length < 6) return 'At least 6 charachters!'
+}
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const title = formData.get('title')
   const body = formData.get('body')
 
-  const errors = {}
+  if (typeof title !== 'string' || typeof body !== 'string') {
+    return { formError: 'Form not submitet properly!' } as ActionData
+  }
+
+  const fieldErrors = {
+    title: validateLength(title),
+    body: validateLength(body),
+  }
+  const fields = { title, body }
+
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return { fieldErrors, fields } as ActionData
+  }
 
   const res = await fetch('http://localhost:5000/notes/new', {
     method: 'POST',
@@ -17,13 +46,11 @@ export const action: ActionFunction = async ({ request, params }) => {
     body: JSON.stringify({ title, body }),
   })
 
-  const note: Note = await res.json()
-
-  return errors
+  return redirect('/')
 }
 
 export default function NewNote() {
-  const errors = useActionData()
+  const errors = useActionData() as ActionData
 
   return (
     <>
@@ -39,11 +66,19 @@ export default function NewNote() {
             </label>
             <input
               type="text"
-              className="form-control"
+              className={classNames('form-control', {
+                'is-invalid': errors?.fieldErrors?.title ? true : false,
+              })}
               name="title"
               id="title"
+              aria-describedby="title-validation"
+              defaultValue={errors?.fields?.title}
             />
+            <div className="invalid-feedback" id="title-validation">
+              {errors?.fieldErrors?.title}
+            </div>
           </div>
+
           <div className="col">
             <label htmlFor="tags" className="form-label">
               Tags
@@ -57,7 +92,18 @@ export default function NewNote() {
             <label className="form-label" htmlFor="body">
               Body
             </label>
-            <textarea className="form-control" name="body" rows={15} />
+            <textarea
+              rows={15}
+              className={classNames('form-control', {
+                'is-invalid': errors?.fieldErrors?.body,
+              })}
+              name="body"
+              aria-describedby="body-validation"
+              defaultValue={errors?.fields?.body}
+            />
+            <div className="invalid-feedback" id="body-validation">
+              {errors?.fieldErrors?.body}
+            </div>
           </div>
         </div>
 
