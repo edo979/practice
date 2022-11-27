@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './routes/ErrorPage'
 import Home, { loader as homeLoader } from './routes/Home'
+import NewNote from './routes/NewNote'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
         loader: homeLoader,
+      },
+      {
+        path: 'notes/new',
+        element: <NewNote />,
       },
     ],
   },
