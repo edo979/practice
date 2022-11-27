@@ -24,7 +24,7 @@ app.get('/notes', (req: Request, res: Response) => {
 })
 
 // Add note
-app.post('/notes', (req: Request, res: Response) => {
+app.post('/notes/new', (req: Request, res: Response) => {
   const newNote = new Note({
     title: req.body.title,
     body: req.body.body,

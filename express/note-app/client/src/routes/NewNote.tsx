@@ -1,7 +1,30 @@
-import { Form } from 'react-router-dom'
+import { ActionFunction, Form, useActionData } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
+import { Note } from './Home'
+
+export const action: ActionFunction = async ({ request, params }) => {
+  const formData = await request.formData()
+  const title = formData.get('title')
+  const body = formData.get('body')
+
+  const errors = {}
+
+  const res = await fetch('http://localhost:5000/notes/new', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, body }),
+  })
+
+  const note: Note = await res.json()
+
+  return errors
+}
 
 export default function NewNote() {
+  const errors = useActionData()
+
   return (
     <>
       <div className="row mt-4">

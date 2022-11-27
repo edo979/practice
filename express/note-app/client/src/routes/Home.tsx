@@ -1,6 +1,6 @@
 import { LoaderFunction, useLoaderData } from 'react-router-dom'
 
-type Note = {
+export type Note = {
   _id: string
   title: string
   body: string
