@@ -46,6 +46,11 @@ export const action: ActionFunction = async ({ request, params }) => {
     body: JSON.stringify({ title, body }),
   })
 
+  if (res.status === 403) {
+    const { message } = await res.json()
+    return { formError: message }
+  }
+
   return redirect('/')
 }
 
@@ -108,6 +113,12 @@ export default function NewNote() {
         </div>
 
         <div className="row mt-2">
+          {errors?.formError && (
+            <div className="col">
+              <i className="text-danger">{errors.formError}</i>
+            </div>
+          )}
+
           <div className="col-auto ms-auto">
             <button className="btn btn-primary">Save</button>
             <button className="btn btn-secondary ms-2">Cancel</button>

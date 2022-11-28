@@ -30,8 +30,16 @@ app.post('/notes/new', (req: Request, res: Response) => {
     body: req.body.body,
   })
 
-  newNote.save()
+  if (
+    typeof newNote.title !== 'string' ||
+    typeof newNote.body !== 'string' ||
+    newNote.title === '' ||
+    newNote.body === ''
+  ) {
+    return res.status(403).send({ message: 'Form submitet wrong!' })
+  }
 
+  newNote.save()
   res.json(newNote)
 })
 
