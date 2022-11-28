@@ -5,6 +5,7 @@ import Root from './routes/Root'
 import ErrorPage from './routes/ErrorPage'
 import Home, { loader as homeLoader } from './routes/Home'
 import NewNote, { action as newNoteAction } from './routes/NewNote'
+import Note, { loader as noteLoader } from './routes/Note'
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
         loader: homeLoader,
+      },
+      {
+        path: ':noteId',
+        element: <Note />,
+        loader: noteLoader,
       },
       {
         path: 'notes/new',

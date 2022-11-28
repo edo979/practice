@@ -23,6 +23,14 @@ app.get('/notes', (req: Request, res: Response) => {
   res.send('View notes')
 })
 
+// Show note
+app.get('/notes/:noteId', async (req: Request, res: Response) => {
+  const noteId = req.params.noteId
+  const note = await Note.findById(noteId).select('_id title body')
+  if (!note) return res.status(404).send({ message: 'Note not found' })
+  res.json(note)
+})
+
 // Add note
 app.post('/notes/new', (req: Request, res: Response) => {
   const title = req.body.title,

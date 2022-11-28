@@ -1,4 +1,4 @@
-import { LoaderFunction, useLoaderData } from 'react-router-dom'
+import { Link, LoaderFunction, useLoaderData } from 'react-router-dom'
 import style from './styles/home.module.css'
 
 export type Note = {
@@ -32,16 +32,20 @@ export default function Home() {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mt-4">
         {notes.map((note) => (
           <div key={note._id} className="col">
-            <a href="#" className="text-decoration-none text-reset">
+            <Link
+              to={note._id}
+              className="text-decoration-none text-reset"
+              state={note}
+            >
               <div className={`card h-100 text-center ${style.hover}`}>
                 <div className="card-body">
                   <h2 className="card-title h5">{note.title}</h2>
                   <p className="card-text">
-                    <p className="badge text-bg-primary">jah</p>
+                    <i className="badge text-bg-primary">jah</i>
                   </p>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         ))}
       </div>
