@@ -61,4 +61,16 @@ app.post('/notes/new', (req: Request, res: Response) => {
   res.json(newNote)
 })
 
+// Delete note
+app.delete('/notes', async (req: Request, res: Response) => {
+  const noteId = req.body.noteId
+
+  try {
+    await Note.findByIdAndDelete(noteId)
+    res.status(302).end()
+  } catch {
+    res.status(500).send({ message: 'Server Error!' })
+  }
+})
+
 app.listen(PORT, () => console.log(`Server listenint on port: ${PORT}`))

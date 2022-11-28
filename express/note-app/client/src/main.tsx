@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './routes/ErrorPage'
 import Home, { loader as homeLoader } from './routes/Home'
 import NewNote, { action as newNoteAction } from './routes/NewNote'
 import Note, { loader as noteLoader } from './routes/Note'
+import DeleteNote, { action as deleteNoteAction } from './routes/DeleteNote'
 
 const router = createBrowserRouter([
   {
@@ -19,14 +20,19 @@ const router = createBrowserRouter([
         loader: homeLoader,
       },
       {
-        path: ':noteId',
+        path: 'notes/new',
+        element: <NewNote />,
+        action: newNoteAction,
+      },
+      {
+        path: 'notes/:noteId',
         element: <Note />,
         loader: noteLoader,
       },
       {
-        path: 'notes/new',
-        element: <NewNote />,
-        action: newNoteAction,
+        path: 'notes/:noteId/delete',
+        element: <DeleteNote />,
+        action: deleteNoteAction,
       },
     ],
   },

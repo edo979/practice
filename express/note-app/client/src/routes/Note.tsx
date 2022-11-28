@@ -35,7 +35,15 @@ export default function Note() {
         <div className="col-auto">
           <div className="hstack gap-2">
             <button className="btn btn-primary">Edit</button>
-            <Form>
+            <Form
+              action="delete"
+              method="post"
+              onSubmit={(e) => {
+                if (!confirm('This note vill be delete. Are you shure?')) {
+                  e.preventDefault()
+                }
+              }}
+            >
               <button className="btn btn-outline-danger" type="submit">
                 Delete
               </button>

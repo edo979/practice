@@ -33,7 +33,7 @@ export default function Home() {
         {notes.map((note) => (
           <div key={note._id} className="col">
             <Link
-              to={note._id}
+              to={`notes/${note._id}`}
               className="text-decoration-none text-reset"
               state={note}
             >
