@@ -12,7 +12,7 @@ type LoaderData = {
 }
 
 export const loader: LoaderFunction = async () => {
-  const res = await fetch('http://localhost:5000/')
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/`)
   const notes: Note[] = await res.json()
 
   return { notes }

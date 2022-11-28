@@ -38,7 +38,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     return { fieldErrors, fields } as ActionData
   }
 
-  const res = await fetch('http://localhost:5000/notes/new', {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/notes/new`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
