@@ -1,4 +1,5 @@
 import { LoaderFunction, useLoaderData } from 'react-router-dom'
+import style from './styles/home.module.css'
 
 export type Note = {
   _id: string
@@ -19,7 +20,6 @@ export const loader: LoaderFunction = async () => {
 
 export default function Home() {
   const { notes } = useLoaderData() as LoaderData
-  console.log(notes)
 
   return (
     <>
@@ -27,6 +27,23 @@ export default function Home() {
         <div className="col">
           <h1>Home</h1>
         </div>
+      </div>
+
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mt-4">
+        {notes.map((note) => (
+          <div key={note._id} className="col">
+            <a href="#" className="text-decoration-none text-reset">
+              <div className={`card h-100 text-center ${style.hover}`}>
+                <div className="card-body">
+                  <h2 className="card-title h5">{note.title}</h2>
+                  <p className="card-text">
+                    <p className="badge text-bg-primary">jah</p>
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        ))}
       </div>
     </>
   )
