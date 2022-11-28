@@ -15,6 +15,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const { message } = await res.json()
     throw new Error(message)
   }
+  if (!res.ok) throw new Error('Error on server, sorry.')
 
   const note = await res.json()
   return { note }

@@ -14,8 +14,12 @@ app.use(cors())
 
 // Index
 app.get('/', async (req: Request, res: Response) => {
-  const notes = await Note.find().select('_id title body')
-  return res.json(notes)
+  try {
+    const notes = await Note.find().select('_id title body')
+    res.json(notes)
+  } catch {
+    res.status(500).send({ message: 'Server error' })
+  }
 })
 
 // Show notes
@@ -26,9 +30,13 @@ app.get('/notes', (req: Request, res: Response) => {
 // Show note
 app.get('/notes/:noteId', async (req: Request, res: Response) => {
   const noteId = req.params.noteId
-  const note = await Note.findById(noteId).select('_id title body')
-  if (!note) return res.status(404).send({ message: 'Note not found' })
-  res.json(note)
+  try {
+    const note = await Note.findById(noteId).select('_id title body')
+    if (!note) return res.status(404).send({ message: 'Note not found' })
+    res.json(note)
+  } catch {
+    res.status(500).send({ message: 'Server error' })
+  }
 })
 
 // Add note
