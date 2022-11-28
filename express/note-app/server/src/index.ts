@@ -25,20 +25,22 @@ app.get('/notes', (req: Request, res: Response) => {
 
 // Add note
 app.post('/notes/new', (req: Request, res: Response) => {
-  const newNote = new Note({
-    title: req.body.title,
-    body: req.body.body,
-  })
+  const title = req.body.title,
+    body = req.body.body
 
   if (
-    typeof newNote.title !== 'string' ||
-    typeof newNote.body !== 'string' ||
-    newNote.title === '' ||
-    newNote.body === ''
+    typeof title !== 'string' ||
+    typeof body !== 'string' ||
+    title === '' ||
+    body === ''
   ) {
     return res.status(403).send({ message: 'Form submitet wrong!' })
   }
 
+  const newNote = new Note({
+    title,
+    body,
+  })
   newNote.save()
   res.json(newNote)
 })
