@@ -23,9 +23,15 @@ export default function Home() {
 
   return (
     <>
-      <div className="row">
+      <div className="row align-items-center mt-4">
         <div className="col">
           <h1>Home</h1>
+        </div>
+        <div className="col-auto">
+          <Link to="notes/new">
+            <button className="btn btn-primary me-2">Create</button>
+          </Link>
+          <button className="btn btn-outline-secondary">Edit Tags</button>
         </div>
       </div>
 

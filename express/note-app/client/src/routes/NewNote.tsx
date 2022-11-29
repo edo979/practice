@@ -1,4 +1,10 @@
-import { ActionFunction, Form, redirect, useActionData } from 'react-router-dom'
+import {
+  ActionFunction,
+  Form,
+  Link,
+  redirect,
+  useActionData,
+} from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
 import { Note } from './Home'
 import classNames from 'classnames'
@@ -120,8 +126,12 @@ export default function NewNote() {
           )}
 
           <div className="col-auto ms-auto">
-            <button className="btn btn-primary">Save</button>
-            <button className="btn btn-secondary ms-2">Cancel</button>
+            <button className="btn btn-primary" type="submit">
+              Save
+            </button>
+            <Link to="..">
+              <button className="btn btn-secondary ms-2">Cancel</button>
+            </Link>
           </div>
         </div>
       </Form>
