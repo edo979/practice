@@ -4,7 +4,7 @@ const noteSchema = new mongoose.Schema(
   {
     title: String,
     body: String,
-    tags_Id: [
+    tags: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',

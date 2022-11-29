@@ -16,7 +16,7 @@ app.use(cors())
 // Index
 app.get('/', async (req: Request, res: Response) => {
   try {
-    const notes = await Note.find().select('_id title body')
+    const notes = await Note.find().select('_id title body').populate('tags')
     res.json(notes)
   } catch {
     res.status(500).send({ message: 'Server error' })
@@ -44,16 +44,16 @@ app.get('/notes/:noteId', async (req: Request, res: Response) => {
 app.post('/notes/new', (req: Request, res: Response) => {
   const title: string = req.body.title,
     body: string = req.body.body,
-    tagsId: string[] = req.body.tags
+    tags: string[] = req.body.tags
 
-  if (title === '' || body === '' || tagsId.length === 0) {
+  if (title === '' || body === '' || tags.length === 0) {
     return res.status(403).send({ message: 'Form submitet wrong!' })
   }
 
   const newNote = new Note({
     title,
     body,
-    tags_Id: tagsId,
+    tags,
   })
   newNote.save()
   res.json(newNote)

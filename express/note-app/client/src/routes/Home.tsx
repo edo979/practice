@@ -5,6 +5,7 @@ export type Note = {
   _id: string
   title: string
   body: string
+  tags: Tag[]
 }
 
 export type Tag = {
@@ -51,8 +52,12 @@ export default function Home() {
               <div className={`card h-100 text-center ${style.hover}`}>
                 <div className="card-body">
                   <h2 className="card-title h5">{note.title}</h2>
-                  <p className="card-text">
-                    <i className="badge text-bg-primary">jah</i>
+                  <p className="card-text hstack gap-1 justify-content-center flex-wrap">
+                    {note.tags.map((tag) => (
+                      <i key={tag._id} className="badge text-bg-primary">
+                        {tag.label}
+                      </i>
+                    ))}
                   </p>
                 </div>
               </div>
