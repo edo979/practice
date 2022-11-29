@@ -1,6 +1,7 @@
 import { Form, Link, LoaderFunction, useLoaderData } from 'react-router-dom'
 import { Note as NoteType } from './Home'
 import ReactMarkdown from 'react-markdown'
+import HorizontalBadges from '../components/HorizontalBadges'
 
 type LoaderData = {
   note: NoteType
@@ -52,6 +53,12 @@ export default function Note() {
               <button className="btn btn-outline-secondary">Back</button>
             </Link>
           </div>
+        </div>
+      </div>
+
+      <div className="row mt-2">
+        <div className="col">
+          <HorizontalBadges items={note.tags} align="start" />
         </div>
       </div>
 

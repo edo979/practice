@@ -1,4 +1,5 @@
 import { Link, LoaderFunction, useLoaderData } from 'react-router-dom'
+import HorizontalBadges from '../components/HorizontalBadges'
 import style from './styles/home.module.css'
 
 export type Note = {
@@ -52,13 +53,9 @@ export default function Home() {
               <div className={`card h-100 text-center ${style.hover}`}>
                 <div className="card-body">
                   <h2 className="card-title h5">{note.title}</h2>
-                  <p className="card-text hstack gap-1 justify-content-center flex-wrap">
-                    {note.tags.map((tag) => (
-                      <i key={tag._id} className="badge text-bg-primary">
-                        {tag.label}
-                      </i>
-                    ))}
-                  </p>
+                  <div className="card-text">
+                    <HorizontalBadges items={note.tags} />
+                  </div>
                 </div>
               </div>
             </Link>

@@ -32,7 +32,9 @@ app.get('/notes', (req: Request, res: Response) => {
 app.get('/notes/:noteId', async (req: Request, res: Response) => {
   const noteId = req.params.noteId
   try {
-    const note = await Note.findById(noteId).select('_id title body')
+    const note = await Note.findById(noteId)
+      .select('_id title body')
+      .populate('tags')
     if (!note) return res.status(404).send({ message: 'Note not found' })
     res.json(note)
   } catch {
