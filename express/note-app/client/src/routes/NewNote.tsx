@@ -35,7 +35,31 @@ export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const title = formData.get('title')
   const body = formData.get('body')
+  const labelsId = formData.getAll('tags') as string[]
 
+  // Tags
+  const tagRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
+  const tagsFromDB: Tag[] = await tagRes.json()
+  const newLabels = labelsId.filter((id) => {
+    const labelsIdFromDB = tagsFromDB.map((tag) => tag._id)
+    return !labelsIdFromDB.includes(id)
+  })
+
+  if (newLabels.length > 0) {
+    const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tags: newLabels,
+      }),
+    })
+    const tags = await res.json()
+    console.log(tags)
+  }
+
+  // Note
   if (typeof title !== 'string' || typeof body !== 'string') {
     return { formError: 'Form not submitet properly!' } as ActionData
   }
