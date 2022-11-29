@@ -2,12 +2,14 @@ import {
   ActionFunction,
   Form,
   Link,
+  LoaderFunction,
   redirect,
   useActionData,
+  useLoaderData,
 } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
-import { Note } from './Home'
 import classNames from 'classnames'
+import { Tag } from './Home'
 
 type ActionData = {
   formError?: string
@@ -19,6 +21,10 @@ type ActionData = {
     title: string
     body: string
   }
+}
+
+type LoaderData = {
+  tags: Tag[]
 }
 
 function validateLength(data: string) {
@@ -60,8 +66,16 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect('/')
 }
 
+export const loader: LoaderFunction = async () => {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
+  const tags = await res.json()
+
+  return { tags } as LoaderData
+}
+
 export default function NewNote() {
   const errors = useActionData() as ActionData
+  const { tags } = useLoaderData() as LoaderData
 
   return (
     <>
@@ -94,7 +108,14 @@ export default function NewNote() {
             <label htmlFor="tags" className="form-label">
               Tags
             </label>
-            <CreatableReactSelect name="tags" />
+            <CreatableReactSelect
+              name="tags"
+              options={tags.map((tag) => ({
+                label: tag.label,
+                value: tag._id,
+              }))}
+              isMulti
+            />
           </div>
         </div>
 

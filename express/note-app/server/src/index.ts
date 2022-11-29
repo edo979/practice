@@ -3,6 +3,7 @@ import cors from 'cors'
 import { config } from 'dotenv'
 import connectDB from './config/db'
 import Note from './model/Note'
+import Tag from './model/Tag'
 
 config()
 const PORT = process.env.PORT || 5000
@@ -71,6 +72,22 @@ app.delete('/notes', async (req: Request, res: Response) => {
   } catch {
     res.status(500).send({ message: 'Server Error!' })
   }
+})
+
+// Get Tags
+app.get('/tags', async (req: Request, res: Response) => {
+  const tags = await Tag.find().select('_id label')
+  res.json(tags)
+})
+
+// Save Tag
+app.post('/tags', async (req: Request, res: Response) => {
+  const tagsLabels: string[] = req.body.tags
+  const tagsToSave = tagsLabels.map((label) => ({ label }))
+
+  const tags = await Tag.create(tagsToSave)
+
+  res.json(tags)
 })
 
 app.listen(PORT, () => console.log(`Server listenint on port: ${PORT}`))

@@ -7,6 +7,11 @@ export type Note = {
   body: string
 }
 
+export type Tag = {
+  _id: string
+  label: string
+}
+
 type LoaderData = {
   notes: Note[]
 }

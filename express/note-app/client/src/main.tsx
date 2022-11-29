@@ -4,7 +4,10 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './routes/ErrorPage'
 import Home, { loader as homeLoader } from './routes/Home'
-import NewNote, { action as newNoteAction } from './routes/NewNote'
+import NewNote, {
+  action as newNoteAction,
+  loader as newNoteLoader,
+} from './routes/NewNote'
 import Note, { loader as noteLoader } from './routes/Note'
 import DeleteNote, { action as deleteNoteAction } from './routes/DeleteNote'
 
@@ -23,6 +26,7 @@ const router = createBrowserRouter([
         path: 'notes/new',
         element: <NewNote />,
         action: newNoteAction,
+        loader: newNoteLoader,
       },
       {
         path: 'notes/:noteId',
