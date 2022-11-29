@@ -4,6 +4,12 @@ const noteSchema = new mongoose.Schema(
   {
     title: String,
     body: String,
+    tags_Id: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+      },
+    ],
   },
   { timestamps: true }
 )

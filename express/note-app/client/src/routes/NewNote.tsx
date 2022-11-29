@@ -16,10 +16,12 @@ type ActionData = {
   fieldErrors?: {
     title: string | undefined
     body: string | undefined
+    tags: string[] | undefined
   }
   fields?: {
     title: string
     body: string
+    tags: string[]
   }
 }
 
@@ -29,6 +31,9 @@ type LoaderData = {
 
 function validateLength(data: string) {
   if (data.length < 6) return 'At least 6 charachters!'
+}
+function validateTags(tagsId: string[]) {
+  if (tagsId.length === 0) return 'Please select one tag'
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -45,6 +50,13 @@ export const action: ActionFunction = async ({ request, params }) => {
     return !labelsIdFromDB.includes(id)
   })
 
+  // Add saved tagsId to Note
+  const savedTagsId = labelsId.filter((id) =>
+    tagsFromDB.map((tag) => tag._id).includes(id)
+  )
+  const noteTagsIds = [...savedTagsId]
+
+  // Create new tags
   if (newLabels.length > 0) {
     const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`, {
       method: 'post',
@@ -55,8 +67,9 @@ export const action: ActionFunction = async ({ request, params }) => {
         tags: newLabels,
       }),
     })
-    const tags = await res.json()
-    console.log(tags)
+    const newTagsId = await res.json()
+    // Add new tags id to note
+    noteTagsIds.push(...newTagsId)
   }
 
   // Note
@@ -67,8 +80,9 @@ export const action: ActionFunction = async ({ request, params }) => {
   const fieldErrors = {
     title: validateLength(title),
     body: validateLength(body),
+    tags: validateTags(noteTagsIds),
   }
-  const fields = { title, body }
+  const fields = { title, body, tags: noteTagsIds }
 
   if (Object.values(fieldErrors).some(Boolean)) {
     return { fieldErrors, fields } as ActionData
@@ -79,7 +93,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, body }),
+    body: JSON.stringify({ title, body, tags: noteTagsIds }),
   })
 
   if (res.status === 403) {

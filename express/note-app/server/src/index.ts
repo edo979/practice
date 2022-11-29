@@ -42,21 +42,18 @@ app.get('/notes/:noteId', async (req: Request, res: Response) => {
 
 // Add note
 app.post('/notes/new', (req: Request, res: Response) => {
-  const title = req.body.title,
-    body = req.body.body
+  const title: string = req.body.title,
+    body: string = req.body.body,
+    tagsId: string[] = req.body.tags
 
-  if (
-    typeof title !== 'string' ||
-    typeof body !== 'string' ||
-    title === '' ||
-    body === ''
-  ) {
+  if (title === '' || body === '' || tagsId.length === 0) {
     return res.status(403).send({ message: 'Form submitet wrong!' })
   }
 
   const newNote = new Note({
     title,
     body,
+    tags_Id: tagsId,
   })
   newNote.save()
   res.json(newNote)
@@ -86,8 +83,9 @@ app.post('/tags', async (req: Request, res: Response) => {
   const tagsToSave = tagsLabels.map((label) => ({ label }))
 
   const tags = await Tag.create(tagsToSave)
+  const tagsIds = tags.map((tag) => tag._id)
 
-  res.json(tags)
+  res.json(tagsIds)
 })
 
 app.listen(PORT, () => console.log(`Server listenint on port: ${PORT}`))
