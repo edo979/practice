@@ -16,7 +16,7 @@ type ActionData = {
   fieldErrors?: {
     title: string | undefined
     body: string | undefined
-    tags: string[] | undefined
+    tags: string | undefined
   }
   fields?: {
     title: string
@@ -40,7 +40,25 @@ export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const title = formData.get('title')
   const body = formData.get('body')
-  const labelsId = formData.getAll('tags') as string[]
+  const formTagsId = formData.getAll('tags') as string[]
+  // Remove empty strings from array
+  const labelsId = formTagsId.filter((id) => id !== '')
+
+  // Validation
+  if (typeof title !== 'string' || typeof body !== 'string') {
+    return { formError: 'Form not submitet properly!' } as ActionData
+  }
+
+  const fieldErrors = {
+    title: validateLength(title),
+    body: validateLength(body),
+    tags: validateTags(labelsId),
+  }
+  const fields = { title, body, tags: labelsId }
+
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return { fieldErrors, fields } as ActionData
+  }
 
   // Tags
   const tagRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
@@ -73,21 +91,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   // Note
-  if (typeof title !== 'string' || typeof body !== 'string') {
-    return { formError: 'Form not submitet properly!' } as ActionData
-  }
-
-  const fieldErrors = {
-    title: validateLength(title),
-    body: validateLength(body),
-    tags: validateTags(noteTagsIds),
-  }
-  const fields = { title, body, tags: noteTagsIds }
-
-  if (Object.values(fieldErrors).some(Boolean)) {
-    return { fieldErrors, fields } as ActionData
-  }
-
   const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/notes/new`, {
     method: 'POST',
     headers: {
@@ -147,13 +150,23 @@ export default function NewNote() {
               Tags
             </label>
             <CreatableReactSelect
-              name="tags"
               options={tags.map((tag) => ({
                 label: tag.label,
                 value: tag._id,
               }))}
               isMulti
+              name="tags"
+              defaultValue={errors?.fields?.tags.map((tag) => ({
+                value: tag,
+              }))}
+              aria-describedby="tags-validation"
+              className={classNames({
+                'is-invalid': errors?.fieldErrors?.tags,
+              })}
             />
+            <div className="invalid-feedback" id="tags-validation">
+              {errors?.fieldErrors?.tags}
+            </div>
           </div>
         </div>
 
