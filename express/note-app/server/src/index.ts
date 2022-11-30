@@ -90,4 +90,15 @@ app.post('/tags', async (req: Request, res: Response) => {
   res.json(tagsIds)
 })
 
+app.delete('/tags', async (req: Request, res: Response) => {
+  const id = req.body.id
+
+  try {
+    await Tag.findByIdAndDelete(id)
+    res.status(302).end()
+  } catch {
+    res.status(500).send({ message: 'Server Error!' })
+  }
+})
+
 app.listen(PORT, () => console.log(`Server listenint on port: ${PORT}`))

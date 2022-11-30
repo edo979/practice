@@ -3,6 +3,7 @@ import {
   Form,
   Link,
   LoaderFunction,
+  redirect,
   useLoaderData,
 } from 'react-router-dom'
 import { Tag } from './Home'
@@ -12,8 +13,32 @@ type LoaderData = {
 }
 
 export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const id = formData.get('id')
   const method = request.method
-  console.log(method)
+
+  if (typeof id !== 'string' || id === '')
+    throw new Error('Form submited wrong!')
+
+  switch (method) {
+    case 'DELETE':
+      const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      })
+
+      if (res.status !== 302) {
+        throw new Error('Tags not deleted')
+      }
+
+      return redirect('/tags')
+
+    default:
+      break
+  }
 }
 
 export const loader: LoaderFunction = async () => {
