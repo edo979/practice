@@ -53,7 +53,13 @@ export default function Tags() {
 
   return (
     <div className="row mt-4">
-      <h1>Edit Tags:</h1>
+      <div className="hstack">
+        <h1>Edit Tags:</h1>
+        <Link to=".." className="ms-auto">
+          <button className="btn btn-outline-secondary">Back</button>
+        </Link>
+      </div>
+
       <div className="col col-sm-6 col-xl-4 mx-auto mt-2">
         <ul className="list-group">
           {tags.map((tag) => (
