@@ -38,7 +38,9 @@ export default function Home() {
           <Link to="notes/new">
             <button className="btn btn-primary me-2">Create</button>
           </Link>
-          <button className="btn btn-outline-secondary">Edit Tags</button>
+          <Link to="tags">
+            <button className="btn btn-outline-secondary">Edit Tags</button>
+          </Link>
         </div>
       </div>
 

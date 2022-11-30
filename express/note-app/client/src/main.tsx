@@ -10,6 +10,7 @@ import NewNote, {
 } from './routes/NewNote'
 import Note, { loader as noteLoader } from './routes/Note'
 import DeleteNote, { action as deleteNoteAction } from './routes/DeleteNote'
+import Tags, { loader as tagLoader, action as tagAction } from './routes/Tags'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,12 @@ const router = createBrowserRouter([
         path: 'notes/:noteId/delete',
         element: <DeleteNote />,
         action: deleteNoteAction,
+      },
+      {
+        path: 'tags',
+        element: <Tags />,
+        loader: tagLoader,
+        action: tagAction,
       },
     ],
   },
