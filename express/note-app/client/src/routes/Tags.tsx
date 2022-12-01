@@ -18,12 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
   const label = formData.get('label')
   const method = request.method
 
-  if (
-    typeof id !== 'string' ||
-    id === '' ||
-    typeof label !== 'string' ||
-    label === ''
-  )
+  if (typeof id !== 'string' || id === '')
     throw new Error('Form submited wrong!')
 
   switch (method) {
@@ -35,14 +30,16 @@ export const action: ActionFunction = async ({ request }) => {
         },
         body: JSON.stringify({ id }),
       })
-
       if (res.status !== 302) {
         throw new Error('Tags not deleted')
       }
-
       return redirect('/tags')
 
     case 'PATCH':
+      if (typeof label !== 'string' || label === '') {
+        throw new Error('Form submited wrong')
+      }
+
       const postRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`, {
         method,
         headers: {
@@ -50,8 +47,10 @@ export const action: ActionFunction = async ({ request }) => {
         },
         body: JSON.stringify({ label, id }),
       })
-
-      console.log(postRes.status)
+      if (postRes.status !== 302) {
+        throw new Error('Tag not update')
+      }
+      return redirect('/tags')
 
     default:
       break

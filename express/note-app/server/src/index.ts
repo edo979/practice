@@ -101,7 +101,7 @@ app.patch('/tags', async (req: Request, res: Response) => {
   }
 
   try {
-    await Tag.updateOne({ id }, { label })
+    await Tag.updateOne({ _id: id }, { label: label })
     res.status(302).end()
   } catch {
     res.status(500).send({ message: 'Server Error!' })
