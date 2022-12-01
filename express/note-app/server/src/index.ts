@@ -91,33 +91,35 @@ app.post('/tags', async (req: Request, res: Response) => {
   res.json(tagsIds)
 })
 
+// Update Tag
+app.patch('/tags', async (req: Request, res: Response) => {
+  const label: string = req.body.label
+  const id: string = req.body.id
+
+  if (id === '' || label === '') {
+    res.status(400).send({ message: 'Bad request' })
+  }
+
+  try {
+    await Tag.updateOne({ id }, { label })
+    res.status(302).end()
+  } catch {
+    res.status(500).send({ message: 'Server Error!' })
+  }
+})
+
 // Delete tag
 app.delete('/tags', async (req: Request, res: Response) => {
   const id: string = req.body.id
 
   try {
-    // await Note.find({ tags: { _id: id } }).then((notes) => {
-    //   notes.forEach((note) => {
-    //     note.tags = note.tags.filter((tag) => tag._id.toString() !== id)
-    //     note.save()
-    //   })
-    // })
-
-    //await Tag.findByIdAndDelete(id)
-    // const notes = await Note.find({ tags: { _id: id } }).then((notes) => {
-    //   notes.forEach(note => {
-    //     note.tags.splice(note.tags.indexOf)
-    //   })
-    // })
-
-    const newId = new mongoose.Types.ObjectId(id)
-    console.log(newId)
-
-    await Note.updateMany(
-      { tags: { _id: id } },
-      { $pull: { tags: { _id: id } } }
-    ).exec()
-
+    await Note.find({ tags: { _id: id } }).then((notes) => {
+      notes.forEach((note) => {
+        note.tags = note.tags.filter((tag) => tag._id.toString() !== id)
+        note.save()
+      })
+    })
+    await Tag.findByIdAndDelete(id)
     res.status(302).end()
   } catch {
     res.status(500).send({ message: 'Server Error!' })

@@ -15,9 +15,15 @@ type LoaderData = {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const id = formData.get('id')
+  const label = formData.get('label')
   const method = request.method
 
-  if (typeof id !== 'string' || id === '')
+  if (
+    typeof id !== 'string' ||
+    id === '' ||
+    typeof label !== 'string' ||
+    label === ''
+  )
     throw new Error('Form submited wrong!')
 
   switch (method) {
@@ -35,6 +41,17 @@ export const action: ActionFunction = async ({ request }) => {
       }
 
       return redirect('/tags')
+
+    case 'PATCH':
+      const postRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ label, id }),
+      })
+
+      console.log(postRes.status)
 
     default:
       break
@@ -64,7 +81,7 @@ export default function Tags() {
         <ul className="list-group">
           {tags.map((tag) => (
             <li className="list-group-item hstack gap-2" key={tag._id}>
-              <Form className="hstack gap-2" method="post">
+              <Form className="hstack gap-2" method="patch">
                 <input type="hidden" name="id" value={tag._id} />
                 <input
                   className="form-control"
