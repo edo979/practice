@@ -42,7 +42,9 @@ export default function Note() {
 
         <div className="col-auto">
           <div className="hstack gap-2">
-            <button className="btn btn-primary">Edit</button>
+            <Link to={'edit'}>
+              <button className="btn btn-primary">Edit</button>
+            </Link>
             <Form
               action="delete"
               method="post"
