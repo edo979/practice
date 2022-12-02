@@ -46,18 +46,19 @@ export default function NoteForm({
           </label>
 
           {isEdit ? (
-            <>
-              <Select
-                className="basic-multi-select"
-                classNamePrefix="select"
-                name="tags"
-                options={tags.map((tag) => ({
-                  label: tag.label,
-                  value: tag._id,
-                }))}
-                isMulti
-              />
-            </>
+            <Select
+              aria-describedby="tags-validation"
+              className={classNames({
+                'is-invalid': errors?.fieldErrors?.tags,
+              })}
+              classNamePrefix="select"
+              name="tags"
+              options={tags.map((tag) => ({
+                label: tag.label,
+                value: tag._id,
+              }))}
+              isMulti
+            />
           ) : (
             <CreatableReactSelect
               options={tags.map((tag) => ({
