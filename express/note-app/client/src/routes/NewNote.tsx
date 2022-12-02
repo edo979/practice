@@ -6,6 +6,7 @@ import {
   redirect,
   useActionData,
   useLoaderData,
+  useNavigation,
 } from 'react-router-dom'
 import CreatableReactSelect from 'react-select/creatable'
 import classNames from 'classnames'
@@ -117,6 +118,7 @@ export const loader: LoaderFunction = async () => {
 export default function NewNote() {
   const errors = useActionData() as ActionData
   const { tags } = useLoaderData() as LoaderData
+  const navigation = useNavigation()
 
   return (
     <>
@@ -198,11 +200,30 @@ export default function NewNote() {
           )}
 
           <div className="col-auto ms-auto">
-            <button className="btn btn-primary" type="submit">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={navigation.state !== 'idle'}
+            >
+              {navigation.state !== 'idle' && (
+                <>
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="visually-hidden">Loading...</span>
+                </>
+              )}
               Save
             </button>
             <Link to="..">
-              <button className="btn btn-secondary ms-2">Cancel</button>
+              <button
+                className="btn btn-secondary ms-2"
+                disabled={navigation.state !== 'idle'}
+              >
+                Cancel
+              </button>
             </Link>
           </div>
         </div>
