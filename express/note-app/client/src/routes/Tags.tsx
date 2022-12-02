@@ -5,6 +5,7 @@ import {
   LoaderFunction,
   redirect,
   useLoaderData,
+  useNavigation,
 } from 'react-router-dom'
 import { Tag } from './Home'
 
@@ -66,11 +67,17 @@ export const loader: LoaderFunction = async () => {
 
 export default function Tags() {
   const { tags } = useLoaderData() as LoaderData
+  const navigation = useNavigation()
 
   return (
     <div className="row mt-4">
       <div className="hstack">
         <h1>Edit Tags:</h1>
+        {navigation.state !== 'idle' && (
+          <div className="spinner-border ms-2" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        )}
         <Link to=".." className="ms-auto">
           <button className="btn btn-outline-secondary">Back</button>
         </Link>
@@ -87,7 +94,11 @@ export default function Tags() {
                   name="label"
                   defaultValue={tag.label}
                 />
-                <button className="btn btn-primary" type="submit">
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  disabled={navigation.state !== 'idle'}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
@@ -107,7 +118,11 @@ export default function Tags() {
                 }}
               >
                 <input type="hidden" name="id" value={tag._id} />
-                <button className="btn btn-outline-danger" type="submit">
+                <button
+                  className="btn btn-outline-danger"
+                  type="submit"
+                  disabled={navigation.state !== 'idle'}
+                >
                   &times;
                 </button>
               </Form>
