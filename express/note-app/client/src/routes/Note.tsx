@@ -1,4 +1,10 @@
-import { Form, Link, LoaderFunction, useLoaderData } from 'react-router-dom'
+import {
+  Form,
+  Link,
+  LoaderFunction,
+  useLoaderData,
+  useNavigation,
+} from 'react-router-dom'
 import { Note as NoteType } from './Home'
 import ReactMarkdown from 'react-markdown'
 import HorizontalBadges from '../components/HorizontalBadges'
@@ -25,6 +31,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function Note() {
   const { note } = useLoaderData() as LoaderData
+  const navigation = useNavigation()
 
   return (
     <>
@@ -45,7 +52,21 @@ export default function Note() {
                 }
               }}
             >
-              <button className="btn btn-outline-danger" type="submit">
+              <button
+                className="btn btn-outline-danger"
+                type="submit"
+                disabled={navigation.state === 'submitting'}
+              >
+                {navigation.state === 'submitting' && (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Loading...</span>
+                  </>
+                )}
                 Delete
               </button>
             </Form>
