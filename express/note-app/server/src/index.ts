@@ -29,21 +29,36 @@ app.get('/notes', (req: Request, res: Response) => {
   res.send('View notes')
 })
 
-// Show note
-app.get('/notes/:noteId', async (req: Request, res: Response) => {
-  const noteId = req.params.noteId
-  try {
-    const note = await Note.findById(noteId)
-      .select('_id title body')
-      .populate('tags')
-    if (!note) return res.status(404).send({ message: 'Note not found' })
-    res.json(note)
-  } catch {
-    res.status(500).send({ message: 'Server error' })
-  }
-})
+// Show and update note
+app
+  .route('/notes/:noteId')
+  .get(async (req: Request, res: Response) => {
+    const noteId = req.params.noteId
+    try {
+      const note = await Note.findById(noteId)
+        .select('_id title body')
+        .populate('tags')
+      if (!note) return res.status(404).send({ message: 'Note not found' })
+      res.json(note)
+    } catch {
+      res.status(500).send({ message: 'Server error' })
+    }
+  })
+  .post(async (req: Request, res: Response, next) => {
+    const noteId = req.params.noteId
+    const { title, body, tags } = req.body
+    if (title === '' || body === '' || tags.length === 0)
+      return res.status(400).send({ message: 'Bad request' })
 
-// Add note
+    try {
+      await Note.updateOne({ _id: noteId }, { title, body, tags })
+      res.status(302).end()
+    } catch (error) {
+      next(error)
+    }
+  })
+
+// Add and note
 app.post('/notes/new', (req: Request, res: Response) => {
   const title: string = req.body.title,
     body: string = req.body.body,

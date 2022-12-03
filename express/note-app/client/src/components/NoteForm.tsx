@@ -47,16 +47,19 @@ export default function NoteForm({
 
           {isEdit ? (
             <Select
-              aria-describedby="tags-validation"
-              className={classNames({
-                'is-invalid': errors?.fieldErrors?.tags,
-              })}
-              classNamePrefix="select"
               name="tags"
               options={tags.map((tag) => ({
                 label: tag.label,
                 value: tag._id,
               }))}
+              defaultValue={errors?.fields?.tags.map((tagId) => ({
+                label: tags.find((tag) => tag._id === tagId)?.label,
+                value: tagId,
+              }))}
+              aria-describedby="tags-validation"
+              className={classNames({
+                'is-invalid': errors?.fieldErrors?.tags,
+              })}
               isMulti
             />
           ) : (

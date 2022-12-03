@@ -1,8 +1,10 @@
 import {
   ActionFunction,
   LoaderFunction,
+  redirect,
   useActionData,
   useLoaderData,
+  useNavigation,
 } from 'react-router-dom'
 import NoteForm from '../components/NoteForm'
 import { Note, Tag } from './Home'
@@ -44,15 +46,30 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (Object.values(fieldErrors).some(Boolean)) {
     return { fieldErrors, fields } as ActionData
   }
+
+  const res = await fetch(
+    `${import.meta.env.VITE_SERVER_URI}/notes/${params.noteId}`,
+    {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(fields),
+    }
+  )
+  if (res.status !== 302) throw new Error('Form update error')
+  return redirect('..')
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
   const noteId = params.noteId
 
   const tagsRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
-  const tags = await tagsRes.json()
-  const noteRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
-  const note = await noteRes.json()
+  const tags: Tag[] = await tagsRes.json()
+  const noteRes = await fetch(
+    `${import.meta.env.VITE_SERVER_URI}/notes/${noteId}`
+  )
+  const note: Note = await noteRes.json()
 
   return { tags, note } as LoaderData
 }
@@ -60,9 +77,16 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function EditNote() {
   const { tags, note } = useLoaderData() as LoaderData
   let errors = useActionData() as ActionData
+  const navigation = useNavigation()
 
-  if (errors !== undefined) {
-    errors = { fields: { body: note.body, title: note.title, tags: [] } }
+  if (errors === undefined) {
+    errors = {
+      fields: {
+        body: note.body,
+        title: note.title,
+        tags: note.tags.map((tag) => tag._id),
+      },
+    }
   }
 
   return (
@@ -75,7 +99,7 @@ export default function EditNote() {
             isEdit={true}
             tags={tags}
             errors={errors}
-            navigationState="idle"
+            navigationState={navigation.state}
           />
         </div>
       </div>
