@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const tagSchema = new mongoose.Schema({
+const tagSchema = new mongoose.Schema({
   label: String,
 })
 

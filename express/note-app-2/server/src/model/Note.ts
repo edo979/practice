@@ -1,11 +1,15 @@
 import mongoose from 'mongoose'
-import { tagSchema } from './Tag'
 
-export const noteSchema = new mongoose.Schema(
+const noteSchema = new mongoose.Schema(
   {
     title: String,
     body: String,
-    tags: [tagSchema],
+    tags: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+      },
+    ],
   },
   { timestamps: true }
 )

@@ -1,11 +1,15 @@
 import mongoose from 'mongoose'
-import { noteSchema } from './Note'
 
 const userSchema = new mongoose.Schema(
   {
     userName: String,
     password: String,
-    notes: [noteSchema],
+    notes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Note',
+      },
+    ],
   },
   { timestamps: true }
 )
