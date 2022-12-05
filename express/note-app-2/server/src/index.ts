@@ -20,7 +20,7 @@ app.post('/notes', async (req: Request, res: Response) => {
   const note = await Note.create({
     title: 'jah',
     body: 'jah jag',
-    tags: ['63888a6bd906726aa84205dc'],
+    tags: ['638e6ac299f204d9907e4e0f'],
   })
   await note.save()
   res.status(302).send()

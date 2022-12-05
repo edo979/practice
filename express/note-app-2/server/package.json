@@ -4,7 +4,8 @@
   "description": "express server for note-app",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/index.ts\""
+    "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/index.ts\"",
+    "seedDB": "ts-node --script-mode src/config/seed.ts"
   },
   "keywords": [],
   "author": "",
