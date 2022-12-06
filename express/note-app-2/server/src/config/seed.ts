@@ -17,9 +17,9 @@ const clearDB = async () => {
   await User.deleteMany({})
 }
 
-clearDB()
-
 const seedDB = async () => {
+  await clearDB()
+
   const tags = await Tag.insertMany([
     {
       label: 'javascript',
