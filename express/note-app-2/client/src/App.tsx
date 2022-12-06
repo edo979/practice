@@ -1,29 +1,27 @@
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 function App() {
   return (
     <>
-      <header className="p-3 text-bg-dark">
-        <div className="container">
-          <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li>
-                <a href="#" className="nav-link px-2 text-secondary">
-                  Notes App
-                </a>
-              </li>
-            </ul>
+      <header className="">
+        <nav className="navbar bg-dark navbar-dark">
+          <div className="container flex-column flex-sm-row">
+            <Link to="/" className="navbar-brand">
+              Notes App
+            </Link>
 
-            <div className="text-end">
-              <button type="button" className="btn btn-outline-light me-2">
-                Login
-              </button>
-              <button type="button" className="btn btn-warning">
-                Sign-up
-              </button>
+            <div>
+              <Link to="/register">
+                <button className="btn btn-outline-light btn-sm">
+                  Register
+                </button>
+              </Link>
+              <Link to="/login" className="ms-2">
+                <button className="btn btn-warning btn-sm">Login</button>
+              </Link>
             </div>
           </div>
-        </div>
+        </nav>
       </header>
 
       <main className="container">
