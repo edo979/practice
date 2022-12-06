@@ -2,7 +2,7 @@ import '../../styles/login-form.css'
 
 export default function Login() {
   return (
-    <div className="form-signin">
+    <div className="form-signin w-100 m-auto">
       <form>
         {/* <img class="mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> */}
         <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
