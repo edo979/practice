@@ -1,0 +1,30 @@
+.formSigninContainer {
+  display: grid;
+  place-content: center;
+  grid-template-columns: minmax(200px, 330px);
+  height: 100vh;
+  min-height: 350px;
+
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+.formSignin {
+  padding: 15px;
+}
+
+.formFloating:focus-within {
+  z-index: 2;
+}
+
+.formControlEmail {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.formControlPassword {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

@@ -1,5 +1,5 @@
 import { ActionFunction, Form, redirect } from 'react-router-dom'
-import '../../styles/login-form.css'
+import classes from '../../styles/login-form.module.css'
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
@@ -20,15 +20,15 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Login() {
   return (
-    <div className="form-signin w-100 m-auto">
-      <Form method="post">
+    <div className={`${classes.formSigninContainer} w-100 m-auto`}>
+      <Form method="post" className={`${classes.formSignin}`}>
         {/* <img class="mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> */}
         <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 
-        <div className="form-floating">
+        <div className={`${classes.formFloating} form-floating`}>
           <input
             type="text"
-            className="form-control"
+            className={`${classes.formControlEmail} form-control`}
             id="floatingInput"
             placeholder="name@example.com"
             name="username"
@@ -39,7 +39,7 @@ export default function Login() {
         <div className="form-floating">
           <input
             type="password"
-            className="form-control"
+            className={`${classes.formControlPassword} form-control`}
             id="floatingPassword"
             placeholder="Password"
             name="password"
