@@ -14,8 +14,9 @@ export const action: ActionFunction = async ({ request }) => {
     body: JSON.stringify({ username, password }),
     credentials: 'include',
   })
-  const data = await res.json()
-  if (data.message === 'success') return redirect('/')
+
+  if (res.ok) return redirect('/')
+  return null
 }
 
 export default function Login() {
