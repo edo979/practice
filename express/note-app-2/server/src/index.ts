@@ -1,16 +1,26 @@
 import express, { Request, Response } from 'express'
+import cors from 'cors'
 import { config } from 'dotenv'
 import connectDB from './config/db'
 import Note from './model/Note'
 import User from './model/User'
 import Tag from './model/Tag'
 import { notesController } from './controllers/notesController'
+import { router as userRouter } from './sessionRouter'
 
 config()
 const app = express()
 const PORT = process.env.PORT || 5000
-
 connectDB()
+
+const corsOptions = {
+  origin: 'http://localhost:5173', //Your Client, do not write '*'
+  credentials: true,
+}
+app.use(cors(corsOptions))
+app.use(express.json())
+
+app.use('/user', userRouter)
 
 app.get('/', async (req: Request, res: Response) => {
   const notesCount = await Note.count()
