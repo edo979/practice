@@ -1,10 +1,24 @@
-import { ActionFunction, Form, redirect } from 'react-router-dom'
+import { ActionFunction, Form, redirect, useActionData } from 'react-router-dom'
 import classes from '../../styles/login-form.module.css'
+
+type ActionData = {
+  formError?: string
+  fields: {
+    username: string
+    password: string
+  }
+}
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const username = formData.get('username')
   const password = formData.get('password')
+
+  if (typeof username !== 'string' || typeof password !== 'string')
+    return { formError: 'Form submitet wrong' } as ActionData
+
+  if (password === '' || username === '')
+    return { formError: 'Please provide valid data' }
 
   const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/user/login`, {
     method: 'post',
@@ -13,14 +27,20 @@ export const action: ActionFunction = async ({ request }) => {
     },
     body: JSON.stringify({ username, password }),
     credentials: 'include',
-    redirect: 'follow',
   })
 
   if (res.status === 302) return redirect('/user')
-  throw new Error('Form data is wrong')
+
+  const { errorMessage } = await res.json()
+
+  return {
+    formError: errorMessage || 'Server Error, please try again',
+    fields: { username },
+  } as ActionData
 }
 
 export default function Login() {
+  const error = useActionData() as ActionData
   return (
     <div className={`${classes.formSigninContainer} w-100 m-auto`}>
       <Form method="post" className={`${classes.formSignin}`}>
@@ -32,10 +52,12 @@ export default function Login() {
             type="text"
             className={`${classes.formControlEmail} form-control`}
             id="floatingInput"
-            placeholder="name@example.com"
+            placeholder="username"
             name="username"
+            defaultValue={error?.fields?.username}
+            required
           />
-          <label htmlFor="floatingInput">Email address</label>
+          <label htmlFor="floatingInput">User name</label>
         </div>
 
         <div className="form-floating">
@@ -45,6 +67,8 @@ export default function Login() {
             id="floatingPassword"
             placeholder="Password"
             name="password"
+            defaultValue=""
+            required
           />
           <label htmlFor="floatingPassword">Password</label>
         </div>
@@ -57,6 +81,12 @@ export default function Login() {
         <button className="w-100 btn btn-lg btn-warning" type="submit">
           Sign in
         </button>
+        {error?.formError && (
+          <div>
+            <i className="text-danger mt-2">{error.formError}</i>
+            <p className="visually-hidden">{error.formError}</p>
+          </div>
+        )}
         <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
       </Form>
     </div>

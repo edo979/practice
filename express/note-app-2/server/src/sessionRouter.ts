@@ -41,7 +41,7 @@ router.get('/', isAuthenticated, (req: Request, res: Response) => {
 })
 
 router.get('/', (req: Request, res: Response) => {
-  res.status(406).end()
+  res.status(403).send('Must be logedin')
 })
 
 router.post(
@@ -57,10 +57,10 @@ router.post(
       typeof password !== 'string' ||
       password === ''
     )
-      return res.status(406).json({ message: 'Data form is wrong' })
+      return res.status(401).send({ errorMessage: 'Data form is wrong' })
 
     const user = await User.findOne({ userName: username }).exec()
-    if (!user) return res.status(404).json({ message: 'That user not found' })
+    if (!user) return res.status(403).send({ errorMessage: 'User not found' })
 
     if (user.password === password) {
       req.session.regenerate(function (err) {
@@ -72,7 +72,7 @@ router.post(
         })
       })
     } else {
-      res.status(404).json({ message: 'Username and password dont match' })
+      res.status(401).send({ errorMessage: 'Username and password dont match' })
     }
   }
 )
