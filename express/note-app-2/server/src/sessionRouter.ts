@@ -23,13 +23,29 @@ router.use(
   })
 )
 
-function isAuthenticated(req: Request, res: Response, next: NextFunction) {
-  if (req.session.userId) next()
-  else next('route')
+async function isAuthenticated(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (req.session.userId) {
+    const user = await User.findById(req.session.userId)
+    if (user) {
+      next()
+    } else {
+      next('route')
+    }
+  } else {
+    next('route')
+  }
 }
 
 router.get('/', isAuthenticated, (req: Request, res: Response) => {
   res.send('Hello' + req.session.userId)
+})
+
+router.get('/', (req: Request, res: Response) => {
+  res.status(406).send({ message: 'redirect to login' })
 })
 
 router.post(
@@ -45,7 +61,7 @@ router.post(
         .status(406)
         .json({ message: 'User and password must be filed up' })
 
-    const user = await User.findOne({ userName: username })
+    const user = await User.findOne({ userName: username }).exec()
     if (!user) return res.status(404).json({ message: 'That user not found' })
 
     if (user.password === password) {
@@ -54,13 +70,11 @@ router.post(
         req.session.userId = user.id
         req.session.save(function (err) {
           if (err) return next(err)
-          return res.json({ message: 'success' })
+          res.redirect('/user')
         })
       })
     } else {
-      return res
-        .status(404)
-        .json({ message: 'Username and password dont match' })
+      res.status(404).json({ message: 'Username and password dont match' })
     }
   }
 )

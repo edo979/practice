@@ -13,9 +13,13 @@ export const action: ActionFunction = async ({ request }) => {
     },
     body: JSON.stringify({ username, password }),
     credentials: 'include',
+    redirect: 'follow',
   })
 
-  if (res.ok) return redirect('/')
+  if (!res.ok) throw new Error('Error')
+  if (res.redirected) {
+    return redirect('/user')
+  }
   return null
 }
 
