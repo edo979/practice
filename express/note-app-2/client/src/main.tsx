@@ -11,13 +11,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: 'user', element: <Dashboard />, loader: dashboardLoader },
-    ],
+    children: [{ index: true, element: <Home /> }],
   },
   { path: '/login', element: <Login />, action: loginAction },
   { path: '/register', element: <Register /> },
+  { path: '/user', element: <Dashboard />, loader: dashboardLoader },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
