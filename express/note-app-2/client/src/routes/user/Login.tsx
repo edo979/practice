@@ -16,11 +16,8 @@ export const action: ActionFunction = async ({ request }) => {
     redirect: 'follow',
   })
 
-  if (!res.ok) throw new Error('Error')
-  if (res.redirected) {
-    return redirect('/user')
-  }
-  return null
+  if (res.status === 302) return redirect('/user')
+  throw new Error('Form data is wrong')
 }
 
 export default function Login() {

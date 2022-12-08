@@ -28,16 +28,12 @@ async function isAuthenticated(
   res: Response,
   next: NextFunction
 ) {
-  if (req.session.userId) {
-    const user = await User.findById(req.session.userId)
-    if (user) {
-      next()
-    } else {
-      next('route')
-    }
-  } else {
-    next('route')
-  }
+  if (!req.session.userId) next('route')
+
+  const user = await User.findById(req.session.userId).select('_id')
+  if (!user?.id) next('route')
+
+  next()
 }
 
 router.get('/', isAuthenticated, (req: Request, res: Response) => {
@@ -45,7 +41,7 @@ router.get('/', isAuthenticated, (req: Request, res: Response) => {
 })
 
 router.get('/', (req: Request, res: Response) => {
-  res.status(406).send({ message: 'redirect to login' })
+  res.status(406).end()
 })
 
 router.post(
@@ -53,13 +49,15 @@ router.post(
   check('username').trim().escape(),
   check('password').escape(),
   async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password }: { username: string; password: string } =
-      req.body
+    const { username, password } = req.body
 
-    if (username === '' || password === '')
-      return res
-        .status(406)
-        .json({ message: 'User and password must be filed up' })
+    if (
+      typeof username !== 'string' ||
+      username === '' ||
+      typeof password !== 'string' ||
+      password === ''
+    )
+      return res.status(406).json({ message: 'Data form is wrong' })
 
     const user = await User.findOne({ userName: username }).exec()
     if (!user) return res.status(404).json({ message: 'That user not found' })
@@ -70,7 +68,7 @@ router.post(
         req.session.userId = user.id
         req.session.save(function (err) {
           if (err) return next(err)
-          res.redirect('/user')
+          res.status(302).end()
         })
       })
     } else {
