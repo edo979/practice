@@ -1,42 +1,34 @@
 import { LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
 import classes from '../../styles/dashboard.module.css'
 
+type ActionData = {
+  user: {
+    usernName: string
+    notes: [
+      {
+        title: string
+        body: string
+        tags: [{ label: string }]
+      }
+    ]
+  }
+}
+
 export const loader: LoaderFunction = async () => {
   const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/user/notes`, {
     method: 'GET',
     credentials: 'include',
   })
   if (!res.ok) return redirect('/login')
-  const notes = await res.json()
-  return { notes }
+  const user = await res.json()
+  return { user } as ActionData
 }
 
 export default function Dashboard() {
-  const { notes } = useLoaderData()
+  const { user } = useLoaderData() as ActionData
 
-  console.log(notes)
   return (
     <main className="container-fluid vh-100">
-      <div className="row">
-        <nav className="py-2 d-sm-none bg-dark navbar navbar-dark">
-          <div className="container">
-            <div className="navbar-brand">Note App</div>
-            <button
-              className="navbar-toggler collapsed ms-auto"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#sidebarMenu"
-              aria-controls="sidebarMenu"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              style={{ right: '0' }}
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-          </div>
-        </nav>
-      </div>
-
       <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'none' }}>
         <symbol id="home" viewBox="0 0 16 16" fill="currentcolor">
           <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
@@ -56,6 +48,25 @@ export default function Dashboard() {
           ></path>
         </symbol>
       </svg>
+      <div className="row">
+        <nav className="py-2 d-sm-none bg-dark navbar navbar-dark">
+          <div className="container">
+            <div className="navbar-brand">Note App</div>
+            <button
+              className="navbar-toggler collapsed ms-auto"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#sidebarMenu"
+              aria-controls="sidebarMenu"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              style={{ right: '0' }}
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+          </div>
+        </nav>
+      </div>
 
       <div className="row">
         <nav
@@ -93,7 +104,26 @@ export default function Dashboard() {
           </div>
         </nav>
 
-        <div className="col-12 col-sm-8 col-md-9"></div>
+        <div className="ms-sm-auto col-12 col-sm-8 col-md-9 g-4">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-col-4">
+            {user.notes.map((note) => (
+              <div className="col" key={note.title}>
+                <div className="card h-100 shadow-sm text-center">
+                  <div className="card-body">
+                    <h5 className="card-title">{note.title}</h5>
+                    <div className="card-text hstack gap-1 justify-content-center flex-wrap">
+                      {note.tags.map((tag) => (
+                        <span className="badge bg-primary" key={tag.label}>
+                          {tag.label}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </main>
   )
