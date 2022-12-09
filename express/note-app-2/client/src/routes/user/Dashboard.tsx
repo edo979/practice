@@ -1,17 +1,20 @@
-import { LoaderFunction } from 'react-router-dom'
+import { LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
 import classes from '../../styles/dashboard.module.css'
 
 export const loader: LoaderFunction = async () => {
-  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/user`, {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/user/notes`, {
     method: 'GET',
-    redirect: 'follow',
     credentials: 'include',
   })
-  if (!res.ok) throw new Error('Must be loged in')
-  return null
+  if (!res.ok) return redirect('/login')
+  const notes = await res.json()
+  return { notes }
 }
 
 export default function Dashboard() {
+  const { notes } = useLoaderData()
+
+  console.log(notes)
   return (
     <main className="container-fluid vh-100">
       <div className="row">

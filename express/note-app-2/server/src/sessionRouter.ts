@@ -3,6 +3,7 @@ import session from 'express-session'
 import { check } from 'express-validator'
 import { config } from 'dotenv'
 import User from './model/User'
+import { notesController } from './controllers/notesController'
 
 config()
 
@@ -36,11 +37,9 @@ async function isAuthenticated(
   next()
 }
 
-router.get('/', isAuthenticated, (req: Request, res: Response) => {
-  res.send('Hello' + req.session.userId)
-})
+router.get('/notes', isAuthenticated, notesController.userNotes)
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/notes', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
 
