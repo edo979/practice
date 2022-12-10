@@ -1,4 +1,10 @@
-import { Form, LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
+import {
+  Form,
+  LoaderFunction,
+  NavLink,
+  redirect,
+  useLoaderData,
+} from 'react-router-dom'
 import Select from 'react-select'
 import classes from '../../styles/dashboard.module.css'
 
@@ -71,22 +77,51 @@ export default function Dashboard() {
             <hr />
             <ul className="nav nav-pills flex-column mb-auto">
               <li className="nav-item">
-                <a href="#" className="nav-link active" aria-current="page">
+                <NavLink
+                  to=""
+                  className={({ isActive }) =>
+                    `nav-link ${isActive && 'active'}`
+                  }
+                >
                   <i style={{ verticalAlign: '0.125em' }}>
                     <svg className="pe-none me-2" width="16" height="16">
                       <use xlinkHref="#speedometer2"></use>
                     </svg>
                   </i>
                   Dashboard
-                </a>
+                </NavLink>
               </li>
+
+              <li className="nav-item">
+                <NavLink
+                  to="new"
+                  className={({ isActive }) =>
+                    `nav-link text-white ${isActive && 'active'}`
+                  }
+                >
+                  <i style={{ verticalAlign: '0.125em' }}>
+                    <svg className="pe-none me-2" width="16" height="16">
+                      <use xlinkHref="#circle-plus"></use>
+                    </svg>
+                  </i>
+                  New Note
+                </NavLink>
+              </li>
+
+              <hr />
+
               <li>
-                <a href="#" className="nav-link text-white">
+                <NavLink
+                  to="profile"
+                  className={({ isActive }) =>
+                    `nav-link text-white ${isActive && 'active'}`
+                  }
+                >
                   <svg className="bi pe-none me-2" width="16" height="16">
                     <use xlinkHref="#people-circle"></use>
                   </svg>
                   Profile
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>
