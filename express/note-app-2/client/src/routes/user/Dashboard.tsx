@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
+import { Form, LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
 import classes from '../../styles/dashboard.module.css'
 
 type ActionData = {
@@ -105,7 +105,24 @@ export default function Dashboard() {
         </nav>
 
         <div className="ms-sm-auto col-12 col-sm-8 col-md-9 g-4">
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-col-4">
+          <div className="row">
+            <Form className="col-6 hstack gap-2">
+              <input
+                type="text"
+                id="search"
+                name="q"
+                className="form-control"
+              />
+
+              <button className="btn btn-primary" type="submit">
+                Search
+              </button>
+            </Form>
+
+            <div className="col-6">tags</div>
+          </div>
+
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-col-4 mt-4">
             {user.notes.map((note) => (
               <div className="col" key={note.title}>
                 <div className="card h-100 shadow-sm text-center">
