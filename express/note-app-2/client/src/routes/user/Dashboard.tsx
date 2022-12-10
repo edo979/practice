@@ -14,13 +14,17 @@ type ActionData = {
     usernName: string
     notes: Note[]
   }
-  tags: string[]
+  tags: Tag[]
+}
+
+type Tag = {
+  label: string
 }
 
 type Note = {
   title: string
   body: string
-  tags: [{ label: string }]
+  tags: Tag[]
 }
 
 export const loader: LoaderFunction = async () => {
@@ -32,8 +36,7 @@ export const loader: LoaderFunction = async () => {
   const user = await res.json()
 
   const tagRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
-  const tagsRaw = (await tagRes.json()) as { tags: [{ label: string }] }
-  const tags = tagsRaw.tags.map((tag) => tag.label)
+  const { tags } = await tagRes.json()
 
   return { user, tags } as ActionData
 }
@@ -41,17 +44,19 @@ export const loader: LoaderFunction = async () => {
 export default function Dashboard() {
   const { user, tags } = useLoaderData() as ActionData
   const [title, setTitle] = useState('')
-  const [tagsToFind, setTagsToFind] = useState([])
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
 
   const notes = useMemo(() => {
-    return user.notes.filter((note) => {
-      return (
-        title === '' || note.title.toLowerCase().includes(title.toLowerCase())
-      )
-    })
-  }, [title, tagsToFind])
-
-  const tagsHandler = () => {}
+    return user.notes.filter(
+      (note) =>
+        (title === '' ||
+          note.title.toLowerCase().includes(title.toLowerCase())) &&
+        (selectedTags.length === 0 ||
+          selectedTags.every((selectedTag) =>
+            note.tags.some((noteTag) => noteTag.label === selectedTag.label)
+          ))
+    )
+  }, [title, selectedTags])
 
   return (
     <main className="container-fluid vh-100">
@@ -163,7 +168,19 @@ export default function Dashboard() {
               <Select
                 id="tag"
                 isMulti
-                options={tags.map((tag) => ({ label: tag, value: tag }))}
+                options={tags.map((tag) => ({
+                  label: tag.label,
+                  value: tag.label,
+                }))}
+                value={selectedTags.map((tag) => ({
+                  value: tag.label,
+                  label: tag.label,
+                }))}
+                onChange={(tags) =>
+                  setSelectedTags(
+                    tags.map((tag) => ({ label: tag.label, value: tag.label }))
+                  )
+                }
               />
             </div>
           </div>
