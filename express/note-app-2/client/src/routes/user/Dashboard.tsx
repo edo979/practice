@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import {
   Form,
   LoaderFunction,
@@ -11,15 +12,15 @@ import classes from '../../styles/dashboard.module.css'
 type ActionData = {
   user: {
     usernName: string
-    notes: [
-      {
-        title: string
-        body: string
-        tags: [{ label: string }]
-      }
-    ]
+    notes: Note[]
   }
   tags: string[]
+}
+
+type Note = {
+  title: string
+  body: string
+  tags: [{ label: string }]
 }
 
 export const loader: LoaderFunction = async () => {
@@ -39,6 +40,18 @@ export const loader: LoaderFunction = async () => {
 
 export default function Dashboard() {
   const { user, tags } = useLoaderData() as ActionData
+  const [title, setTitle] = useState('')
+  const [tagsToFind, setTagsToFind] = useState([])
+
+  const notes = useMemo(() => {
+    return user.notes.filter((note) => {
+      return (
+        title === '' || note.title.toLowerCase().includes(title.toLowerCase())
+      )
+    })
+  }, [title, tagsToFind])
+
+  const tagsHandler = () => {}
 
   return (
     <main className="container-fluid vh-100">
@@ -129,24 +142,26 @@ export default function Dashboard() {
 
         <div className="ms-sm-auto col-12 col-sm-8 col-md-9 g-4">
           <div className="row">
-            <Form className="col-6 hstack gap-2">
+            <div className="col-6">
+              <label htmlFor="title" className="form-label">
+                Note Title
+              </label>
               <input
                 type="text"
-                id="search"
-                name="q"
+                id="title"
                 className="form-control"
                 placeholder="Find note..."
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
-
-              <button className="btn btn-primary" type="submit">
-                <svg className="pe-none mb-1" width="16" height="16">
-                  <use xlinkHref="#search-icon"></use>
-                </svg>
-              </button>
-            </Form>
+            </div>
 
             <div className="col-6">
+              <label htmlFor="tag" className="form-label">
+                Tags
+              </label>
               <Select
+                id="tag"
                 isMulti
                 options={tags.map((tag) => ({ label: tag, value: tag }))}
               />
@@ -154,7 +169,7 @@ export default function Dashboard() {
           </div>
 
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-col-4 mt-4">
-            {user.notes.map((note) => (
+            {notes.map((note) => (
               <div className="col" key={note.title}>
                 <div className="card h-100 shadow-sm text-center">
                   <div className="card-body">
