@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
+import ErrorPage from './routes/ErrorPage'
 import Home from './routes/Home'
 import Dashboard, { loader as dashboardLoader } from './routes/user/Dashboard'
 import Login, { action as loginAction } from './routes/user/Login'
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [{ index: true, element: <Home /> }],
   },
   { path: '/login', element: <Login />, action: loginAction },
