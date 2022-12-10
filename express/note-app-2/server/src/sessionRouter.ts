@@ -29,12 +29,12 @@ async function isAuthenticated(
   res: Response,
   next: NextFunction
 ) {
-  if (!req.session.userId) next('route')
+  if (!req.session.userId) return next('route')
 
   const user = await User.findById(req.session.userId).select('_id')
-  if (!user?.id) next('route')
+  if (!user?.id) return next('route')
 
-  next()
+  return next()
 }
 
 router.get('/notes', isAuthenticated, notesController.userNotes)
