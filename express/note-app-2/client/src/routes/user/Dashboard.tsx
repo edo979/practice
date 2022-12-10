@@ -1,4 +1,5 @@
 import { Form, LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
+import Select from 'react-select'
 import classes from '../../styles/dashboard.module.css'
 
 type ActionData = {
@@ -12,6 +13,7 @@ type ActionData = {
       }
     ]
   }
+  tags: string[]
 }
 
 export const loader: LoaderFunction = async () => {
@@ -21,11 +23,16 @@ export const loader: LoaderFunction = async () => {
   })
   if (!res.ok) return redirect('/login')
   const user = await res.json()
-  return { user } as ActionData
+
+  const tagRes = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
+  const tagsRaw = (await tagRes.json()) as { tags: [{ label: string }] }
+  const tags = tagsRaw.tags.map((tag) => tag.label)
+
+  return { user, tags } as ActionData
 }
 
 export default function Dashboard() {
-  const { user } = useLoaderData() as ActionData
+  const { user, tags } = useLoaderData() as ActionData
 
   return (
     <main className="container-fluid vh-100">
@@ -119,7 +126,12 @@ export default function Dashboard() {
               </button>
             </Form>
 
-            <div className="col-6">tags</div>
+            <div className="col-6">
+              <Select
+                isMulti
+                options={tags.map((tag) => ({ label: tag, value: tag }))}
+              />
+            </div>
           </div>
 
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-col-4 mt-4">

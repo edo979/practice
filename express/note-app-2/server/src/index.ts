@@ -5,8 +5,8 @@ import connectDB from './config/db'
 import Note from './model/Note'
 import User from './model/User'
 import Tag from './model/Tag'
-import { notesController } from './controllers/notesController'
 import { router as userRouter } from './sessionRouter'
+import { tagsController } from './controllers/tagsController'
 
 config()
 const app = express()
@@ -30,6 +30,6 @@ app.get('/', async (req: Request, res: Response) => {
   res.json({ notesCount, tagsCount, usersCount })
 })
 
-app.get('/notes', notesController.all)
+app.get('/tags', tagsController.all)
 
 app.listen(PORT, () => console.log(`Server started at port: ${PORT}`))
