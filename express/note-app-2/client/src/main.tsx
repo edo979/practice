@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import ErrorPage from './routes/ErrorPage'
 import Home from './routes/Home'
-import Dashboard, { loader as dashboardLoader } from './routes/user/Dashboard'
+import NotesList, { loader as notesLoader } from './routes/notes/NotesList'
+import Dashboard from './routes/user/Dashboard'
 import Login, { action as loginAction } from './routes/user/Login'
 import Register from './routes/user/Register'
 
@@ -17,7 +18,19 @@ const router = createBrowserRouter([
   },
   { path: '/login', element: <Login />, action: loginAction },
   { path: '/register', element: <Register /> },
-  { path: '/user/notes', element: <Dashboard />, loader: dashboardLoader },
+  {
+    path: '/user/dashboard',
+    element: <Dashboard />,
+    errorElement: <p>Dash Error</p>,
+    children: [
+      {
+        index: true,
+        element: <NotesList />,
+        loader: notesLoader,
+        errorElement: <p>Error from notes list</p>,
+      },
+    ],
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

@@ -29,7 +29,7 @@ export const action: ActionFunction = async ({ request }) => {
     credentials: 'include',
   })
 
-  if (res.status === 302) return redirect('/user/notes')
+  if (res.status === 302) return redirect('/user/dashboard')
 
   const { errorMessage } = await res.json()
 
