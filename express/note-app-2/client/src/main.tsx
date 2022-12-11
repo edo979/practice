@@ -5,7 +5,10 @@ import App from './App'
 import ComponentErrorPage from './routes/ComponentErrorPage'
 import ErrorPage from './routes/ErrorPage'
 import Home from './routes/Home'
-import NewNote, { loader as tagsLoader } from './routes/notes/NewNote'
+import NewNote, {
+  loader as tagsLoader,
+  action as newNoteAction,
+} from './routes/notes/NewNote'
 import NotesList, { loader as notesLoader } from './routes/notes/NotesList'
 import Dashboard from './routes/user/Dashboard'
 import Login, { action as loginAction } from './routes/user/Login'
@@ -35,7 +38,12 @@ const router = createBrowserRouter([
             loader: notesLoader,
             errorElement: <ComponentErrorPage />,
           },
-          { path: 'notes/new', element: <NewNote />, loader: tagsLoader },
+          {
+            path: 'notes/new',
+            element: <NewNote />,
+            loader: tagsLoader,
+            action: newNoteAction,
+          },
           { path: 'profile', element: <UserProfile /> },
         ],
       },

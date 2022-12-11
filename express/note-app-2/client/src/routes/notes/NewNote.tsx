@@ -1,9 +1,74 @@
-import { Form, Link, LoaderFunction, useLoaderData } from 'react-router-dom'
+import {
+  ActionFunction,
+  Form,
+  Link,
+  LoaderFunction,
+  useActionData,
+  useLoaderData,
+} from 'react-router-dom'
 import CreatableSelect from 'react-select/creatable'
 import { Tag } from './NotesList'
 
 type LoaderData = {
   tags: Tag[]
+}
+
+type ActionData = {
+  formError?: string
+  formFieldsError?: {
+    title?: string
+    body?: string
+    tags?: string
+  }
+  formFields?: {
+    title: string
+    body: string
+    tags: string[]
+  }
+}
+
+const validateField = (fieldValue: string) => {
+  if (fieldValue.length < 6) return 'More than 6 letters, please'
+}
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData) as {
+    [k: string]: string | string[]
+  }
+  data.tags = formData.getAll('tags') as string[]
+  data.tags = data.tags.filter((tag) => tag !== '')
+
+  const { title, body, tags } = data
+
+  if (
+    typeof title !== 'string' ||
+    typeof body !== 'string' ||
+    typeof tags !== typeof ['string']
+  ) {
+    return { formError: 'Form data is wrong.' }
+  }
+
+  const formFieldsError = {
+    title: validateField(title),
+    body: validateField(body),
+    tags: tags.length === 0 ? 'Select tag' : undefined,
+  }
+
+  if (Object.values(formFieldsError).some(Boolean)) {
+    const error = {
+      formFieldsError,
+      formFields: {
+        title,
+        body,
+        tags,
+      },
+    }
+
+    return { error } as ActionData
+  }
+
+  return {}
 }
 
 export const loader: LoaderFunction = async () => {
@@ -15,9 +80,11 @@ export const loader: LoaderFunction = async () => {
 
 export default function NewNote() {
   const { tags } = useLoaderData() as LoaderData
+  const error = useActionData() as ActionData
+  console.log(error)
 
   return (
-    <Form className="row">
+    <Form className="row" method="post">
       <h1>New Note:</h1>
       <div className="col-12 col-sm-6">
         <label htmlFor="title" className="form-label">
