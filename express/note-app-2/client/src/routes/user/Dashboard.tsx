@@ -41,6 +41,7 @@ export default function Dashboard() {
               <li className="nav-item">
                 <NavLink
                   to=""
+                  end
                   className={({ isActive }) =>
                     `nav-link ${isActive && 'active'}`
                   }
@@ -56,7 +57,7 @@ export default function Dashboard() {
 
               <li className="nav-item">
                 <NavLink
-                  to="new"
+                  to="notes/new"
                   className={({ isActive }) =>
                     `nav-link text-white ${isActive && 'active'}`
                   }

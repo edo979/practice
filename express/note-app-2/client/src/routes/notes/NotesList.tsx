@@ -31,9 +31,9 @@ export const loader: LoaderFunction = async () => {
     method: 'GET',
     credentials: 'include',
   })
-  throw new Error('Server Error')
   if (!res.ok) {
     if (res.status >= 500) {
+      throw new Error('Server Error')
     }
     return redirect('/login')
   }
