@@ -29,7 +29,6 @@ async function isAuthenticated(
   res: Response,
   next: NextFunction
 ) {
-  console.log(req.session.userId)
   if (!req.session.userId) return next('route')
 
   const user = await User.findById(req.session.userId).select('_id')

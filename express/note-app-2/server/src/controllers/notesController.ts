@@ -36,19 +36,39 @@ export const notesController = {
       const title: string = req.body.title
       const body: string = req.body.body
       const tags: string[] = req.body.tags
+      const userId = req.session.userId
+      if (!userId) return res.status(403).send({ message: 'Must be login!' })
 
       if (title === '' || body === '' || tags.length === 0)
         res.status(403).send({ message: 'Form submit wrong.' })
 
       // Check for new tags
-      const tagsFromDB = await Tag.find()
+      let tagsFromDB = await Tag.find()
       const newTags = tags.filter((tag) =>
         tagsFromDB.every((tagFromDB) => tagFromDB.label !== tag)
       )
-      console.log(newTags)
-      return res.status(200).end()
 
-      //const note = await Note.create({ title, body, tags })
+      // Create new Tags
+      if (newTags.length > 0) {
+        await Tag.insertMany(newTags.map((tag) => ({ label: tag })))
+        tagsFromDB = await Tag.find()
+      }
+
+      //Create new Note
+      const noteTagsIds = tags.map((tag) => {
+        const noteTag = tagsFromDB.find((tagFromDB) => tagFromDB.label === tag)
+        if (!noteTag) throw new Error('Tag not found')
+        return noteTag._id
+      })
+      const note = await Note.create({ title, body, tags: noteTagsIds })
+
+      // Add note to user
+      const user = await User.findById(userId)
+      if (!user) return res.status(403).send({ message: 'User not exist!' })
+      user.notes.push(note._id)
+      await user.save()
+
+      return res.status(200).end()
     } catch (error) {
       res.status(500).send({ message: 'Could not save Note' })
     }
