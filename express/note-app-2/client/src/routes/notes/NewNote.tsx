@@ -56,16 +56,14 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   if (Object.values(formFieldsError).some(Boolean)) {
-    const error = {
+    return {
       formFieldsError,
       formFields: {
         title,
         body,
         tags,
       },
-    }
-
-    return { error } as ActionData
+    } as ActionData
   }
 
   return {}
@@ -81,7 +79,6 @@ export const loader: LoaderFunction = async () => {
 export default function NewNote() {
   const { tags } = useLoaderData() as LoaderData
   const error = useActionData() as ActionData
-  console.log(error)
 
   return (
     <Form className="row" method="post">
@@ -95,8 +92,14 @@ export default function NewNote() {
           id="title"
           name="title"
           placeholder="Note Title..."
-          className="form-control"
+          className={`form-control ${
+            error?.formFieldsError?.title ? 'is-invalid' : ''
+          }`}
+          aria-describedby="titleFeedback"
         />
+        <div id="titleFeedback" className="invalid-feedback">
+          {error?.formFieldsError?.title}
+        </div>
       </div>
 
       <div className="col-12 col-sm-6">
@@ -119,9 +122,15 @@ export default function NewNote() {
           name="body"
           id="body"
           rows={10}
-          className="form-control"
+          className={`form-control ${
+            error?.formFieldsError?.body ? 'is-invalid' : ''
+          }`}
           placeholder="Input Note text here ..."
+          aria-describedby="bodyFeedback"
         />
+        <div id="bodyFeedback" className="invalid-feedback">
+          {error?.formFieldsError?.title}
+        </div>
       </div>
 
       <div className="col-12 my-2">
