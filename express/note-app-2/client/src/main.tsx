@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
+import ComponentErrorPage from './routes/ComponentErrorPage'
 import ErrorPage from './routes/ErrorPage'
 import Home from './routes/Home'
 import NotesList, { loader as notesLoader } from './routes/notes/NotesList'
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
         index: true,
         element: <NotesList />,
         loader: notesLoader,
-        errorElement: <p>Error from notes list</p>,
+        errorElement: <ComponentErrorPage />,
       },
     ],
   },
