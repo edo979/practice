@@ -29,6 +29,7 @@ async function isAuthenticated(
   res: Response,
   next: NextFunction
 ) {
+  console.log(req.session.userId)
   if (!req.session.userId) return next('route')
 
   const user = await User.findById(req.session.userId).select('_id')
@@ -40,6 +41,11 @@ async function isAuthenticated(
 router.get('/notes', isAuthenticated, notesController.userNotes)
 
 router.get('/notes', (req: Request, res: Response) => {
+  res.status(403).send('Must be logedin')
+})
+
+router.post('/notes', isAuthenticated, notesController.save)
+router.post('/notes', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
 

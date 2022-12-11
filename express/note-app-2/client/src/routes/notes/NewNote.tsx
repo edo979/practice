@@ -3,6 +3,7 @@ import {
   Form,
   Link,
   LoaderFunction,
+  redirect,
   useActionData,
   useLoaderData,
 } from 'react-router-dom'
@@ -66,7 +67,20 @@ export const action: ActionFunction = async ({ request }) => {
     } as ActionData
   }
 
-  return {}
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/user/notes`, {
+    method: 'post',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, body, tags }),
+  })
+  if (!res.ok) {
+    if (res.status >= 403) return redirect('/login')
+    throw new Error('Server error, notes is not saved.')
+  }
+
+  return redirect('/user/dashboard')
 }
 
 export const loader: LoaderFunction = async () => {
@@ -112,6 +126,11 @@ export default function NewNote() {
           name="tags"
           options={tags.map((tag) => ({ value: tag.label, label: tag.label }))}
         />
+        {error?.formFieldsError?.tags && (
+          <p className="invalid-feedback d-block">
+            {error.formFieldsError.tags}
+          </p>
+        )}
       </div>
 
       <div className="col-12 mt-2">
