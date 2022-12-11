@@ -16,11 +16,11 @@ type ActionData = {
   tags: Tag[]
 }
 
-type Tag = {
+export type Tag = {
   label: string
 }
 
-type Note = {
+export type Note = {
   title: string
   body: string
   tags: Tag[]

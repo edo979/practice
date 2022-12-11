@@ -1,7 +1,22 @@
-import { Form, Link } from 'react-router-dom'
+import { Form, Link, LoaderFunction, useLoaderData } from 'react-router-dom'
 import CreatableSelect from 'react-select/creatable'
+import { Tag } from './NotesList'
+
+type LoaderData = {
+  tags: Tag[]
+}
+
+export const loader: LoaderFunction = async () => {
+  const res = await fetch(`${import.meta.env.VITE_SERVER_URI}/tags`)
+  if (!res.ok) throw new Error("Can't get tags!")
+  const { tags } = await res.json()
+  return { tags } as LoaderData
+}
 
 export default function NewNote() {
+  const { tags } = useLoaderData() as LoaderData
+  console.log(tags)
+
   return (
     <Form className="row">
       <h1>New Note:</h1>
