@@ -15,7 +15,6 @@ export const loader: LoaderFunction = async () => {
 
 export default function NewNote() {
   const { tags } = useLoaderData() as LoaderData
-  console.log(tags)
 
   return (
     <Form className="row">
@@ -37,7 +36,12 @@ export default function NewNote() {
         <label htmlFor="tags" className="form-label">
           Tags:
         </label>
-        <CreatableSelect isMulti id="tags" name="tags" />
+        <CreatableSelect
+          isMulti
+          id="tags"
+          name="tags"
+          options={tags.map((tag) => ({ value: tag.label, label: tag.label }))}
+        />
       </div>
 
       <div className="col-12 mt-2">
