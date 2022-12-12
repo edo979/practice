@@ -9,6 +9,7 @@ import NewNote, {
   loader as tagsLoader,
   action as newNoteAction,
 } from './routes/notes/NewNote'
+import Note, { loader as noteLoader } from './routes/notes/Note'
 import NotesList, { loader as notesLoader } from './routes/notes/NotesList'
 import Dashboard from './routes/user/Dashboard'
 import Login, { action as loginAction } from './routes/user/Login'
@@ -36,13 +37,17 @@ const router = createBrowserRouter([
             index: true,
             element: <NotesList />,
             loader: notesLoader,
-            errorElement: <ComponentErrorPage />,
           },
           {
             path: 'notes/new',
             element: <NewNote />,
             loader: tagsLoader,
             action: newNoteAction,
+          },
+          {
+            path: 'notes/:noteId',
+            element: <Note />,
+            loader: noteLoader,
           },
           { path: 'profile', element: <UserProfile /> },
         ],

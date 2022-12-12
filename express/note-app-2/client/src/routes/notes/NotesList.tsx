@@ -1,12 +1,6 @@
 import { useMemo, useState } from 'react'
-import {
-  LoaderFunction,
-  NavLink,
-  redirect,
-  useLoaderData,
-} from 'react-router-dom'
+import { Link, LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
 import Select from 'react-select'
-import classes from '../../styles/dashboard.module.css'
 
 type ActionData = {
   user: {
@@ -21,6 +15,7 @@ export type Tag = {
 }
 
 export type Note = {
+  _id: string
   title: string
   body: string
   tags: Tag[]
@@ -106,18 +101,23 @@ export default function NotesList() {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-col-4 mt-4">
         {notes.map((note) => (
           <div className="col" key={note.title}>
-            <div className="card h-100 shadow-sm text-center">
-              <div className="card-body">
-                <h5 className="card-title">{note.title}</h5>
-                <div className="card-text hstack gap-1 justify-content-center flex-wrap">
-                  {note.tags.map((tag) => (
-                    <span className="badge bg-primary" key={tag.label}>
-                      {tag.label}
-                    </span>
-                  ))}
+            <Link
+              to={`notes/${note._id}`}
+              className="text-decoration-none text-reset"
+            >
+              <div className="card h-100 shadow-sm text-center">
+                <div className="card-body">
+                  <h5 className="card-title">{note.title}</h5>
+                  <div className="card-text hstack gap-1 justify-content-center flex-wrap">
+                    {note.tags.map((tag) => (
+                      <span className="badge bg-primary" key={tag.label}>
+                        {tag.label}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>

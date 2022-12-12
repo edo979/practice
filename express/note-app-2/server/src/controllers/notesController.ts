@@ -12,13 +12,14 @@ export const notesController = {
       res.status(500).send({ message: 'Could not get Notes.' })
     }
   },
+
   userNotes: async (req: Request, res: Response) => {
     try {
       const userId = req.session.userId
       const notes = await User.findById(userId)
         .populate({
           path: 'notes',
-          select: '-_id title body tags',
+          select: 'title body tags',
           populate: {
             path: 'tags',
             select: '-_id label',
@@ -31,6 +32,24 @@ export const notesController = {
       res.status(500).send({ message: 'Could not get Notes.' })
     }
   },
+
+  note: async (req: Request, res: Response) => {
+    const { noteId } = req.params
+    try {
+      const note = await Note.findById(noteId)
+        .populate({
+          path: 'tags',
+          select: '-_id label',
+        })
+        .select('title body tags')
+
+      if (!note) return res.status(404).send({ message: "Note doesn't exist!" })
+      res.json(note)
+    } catch (error) {
+      res.status(500).send({ message: 'Could not get Notes.' })
+    }
+  },
+
   save: async (req: Request, res: Response) => {
     try {
       const title: string = req.body.title
