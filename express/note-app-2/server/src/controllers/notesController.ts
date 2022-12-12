@@ -46,7 +46,7 @@ export const notesController = {
       if (!note) return res.status(404).send({ message: "Note doesn't exist!" })
       res.json(note)
     } catch (error) {
-      res.status(500).send({ message: 'Could not get Notes.' })
+      res.status(500).send({ message: 'Could not get Note.' })
     }
   },
 
