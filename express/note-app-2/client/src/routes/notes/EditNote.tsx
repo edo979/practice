@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import {
+  ActionFunction,
   Form,
   Link,
   LoaderFunction,
   redirect,
+  useActionData,
   useLoaderData,
 } from 'react-router-dom'
 import Select from 'react-select'
@@ -28,6 +30,22 @@ type LoaderData = {
   tags: [{ label: string }]
 }
 
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const { title, body } = Object.fromEntries(formData)
+  const tags = formData.getAll('tags')
+  tags.filter((tag) => tag !== '')
+
+  if (
+    typeof title !== 'string' ||
+    typeof body !== 'string' ||
+    tags.length === 0
+  )
+    return { formError: 'Form submitet wrong' } as ActionData
+
+  return null
+}
+
 export const loader: LoaderFunction = async ({ params }) => {
   const noteId = params.noteId
   if (!noteId) throw new Error("That note doesn't exist!")
@@ -50,11 +68,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function EditNote() {
   const { note, tags } = useLoaderData() as LoaderData
-  const error: ActionData = {}
+  const error = useActionData() as ActionData
   const [selectedTags, setSelectedTags] = useState(note.tags)
 
   return (
-    <Form className="row">
+    <Form className="row" method="post">
       <h1>Edit note:</h1>
       <div className="col-12 col-sm-6">
         <label htmlFor="title" className="form-label">
@@ -69,7 +87,7 @@ export default function EditNote() {
             error?.formFieldsError?.title ? 'is-invalid' : ''
           }`}
           aria-describedby="titleFeedback"
-          defaultValue={error.formFields?.title || note.title}
+          defaultValue={error?.formFields?.title || note.title}
         />
         <div id="titleFeedback" className="invalid-feedback">
           {error?.formFieldsError?.title}
@@ -120,6 +138,9 @@ export default function EditNote() {
         </div>
       </div>
 
+      {error?.formError && (
+        <i className="invalid-feedback d-block text-end">{error.formError}</i>
+      )}
       <div className="col-12 my-2">
         <div className="hstack gap-2 justify-content-end">
           <Link to="..">
