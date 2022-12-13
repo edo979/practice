@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Form, Link, useLoaderData } from 'react-router-dom'
+import { Form, Link, LoaderFunction, useLoaderData } from 'react-router-dom'
 import Select from 'react-select'
 import { Note } from './NotesList'
 
@@ -19,13 +19,34 @@ type ActionData = {
 
 type LoaderData = {
   note: Note
+  tags: [{ label: string }]
+}
+
+export const loader: LoaderFunction = async ({ params }) => {
+  const noteId = params.noteId
+  if (!noteId) throw new Error("That note doesn't exist!")
+
+  const [note, { tags }] = await Promise.all([
+    fetch(`${import.meta.env.VITE_SERVER_URI}/user/notes/${noteId}`, {
+      method: 'GET',
+      credentials: 'include',
+    }),
+    fetch(`${import.meta.env.VITE_SERVER_URI}/tags`),
+  ])
+    .then((responses) => {
+      return Promise.all([responses[0].json(), responses[1].json()])
+    })
+    .catch((error) => {
+      throw new Error('Could note fetch note')
+    })
+
+  return { note, tags }
 }
 
 export default function EditNote() {
-  const { note } = useLoaderData() as LoaderData
+  const { note, tags } = useLoaderData() as LoaderData
   const error: ActionData = {}
-  const [selectedTags, setSelectedTags] = useState([note.tags])
-  console.log(selectedTags)
+  const [selectedTags, setSelectedTags] = useState(note.tags)
 
   return (
     <Form className="row">
@@ -58,10 +79,10 @@ export default function EditNote() {
           isMulti
           id="tags"
           name="tags"
-          // options={selectedTags.map((tag) => ({
-          //   value: tag.label,
-          //   label: tag.label,
-          // }))}
+          options={tags.map((tag) => ({
+            value: tag.label,
+            label: tag.label,
+          }))}
         />
         {error?.formFieldsError?.tags && (
           <p className="invalid-feedback d-block">
