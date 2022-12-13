@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   const noteId = params.noteId
   if (!noteId) throw new Error("That note doesn't exist!")
 
-  const [note, { tags }] = await Promise.all([
+  const data = await Promise.all([
     fetch(`${import.meta.env.VITE_SERVER_URI}/user/notes/${noteId}`, {
       method: 'GET',
       credentials: 'include',
@@ -37,9 +37,10 @@ export const loader: LoaderFunction = async ({ params }) => {
       return Promise.all([responses[0].json(), responses[1].json()])
     })
     .catch((error) => {
-      throw new Error('Could note fetch note')
+      throw new Error('Could note fetch note for edit')
     })
 
+  const [note, { tags }] = data
   return { note, tags }
 }
 
