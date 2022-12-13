@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { Form, Link, LoaderFunction, useLoaderData } from 'react-router-dom'
+import {
+  Form,
+  Link,
+  LoaderFunction,
+  redirect,
+  useLoaderData,
+} from 'react-router-dom'
 import Select from 'react-select'
 import { Note } from './NotesList'
 
@@ -33,14 +39,12 @@ export const loader: LoaderFunction = async ({ params }) => {
     }),
     fetch(`${import.meta.env.VITE_SERVER_URI}/tags`),
   ])
-    .then((responses) => {
-      return Promise.all([responses[0].json(), responses[1].json()])
-    })
-    .catch((error) => {
-      throw new Error('Could note fetch note for edit')
-    })
 
-  const [note, { tags }] = data
+  if (data[0].status === 401) throw new Error('That note is not yours.')
+  if (data[0].status >= 403) return redirect('/login')
+  const dataJson = await Promise.all([data[0].json(), data[1].json()])
+
+  const [note, { tags }] = dataJson
   return { note, tags }
 }
 

@@ -36,6 +36,13 @@ export const notesController = {
   note: async (req: Request, res: Response) => {
     const { noteId } = req.params
     try {
+      const userId = req.session.userId
+      const user = await User.findById(userId).select('-_id notes')
+
+      //check if note belongs to this user
+      if (!user?.notes.some((note) => note._id.toString() === noteId))
+        return res.status(401).send({ message: 'Note is not in user notes.' })
+
       const note = await Note.findById(noteId)
         .populate({
           path: 'tags',
