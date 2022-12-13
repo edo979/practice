@@ -1,4 +1,11 @@
-import { Link, LoaderFunction, redirect, useLoaderData } from 'react-router-dom'
+import { useState } from 'react'
+import {
+  Form,
+  Link,
+  LoaderFunction,
+  redirect,
+  useLoaderData,
+} from 'react-router-dom'
 import { Note as NoteModel } from './NotesList'
 
 type LoaderData = {
@@ -39,7 +46,7 @@ export default function Note() {
           <Link to="..">
             <button className="btn btn-secondary">Back</button>
           </Link>
-          <Link to="..">
+          <Link to="edit">
             <button className="btn btn-primary">Edit</button>
           </Link>
         </nav>

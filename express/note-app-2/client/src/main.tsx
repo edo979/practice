@@ -5,6 +5,7 @@ import App from './App'
 import ComponentErrorPage from './routes/ComponentErrorPage'
 import ErrorPage from './routes/ErrorPage'
 import Home from './routes/Home'
+import EditNote from './routes/notes/EditNote'
 import NewNote, {
   loader as tagsLoader,
   action as newNoteAction,
@@ -48,6 +49,11 @@ const router = createBrowserRouter([
             path: 'notes/:noteId',
             element: <Note />,
             loader: noteLoader,
+          },
+          {
+            path: 'notes/:noteId/edit',
+            element: <EditNote />,
+            //loader: noteEditLoader,
           },
           { path: 'profile', element: <UserProfile /> },
         ],
