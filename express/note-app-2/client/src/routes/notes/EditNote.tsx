@@ -9,6 +9,7 @@ import {
   useLoaderData,
 } from 'react-router-dom'
 import Select from 'react-select'
+import { validateField } from './NewNote'
 import { Note } from './NotesList'
 
 type ActionData = {
@@ -33,15 +34,20 @@ type LoaderData = {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const { title, body } = Object.fromEntries(formData)
-  const tags = formData.getAll('tags')
-  tags.filter((tag) => tag !== '')
+  const tagsRaw = formData.getAll('tags') as unknown as string[]
+  const tags = tagsRaw.filter((tag) => tag.trim().length > 0)
 
-  if (
-    typeof title !== 'string' ||
-    typeof body !== 'string' ||
-    tags.length === 0
-  )
+  if (typeof title !== 'string' || typeof body !== 'string')
     return { formError: 'Form submitet wrong' } as ActionData
+
+  const formFields = { body, title, tags }
+  const formFieldsError = {
+    title: validateField(title),
+    body: validateField(body),
+    tags: tags.length === 0 ? 'Select tag' : undefined,
+  }
+  if (Object.values(formFieldsError).some(Boolean))
+    return { formFields, formFieldsError }
 
   return null
 }
@@ -134,7 +140,7 @@ export default function EditNote() {
           defaultValue={error?.formFields?.body || note.body}
         />
         <div id="bodyFeedback" className="invalid-feedback">
-          {error?.formFieldsError?.title}
+          {error?.formFieldsError?.body}
         </div>
       </div>
 

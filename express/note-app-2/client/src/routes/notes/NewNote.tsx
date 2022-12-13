@@ -28,7 +28,7 @@ type ActionData = {
   }
 }
 
-const validateField = (fieldValue: string) => {
+export const validateField = (fieldValue: string) => {
   if (fieldValue.length < 6) return 'More than 6 letters, please'
 }
 
