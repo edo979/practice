@@ -84,6 +84,10 @@ export default function EditNote() {
             value: tag.label,
             label: tag.label,
           }))}
+          defaultValue={selectedTags.map((tag) => ({
+            value: tag.label,
+            label: tag.label,
+          }))}
         />
         {error?.formFieldsError?.tags && (
           <p className="invalid-feedback d-block">
