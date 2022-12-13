@@ -37,10 +37,12 @@ export const notesController = {
     const { noteId } = req.params
     try {
       const userId = req.session.userId
-      const user = await User.findById(userId).select('-_id notes')
+      const user = await User.find({
+        $and: [{ _id: userId }, { notes: { $in: noteId } }],
+      }).catch((res) => null)
 
       //check if note belongs to this user
-      if (!user?.notes.some((note) => note._id.toString() === noteId))
+      if (!user)
         return res.status(401).send({ message: 'Note is not in user notes.' })
 
       const note = await Note.findById(noteId)
@@ -61,10 +63,12 @@ export const notesController = {
     const { noteId } = req.params
     try {
       const userId = req.session.userId
-      const user = await User.findById(userId).select('-_id notes')
+      const user = await User.find({
+        $and: [{ _id: userId }, { notes: { $in: noteId } }],
+      }).catch((res) => null)
 
       //check if note belongs to this user
-      if (!user?.notes.some((note) => note._id.toString() === noteId))
+      if (!user)
         return res.status(401).send({ message: 'Note is not in user notes.' })
 
       const { title, tags, body } = req.body
