@@ -31,7 +31,7 @@ type LoaderData = {
   tags: [{ label: string }]
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData()
   const { title, body } = Object.fromEntries(formData)
   const tagsRaw = formData.getAll('tags') as unknown as string[]
@@ -49,7 +49,24 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(formFieldsError).some(Boolean))
     return { formFields, formFieldsError }
 
-  return null
+  const res = await fetch(
+    `${import.meta.env.VITE_SERVER_URI}/user/notes/${params.noteId}`,
+    {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, body, tags }),
+    }
+  )
+  if (!res.ok) {
+    if (res.status === 401) throw new Error('That note is not yours.')
+    if (res.status === 403) return redirect('/login')
+    if (res.status >= 500) throw new Error('Server Error')
+  }
+
+  return redirect('/user/dashboard')
 }
 
 export const loader: LoaderFunction = async ({ params }) => {

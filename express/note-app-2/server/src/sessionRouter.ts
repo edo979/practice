@@ -52,6 +52,10 @@ router.get('/notes/:noteId', isAuthenticated, notesController.note)
 router.get('/notes/:noteId', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
+router.post('/notes/:noteId', isAuthenticated, notesController.update)
+router.post('/notes/:noteId', (req: Request, res: Response) => {
+  res.status(403).send('Must be logedin')
+})
 
 router.post(
   '/login',

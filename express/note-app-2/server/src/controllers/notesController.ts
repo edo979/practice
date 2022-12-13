@@ -57,6 +57,33 @@ export const notesController = {
     }
   },
 
+  update: async (req: Request, res: Response) => {
+    const { noteId } = req.params
+    try {
+      const userId = req.session.userId
+      const user = await User.findById(userId).select('-_id notes')
+
+      //check if note belongs to this user
+      if (!user?.notes.some((note) => note._id.toString() === noteId))
+        return res.status(401).send({ message: 'Note is not in user notes.' })
+
+      const { title, tags, body } = req.body
+      const tagsID = await Tag.find({ label: { $in: tags } })
+        .select('_id')
+        .then((results) => results.map((tag) => tag._id))
+
+      const note = await Note.findByIdAndUpdate(noteId, {
+        title,
+        body,
+        tags: tagsID,
+      })
+
+      res.send({ message: 'Note is updated' })
+    } catch (error) {
+      res.status(500).send({ message: 'Could not edit Note.' })
+    }
+  },
+
   save: async (req: Request, res: Response) => {
     try {
       const title: string = req.body.title
