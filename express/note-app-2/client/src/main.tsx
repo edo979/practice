@@ -53,7 +53,7 @@ const router = createBrowserRouter([
           {
             path: 'notes/:noteId/edit',
             element: <EditNote />,
-            //loader: noteEditLoader,
+            loader: noteLoader,
           },
           { path: 'profile', element: <UserProfile /> },
         ],

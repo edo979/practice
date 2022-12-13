@@ -1,5 +1,7 @@
-import { Form } from 'react-router-dom'
+import { useState } from 'react'
+import { Form, Link, useLoaderData } from 'react-router-dom'
 import Select from 'react-select'
+import { Note } from './NotesList'
 
 type ActionData = {
   formError?: string
@@ -15,8 +17,15 @@ type ActionData = {
   }
 }
 
+type LoaderData = {
+  note: Note
+}
+
 export default function EditNote() {
+  const { note } = useLoaderData() as LoaderData
   const error: ActionData = {}
+  const [selectedTags, setSelectedTags] = useState([note.tags])
+  console.log(selectedTags)
 
   return (
     <Form className="row">
@@ -34,6 +43,7 @@ export default function EditNote() {
             error?.formFieldsError?.title ? 'is-invalid' : ''
           }`}
           aria-describedby="titleFeedback"
+          defaultValue={error.formFields?.title || note.title}
         />
         <div id="titleFeedback" className="invalid-feedback">
           {error?.formFieldsError?.title}
@@ -48,13 +58,48 @@ export default function EditNote() {
           isMulti
           id="tags"
           name="tags"
-          //options={tags.map((tag) => ({ value: tag.label, label: tag.label }))}
+          // options={selectedTags.map((tag) => ({
+          //   value: tag.label,
+          //   label: tag.label,
+          // }))}
         />
         {error?.formFieldsError?.tags && (
           <p className="invalid-feedback d-block">
             {error.formFieldsError.tags}
           </p>
         )}
+      </div>
+
+      <div className="col-12 mt-2">
+        <label htmlFor="body" className="form-label">
+          Note Text:
+        </label>
+        <textarea
+          name="body"
+          id="body"
+          rows={10}
+          className={`form-control ${
+            error?.formFieldsError?.body ? 'is-invalid' : ''
+          }`}
+          placeholder="Input Note text here ..."
+          aria-describedby="bodyFeedback"
+          defaultValue={error?.formFields?.body || note.body}
+        />
+        <div id="bodyFeedback" className="invalid-feedback">
+          {error?.formFieldsError?.title}
+        </div>
+      </div>
+
+      <div className="col-12 my-2">
+        <div className="hstack gap-2 justify-content-end">
+          <Link to="..">
+            <button className="btn btn-secondary">Back</button>
+          </Link>
+
+          <button className="btn btn-primary" type="submit">
+            Save
+          </button>
+        </div>
       </div>
     </Form>
   )
