@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import {
   Form,
@@ -47,6 +46,20 @@ export default function Note() {
           <Link to="..">
             <button className="btn btn-secondary">Back</button>
           </Link>
+
+          <Form
+            action="delete"
+            method="post"
+            onSubmit={(e) => {
+              if (!confirm('This note will be deleted.')) e.preventDefault()
+            }}
+          >
+            <input type="hidden" name="noteId" value={note._id} />
+            <button className="btn btn-danger" type="submit">
+              Delete
+            </button>
+          </Form>
+
           <Link to="edit">
             <button className="btn btn-primary">Edit</button>
           </Link>

@@ -130,4 +130,24 @@ export const notesController = {
       res.status(500).send({ message: 'Could not save Note' })
     }
   },
+
+  delete: async (req: Request, res: Response) => {
+    const { noteId } = req.body
+    const userId = req.session.userId
+
+    try {
+      const user = await User.find({
+        $and: [{ _id: userId }, { notes: { $in: noteId } }],
+      }).catch((result) => null)
+
+      if (!user) {
+        return res.status(401).send({ message: 'Note is not in user notes.' })
+      }
+
+      await Note.findByIdAndDelete(noteId)
+      res.send({ message: 'Note deleted' })
+    } catch {
+      res.status(500).send({ message: 'Could not delete Note.' })
+    }
+  },
 }

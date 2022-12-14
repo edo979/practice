@@ -5,6 +5,9 @@ import App from './App'
 import ComponentErrorPage from './routes/ComponentErrorPage'
 import ErrorPage from './routes/ErrorPage'
 import Home from './routes/Home'
+import DeleteNote, {
+  action as deleteNoteAction,
+} from './routes/notes/DeleteNote'
 import EditNote, {
   loader as editNoteLoader,
   action as editNoteAction,
@@ -58,6 +61,11 @@ const router = createBrowserRouter([
             element: <EditNote />,
             loader: editNoteLoader,
             action: editNoteAction,
+          },
+          {
+            path: 'notes/:noteId/delete',
+            element: <DeleteNote />,
+            action: deleteNoteAction,
           },
           { path: 'profile', element: <UserProfile /> },
         ],
