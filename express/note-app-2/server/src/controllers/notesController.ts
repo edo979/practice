@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { nextTick } from 'process'
 import Note from '../model/Note'
 import Tag from '../model/Tag'
 import User from '../model/User'
@@ -136,15 +137,24 @@ export const notesController = {
     const userId = req.session.userId
 
     try {
-      const user = await User.find({
+      const user = await User.findOne({
         $and: [{ _id: userId }, { notes: { $in: noteId } }],
-      }).catch((result) => null)
+      })
+        .select('notes')
+        .catch((result) => null)
 
       if (!user) {
         return res.status(401).send({ message: 'Note is not in user notes.' })
       }
 
       await Note.findByIdAndDelete(noteId)
+
+      const index = user.notes.indexOf(noteId)
+      if (index > -1) {
+        user.notes.splice(index, 1)
+      }
+      await user.save()
+
       res.send({ message: 'Note deleted' })
     } catch {
       res.status(500).send({ message: 'Could not delete Note.' })
