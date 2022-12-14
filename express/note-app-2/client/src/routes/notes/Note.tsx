@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import {
   Form,
   Link,
@@ -58,7 +59,9 @@ export default function Note() {
           </span>
         ))}
       </aside>
-      <main className="mt-4">{note.body}</main>
+      <main className="mt-4">
+        <ReactMarkdown>{note.body}</ReactMarkdown>
+      </main>
     </article>
   )
 }
