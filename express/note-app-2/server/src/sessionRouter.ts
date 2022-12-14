@@ -38,12 +38,18 @@ async function isAuthenticated(
 }
 
 router.get('/notes', isAuthenticated, notesController.userNotes)
-
 router.get('/notes', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
 
-router.post('/notes', isAuthenticated, notesController.save)
+router.post(
+  '/notes',
+  isAuthenticated,
+  check('title').trim().escape(),
+  check('body').trim().escape(),
+  check('tags.*').trim().escape(),
+  notesController.save
+)
 router.post('/notes', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
@@ -52,7 +58,14 @@ router.get('/notes/:noteId', isAuthenticated, notesController.note)
 router.get('/notes/:noteId', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
-router.post('/notes/:noteId', isAuthenticated, notesController.update)
+router.post(
+  '/notes/:noteId',
+  isAuthenticated,
+  check('title').trim().escape(),
+  check('body').trim().escape(),
+  check('tags.*').trim().escape(),
+  notesController.update
+)
 router.post('/notes/:noteId', (req: Request, res: Response) => {
   res.status(403).send('Must be logedin')
 })
