@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import session from 'express-session'
-import { check } from 'express-validator'
+import { body, check, validationResult } from 'express-validator'
 import { config } from 'dotenv'
 import bcrypt from 'bcryptjs'
 import User from './model/User'
@@ -116,6 +116,44 @@ router.post(
       })
     } else {
       res.status(401).send({ errorMessage: 'Username and password dont match' })
+    }
+  }
+)
+
+router.post(
+  '/register',
+  body('username').isString().isLength({ min: 5 }),
+  body('password').isLength({ min: 5 }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).send({
+        message: 'Username and password must be 5 charachter long or more.',
+      })
+    }
+
+    const { username, password } = req.body
+    const userFromDB = await User.findOne({ userName: username }).exec()
+    if (userFromDB)
+      return res.status(406).send({ message: 'Username already exist' })
+
+    try {
+      const hashPassword = await bcrypt.hash(password, 8)
+      const user = await User.create({
+        userName: username,
+        password: hashPassword,
+      })
+
+      req.session.regenerate(function (err) {
+        if (err) next(err)
+        req.session.userId = user.id
+        req.session.save(function (err) {
+          if (err) return next(err)
+          res.status(302).end()
+        })
+      })
+    } catch {
+      return res.status(500).end()
     }
   }
 )

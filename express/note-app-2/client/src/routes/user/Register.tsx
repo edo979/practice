@@ -31,10 +31,10 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (res.status === 302) return redirect('/user/dashboard')
 
-  const { errorMessage } = await res.json()
+  const { message } = await res.json()
 
   return {
-    formError: errorMessage || 'Server Error, please try again',
+    formError: message || 'Server Error, please try again',
     fields: { username },
   } as ActionData
 }

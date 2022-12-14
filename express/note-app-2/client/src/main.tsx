@@ -20,7 +20,7 @@ import Note, { loader as noteLoader } from './routes/notes/Note'
 import NotesList, { loader as notesLoader } from './routes/notes/NotesList'
 import Dashboard from './routes/user/Dashboard'
 import Login, { action as loginAction } from './routes/user/Login'
-import Register from './routes/user/Register'
+import Register, { action as registerAction } from './routes/user/Register'
 import UserProfile from './routes/user/UserProfile'
 
 const router = createBrowserRouter([
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
     children: [{ index: true, element: <Home /> }],
   },
   { path: '/login', element: <Login />, action: loginAction },
-  { path: '/register', element: <Register /> },
+  { path: '/register', element: <Register />, action: registerAction },
   {
     path: '/user/dashboard',
     element: <Dashboard />,
