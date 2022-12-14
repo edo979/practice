@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import session from 'express-session'
 import { check } from 'express-validator'
 import { config } from 'dotenv'
+import bcrypt from 'bcryptjs'
 import User from './model/User'
 import { notesController } from './controllers/notesController'
 
@@ -88,7 +89,14 @@ router.post(
     const user = await User.findOne({ userName: username }).exec()
     if (!user) return res.status(403).send({ errorMessage: 'User not found' })
 
-    if (user.password === password) {
+    let isPasswordOK = false
+    try {
+      isPasswordOK = await bcrypt.compare(password, user.password!)
+    } catch (error) {
+      return next(error)
+    }
+
+    if (isPasswordOK) {
       req.session.regenerate(function (err) {
         if (err) next(err)
         req.session.userId = user.id
