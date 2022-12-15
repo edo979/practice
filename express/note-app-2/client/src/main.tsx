@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
 import ComponentErrorPage from './routes/ComponentErrorPage'
 import ErrorPage from './routes/ErrorPage'
-import Home from './routes/Home'
+import Home, { loader as homeLoader } from './routes/Home'
 import DeleteNote, {
   action as deleteNoteAction,
 } from './routes/notes/DeleteNote'
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Home /> }],
+    children: [{ index: true, element: <Home />, loader: homeLoader }],
   },
   { path: '/login', element: <Login />, action: loginAction },
   { path: '/register', element: <Register />, action: registerAction },
