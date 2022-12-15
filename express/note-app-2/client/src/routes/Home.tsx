@@ -24,12 +24,7 @@ export default function Home() {
           className="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3"
           style={{ width: '4rem', height: '4rem', borderRadius: '0.75rem' }}
         >
-          <svg
-            className="bi"
-            width="1em"
-            height="1em"
-            style={{ verticalAlign: '-0.125em', fill: 'currentColor' }}
-          >
+          <svg className="bi" width="1em" height="1em">
             <use xlinkHref="#people-circle"></use>
           </svg>
         </div>
@@ -43,27 +38,29 @@ export default function Home() {
 
       <article className="feature col">
         <div className="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-          {/* <svg className="bi" width="1em" height="1em"><use xlink:href="#people-circle"></use></svg> */}
+          <svg className="bi" width="1em" height="1em">
+            <use xlinkHref="#collection"></use>
+          </svg>
         </div>
         <h3 className="fs-2">Featured title</h3>
         <p>
-          Paragraph of text beneath the heading to explain the heading. We'll
-          add onto it with another sentence and probably just keep going until
-          we run out of words.
+          We have {notesCount} notes of users. Paragraph of text beneath the
+          heading to explain the heading. We'll add onto it with another
+          sentence and probably just keep going until we run out of words.
         </p>
       </article>
 
       <article className="feature col">
         <div className="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-          {/* <svg className="bi" width="1em" height="1em">
-              <use xlink:href="#toggles2"></use>
-            </svg> */}
+          <svg className="bi" width="1em" height="1em">
+            <use xlinkHref="#tags"></use>
+          </svg>
         </div>
         <h3 className="fs-2">Featured title</h3>
         <p>
-          Paragraph of text beneath the heading to explain the heading. We'll
-          add onto it with another sentence and probably just keep going until
-          we run out of words.
+          We have {tagsCount} created tags. Paragraph of text beneath the
+          heading to explain the heading. We'll add onto it with another
+          sentence and probably just keep going until we run out of words.
         </p>
       </article>
     </section>
