@@ -1,4 +1,5 @@
 import { LinksFunction } from '@remix-run/node'
+import { NavLink } from '@remix-run/react'
 
 export const links: LinksFunction = () => {
   return [
@@ -33,9 +34,16 @@ export default function Index() {
 
           <ul className="nav col-12 col-md-auto me-md-auto mb-2 justify-content-center mb-md-0">
             <li>
-              <a href="#" className="nav-link px-2 text-secondary">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? 'nav-link px-2 text-secondary'
+                    : 'nav-link px-2 text-white'
+                }
+              >
                 Home
-              </a>
+              </NavLink>
             </li>
           </ul>
 
