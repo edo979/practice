@@ -3,5 +3,8 @@ describe('Test home page route', () => {
     cy.visit('http://localhost:3000/')
 
     cy.contains('Note App')
+
+    cy.get('#login-button').should('have.text', 'Login')
+    cy.get('#sign-button').should('have.text', 'Sign-up')
   })
 })

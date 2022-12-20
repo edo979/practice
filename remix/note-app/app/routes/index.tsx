@@ -23,7 +23,7 @@ export const links: LinksFunction = () => {
 export default function Index() {
   return (
     <header className="p-3 text-bg-dark">
-      <div className="container">
+      <nav className="container">
         <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <a
             href="/"
@@ -48,15 +48,19 @@ export default function Index() {
           </ul>
 
           <div className="text-end">
-            <button type="button" className="btn btn-outline-light me-2">
+            <button
+              type="button"
+              className="btn btn-outline-light me-2"
+              id="login-button"
+            >
               Login
             </button>
-            <button type="button" className="btn btn-warning">
+            <button type="button" className="btn btn-warning" id="sign-button">
               Sign-up
             </button>
           </div>
         </div>
-      </div>
+      </nav>
     </header>
   )
 }
