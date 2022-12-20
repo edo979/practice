@@ -23,6 +23,11 @@ export default function App() {
       </head>
       <body>
         <Outlet />
+        {/* <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+          integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+          crossOrigin="anonymous"
+        ></script> */}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
