@@ -1,5 +1,6 @@
 import { ActionFunction, LinksFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
+import { validateEmail, validatePassword } from '~/formValidaror'
 import styles from '~/style/loginPage.css'
 
 type ActionData = {
@@ -21,12 +22,24 @@ export const action: ActionFunction = async ({
     return { formError: 'Form not submitted correctly' }
   }
 
+  const fields = { email, password }
+  const fieldErrors = {
+    email: validateEmail(email),
+    password: validatePassword(password),
+  }
+
+  if (Object.values(fieldErrors).some(Boolean)) return { fieldErrors, fields }
+
   return {}
 }
 
 export default function LoginRoute() {
   const actionData = useActionData() as ActionData
-  console.log(actionData?.formError)
+  console.log(
+    actionData?.formError,
+    actionData?.fieldErrors,
+    actionData?.fields
+  )
 
   return (
     <main className="form-signin w-100 m-auto">

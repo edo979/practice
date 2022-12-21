@@ -1,7 +1,11 @@
-export function validateEmail(email: unknown): email is string {
-  return typeof email === 'string' && email.length > 3 && email.includes('@')
+export function validateEmail(email: unknown): string | undefined {
+  if (typeof email !== 'string' || email.length < 4 || !email.includes('@')) {
+    return 'Please enter valid email address.'
+  }
 }
 
-export function validatePassword(password: unknown): password is string {
-  return typeof password === 'string'
+export function validatePassword(password: unknown): string | undefined {
+  if (typeof password !== 'string' || password.length < 3) {
+    return 'At least 3 char long.'
+  }
 }
