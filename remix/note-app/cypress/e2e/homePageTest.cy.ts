@@ -18,4 +18,15 @@ describe('Test home page route', () => {
     cy.get('[for="password"]').contains('Password')
     cy.get('[type="submit"]').contains('Login')
   })
+
+  it('Go to sign up page', () => {
+    cy.visit('/')
+    cy.get('#sign-link-btn').click()
+
+    cy.get('form')
+    cy.contains('Please Sign up')
+    cy.get('[for="email"]').contains('Email address')
+    cy.get('[for="password"]').contains('Password')
+    cy.get('[type="submit"]').contains('Sign up')
+  })
 })

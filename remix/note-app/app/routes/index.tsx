@@ -38,13 +38,15 @@ export default function Index() {
               </button>
             </Link>
 
-            <button
-              type="button"
-              className="btn btn-warning"
-              id="sign-link-btn"
-            >
-              Sign-up
-            </button>
+            <Link to="sign-up">
+              <button
+                type="button"
+                className="btn btn-warning"
+                id="sign-link-btn"
+              >
+                Sign-up
+              </button>
+            </Link>
           </div>
         </div>
       </nav>
