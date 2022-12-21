@@ -1,24 +1,4 @@
-import { LinksFunction } from '@remix-run/node'
-import { NavLink } from '@remix-run/react'
-
-export const links: LinksFunction = () => {
-  return [
-    {
-      rel: 'stylesheet',
-      href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
-      integrity:
-        'sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65',
-      crossOrigin: 'anonymous',
-    },
-    {
-      rel: 'modulepreload',
-      href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js',
-      integrity:
-        'sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V',
-      crossOrigin: 'anonymous',
-    },
-  ]
-}
+import { Link, NavLink } from '@remix-run/react'
 
 export default function Index() {
   return (
@@ -48,14 +28,21 @@ export default function Index() {
           </ul>
 
           <div className="text-end">
+            <Link to="login">
+              <button
+                type="button"
+                className="btn btn-outline-light me-2"
+                id="login-link-btn"
+              >
+                Login
+              </button>
+            </Link>
+
             <button
               type="button"
-              className="btn btn-outline-light me-2"
-              id="login-button"
+              className="btn btn-warning"
+              id="sign-link-btn"
             >
-              Login
-            </button>
-            <button type="button" className="btn btn-warning" id="sign-button">
               Sign-up
             </button>
           </div>
