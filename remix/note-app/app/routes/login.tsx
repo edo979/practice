@@ -1,5 +1,5 @@
 import { ActionFunction, LinksFunction } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { validateEmail, validatePassword } from '~/formValidaror'
 import styles from '~/style/loginPage.css'
@@ -36,6 +36,8 @@ export const action: ActionFunction = async ({
 
 export default function LoginRoute() {
   const actionData = useActionData() as ActionData
+  const [searchParams] = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') || '/notes'
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
@@ -94,6 +96,8 @@ export default function LoginRoute() {
           <label htmlFor="password">Password</label>
         </div>
 
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+
         <div className="checkbox mb-3">
           <label>
             <input type="checkbox" value="remember-me" /> Remember me
@@ -126,6 +130,17 @@ export default function LoginRoute() {
         <button className="w-100 btn btn-lg btn-primary" type="submit">
           Login
         </button>
+
+        <i className="mt-2 d-block">
+          Don't have account sign up <Link to="/sign-up">here.</Link>
+        </i>
+        <i className="d-block">
+          Go to{' '}
+          <Link to="/" aria-label="go to home page">
+            home
+          </Link>
+        </i>
+
         <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
       </Form>
     </main>

@@ -1,5 +1,5 @@
 import { ActionFunction, LinksFunction } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, Link, useActionData } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { validateEmail, validatePassword } from '~/formValidaror'
 import styles from '~/style/loginPage.css'
@@ -125,6 +125,17 @@ export default function SignUpRoute() {
         <button className="w-100 btn btn-lg btn-warning" type="submit">
           Sign up
         </button>
+
+        <i className="mt-2 d-block">
+          Have account, login <Link to="/login">here.</Link>
+        </i>
+        <i className="d-block">
+          Go to{' '}
+          <Link to="/" aria-label="go to home">
+            home
+          </Link>
+        </i>
+
         <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
       </Form>
     </main>
