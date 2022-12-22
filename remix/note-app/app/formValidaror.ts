@@ -6,6 +6,6 @@ export function validateEmail(email: unknown): string | undefined {
 
 export function validatePassword(password: unknown): string | undefined {
   if (typeof password !== 'string' || password.length < 3) {
-    return 'At least 3 char long.'
+    return 'Password must be at least 3 char long.'
   }
 }

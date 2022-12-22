@@ -35,15 +35,15 @@ export const action: ActionFunction = async ({
 
 export default function LoginRoute() {
   const actionData = useActionData() as ActionData
-  console.log(
-    actionData?.formError,
-    actionData?.fieldErrors,
-    actionData?.fields
-  )
 
   return (
     <main className="form-signin w-100 m-auto">
-      <Form method="post">
+      <Form
+        method="post"
+        aria-describedby={
+          actionData?.formError ? 'form-error-message' : undefined
+        }
+      >
         <h1 className="h3 mb-3 fw-normal">Please Login</h1>
 
         <div className="form-floating">
@@ -67,11 +67,29 @@ export default function LoginRoute() {
           <label htmlFor="password">Password</label>
         </div>
 
-        {/* <div className="checkbox mb-3">
+        <div className="checkbox mb-3">
           <label>
             <input type="checkbox" value="remember-me" /> Remember me
           </label>
-        </div> */}
+        </div>
+
+        {actionData?.formError && (
+          <div id="form-error-message">
+            <p>{actionData.formError}</p>
+          </div>
+        )}
+
+        {actionData?.fieldErrors?.email && (
+          <div>
+            <p>{actionData.fieldErrors.email}</p>
+          </div>
+        )}
+        {actionData?.fieldErrors?.password && (
+          <div>
+            <p>{actionData.fieldErrors.password}</p>
+          </div>
+        )}
+
         <button className="w-100 btn btn-lg btn-primary" type="submit">
           Login
         </button>
