@@ -49,20 +49,32 @@ export default function LoginRoute() {
         <div className="form-floating">
           <input
             type="email"
-            className="form-control"
+            className={`form-control${
+              actionData?.fieldErrors?.email ? ' is-invalid' : ''
+            }`}
             name="email"
             id="email"
             placeholder="name@example.com"
+            aria-describedby={
+              actionData?.fieldErrors?.email ? 'ivalidEmailMessage' : undefined
+            }
           />
           <label htmlFor="email">Email address</label>
         </div>
         <div className="form-floating">
           <input
             type="password"
-            className="form-control"
+            className={`form-control${
+              actionData?.fieldErrors?.password ? ' is-invalid' : ''
+            }`}
             name="password"
             id="password"
             placeholder="Password"
+            aria-describedby={
+              actionData?.fieldErrors?.password
+                ? 'ivalidPasswordMessage'
+                : undefined
+            }
           />
           <label htmlFor="password">Password</label>
         </div>
@@ -80,13 +92,19 @@ export default function LoginRoute() {
         )}
 
         {actionData?.fieldErrors?.email && (
-          <div>
-            <p>{actionData.fieldErrors.email}</p>
+          <div
+            className="invalid-feedback d-block mt-0 mb-1"
+            id="ivalidEmailMessage"
+          >
+            {actionData.fieldErrors.email}
           </div>
         )}
         {actionData?.fieldErrors?.password && (
-          <div>
-            <p>{actionData.fieldErrors.password}</p>
+          <div
+            className="invalid-feedback d-block mt-0 mb-1"
+            id="ivalidPasswordMessage"
+          >
+            {actionData.fieldErrors.password}
           </div>
         )}
 
