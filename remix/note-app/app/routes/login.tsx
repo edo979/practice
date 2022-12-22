@@ -1,5 +1,6 @@
 import { ActionFunction, LinksFunction } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
+import { useEffect, useRef } from 'react'
 import { validateEmail, validatePassword } from '~/formValidaror'
 import styles from '~/style/loginPage.css'
 
@@ -35,6 +36,16 @@ export const action: ActionFunction = async ({
 
 export default function LoginRoute() {
   const actionData = useActionData() as ActionData
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (actionData?.fieldErrors?.email) {
+      emailRef.current?.focus()
+    } else if (actionData?.fieldErrors?.password) {
+      passwordRef.current?.focus()
+    }
+  }, [actionData])
 
   return (
     <main className="form-signin w-100 m-auto">
@@ -54,10 +65,12 @@ export default function LoginRoute() {
             }`}
             name="email"
             id="email"
+            ref={emailRef}
             placeholder="name@example.com"
             aria-describedby={
               actionData?.fieldErrors?.email ? 'ivalidEmailMessage' : undefined
             }
+            required
           />
           <label htmlFor="email">Email address</label>
         </div>
@@ -69,12 +82,14 @@ export default function LoginRoute() {
             }`}
             name="password"
             id="password"
+            ref={passwordRef}
             placeholder="Password"
             aria-describedby={
               actionData?.fieldErrors?.password
                 ? 'ivalidPasswordMessage'
                 : undefined
             }
+            required
           />
           <label htmlFor="password">Password</label>
         </div>
