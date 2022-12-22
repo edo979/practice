@@ -3,7 +3,7 @@ import { Form, useActionData } from '@remix-run/react'
 import { validateEmail, validatePassword } from '~/formValidaror'
 import styles from '~/style/loginPage.css'
 
-type ActionData = {
+export type ActionData = {
   formError?: string
   fieldErrors?: { email: string | undefined; password: string | undefined }
   fields?: { email: string; password: string }
