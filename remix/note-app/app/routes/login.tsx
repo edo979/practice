@@ -132,11 +132,14 @@ export default function LoginRoute() {
         </button>
 
         <i className="mt-2 d-block">
-          Don't have account sign up <Link to="/sign-up">here.</Link>
+          Don't have account sign up{' '}
+          <Link to="/sign-up" id="a-signUp">
+            here.
+          </Link>
         </i>
         <i className="d-block">
           Go to{' '}
-          <Link to="/" aria-label="go to home page">
+          <Link to="/" aria-label="go to home page" id="a-home">
             home
           </Link>
         </i>

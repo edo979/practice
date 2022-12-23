@@ -127,11 +127,14 @@ export default function SignUpRoute() {
         </button>
 
         <i className="mt-2 d-block">
-          Have account, login <Link to="/login">here.</Link>
+          Have account, login{' '}
+          <Link to="/login" id="a-login">
+            here.
+          </Link>
         </i>
         <i className="d-block">
           Go to{' '}
-          <Link to="/" aria-label="go to home">
+          <Link to="/" aria-label="go to home" id="a-home">
             home
           </Link>
         </i>
