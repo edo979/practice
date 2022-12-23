@@ -25,6 +25,32 @@ describe('Validation messages', () => {
     cy.get('#ivalidEmailMessage').should('not.exist')
     cy.get('#ivalidPasswordMessage').should('not.exist')
   })
+
+  it('Show validation message on Sign-up page', () => {
+    cy.get('#a-signUp').click()
+    cy.get('input#email').clear().type('j@j')
+    cy.get('input#password').clear().type('ja')
+    cy.get('[type="submit"]').click()
+    cy.get('#ivalidEmailMessage').should('exist')
+    cy.get('#ivalidPasswordMessage').should('exist')
+
+    cy.get('input#email').clear().type('jah@jah.com')
+    cy.get('[type="submit"]').click()
+    cy.get('#ivalidEmailMessage').should('not.exist')
+    cy.get('#ivalidPasswordMessage').should('exist')
+
+    cy.get('input#email').clear().type('j@j')
+    cy.get('input#password').clear().type('jahjah')
+    cy.get('[type="submit"]').click()
+    cy.get('#ivalidEmailMessage').should('exist')
+    cy.get('#ivalidPasswordMessage').should('not.exist')
+
+    cy.get('input#email').clear().type('jah@jah.com')
+    cy.get('input#password').clear().type('jahjah')
+    cy.get('[type="submit"]').click()
+    cy.get('#ivalidEmailMessage').should('not.exist')
+    cy.get('#ivalidPasswordMessage').should('not.exist')
+  })
 })
 
 describe('home login sign-up navigation', () => {
