@@ -10,6 +10,7 @@ describe('Validation messages', () => {
 
   it('Show validation messages on Login page', () => {
     cy.get('input#email').type('j@j')
+    cy.get('input#password').type('ja')
     cy.get('[type="submit"]').click()
 
     cy.get('#ivalidEmailMessage').should('exist')
