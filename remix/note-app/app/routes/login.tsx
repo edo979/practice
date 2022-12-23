@@ -1,9 +1,10 @@
 import { ActionFunction, LinksFunction } from '@remix-run/node'
-import { Form, useActionData } from '@remix-run/react'
+import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
+import { useEffect, useRef } from 'react'
 import { validateEmail, validatePassword } from '~/formValidaror'
 import styles from '~/style/loginPage.css'
 
-type ActionData = {
+export type ActionData = {
   formError?: string
   fieldErrors?: { email: string | undefined; password: string | undefined }
   fields?: { email: string; password: string }
@@ -35,6 +36,18 @@ export const action: ActionFunction = async ({
 
 export default function LoginRoute() {
   const actionData = useActionData() as ActionData
+  const [searchParams] = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') || '/notes'
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (actionData?.fieldErrors?.email) {
+      emailRef.current?.focus()
+    } else if (actionData?.fieldErrors?.password) {
+      passwordRef.current?.focus()
+    }
+  }, [actionData])
 
   return (
     <main className="form-signin w-100 m-auto">
@@ -54,10 +67,12 @@ export default function LoginRoute() {
             }`}
             name="email"
             id="email"
+            ref={emailRef}
             placeholder="name@example.com"
             aria-describedby={
               actionData?.fieldErrors?.email ? 'ivalidEmailMessage' : undefined
             }
+            required
           />
           <label htmlFor="email">Email address</label>
         </div>
@@ -69,15 +84,19 @@ export default function LoginRoute() {
             }`}
             name="password"
             id="password"
+            ref={passwordRef}
             placeholder="Password"
             aria-describedby={
               actionData?.fieldErrors?.password
                 ? 'ivalidPasswordMessage'
                 : undefined
             }
+            required
           />
           <label htmlFor="password">Password</label>
         </div>
+
+        <input type="hidden" name="redirectTo" value={redirectTo} />
 
         <div className="checkbox mb-3">
           <label>
@@ -111,6 +130,17 @@ export default function LoginRoute() {
         <button className="w-100 btn btn-lg btn-primary" type="submit">
           Login
         </button>
+
+        <i className="mt-2 d-block">
+          Don't have account sign up <Link to="/sign-up">here.</Link>
+        </i>
+        <i className="d-block">
+          Go to{' '}
+          <Link to="/" aria-label="go to home page">
+            home
+          </Link>
+        </i>
+
         <p className="mt-5 mb-3 text-muted">© 2017–2022</p>
       </Form>
     </main>
