@@ -1,7 +1,9 @@
 describe('Test home page route', () => {
-  it('Successfuly load route page', () => {
-    cy.visit('/')
+  beforeEach(() => {
+    cy.visit('/').wait(500)
+  })
 
+  it('Successfuly load route page', () => {
     cy.contains('Note App')
 
     cy.get('#login-link-btn').should('have.text', 'Login')
@@ -9,7 +11,6 @@ describe('Test home page route', () => {
   })
 
   it('Go to login page', () => {
-    cy.visit('/')
     cy.get('#login-link-btn').click()
 
     cy.get('form')
@@ -20,7 +21,6 @@ describe('Test home page route', () => {
   })
 
   it('Go to sign up page', () => {
-    cy.visit('/')
     cy.get('#sign-link-btn').click()
 
     cy.get('form')
