@@ -1,6 +1,12 @@
 import { mongoose } from './db.server'
 import bcrypt from 'bcryptjs'
 
+interface IUser {
+  id: string
+  email: string
+  password: string
+}
+
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
@@ -16,6 +22,14 @@ export const createUser = async ({
   password: string
 }) => {
   const hashedPassword = await bcrypt.hash(password, 10)
-  const user = await User.create({ email, password: hashedPassword })
+  const user: IUser = await User.create({
+    email,
+    password: hashedPassword,
+  })
+  return user
+}
+
+export const getUserById = async (id: string) => {
+  const user: IUser | null = await User.findById(id)
   return user
 }

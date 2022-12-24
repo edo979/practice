@@ -3,6 +3,7 @@ import { Form, Link, useActionData } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { validateEmail, validatePassword } from '~/formValidaror'
 import { createUser } from '~/models/user.server'
+import { createUserSession } from '~/sessions.server'
 import styles from '~/style/loginPage.css'
 import { ActionData } from './login'
 
@@ -28,9 +29,13 @@ export const action: ActionFunction = async ({
   if (Object.values(fieldErrors).some(Boolean)) return { fieldErrors, fields }
 
   const user = await createUser({ email, password })
-  console.log(user)
 
-  return {}
+  return createUserSession({
+    request,
+    userId: user.id,
+    remember: true,
+    redirectTo: '/',
+  })
 }
 
 export default function SignUpRoute() {
