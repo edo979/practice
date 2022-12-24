@@ -115,7 +115,10 @@ export default function LoginRoute() {
         </div>
 
         {actionData?.formError && (
-          <div id="form-error-message">
+          <div
+            className="invalid-feedback d-block mt-0 mb-1"
+            id="form-error-message"
+          >
             <p>{actionData.formError}</p>
           </div>
         )}

@@ -44,7 +44,7 @@ export default function Index() {
             </li>
           </ul>
 
-          {user?.id ? (
+          {user ? (
             <Form action="/logout" method="post">
               <button className="btn btn-danger" type="submit">
                 Logout
