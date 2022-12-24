@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Link, NavLink, useLoaderData } from '@remix-run/react'
+import { Form, Link, NavLink, useLoaderData } from '@remix-run/react'
 import { getUser } from '~/sessions.server'
 
 type LoaderData = {
@@ -45,7 +45,11 @@ export default function Index() {
           </ul>
 
           {user?.id ? (
-            <p>Logout</p>
+            <Form action="/logout" method="post">
+              <button className="btn btn-danger" type="submit">
+                Logout
+              </button>
+            </Form>
           ) : (
             <div className="text-end">
               <Link to="login">
