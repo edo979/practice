@@ -1,5 +1,11 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "cypress/tsconfig.json"],
+  "include": [
+    "remix.env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "cypress/tsconfig.json",
+    "app/models/db.server.ts"
+  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
@@ -9,7 +15,7 @@
     "resolveJsonModule": true,
     "target": "ES2019",
     "strict": true,
-    "allowJs": true,
+    "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
