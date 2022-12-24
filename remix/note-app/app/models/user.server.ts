@@ -26,10 +26,25 @@ export const createUser = async ({
     email,
     password: hashedPassword,
   })
-  return user
+
+  return { email: user.email, id: user.id }
 }
 
 export const getUserById = async (id: string) => {
   const user: IUser | null = await User.findById(id)
   return user
+}
+
+export const checkUserPassword = async ({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) => {
+  const user: IUser | null = await User.findOne({ email })
+  if (user) {
+    if (await bcrypt.compare(password, user.password)) return user.id
+  }
+  return null
 }

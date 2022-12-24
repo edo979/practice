@@ -2,6 +2,8 @@ import { ActionFunction, LinksFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { validateEmail, validatePassword } from '~/formValidaror'
+import { checkUserPassword } from '~/models/user.server'
+import { createUserSession } from '~/sessions.server'
 import styles from '~/style/loginPage.css'
 
 export type ActionData = {
@@ -31,7 +33,15 @@ export const action: ActionFunction = async ({
 
   if (Object.values(fieldErrors).some(Boolean)) return { fieldErrors, fields }
 
-  return {}
+  const userId = await checkUserPassword({ email, password })
+  if (!userId) return { formError: 'User and Password not match' }
+
+  return await createUserSession({
+    request,
+    userId,
+    remember: true,
+    redirectTo: '/',
+  })
 }
 
 export default function LoginRoute() {

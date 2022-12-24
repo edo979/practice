@@ -1,6 +1,23 @@
-import { Link, NavLink } from '@remix-run/react'
+import { LoaderFunction } from '@remix-run/node'
+import { Link, NavLink, useLoaderData } from '@remix-run/react'
+import { getUser } from '~/sessions.server'
+
+type LoaderData = {
+  email: string | null
+  id: string | null
+} | null
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const user = await getUser(request)
+  if (!user) return null as LoaderData
+
+  const data: LoaderData = { email: user.email, id: user.id }
+  return data
+}
 
 export default function Index() {
+  const user = useLoaderData() as LoaderData
+
   return (
     <header className="p-3 text-bg-dark">
       <nav className="container">
@@ -27,27 +44,31 @@ export default function Index() {
             </li>
           </ul>
 
-          <div className="text-end">
-            <Link to="login">
-              <button
-                type="button"
-                className="btn btn-outline-light me-2"
-                id="login-link-btn"
-              >
-                Login
-              </button>
-            </Link>
+          {user?.id ? (
+            <p>Logout</p>
+          ) : (
+            <div className="text-end">
+              <Link to="login">
+                <button
+                  type="button"
+                  className="btn btn-outline-light me-2"
+                  id="login-link-btn"
+                >
+                  Login
+                </button>
+              </Link>
 
-            <Link to="sign-up">
-              <button
-                type="button"
-                className="btn btn-warning"
-                id="sign-link-btn"
-              >
-                Sign-up
-              </button>
-            </Link>
-          </div>
+              <Link to="sign-up">
+                <button
+                  type="button"
+                  className="btn btn-warning"
+                  id="sign-link-btn"
+                >
+                  Sign-up
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </header>
