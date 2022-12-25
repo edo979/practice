@@ -40,7 +40,7 @@ export const action: ActionFunction = async ({
     request,
     userId,
     remember: true,
-    redirectTo: '/',
+    redirectTo: '/dashboard',
   })
 }
 

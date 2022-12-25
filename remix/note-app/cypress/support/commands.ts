@@ -35,3 +35,21 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('login', (username, password) => {
+  cy.session(
+    username,
+    () => {
+      cy.visit('/login').wait(500)
+      cy.get('input[name=email]').type(username)
+      cy.get('input[name=password]').type(`${password}{enter}`, { log: false })
+      cy.url().should('include', '/dashboard')
+      cy.get('h1').should('contain', username)
+    },
+    {
+      validate: () => {
+        cy.getCookie('__session').should('exist')
+      },
+    }
+  )
+})
