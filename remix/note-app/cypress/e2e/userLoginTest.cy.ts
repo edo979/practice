@@ -1,4 +1,4 @@
-describe('User kreate, logout, login, delete', () => {
+describe('User create, logout, login, delete', () => {
   const user = { email: 'newUser@new.com', password: 'jahjah' }
 
   after(() => {
