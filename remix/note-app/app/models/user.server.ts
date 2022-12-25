@@ -48,3 +48,12 @@ export const checkUserPassword = async ({
   }
   return null
 }
+
+export const deleteUser = async (userId: string) => {
+  try {
+    await User.findByIdAndDelete(userId).exec()
+    return true
+  } catch {
+    return false
+  }
+}
