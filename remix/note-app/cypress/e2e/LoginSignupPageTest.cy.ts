@@ -26,7 +26,7 @@ describe('Validation messages', () => {
     cy.get('#ivalidPasswordMessage').should('not.exist')
   })
 
-  it('Show validation message on Sign-up page', () => {
+  it('Test validation message on Sign-up page', () => {
     cy.get('#a-signUp').click()
     cy.get('input#email').clear().type('j@j')
     cy.get('input#password').clear().type('ja')
@@ -50,6 +50,10 @@ describe('Validation messages', () => {
     cy.get('[type="submit"]').click()
     cy.get('#ivalidEmailMessage').should('not.exist')
     cy.get('#ivalidPasswordMessage').should('not.exist')
+
+    // Delete created user if test passed
+    cy.get('#delete-user-btn').click()
+    cy.get('#login-link-btn').should('be.visible')
   })
 })
 
