@@ -42,6 +42,14 @@ export default function Index() {
                 Home
               </NavLink>
             </li>
+
+            {user && (
+              <li className="nav-item">
+                <NavLink to="/dashboard" className="nav-link px-2 text-white">
+                  Dashboard
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           {user ? (

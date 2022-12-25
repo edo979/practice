@@ -1,5 +1,5 @@
 import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, NavLink, useLoaderData } from '@remix-run/react'
+import { Form, Link, NavLink, useLoaderData } from '@remix-run/react'
 import { getUser } from '~/sessions.server'
 import styles from '~/style/dashboard.css'
 
@@ -24,9 +24,9 @@ export default function DashboardIndexRoute() {
   return (
     <>
       <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">
+        <Link to="/" className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">
           Notes App
-        </a>
+        </Link>
         <button
           className="navbar-toggler position-absolute d-md-none collapsed"
           type="button"
@@ -82,6 +82,8 @@ export default function DashboardIndexRoute() {
                 </li>
               </ul>
 
+              <hr className="mx-3" />
+
               <h6 className="sidebar-heading px-3 mt-4 mb-1 text-muted text-uppercase">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,6 +95,7 @@ export default function DashboardIndexRoute() {
                 </svg>
                 User Profile
               </h6>
+
               <ul className="nav flex-column mb-2">
                 <li className="nav-item">
                   <i className="nav-link" id="user-profile">
@@ -149,6 +152,8 @@ export default function DashboardIndexRoute() {
                     </button>
                   </Form>
                 </li>
+
+                <hr className="mx-3" />
               </ul>
             </div>
           </nav>
@@ -189,20 +194,5 @@ export default function DashboardIndexRoute() {
         </div>
       </div>
     </>
-
-    // <div>
-    //   Dashboard index route
-    //   <h1>{user.email}</h1>
-    //   <Form action="/logout" method="post">
-    //     <button classNameName="btn btn-danger" id="logout-btn" type="submit">
-    //       Logout
-    //     </button>
-    //   </Form>
-    //   <Form action="/dashboard/delete-user" method="post">
-    //     <button classNameName="btn btn-danger" id="delete-user-btn" type="submit">
-    //       Delete Account
-    //     </button>
-    //   </Form>
-    // </div>
   )
 }
