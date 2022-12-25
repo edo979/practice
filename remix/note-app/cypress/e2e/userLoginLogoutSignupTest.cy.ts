@@ -21,7 +21,7 @@ describe('User create, logout, login, delete', () => {
     })
 
     cy.url().should('include', '/dashboard')
-    cy.get('h1').should('contain', user.email)
+    cy.get('#user-profile').should('contain', user.email)
 
     cy.get('#logout-btn').click()
     cy.url().should('not.include', '/dashboard')
@@ -36,7 +36,7 @@ describe('User create, logout, login, delete', () => {
     })
 
     cy.url().should('include', '/dashboard')
-    cy.get('h1').should('contain', user.email)
+    cy.get('#user-profile').should('contain', user.email)
 
     cy.get('#logout-btn').click()
     cy.url().should('not.include', '/dashboard')
