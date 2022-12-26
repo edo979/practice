@@ -57,7 +57,7 @@ export default function NewNoteRoute() {
       </div>
 
       <div className="col-12 d-flex justify-content-end align-items-center gap-2 mt-4 ">
-        <Link to=".." className="btn btn-secondary">
+        <Link to="../.." className="btn btn-secondary">
           Cancel
         </Link>
         <button className="btn btn-success" type="submit">

@@ -162,7 +162,7 @@ export default function DashboardRoute() {
               <h1 className="h3 m-0">Dashboard</h1>
 
               <div className="btn-toolbar mb-2 mb-md-0">
-                <Link to={'new'} className="text-decoration-none">
+                <Link to={'notes/new'} className="text-decoration-none">
                   <button
                     type="button"
                     className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
