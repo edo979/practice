@@ -1,5 +1,5 @@
 import { LoaderFunction, redirect } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import { getNotesIdAndTitle } from '~/models/notes.server'
 import { getUser } from '~/sessions.server'
 
@@ -27,14 +27,20 @@ export default function DashboardIndexRoute() {
       <h2 className="h4">Notes:</h2>
       <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
         {notes.map((note) => (
-          <div className="col" key={note.id}>
-            <div className="card h-100">
-              <div className="card-body">
-                <h5 className="card-title">{note.title}</h5>
-                <p className="card-text">{note.body}</p>
+          <Link
+            to={`notes/${note.id}`}
+            key={note.id}
+            className="text-decoration-none text-reset"
+          >
+            <div className="col">
+              <div className="card h-100">
+                <div className="card-body">
+                  <h5 className="card-title">{note.title}</h5>
+                  <p className="card-text">{note.body}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

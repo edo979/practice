@@ -28,7 +28,7 @@ export const createNote = async ({
 export const getNotesIdAndTitle = async (userId: string) => {
   const notes = await Note.find({ userId }).select('id title')
   const notesWithId = notes.map((note) => ({
-    id: note._id,
+    id: note.id,
     title: note.title,
   }))
 
