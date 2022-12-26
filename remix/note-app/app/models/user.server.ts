@@ -1,10 +1,8 @@
-import { mongoose } from './db.server'
+import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
-interface IUser {
-  id: string
-  email: string
-  password: string
+if (mongoose.models['User']) {
+  delete mongoose.models['User']
 }
 
 const userSchema = new mongoose.Schema({
@@ -12,7 +10,7 @@ const userSchema = new mongoose.Schema({
   password: String,
 })
 
-const User = mongoose.models.User || mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
 
 export const createUser = async ({
   email,
@@ -22,7 +20,7 @@ export const createUser = async ({
   password: string
 }) => {
   const hashedPassword = await bcrypt.hash(password, 10)
-  const user: IUser = await User.create({
+  const user = await User.create({
     email,
     password: hashedPassword,
   })
@@ -31,7 +29,7 @@ export const createUser = async ({
 }
 
 export const getUserById = async (id: string) => {
-  const user: IUser | null = await User.findById(id)
+  const user = await User.findById(id)
   return user
 }
 
@@ -42,9 +40,9 @@ export const checkUserPassword = async ({
   email: string
   password: string
 }) => {
-  const user: IUser | null = await User.findOne({ email })
+  const user = await User.findOne({ email })
   if (user) {
-    if (await bcrypt.compare(password, user.password)) return user.id
+    if (await bcrypt.compare(password, user.password!)) return user.id
   }
   return null
 }
