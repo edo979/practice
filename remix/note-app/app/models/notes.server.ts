@@ -15,3 +15,21 @@ const noteScheme = new mongoose.Schema({
 })
 
 const Note = mongoose.models.Note || mongoose.model('Note', noteScheme)
+
+export const createNote = async ({
+  userId,
+  title,
+  body,
+}: {
+  userId: string
+  title: string
+  body: string
+}) => {
+  const note: INote = await new Note({ userId, title, body })
+  return { id: note.id }
+}
+
+export const getNotes = async (userId: string) => {
+  const notes: INote[] = await Note.find({ userId })
+  return notes
+}

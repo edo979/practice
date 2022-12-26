@@ -1,11 +1,19 @@
 import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, NavLink, useLoaderData } from '@remix-run/react'
+import { getNotes } from '~/models/notes.server'
 import { getUser } from '~/sessions.server'
 import styles from '~/style/dashboard.css'
 
 type LoaderData = {
-  id: string
-  email: string
+  user: {
+    id: string
+    email: string
+  }
+  notes: {
+    id: string
+    title: string
+    body: string
+  }[]
 }
 
 export const links: LinksFunction = () => {
@@ -15,11 +23,13 @@ export const links: LinksFunction = () => {
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request)
   if (!user) return redirect('/')
-  return { id: user.id, email: user.email } as LoaderData
+
+  const notes = await getNotes(user.id)
+  return { user: { id: user.id, email: user.email }, notes } as LoaderData
 }
 
 export default function DashboardIndexRoute() {
-  const user = useLoaderData() as LoaderData
+  const { user, notes } = useLoaderData() as LoaderData
 
   return (
     <>
@@ -188,18 +198,16 @@ export default function DashboardIndexRoute() {
             <section>
               <h2>Notes:</h2>
               <div className="row row-cols-1 row-cols-md-3 g-4">
-                <div className="col">
-                  <div className="card h-100">
-                    <div className="card-body">
-                      <h5 className="card-title">Card title</h5>
-                      <p className="card-text">
-                        This is a longer card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer.
-                      </p>
+                {notes.map((note) => (
+                  <div className="col">
+                    <div className="card h-100">
+                      <div className="card-body">
+                        <h5 className="card-title">{note.title}</h5>
+                        <p className="card-text">{note.body}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </section>
           </main>
