@@ -34,3 +34,8 @@ export const getNotesIdAndTitle = async (userId: string) => {
 
   return notesWithId
 }
+
+export const getNote = async (noteId: string) => {
+  const note = await Note.findById(noteId)
+  return note
+}
