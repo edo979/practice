@@ -24,8 +24,8 @@ export default function DashboardIndexRoute() {
 
   return (
     <section>
-      <h2>Notes:</h2>
-      <div className="row row-cols-1 row-cols-md-3 g-4">
+      <h2 className="h4">Notes:</h2>
+      <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
         {notes.map((note) => (
           <div className="col" key={note.id}>
             <div className="card h-100">
