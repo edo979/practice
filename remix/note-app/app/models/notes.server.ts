@@ -25,11 +25,16 @@ export const createNote = async ({
   title: string
   body: string
 }) => {
-  const note: INote = await new Note({ userId, title, body })
+  const note: INote = await Note.create({ userId, title, body })
   return { id: note.id }
 }
 
-export const getNotes = async (userId: string) => {
-  const notes: INote[] = await Note.find({ userId })
-  return notes
+export const getNotesIdAndTitle = async (userId: string) => {
+  const notes = await Note.find({ userId }).select('id title')
+  const notesWithId: { id: string; title: string }[] = notes.map((note) => ({
+    id: note._id,
+    title: note.title,
+  }))
+
+  return notesWithId
 }

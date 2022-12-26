@@ -1,4 +1,20 @@
-import { Form } from '@remix-run/react'
+import { ActionFunction, redirect } from '@remix-run/node'
+import { Form, Link } from '@remix-run/react'
+import { createNote } from '~/models/notes.server'
+import { getUserId } from '~/sessions.server'
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const title = formData.get('title') as string
+  const body = formData.get('body') as string
+
+  const userId = await getUserId(request)
+  if (!userId) return redirect('/')
+
+  const note = await createNote({ userId, title, body })
+
+  return redirect('/dashboard')
+}
 
 export default function NewNoteRoute() {
   return (
@@ -42,8 +58,12 @@ export default function NewNoteRoute() {
         </div>
 
         <div className="col-12 d-flex justify-content-end align-items-center gap-2 mt-4 ">
-          <button className="btn btn-secondary">Cancel</button>
-          <button className="btn btn-success">Save</button>
+          <Link to=".." className="btn btn-secondary">
+            Cancel
+          </Link>
+          <button className="btn btn-success" type="submit">
+            Save
+          </button>
         </div>
       </Form>
     </div>

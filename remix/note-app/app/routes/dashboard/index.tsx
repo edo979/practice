@@ -1,6 +1,6 @@
 import { LoaderFunction, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { getNotes } from '~/models/notes.server'
+import { getNotesIdAndTitle } from '~/models/notes.server'
 import { getUser } from '~/sessions.server'
 
 type LoaderData = {
@@ -15,7 +15,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request)
   if (!user) return redirect('/')
 
-  const notes = await getNotes(user.id)
+  const notes = await getNotesIdAndTitle(user.id)
   return { notes } as LoaderData
 }
 
@@ -27,7 +27,7 @@ export default function DashboardIndexRoute() {
       <h2>Notes:</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
         {notes.map((note) => (
-          <div className="col">
+          <div className="col" key={note.id}>
             <div className="card h-100">
               <div className="card-body">
                 <h5 className="card-title">{note.title}</h5>

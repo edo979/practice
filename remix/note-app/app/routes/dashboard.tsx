@@ -1,6 +1,5 @@
 import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, NavLink, Outlet, useLoaderData } from '@remix-run/react'
-import { getNotes } from '~/models/notes.server'
 import { getUser } from '~/sessions.server'
 import styles from '~/style/dashboard.css'
 
@@ -19,8 +18,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request)
   if (!user) return redirect('/')
 
-  const notes = await getNotes(user.id)
-  return { user: { id: user.id, email: user.email }, notes } as LoaderData
+  return { user: { id: user.id, email: user.email } } as LoaderData
 }
 
 export default function DashboardRoute() {
