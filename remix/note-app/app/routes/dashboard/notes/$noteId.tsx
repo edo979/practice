@@ -15,11 +15,23 @@ export default function noteRoute() {
 
   return (
     <div className="row">
-      <h3 className="col-12">{note.title}</h3>
-      <div className="col-12">{note.body}</div>
-      <Link to="../..">
-        <button className="btn btn-primary">Back</button>
-      </Link>
+      <div className="hstack">
+        <h2 className="m-0 h4">{note.title}</h2>
+        <div className="hstack gap-2 ms-auto">
+          <Link to="../..">
+            <button className="btn btn-sm btn-outline-secondary">Back</button>
+          </Link>
+          <Link to="../..">
+            <button className="btn btn-sm btn-primary">Edit</button>
+          </Link>
+        </div>
+      </div>
+
+      <div className="hstack flex-wrap">
+        <i className="badge bg-primary">tag</i>
+      </div>
+
+      <div className="col-12 mt-2">{note.body}</div>
     </div>
   )
 }
