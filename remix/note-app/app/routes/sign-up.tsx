@@ -30,6 +30,8 @@ export const action: ActionFunction = async ({
 
   const user = await createUser({ email, password })
 
+  if (!user) return { formError: 'User with that email is registered' }
+
   return createUserSession({
     request,
     userId: user.id,

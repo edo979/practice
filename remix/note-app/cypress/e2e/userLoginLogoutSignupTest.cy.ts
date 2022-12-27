@@ -43,6 +43,18 @@ describe('User create, logout, login, delete', () => {
     cy.get('#login-link-btn').should('be.visible')
   })
 
+  it('Get error message when register with same name', () => {
+    cy.visit('/sign-up').wait(300)
+    cy.get('#form-error-message').should('not.exist')
+
+    cy.get('input[name=email]').type(user.email)
+    cy.get('input[name=password]').type(`${user.password}{enter}`, {
+      log: false,
+    })
+
+    cy.get('#form-error-message').should('be.visible')
+  })
+
   // it('Should successfuly login user', () => {
   //   cy.login('kiki@gmail.com', 'jahjah')
   // })

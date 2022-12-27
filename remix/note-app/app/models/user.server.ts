@@ -7,7 +7,7 @@ if (mongoose.models['User']) {
 }
 
 const userSchema = new mongoose.Schema({
-  email: String,
+  email: { type: String, unique: true },
   password: String,
 })
 
@@ -20,13 +20,16 @@ export const createUser = async ({
   email: string
   password: string
 }) => {
-  const hashedPassword = await bcrypt.hash(password, 10)
-  const user = await User.create({
-    email,
-    password: hashedPassword,
-  })
-
-  return { email: user.email, id: user.id }
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const user = await User.create({
+      email,
+      password: hashedPassword,
+    })
+    return { email: user.email, id: user.id }
+  } catch (error) {
+    return null
+  }
 }
 
 export const getUserById = async (id: string) => {
