@@ -2,14 +2,16 @@ import { LoaderFunction } from '@remix-run/node'
 import { Form, Link, NavLink, useLoaderData } from '@remix-run/react'
 import { getUser } from '~/sessions.server'
 
-type LoaderData = {
-  email: string | null
-  id: string | null
-} | null
+type LoaderData =
+  | {
+      email?: string
+      id?: string
+    }
+  | undefined
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await getUser(request)
-  if (!user) return null as LoaderData
+  if (!user) return undefined
 
   const data: LoaderData = { email: user.email, id: user.id }
   return data

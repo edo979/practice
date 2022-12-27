@@ -9,3 +9,7 @@ export function validatePassword(password: unknown): string | undefined {
     return 'Password must be at least 3 char long.'
   }
 }
+
+export function validateNoteInputField(input: string): string | undefined {
+  if (input.length < 6) return 'Please add more text'
+}

@@ -1,12 +1,42 @@
 import { ActionFunction, redirect } from '@remix-run/node'
 import { Form, Link } from '@remix-run/react'
+import { validateNoteInputField } from '~/formValidaror'
 import { createNote } from '~/models/notes.server'
 import { getUserId } from '~/sessions.server'
 
-export const action: ActionFunction = async ({ request }) => {
+type ActionData =
+  | {
+      formError?: string
+      formFields?: {
+        title?: string
+        body?: string
+      }
+      formFieldsError?: {
+        title?: string
+        body?: string
+      }
+    }
+  | undefined
+
+export const action: ActionFunction = async ({
+  request,
+}): Promise<Response | ActionData> => {
   const formData = await request.formData()
-  const title = formData.get('title') as string
-  const body = formData.get('body') as string
+  const title = formData.get('title')
+  const body = formData.get('body')
+
+  if (typeof title !== 'string' || typeof body !== 'string')
+    return {
+      formError: 'Form submitet wrong',
+    }
+
+  const formFields = { title, body }
+  const formFieldsError = {
+    title: validateNoteInputField(title),
+    body: validateNoteInputField(body),
+  }
+  if (Object.values(formFieldsError).some(Boolean))
+    return { formFields, formFieldsError }
 
   const userId = await getUserId(request)
   if (!userId) return redirect('/')
