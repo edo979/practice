@@ -166,6 +166,7 @@ export default function DashboardRoute() {
                   <button
                     type="button"
                     className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    id="createNoteBtn"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

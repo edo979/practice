@@ -32,7 +32,7 @@ export default function DashboardIndexRoute() {
             key={note.id}
             className="text-decoration-none text-reset"
           >
-            <div className="col">
+            <div className="col" id="userNoteCards">
               <div className="card h-100">
                 <div className="card-body">
                   <h5 className="card-title">{note.title}</h5>

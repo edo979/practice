@@ -60,7 +60,7 @@ export default function NewNoteRoute() {
         <Link to="../.." className="btn btn-secondary">
           Cancel
         </Link>
-        <button className="btn btn-success" type="submit">
+        <button className="btn btn-success" type="submit" id="saveNoteBtn">
           Save
         </button>
       </div>

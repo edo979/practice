@@ -16,7 +16,9 @@ export default function noteRoute() {
   return (
     <div className="row">
       <div className="hstack">
-        <h2 className="m-0 h4">{note.title}</h2>
+        <h2 className="m-0 h4" id="noteTitle">
+          {note.title}
+        </h2>
         <div className="hstack gap-2 ms-auto">
           <Link to="../..">
             <button className="btn btn-sm btn-outline-secondary">Back</button>
@@ -31,7 +33,9 @@ export default function noteRoute() {
         <i className="badge bg-primary">tag</i>
       </div>
 
-      <div className="col-12 mt-2">{note.body}</div>
+      <div className="col-12 mt-2" id="noteBody">
+        {note.body}
+      </div>
     </div>
   )
 }
