@@ -1,5 +1,6 @@
 import { ActionFunction, redirect } from '@remix-run/node'
-import { Form, Link } from '@remix-run/react'
+import { Form, Link, useActionData } from '@remix-run/react'
+import { useEffect, useRef } from 'react'
 import { validateNoteInputField } from '~/formValidaror'
 import { createNote } from '~/models/notes.server'
 import { getUserId } from '~/sessions.server'
@@ -35,6 +36,7 @@ export const action: ActionFunction = async ({
     title: validateNoteInputField(title),
     body: validateNoteInputField(body),
   }
+
   if (Object.values(formFieldsError).some(Boolean))
     return { formFields, formFieldsError }
 
@@ -47,6 +49,18 @@ export const action: ActionFunction = async ({
 }
 
 export default function NewNoteRoute() {
+  const errors = useActionData() as ActionData
+  const titleRef = useRef<HTMLInputElement>(null)
+  const bodyRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (errors?.formFieldsError?.title) {
+      titleRef.current?.focus()
+    } else if (errors?.formFieldsError?.body) {
+      bodyRef.current?.focus()
+    }
+  }, [errors])
+
   return (
     <Form method="post" className="row mt-4">
       <h2 className="h4 pb-2">Create new note:</h2>
@@ -57,12 +71,20 @@ export default function NewNoteRoute() {
         </label>
         <input
           type="text"
-          className="form-control"
+          ref={titleRef}
+          className={`form-control ${
+            errors?.formFieldsError?.title ? 'is-invalid' : ''
+          }`}
           placeholder="Title"
           aria-label="Title"
           id="title"
           name="title"
+          aria-describedby="invalidTitle"
+          aria-invalid={errors?.formFieldsError?.title ? true : undefined}
         />
+        <div className="invalid-feedback" id="invalidTitle">
+          Title is short
+        </div>
       </div>
 
       <div className="col">
@@ -83,7 +105,20 @@ export default function NewNoteRoute() {
         <label htmlFor="body" className="form-label">
           Body
         </label>
-        <textarea name="body" id="body" className="form-control" rows={10} />
+        <textarea
+          ref={bodyRef}
+          name="body"
+          id="body"
+          className={`form-control ${
+            errors?.formFieldsError?.body ? 'is-invalid' : ''
+          }`}
+          rows={10}
+          aria-describedby="invalidBody"
+          aria-invalid={errors?.formFieldsError?.body ? true : undefined}
+        />
+        <div className="invalid-feedback" id="invalidBody">
+          Please add more text.
+        </div>
       </div>
 
       <div className="col-12 d-flex justify-content-end align-items-center gap-2 mt-4 ">
