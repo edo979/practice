@@ -69,4 +69,33 @@ describe('Note create, view, edit and delete', () => {
     cy.get('.card-title').eq(0).should('contain', note.title)
     cy.get('.card-title').eq(1).should('contain', note2.title)
   })
+
+  it('Show validation message while creating note', () => {
+    const inputText = 'jahjah'
+
+    cy.visit('/login').wait(300)
+    cy.get('input[name=email]').type(user.email)
+    cy.get('input[name=password]').type(`${user.password}{enter}`, {
+      log: false,
+    })
+    cy.get('#createNoteBtn').click()
+
+    cy.get('#invalidTitle').should('not.be.visible')
+    cy.get('#invalidBody').should('not.be.visible')
+
+    cy.get('#saveNoteBtn').click()
+    cy.get('#invalidTitle').should('be.visible')
+    cy.get('#invalidBody').should('be.visible')
+
+    cy.get('#title').type(inputText)
+    cy.get('#saveNoteBtn').click()
+    cy.get('#invalidTitle').should('not.be.visible')
+    cy.get('#invalidBody').should('be.visible')
+
+    cy.get('#title').clear()
+    cy.get('#body').type(inputText)
+    cy.get('#saveNoteBtn').click()
+    cy.get('#invalidTitle').should('be.visible')
+    cy.get('#invalidBody').should('not.be.visible')
+  })
 })

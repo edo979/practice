@@ -11,7 +11,7 @@ type LoaderData =
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await getUser(request)
-  if (!user) return undefined
+  if (!user) return null
 
   const data: LoaderData = { email: user.email, id: user.id }
   return data
