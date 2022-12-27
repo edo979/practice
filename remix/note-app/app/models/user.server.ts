@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import { deleteUserNotes } from './notes.server'
 
 if (mongoose.models['User']) {
   delete mongoose.models['User']
@@ -49,6 +50,7 @@ export const checkUserPassword = async ({
 
 export const deleteUser = async (userId: string) => {
   try {
+    await deleteUserNotes(userId)
     await User.findByIdAndDelete(userId).exec()
     return true
   } catch {

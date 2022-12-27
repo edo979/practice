@@ -39,3 +39,7 @@ export const getNote = async (noteId: string) => {
   const note = await Note.findById(noteId)
   return note
 }
+
+export const deleteUserNotes = async (userId: string) => {
+  await Note.deleteMany({ userId })
+}
