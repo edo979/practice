@@ -35,8 +35,25 @@ export const getNotesIdAndTitle = async (userId: string) => {
   return notesWithId
 }
 
+export const checkNoteUser = async ({
+  noteId,
+  userId,
+}: {
+  noteId: string
+  userId: string
+}) => {
+  const note = await Note.find({ id: userId, userId }).exec()
+  if (note) return true
+  return null
+}
+
 export const getNote = async (noteId: string) => {
   const note = await Note.findById(noteId)
+  return note
+}
+
+export const editNote = async (noteId: string) => {
+  const note = await Note.findByIdAndUpdate(noteId)
   return note
 }
 

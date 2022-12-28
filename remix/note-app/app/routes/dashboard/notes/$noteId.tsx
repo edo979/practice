@@ -1,8 +1,11 @@
+import { ActionFunction, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { useRef, useState } from 'react'
 import { LoaderFunction } from 'react-router'
 import { Link } from 'react-router-dom'
-import { getNote } from '~/models/notes.server'
+import { validateNoteInputField } from '~/formValidaror'
+import { checkNoteUser, editNote, getNote } from '~/models/notes.server'
+import { getUserId } from '~/sessions.server'
 
 type ActionData =
   | {
@@ -23,6 +26,40 @@ export const loader: LoaderFunction = async ({ params }) => {
   const note = await getNote(noteId!)
 
   return note
+}
+
+export const action: ActionFunction = async ({
+  request,
+  params,
+}): Promise<Response | ActionData> => {
+  const formData = await request.formData()
+  const title = formData.get('title')
+  const body = formData.get('body')
+
+  const userId = await getUserId(request)
+  if (!userId) return redirect('/login')
+
+  if (typeof title !== 'string' || typeof body !== 'string')
+    return {
+      formError: 'Form submitet wrong',
+    }
+
+  const formFields = { title, body }
+  const formFieldsError = {
+    title: validateNoteInputField(title),
+    body: validateNoteInputField(body),
+  }
+
+  if (Object.values(formFieldsError).some(Boolean))
+    return { formFields, formFieldsError }
+
+  const noteId = params.noteId
+  if (!noteId) throw new Error('Error reading note')
+
+  const isUserNote = await checkNoteUser({ userId, noteId })
+  const note = await editNote(noteId)
+
+  return redirect(`/dashboard/notes/${noteId}`)
 }
 
 export default function noteRoute() {
