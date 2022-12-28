@@ -42,7 +42,7 @@ export const checkNoteUser = async ({
   noteId: string
   userId: string
 }) => {
-  const note = await Note.find({ id: userId, userId }).exec()
+  const note = await Note.find({ id: userId, noteId }).exec()
   if (note) return true
   return null
 }
@@ -63,6 +63,10 @@ export const editNote = async ({
 }) => {
   const note = await Note.findByIdAndUpdate(noteId, { title, body }).exec()
   return note
+}
+
+export const deleteNote = async (noteId: string) => {
+  await Note.findByIdAndDelete(noteId)
 }
 
 export const deleteUserNotes = async (userId: string) => {

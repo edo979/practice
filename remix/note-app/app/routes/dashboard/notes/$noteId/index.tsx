@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Form, Link, useLoaderData } from '@remix-run/react'
 import { getNote } from '~/models/notes.server'
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -22,6 +22,18 @@ export default function SingleNoteRoute() {
           <Link to="../..">
             <button className="btn btn-sm btn-outline-secondary">Back</button>
           </Link>
+          <Form
+            action="delete"
+            method="post"
+            onSubmit={(e) => {
+              if (!confirm('This note will be deleted. Are your shoure?'))
+                e.preventDefault()
+            }}
+          >
+            <button className="btn btn-danger btn-sm" id="deleteNoteBtn">
+              Delete
+            </button>
+          </Form>
           <Link to={`edit`} className="btn btn-sm btn-primary" id="editNoteBtn">
             Edit
           </Link>
