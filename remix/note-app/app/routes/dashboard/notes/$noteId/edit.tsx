@@ -1,6 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { validateNoteInputField } from '~/formValidaror'
 import { checkNoteUser, editNote, getNote } from '~/models/notes.server'
 import { getUserId } from '~/sessions.server'
@@ -30,12 +30,12 @@ export const action: ActionFunction = async ({
   request,
   params,
 }): Promise<Response | ActionData> => {
+  const userId = await getUserId(request)
+  if (!userId) return redirect('/login')
+
   const formData = await request.formData()
   const title = formData.get('title')
   const body = formData.get('body')
-
-  const userId = await getUserId(request)
-  if (!userId) return redirect('/login')
 
   if (typeof title !== 'string' || typeof body !== 'string')
     return {
@@ -55,9 +55,11 @@ export const action: ActionFunction = async ({
   if (!noteId) throw new Error('Error reading note')
 
   const isUserNote = await checkNoteUser({ userId, noteId })
-  const note = await editNote(noteId)
+  if (!isUserNote) throw new Error('That note is not your!')
 
-  return redirect(`/dashboard/notes/${noteId}`)
+  await editNote({ noteId, title, body })
+
+  return redirect(`..`)
 }
 
 export default function EditNoteRoute() {
@@ -66,78 +68,84 @@ export default function EditNoteRoute() {
   const titleRef = useRef<HTMLInputElement>(null)
   const bodyRef = useRef<HTMLTextAreaElement>(null)
 
+  useEffect(() => {
+    if (actionData?.formFieldsError?.title) {
+      titleRef.current?.focus()
+    } else if (actionData?.formFieldsError?.body) {
+      bodyRef.current?.focus()
+    }
+  }, [actionData])
+
   return (
-    <div className="row">
-      <Form method="post" className="row mt-4">
-        <h2 className="h4 pb-2">Create new note:</h2>
+    <Form method="post" className="row mt-4">
+      <h2 className="h4 pb-2">Create new note:</h2>
 
-        <div className="col">
-          <label htmlFor="title" className="form-label">
-            Title
-          </label>
-          <input
-            type="text"
-            ref={titleRef}
-            className={`form-control ${
-              actionData?.formFieldsError?.title ? 'is-invalid' : ''
-            }`}
-            placeholder="Title"
-            aria-label="Title"
-            id="title"
-            name="title"
-            aria-describedby="invalidTitle"
-            aria-invalid={actionData?.formFieldsError?.title ? true : undefined}
-            defaultValue={actionData?.formFields?.title || note.title}
-          />
-          <div className="invalid-feedback" id="invalidTitle">
-            Title is short
-          </div>
+      <div className="col">
+        <label htmlFor="title" className="form-label">
+          Title
+        </label>
+        <input
+          type="text"
+          ref={titleRef}
+          className={`form-control ${
+            actionData?.formFieldsError?.title ? 'is-invalid' : ''
+          }`}
+          placeholder="Title"
+          aria-label="Title"
+          id="title"
+          name="title"
+          aria-describedby="invalidTitle"
+          aria-invalid={actionData?.formFieldsError?.title ? true : undefined}
+          defaultValue={actionData?.formFields?.title || note.title}
+        />
+        <div className="invalid-feedback" id="invalidTitle">
+          Title is short
         </div>
+      </div>
 
-        <div className="col">
-          <label htmlFor="tags" className="form-label">
-            Tags
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Tags"
-            aria-label="Tags"
-            id="tags"
-            name="tags"
-          />
-        </div>
+      <div className="col">
+        <label htmlFor="tags" className="form-label">
+          Tags
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Tags"
+          aria-label="Tags"
+          id="tags"
+          name="tags"
+        />
+      </div>
 
-        <div className="col-12 mt-4">
-          <label htmlFor="body" className="form-label">
-            Body
-          </label>
-          <textarea
-            ref={bodyRef}
-            name="body"
-            id="body"
-            className={`form-control ${
-              actionData?.formFieldsError?.body ? 'is-invalid' : ''
-            }`}
-            rows={10}
-            aria-describedby="invalidBody"
-            aria-invalid={actionData?.formFieldsError?.body ? true : undefined}
-            defaultValue={actionData?.formFields?.body || note.body}
-          />
-          <div className="invalid-feedback" id="invalidBody">
-            Please add more text.
-          </div>
+      <div className="col-12 mt-4">
+        <label htmlFor="body" className="form-label">
+          Body
+        </label>
+        <textarea
+          ref={bodyRef}
+          name="body"
+          id="body"
+          className={`form-control ${
+            actionData?.formFieldsError?.body ? 'is-invalid' : ''
+          }`}
+          rows={10}
+          aria-describedby="invalidBody"
+          aria-invalid={actionData?.formFieldsError?.body ? true : undefined}
+          defaultValue={actionData?.formFields?.body || note.body}
+        />
+        <div className="invalid-feedback" id="invalidBody">
+          Please add more text.
         </div>
+      </div>
 
-        <div className="col-12 d-flex justify-content-end align-items-center gap-2 mt-4 ">
-          <Link to={'..'} className="btn btn-secondary" id="cancelEditNoteBtn">
-            Cancel
-          </Link>
-          <button className="btn btn-success" type="submit" id="saveNoteBtn">
-            Save
-          </button>
-        </div>
-      </Form>
-    </div>
+      <div className="col-12 d-flex justify-content-end align-items-center gap-2 mt-4 ">
+        <Link to={'..'} className="btn btn-secondary" id="cancelEditNoteBtn">
+          Cancel
+        </Link>
+        <button className="btn btn-success" type="submit" id="saveNoteBtn">
+          Save
+        </button>
+      </div>
+    </Form>
   )
 }

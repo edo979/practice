@@ -52,8 +52,16 @@ export const getNote = async (noteId: string) => {
   return note
 }
 
-export const editNote = async (noteId: string) => {
-  const note = await Note.findByIdAndUpdate(noteId)
+export const editNote = async ({
+  noteId,
+  title,
+  body,
+}: {
+  noteId: string
+  title: string
+  body: string
+}) => {
+  const note = await Note.findByIdAndUpdate(noteId, { title, body }).exec()
   return note
 }
 
