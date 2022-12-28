@@ -28,7 +28,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function noteRoute() {
   const note = useLoaderData()
   const [isEditNote, setIsEditNote] = useState(false)
-  const errors = useActionData() as ActionData
+  const actionData = useActionData() as ActionData
   const titleRef = useRef<HTMLInputElement>(null)
   const bodyRef = useRef<HTMLTextAreaElement>(null)
 
@@ -47,14 +47,17 @@ export default function noteRoute() {
                 type="text"
                 ref={titleRef}
                 className={`form-control ${
-                  errors?.formFieldsError?.title ? 'is-invalid' : ''
+                  actionData?.formFieldsError?.title ? 'is-invalid' : ''
                 }`}
                 placeholder="Title"
                 aria-label="Title"
                 id="title"
                 name="title"
                 aria-describedby="invalidTitle"
-                aria-invalid={errors?.formFieldsError?.title ? true : undefined}
+                aria-invalid={
+                  actionData?.formFieldsError?.title ? true : undefined
+                }
+                defaultValue={actionData?.formFields?.title || note.title}
               />
               <div className="invalid-feedback" id="invalidTitle">
                 Title is short
@@ -84,11 +87,14 @@ export default function noteRoute() {
                 name="body"
                 id="body"
                 className={`form-control ${
-                  errors?.formFieldsError?.body ? 'is-invalid' : ''
+                  actionData?.formFieldsError?.body ? 'is-invalid' : ''
                 }`}
                 rows={10}
                 aria-describedby="invalidBody"
-                aria-invalid={errors?.formFieldsError?.body ? true : undefined}
+                aria-invalid={
+                  actionData?.formFieldsError?.body ? true : undefined
+                }
+                defaultValue={actionData?.formFields?.body || note.body}
               />
               <div className="invalid-feedback" id="invalidBody">
                 Please add more text.
@@ -96,9 +102,13 @@ export default function noteRoute() {
             </div>
 
             <div className="col-12 d-flex justify-content-end align-items-center gap-2 mt-4 ">
-              <Link to="../.." className="btn btn-secondary">
+              <button
+                className="btn btn-secondary"
+                id="cancelEditNoteBtn"
+                onClick={() => setIsEditNote(false)}
+              >
                 Cancel
-              </Link>
+              </button>
               <button
                 className="btn btn-success"
                 type="submit"
