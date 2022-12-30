@@ -25,14 +25,17 @@ export default function DashboardIndexRoute() {
   return (
     <section>
       <h2 className="h4">Notes:</h2>
-      <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+      <div
+        className="row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4"
+        id="userNoteCards"
+      >
         {notes.map((note) => (
           <Link
             to={`notes/${note.id}`}
             key={note.id}
             className="text-decoration-none text-reset"
           >
-            <div className="col" id="userNoteCards">
+            <div className="col">
               <div className="card h-100">
                 <div className="card-body">
                   <h5 className="card-title">{note.title}</h5>

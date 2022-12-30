@@ -1,21 +1,15 @@
-describe('Note create, view, edit and delete', () => {
+describe('Note create, view, edit and delete', { testIsolation: false }, () => {
   const user = { email: 'newUser@new.com', password: 'jahjah' }
   const note = { title: 'Title test note', body: 'Test note body' }
   const note2 = { title: 'Title test note 2', body: 'Test note body 2' }
 
   before(() => {
-    cy.visit('/sign-up').wait(300)
-    cy.get('input[name=email]').type(user.email)
-    cy.get('input[name=password]').type(`${user.password}{enter}`, {
-      log: false,
-    })
+    Cypress.session.clearAllSavedSessions()
+    cy.signup(user.email, user.password)
+  })
 
-    cy.url().should('include', '/dashboard')
-    cy.get('#user-profile').should('contain', user.email)
-
-    cy.get('#logout-btn').click()
-    cy.url().should('not.include', '/dashboard')
-    cy.get('#login-link-btn').should('be.visible')
+  beforeEach(() => {
+    cy.visit('/dashboard').wait(300)
   })
 
   after(() => {
@@ -31,12 +25,6 @@ describe('Note create, view, edit and delete', () => {
   })
 
   it('Should create and view note', () => {
-    cy.visit('/login').wait(300)
-    cy.get('input[name=email]').type(user.email)
-    cy.get('input[name=password]').type(`${user.password}{enter}`, {
-      log: false,
-    })
-
     cy.url().should('include', '/dashboard')
     cy.get('#user-profile').should('contain', user.email)
 
@@ -50,18 +38,12 @@ describe('Note create, view, edit and delete', () => {
     cy.url().should('not.include', '/new')
     cy.get('.card-title').eq(0).should('contain', note.title)
 
-    cy.get('#userNoteCards').parent().click().wait(300)
+    cy.get('#userNoteCards > a').eq(0).click().wait(300)
     cy.get('#noteTitle').should('contain', note.title)
     cy.get('#noteBody').should('contain', note.body)
   })
 
   it('Should create second note and view two note in dashboard', () => {
-    cy.visit('/login').wait(300)
-    cy.get('input[name=email]').type(user.email)
-    cy.get('input[name=password]').type(`${user.password}{enter}`, {
-      log: false,
-    })
-
     cy.get('#createNoteBtn').click()
     cy.get('#title').type(note2.title)
     cy.get('#body').type(note2.body)
@@ -73,11 +55,6 @@ describe('Note create, view, edit and delete', () => {
   it('Show validation message while creating note', () => {
     const inputText = 'jahjah'
 
-    cy.visit('/login').wait(300)
-    cy.get('input[name=email]').type(user.email)
-    cy.get('input[name=password]').type(`${user.password}{enter}`, {
-      log: false,
-    })
     cy.get('#createNoteBtn').click()
 
     cy.get('#invalidTitle').should('not.be.visible')
@@ -97,5 +74,18 @@ describe('Note create, view, edit and delete', () => {
     cy.get('#saveNoteBtn').click()
     cy.get('#invalidTitle').should('be.visible')
     cy.get('#invalidBody').should('not.be.visible')
+  })
+
+  it('Should edit note', () => {
+    cy.get('#userNoteCards > a').eq(0).click().wait(300)
+    cy.get('#editNoteBtn').click()
+    cy.url().should('include', '/edit')
+
+    cy.get('#title').clear().type('Title is edited')
+    cy.get('#body').clear().type('Body is edited')
+    cy.get('#saveNoteBtn').click()
+
+    cy.get('#noteTitle').should('contain', 'Title is edited')
+    cy.get('#noteBody').should('contain', 'Body is edited')
   })
 })

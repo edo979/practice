@@ -36,15 +36,17 @@
 //   }
 // }
 
-Cypress.Commands.add('login', (username, password) => {
+Cypress.Commands.add('signup', (username, password) => {
   cy.session(
     username,
     () => {
-      cy.visit('/login').wait(500)
+      cy.visit('/sign-up').wait(500)
       cy.get('input[name=email]').type(username)
-      cy.get('input[name=password]').type(`${password}{enter}`, { log: false })
+      cy.get('input[name=password]')
+        .type(`${password}{enter}`, { log: false })
+        .wait(200)
       cy.url().should('include', '/dashboard')
-      cy.get('h1').should('contain', username)
+      cy.get('#user-profile').should('contain', username)
     },
     {
       validate: () => {
