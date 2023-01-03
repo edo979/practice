@@ -42,9 +42,13 @@ export const checkNoteUser = async ({
   noteId: string
   userId: string
 }) => {
-  const note = await Note.find({ id: userId, noteId }).exec()
-  if (note) return true
-  return null
+  console.log(noteId)
+  try {
+    const note = await Note.findById(noteId).where(userId)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export const getNote = async (noteId: string) => {

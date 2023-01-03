@@ -1,10 +1,18 @@
 import { LoaderFunction } from '@remix-run/node'
 import { Form, Link, useCatch, useLoaderData } from '@remix-run/react'
-import { getNote } from '~/models/notes.server'
+import { checkNoteUser, getNote } from '~/models/notes.server'
+import { requireUserId } from '~/sessions.server'
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+  const userId = await requireUserId(request)
   const noteId = params.noteId
-  const note = await getNote(noteId!)
+  if (!noteId) throw new Error('Error reading note')
+
+  const isUserNote = await checkNoteUser({ userId, noteId })
+  console.log(isUserNote)
+  if (!isUserNote) throw new Response('Is not user note', { status: 403 })
+
+  const note = await getNote(noteId)
 
   return note
 }
@@ -53,6 +61,7 @@ export default function SingleNoteRoute() {
 
 export function CatchBoundary() {
   const caught = useCatch()
+
   if (caught.status === 403) {
     return (
       <div className="alert alert-danger" role="alert">
