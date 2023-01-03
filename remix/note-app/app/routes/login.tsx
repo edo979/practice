@@ -5,6 +5,7 @@ import { validateEmail, validatePassword } from '~/formValidaror'
 import { checkUserPassword } from '~/models/user.server'
 import { createUserSession } from '~/sessions.server'
 import styles from '~/style/loginPage.css'
+import { safeRedirect } from '~/utils'
 
 export type ActionData = {
   formError?: string
@@ -22,17 +23,20 @@ export const links: LinksFunction = () => {
 export const action: ActionFunction = async ({
   request,
 }): Promise<Response | ActionData> => {
-  const { email, password, remember } = Object.fromEntries(
+  const { email, password, remember, redirectTo } = Object.fromEntries(
     await request.formData()
   )
 
   if (
     typeof email !== 'string' ||
     typeof password !== 'string' ||
+    typeof redirectTo !== 'string' ||
     (remember ? typeof remember !== 'string' : false)
   ) {
     return { formError: 'Form not submitted correctly' }
   }
+
+  const safeRedirectTo: string = safeRedirect(redirectTo)
 
   const fields = { email, password, remember }
   const fieldErrors = {
@@ -49,14 +53,14 @@ export const action: ActionFunction = async ({
     request,
     userId,
     remember: remember === 'on' ? true : false,
-    redirectTo: '/dashboard',
+    redirectTo: safeRedirectTo,
   })
 }
 
 export default function LoginRoute() {
   const actionData = useActionData() as ActionData
   const [searchParams] = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/notes'
+  const redirectTo = searchParams.get('redirectTo') || '/dashboard'
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 

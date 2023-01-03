@@ -6,6 +6,7 @@ import {
   Outlet,
   useCatch,
   useLoaderData,
+  useSearchParams,
 } from '@remix-run/react'
 import { getUser } from '~/sessions.server'
 import styles from '~/style/dashboard.css'
@@ -208,6 +209,9 @@ export default function DashboardRoute() {
 
 export function CatchBoundary() {
   const caught = useCatch()
+  const [searchParams] = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') || '/dashboard'
+
   if (caught.status === 401) {
     return (
       <div className="container">
@@ -216,7 +220,7 @@ export function CatchBoundary() {
             <div className="alert alert-danger mt-5" role="alert">
               You must be logged in!
               <hr />
-              <Link to="/login">
+              <Link to={`/login?redirectTo=${redirectTo}`}>
                 <button className="btn btn-primary">Login</button>
               </Link>
             </div>
