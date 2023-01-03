@@ -16,3 +16,16 @@ export function ErrorBoundary() {
     </div>
   )
 }
+
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  if (caught.status === 403) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        That note is not yours!
+      </div>
+    )
+  }
+  throw new Error(`Unhandled error: ${caught.status}`)
+}
