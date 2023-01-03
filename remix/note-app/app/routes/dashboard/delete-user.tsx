@@ -14,3 +14,12 @@ export const action: ActionFunction = async ({ request }) => {
 export const loader: LoaderFunction = async () => {
   return redirect('/dashboard')
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="alert alert-danger" role="alert">
+      <h1>Error:</h1>
+      <i>There was an error while deleting user.</i>
+    </div>
+  )
+}

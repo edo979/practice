@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -73,6 +74,10 @@ export function ErrorBoundary({ error }: { error: Error }) {
             <div className="alert alert-danger mt-5" role="alert">
               <h1>Aplication Error</h1>
               <i>{error.message}</i>
+              <hr />
+              <Link to="/">
+                <button className="btn btn-secondary">Home</button>
+              </Link>
             </div>
           </div>
         </div>

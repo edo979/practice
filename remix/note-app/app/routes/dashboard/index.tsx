@@ -49,3 +49,12 @@ export default function DashboardIndexRoute() {
     </section>
   )
 }
+
+export function ErrorBoundary() {
+  return (
+    <div className="alert alert-danger" role="alert">
+      <h1>Error:</h1>
+      <i>There was an error while loading notes.</i>
+    </div>
+  )
+}
