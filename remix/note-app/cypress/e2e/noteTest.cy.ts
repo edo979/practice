@@ -88,4 +88,19 @@ describe('Note create, view, edit and delete', { testIsolation: false }, () => {
     cy.get('#noteTitle').should('contain', 'Title is edited')
     cy.get('#noteBody').should('contain', 'Body is edited')
   })
+
+  it('Should show form error message', () => {
+    cy.get('#userNoteCards > a').eq(0).click().wait(300)
+    cy.get('#editNoteBtn').click()
+
+    cy.get('#invalidTitle').should('not.be.visible')
+    cy.get('#invalidBody').should('not.be.visible')
+
+    cy.get('#title').clear()
+    cy.get('#body').clear()
+    cy.get('#saveNoteBtn').click()
+
+    cy.get('#invalidTitle').should('be.visible')
+    cy.get('#invalidBody').should('be.visible')
+  })
 })
