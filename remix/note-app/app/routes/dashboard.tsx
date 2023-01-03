@@ -8,7 +8,7 @@ import {
   useLoaderData,
   useSearchParams,
 } from '@remix-run/react'
-import { getUser } from '~/sessions.server'
+import { getUser, requireUser, requireUserId } from '~/sessions.server'
 import styles from '~/style/dashboard.css'
 
 type LoaderData = {
@@ -23,9 +23,7 @@ export const links: LinksFunction = () => {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const user = await getUser(request)
-  if (!user) throw new Response('Must be logged in', { status: 401 })
-
+  const user = await requireUser(request)
   return { user: { id: user.id, email: user.email } } as LoaderData
 }
 
@@ -209,8 +207,6 @@ export default function DashboardRoute() {
 
 export function CatchBoundary() {
   const caught = useCatch()
-  const [searchParams] = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/dashboard'
 
   if (caught.status === 401) {
     return (
@@ -220,7 +216,7 @@ export function CatchBoundary() {
             <div className="alert alert-danger mt-5" role="alert">
               You must be logged in!
               <hr />
-              <Link to={`/login?redirectTo=${redirectTo}`}>
+              <Link to="/login">
                 <button className="btn btn-primary">Login</button>
               </Link>
             </div>
