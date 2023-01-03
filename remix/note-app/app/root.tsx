@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import React from 'react'
 
 export const links: LinksFunction = () => {
   return [
@@ -23,19 +24,25 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'Note app',
   viewport: 'width=device-width,initial-scale=1',
 })
 
-export default function App() {
+function Document({
+  children,
+  title = 'Note app',
+}: {
+  children: React.ReactNode
+  title?: string
+}) {
   return (
     <html lang="en">
       <head>
         <Meta />
+        <title>{title}</title>
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -46,5 +53,30 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
+  )
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
+  )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document title={'Page Error'}>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div className="alert alert-danger mt-5" role="alert">
+              <h1>Aplication Error</h1>
+              <i>{error.message}</i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Document>
   )
 }
