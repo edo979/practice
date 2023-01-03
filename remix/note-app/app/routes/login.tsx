@@ -8,8 +8,11 @@ import styles from '~/style/loginPage.css'
 
 export type ActionData = {
   formError?: string
-  fieldErrors?: { email: string | undefined; password: string | undefined }
-  fields?: { email: string; password: string }
+  fieldErrors?: {
+    email: string | undefined
+    password: string | undefined
+  }
+  fields?: { email: string; password: string; remember: FormDataEntryValue }
 }
 
 export const links: LinksFunction = () => {
@@ -19,13 +22,19 @@ export const links: LinksFunction = () => {
 export const action: ActionFunction = async ({
   request,
 }): Promise<Response | ActionData> => {
-  const { email, password } = Object.fromEntries(await request.formData())
+  const { email, password, remember } = Object.fromEntries(
+    await request.formData()
+  )
 
-  if (typeof email !== 'string' || typeof password !== 'string') {
+  if (
+    typeof email !== 'string' ||
+    typeof password !== 'string' ||
+    (remember ? typeof remember !== 'string' : false)
+  ) {
     return { formError: 'Form not submitted correctly' }
   }
 
-  const fields = { email, password }
+  const fields = { email, password, remember }
   const fieldErrors = {
     email: validateEmail(email),
     password: validatePassword(password),
@@ -39,7 +48,7 @@ export const action: ActionFunction = async ({
   return await createUserSession({
     request,
     userId,
-    remember: true,
+    remember: remember === 'on' ? true : false,
     redirectTo: '/dashboard',
   })
 }
@@ -110,7 +119,7 @@ export default function LoginRoute() {
 
         <div className="checkbox mb-3">
           <label>
-            <input type="checkbox" value="remember-me" /> Remember me
+            <input type="checkbox" id="remember" name="remember" /> Remember me
           </label>
         </div>
 
