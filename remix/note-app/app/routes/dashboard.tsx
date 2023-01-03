@@ -1,5 +1,12 @@
 import { LinksFunction, LoaderFunction, redirect } from '@remix-run/node'
-import { Form, Link, NavLink, Outlet, useLoaderData } from '@remix-run/react'
+import {
+  Form,
+  Link,
+  NavLink,
+  Outlet,
+  useCatch,
+  useLoaderData,
+} from '@remix-run/react'
 import { getUser } from '~/sessions.server'
 import styles from '~/style/dashboard.css'
 
@@ -16,7 +23,7 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request)
-  if (!user) return redirect('/')
+  if (!user) throw new Response('Must be logged in', { status: 401 })
 
   return { user: { id: user.id, email: user.email } } as LoaderData
 }
@@ -197,4 +204,26 @@ export default function DashboardRoute() {
       </div>
     </>
   )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+  if (caught.status === 401) {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div className="alert alert-danger mt-5" role="alert">
+              You must be logged in!
+              <hr />
+              <Link to="/login">
+                <button className="btn btn-primary">Login</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  throw new Error(`Unhandled error: ${caught.status}`)
 }

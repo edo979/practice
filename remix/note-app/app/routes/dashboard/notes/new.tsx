@@ -1,5 +1,5 @@
 import { ActionFunction, redirect } from '@remix-run/node'
-import { Form, Link, useActionData } from '@remix-run/react'
+import { Form, Link, useActionData, useCatch } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import { validateNoteInputField } from '~/formValidaror'
 import { createNote } from '~/models/notes.server'
@@ -41,7 +41,7 @@ export const action: ActionFunction = async ({
     return { formFields, formFieldsError }
 
   const userId = await getUserId(request)
-  if (!userId) return redirect('/')
+  if (!userId) throw new Response('Must be logged in', { status: 401 })
 
   const note = await createNote({ userId, title, body })
 
@@ -131,4 +131,16 @@ export default function NewNoteRoute() {
       </div>
     </Form>
   )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+  if (caught.status === 401) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        You must be logged in!
+      </div>
+    )
+  }
+  throw new Error(`Unhandled error: ${caught.status}`)
 }

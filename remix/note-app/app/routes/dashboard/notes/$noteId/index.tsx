@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/node'
-import { Form, Link, useLoaderData } from '@remix-run/react'
+import { Form, Link, useCatch, useLoaderData } from '@remix-run/react'
 import { getNote } from '~/models/notes.server'
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -49,4 +49,16 @@ export default function SingleNoteRoute() {
       </div>
     </>
   )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+  if (caught.status === 403) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        That note is not yours!
+      </div>
+    )
+  }
+  throw new Error(`Unhandled error: ${caught.status}`)
 }

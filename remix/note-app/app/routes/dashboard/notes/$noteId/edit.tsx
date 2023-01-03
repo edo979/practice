@@ -55,7 +55,7 @@ export const action: ActionFunction = async ({
   if (!noteId) throw new Error('Error reading note')
 
   const isUserNote = await checkNoteUser({ userId, noteId })
-  if (!isUserNote) throw new Error('That note is not your!')
+  if (!isUserNote) throw new Response('Is not user note', { status: 403 })
 
   await editNote({ noteId, title, body })
 

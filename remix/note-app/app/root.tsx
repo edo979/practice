@@ -7,6 +7,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from '@remix-run/react'
 import React from 'react'
 
@@ -74,6 +75,31 @@ export function ErrorBoundary({ error }: { error: Error }) {
             <div className="alert alert-danger mt-5" role="alert">
               <h1>Aplication Error</h1>
               <i>{error.message}</i>
+              <hr />
+              <Link to="/">
+                <button className="btn btn-secondary">Home</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Document>
+  )
+}
+
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  return (
+    <Document title={`${caught.status} ${caught.statusText}`}>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div className="alert alert-danger mt-5" role="alert">
+              <h1>Aplication Error</h1>
+              <i>
+                {caught.status} {caught.statusText}
+              </i>
               <hr />
               <Link to="/">
                 <button className="btn btn-secondary">Home</button>
