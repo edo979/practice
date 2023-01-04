@@ -1,0 +1,33 @@
+.user-list {
+  outline: 1px solid red;
+  margin: 0;
+  padding: 0 0 0 1rem;
+  width: 200px;
+}
+
+.user-list_item {
+  outline: 1px solid blue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controll-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bi {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* utlities */
+.ms-1 {
+  margin-inline-start: 0.5rem;
+}
+.ms-2 {
+  margin-inline-start: 1rem;
+}

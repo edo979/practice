@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getUsers, saveUser } from './api'
+import './styles/style.css'
 
 export default function Users() {
   const [userName, setUserName] = useState('')
@@ -48,9 +49,19 @@ export default function Users() {
       <h2>Users:</h2>
       {usersQuery.isLoading && <p>Loading...</p>}
       {usersQuery.isSuccess && (
-        <ul>
+        <ul className="user-list">
           {usersQuery.data?.map((user) => (
-            <li key={user.id}>{user.name}</li>
+            <li className="user-list_item" key={user.id}>
+              {user.name}{' '}
+              <span className="controll-icons">
+                <svg className="bi">
+                  <use xlinkHref="#icon-edit" />
+                </svg>
+                <svg className="bi">
+                  <use xlinkHref="#icon-delete" />
+                </svg>
+              </span>
+            </li>
           ))}
         </ul>
       )}
