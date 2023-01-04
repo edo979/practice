@@ -1,23 +1,33 @@
 import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getUsers, saveUser } from './api'
 
 export default function Users() {
-  const { status, data: users = [], error } = useQuery('users', getUsers)
   const [userName, setUserName] = useState('')
+  const queryClient = useQueryClient()
+  const { status, data: users = [], error } = useQuery('users', getUsers)
+  const mutation = useMutation(saveUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('users')
+    },
+  })
 
   async function addUser() {
-    const user = await saveUser(userName)
-    if (!user) {
-      console.log('Error when saving user')
-    }
+    mutation.mutate(userName)
     setUserName('')
   }
 
   return (
     <div>
       <p>
-        Total: <b>{users?.length}</b> users.
+        Total:{' '}
+        {status === 'loading' ? (
+          <span>loading...</span>
+        ) : (
+          <span>
+            <b>{users?.length}</b> users.
+          </span>
+        )}
       </p>
 
       <input
@@ -29,11 +39,14 @@ export default function Users() {
       <button onClick={addUser}>Add user</button>
 
       <h2>Users:</h2>
-      <ul>
-        {users?.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
+      {status === 'loading' && <p>Loading...</p>}
+      {status === 'success' && (
+        <ul>
+          {users?.map((user) => (
+            <li key={user.id}>{user.name}</li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
