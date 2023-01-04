@@ -6,14 +6,14 @@ export default function Users() {
   const [userName, setUserName] = useState('')
   const queryClient = useQueryClient()
   const { status, data: users = [], error } = useQuery('users', getUsers)
-  const mutation = useMutation(saveUser, {
+  const createUserMutation = useMutation(saveUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
     },
   })
 
   async function addUser() {
-    mutation.mutate(userName)
+    createUserMutation.mutate(userName)
     setUserName('')
   }
 
@@ -47,6 +47,7 @@ export default function Users() {
           ))}
         </ul>
       )}
+      {status === 'error' && <p>Sorry, an error is ocured!</p>}
     </div>
   )
 }
