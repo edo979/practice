@@ -4,20 +4,18 @@ import { getUsers, saveUser } from './api'
 
 export default function Users() {
   const [userName, setUserName] = useState('')
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
   const queryClient = useQueryClient()
-  const { status, data: users = [], error } = useQuery('users', getUsers)
+  const usersQuery = useQuery('users', getUsers)
   const createUserMutation = useMutation(saveUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
-      setErrorMsg(null)
-    },
-    onError: () => {
-      setErrorMsg('Error while adding user to db.')
     },
   })
 
   async function addUser() {
+    if (userName.trim() === '') return
+
     createUserMutation.mutate(userName)
     setUserName('')
   }
@@ -26,11 +24,11 @@ export default function Users() {
     <div>
       <p>
         Total:{' '}
-        {status === 'loading' ? (
+        {usersQuery.isLoading ? (
           <span>loading...</span>
         ) : (
           <span>
-            <b>{users?.length}</b> users.
+            <b>{usersQuery.data?.length}</b> users.
           </span>
         )}
       </p>
@@ -41,19 +39,22 @@ export default function Users() {
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
       />
-      <button onClick={addUser}>Add user</button>
-      {errorMsg && <p>{errorMsg}</p>}
+      <button onClick={addUser} disabled={createUserMutation.isLoading}>
+        {createUserMutation.status === 'loading' ? 'Saving...' : 'Save'}
+      </button>
+
+      {createUserMutation.isError && <p>Error while saving user.</p>}
 
       <h2>Users:</h2>
-      {status === 'loading' && <p>Loading...</p>}
-      {status === 'success' && (
+      {usersQuery.isLoading && <p>Loading...</p>}
+      {usersQuery.isSuccess && (
         <ul>
-          {users?.map((user) => (
+          {usersQuery.data?.map((user) => (
             <li key={user.id}>{user.name}</li>
           ))}
         </ul>
       )}
-      {status === 'error' && <p>Sorry, an error is ocured!</p>}
+      {usersQuery.isError && <p>Sorry, an error is ocured!</p>}
     </div>
   )
 }

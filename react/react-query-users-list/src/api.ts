@@ -6,6 +6,8 @@ type User = {
 const API_URL = 'http://localhost:5000'
 
 export async function getUsers() {
+  await new Promise((resolve) => setTimeout(resolve, 500))
+
   const res = await fetch(`${API_URL}/users`)
   const users: User[] = await res.json()
 
@@ -13,7 +15,8 @@ export async function getUsers() {
 }
 
 export async function saveUser(name: string) {
-  //await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 500))
+
   const id = await getId()
   const res = await fetch(`${API_URL}/users`, {
     method: 'POST',
