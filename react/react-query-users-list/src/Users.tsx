@@ -1,9 +1,18 @@
+import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { getUsers } from './api'
+import { getUsers, saveUser } from './api'
 
 export default function Users() {
   const { status, data: users = [], error } = useQuery('users', getUsers)
-  console.log(users)
+  const [userName, setUserName] = useState('')
+
+  async function addUser() {
+    const user = await saveUser(userName)
+    if (!user) {
+      console.log('Error when saving user')
+    }
+    setUserName('')
+  }
 
   return (
     <div>
@@ -11,8 +20,13 @@ export default function Users() {
         Total: <b>{users?.length}</b> users.
       </p>
 
-      <input type="text" name="user" />
-      <button>Add user</button>
+      <input
+        type="text"
+        name="user"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+      />
+      <button onClick={addUser}>Add user</button>
 
       <h2>Users:</h2>
       <ul>
