@@ -4,11 +4,16 @@ import { getUsers, saveUser } from './api'
 
 export default function Users() {
   const [userName, setUserName] = useState('')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const queryClient = useQueryClient()
   const { status, data: users = [], error } = useQuery('users', getUsers)
   const createUserMutation = useMutation(saveUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
+      setErrorMsg(null)
+    },
+    onError: () => {
+      setErrorMsg('Error while adding user to db.')
     },
   })
 
@@ -37,6 +42,7 @@ export default function Users() {
         onChange={(e) => setUserName(e.target.value)}
       />
       <button onClick={addUser}>Add user</button>
+      {errorMsg && <p>{errorMsg}</p>}
 
       <h2>Users:</h2>
       {status === 'loading' && <p>Loading...</p>}

@@ -13,22 +13,15 @@ export async function getUsers() {
 }
 
 export async function saveUser(name: string) {
-  try {
-    const id = await getId()
-    const res = await fetch(`${API_URL}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id, name }),
-    })
-
-    const user: User = await res.json()
-    return user
-  } catch (error) {
-    console.log(error)
-    return null
-  }
+  //await new Promise((resolve) => setTimeout(resolve, 2000))
+  const id = await getId()
+  const res = await fetch(`${API_URL}/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id, name }),
+  })
 }
 
 export async function getId() {

@@ -3,18 +3,6 @@
     {
       "id": 1,
       "name": "json-server"
-    },
-    {
-      "id": 2,
-      "name": "react"
-    },
-    {
-      "id": 3,
-      "name": "remix"
-    },
-    {
-      "id": 4,
-      "name": "nextJS"
     }
   ]
 }
