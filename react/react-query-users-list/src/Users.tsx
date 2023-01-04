@@ -54,12 +54,16 @@ export default function Users() {
             <li className="user-list_item" key={user.id}>
               {user.name}{' '}
               <span className="controll-icons">
-                <svg className="bi">
-                  <use xlinkHref="#icon-edit" />
-                </svg>
-                <svg className="bi">
-                  <use xlinkHref="#icon-delete" />
-                </svg>
+                <button className="btn btn-icon">
+                  <svg className="bi">
+                    <use xlinkHref="#icon-edit" />
+                  </svg>
+                </button>
+                <button className="btn btn-icon">
+                  <svg className="bi">
+                    <use xlinkHref="#icon-delete" />
+                  </svg>
+                </button>
               </span>
             </li>
           ))}

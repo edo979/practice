@@ -1,27 +1,47 @@
+:root {
+  --icon-px: 18px;
+}
+
 .user-list {
-  outline: 1px solid red;
   margin: 0;
   padding: 0 0 0 1rem;
   width: 200px;
 }
 
 .user-list_item {
-  outline: 1px solid blue;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-block: 0.75rem;
+}
+.user-list_item + .user-list_item {
+  border-top: 1px solid gray;
 }
 
 .controll-icons {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  height: min-content;
 }
 
 .bi {
-  width: 18px;
-  height: 18px;
+  width: var(--icon-px);
+  height: var(--icon-px);
   fill: currentColor;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.btn-icon {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: none;
+  height: var(--icon-px);
 }
 
 /* utlities */
