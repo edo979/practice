@@ -21,7 +21,7 @@ export default function ListItem({
     <li className="user-list_item">
       {isEditing ? (
         <form
-          className="d-flex align-center gap-1"
+          className="d-flex align-center gap-1 w-100"
           onSubmit={(e) => {
             e.preventDefault()
             handleEditUser({ id: user.id, userName })

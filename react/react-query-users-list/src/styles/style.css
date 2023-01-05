@@ -1,3 +1,8 @@
+img,
+input {
+  width: 100%;
+}
+
 :root {
   --icon-px: 18px;
 }
@@ -24,10 +29,6 @@
 
 .user-form {
   display: flex;
-}
-
-.user-form input {
-  width: 100%;
 }
 
 .controll-icons {
@@ -57,11 +58,17 @@
 }
 
 /* utlities */
+.w-100 {
+  width: 100%;
+}
 .d-flex {
   display: flex;
 }
 .align-center {
   align-items: center;
+}
+.align-baseline {
+  align-items: baseline;
 }
 .gap-1 {
   gap: 0.5rem;
@@ -77,6 +84,9 @@
 }
 .ms-2 {
   margin-inline-start: 1rem;
+}
+.mb-0 {
+  margin-bottom: 0;
 }
 
 .text-center {

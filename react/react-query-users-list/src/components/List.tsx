@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { deleteUser, getUsers, updateUser, User } from '../api'
 import ListItem from './ListItem'
+import Spinner from './Spinner'
 
 export default function List() {
   const queryClient = useQueryClient()
@@ -47,6 +48,10 @@ export default function List() {
 
   return (
     <div className="container">
+      <div className="d-flex align-baseline gap-1">
+        <h2 className="mb-0">Users:</h2>
+        {(editMutation.isLoading || deleteMutation.isLoading) && <Spinner />}
+      </div>
       {usersQuery.isLoading && <p>Loading...</p>}
       {usersQuery.isSuccess && (
         <ul className="user-list">

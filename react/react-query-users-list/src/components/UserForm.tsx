@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { createUser, User } from '../api'
+import Spinner from './Spinner'
 
 export default function UserForm({}) {
   const [userName, setUserName] = useState('')
@@ -44,10 +45,14 @@ export default function UserForm({}) {
           className="d-flex align-center gap-1"
           disabled={mutation.isLoading}
         >
-          <svg className="bi">
-            <use xlinkHref="#icon-check" />
-          </svg>
-          {mutation.isLoading ? 'Saving...' : 'Save'}
+          {mutation.isLoading ? (
+            <Spinner />
+          ) : (
+            <svg className="bi">
+              <use xlinkHref="#icon-check" />
+            </svg>
+          )}
+          Save
         </button>
       </form>
 

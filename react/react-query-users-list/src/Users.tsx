@@ -9,7 +9,6 @@ export default function Users() {
       <UserCount />
       <UserForm />
 
-      <h2>Users:</h2>
       <List />
     </div>
   )
