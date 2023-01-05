@@ -21,14 +21,12 @@ export default function ListItem({ user }: ListItemProps) {
             if (!old) return []
 
             const updatedUsers = old.map((user) => {
-              if (user.id === data.id) {
-                return { ...user, name: data.name } as User
-              }
+              if (user.id === data.id) return { ...user, name: data.name }
               return user
             })
-
             return updatedUsers
           })
+
           setIsEditing(false)
         },
       }
