@@ -11,7 +11,7 @@ export default function List() {
   const usersQuery = useQuery('users', getUsers)
 
   return (
-    <div>
+    <div className="container">
       {usersQuery.isLoading && <p>Loading...</p>}
       {usersQuery.isSuccess && (
         <ul className="user-list">

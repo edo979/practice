@@ -17,7 +17,7 @@ export default function UserForm({
   return (
     <>
       <form
-        className="user-form"
+        className="user-form container"
         onSubmit={(e) => {
           e.preventDefault()
           handleCreateUser(userName)
@@ -31,7 +31,11 @@ export default function UserForm({
           onChange={(e) => setUserName(e.target.value)}
         />
 
-        <button type="submit" disabled={isLoading}>
+        <button
+          type="submit"
+          className="d-flex align-center gap-1"
+          disabled={isLoading}
+        >
           <svg className="bi">
             <use xlinkHref="#icon-check" />
           </svg>

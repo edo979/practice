@@ -2,10 +2,14 @@
   --icon-px: 18px;
 }
 
+.main-container {
+  width: 300px;
+  margin-inline: auto;
+}
+
 .user-list {
   margin: 0;
   padding: 0 0 0 1rem;
-  width: 200px;
 }
 
 .user-list_item {
@@ -16,6 +20,14 @@
 }
 .user-list_item + .user-list_item {
   border-top: 1px solid gray;
+}
+
+.user-form {
+  display: flex;
+}
+
+.user-form input {
+  width: 100%;
 }
 
 .controll-icons {
@@ -45,6 +57,18 @@
 }
 
 /* utlities */
+.d-flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.gap-1 {
+  gap: 0.5rem;
+}
+.gap-2 {
+  gap: 1rem;
+}
 .m-0 {
   margin: 0;
 }
@@ -53,4 +77,8 @@
 }
 .ms-2 {
   margin-inline-start: 1rem;
+}
+
+.text-center {
+  text-align: center;
 }
