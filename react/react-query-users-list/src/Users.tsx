@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getUsers, saveUser } from './api'
-import ListItem from './components/ListItem'
+import List from './components/List'
 import UserForm from './components/UserForm'
 import './styles/style.css'
 
@@ -37,20 +37,11 @@ export default function Users() {
       <UserForm
         handleCreateUser={handleCreateUser}
         isLoading={createUserMutation.isLoading}
+        isError={createUserMutation.isError}
       />
 
-      {createUserMutation.isError && <p>Error while saving user.</p>}
-
       <h2>Users:</h2>
-      {usersQuery.isLoading && <p>Loading...</p>}
-      {usersQuery.isSuccess && (
-        <ul className="user-list">
-          {usersQuery.data?.map((user) => (
-            <ListItem user={user} key={user.id} />
-          ))}
-        </ul>
-      )}
-      {usersQuery.isError && <p>Sorry, an error is ocured!</p>}
+      <List />
     </div>
   )
 }
