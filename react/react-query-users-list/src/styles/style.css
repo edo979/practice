@@ -45,6 +45,9 @@
 }
 
 /* utlities */
+.m-0 {
+  margin: 0;
+}
 .ms-1 {
   margin-inline-start: 0.5rem;
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getUsers, saveUser } from './api'
+import ListItem from './components/ListItem'
 import './styles/style.css'
 
 export default function Users() {
@@ -51,21 +52,7 @@ export default function Users() {
       {usersQuery.isSuccess && (
         <ul className="user-list">
           {usersQuery.data?.map((user) => (
-            <li className="user-list_item" key={user.id}>
-              {user.name}{' '}
-              <span className="controll-icons">
-                <button className="btn btn-icon">
-                  <svg className="bi">
-                    <use xlinkHref="#icon-edit" />
-                  </svg>
-                </button>
-                <button className="btn btn-icon">
-                  <svg className="bi">
-                    <use xlinkHref="#icon-delete" />
-                  </svg>
-                </button>
-              </span>
-            </li>
+            <ListItem user={user} />
           ))}
         </ul>
       )}
