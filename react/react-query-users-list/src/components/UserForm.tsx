@@ -1,17 +1,28 @@
 import { useState } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
+import { createUser, User } from '../api'
 
-type UserFormProps = {
-  handleCreateUser: (userName: string) => void
-  isLoading: boolean
-  isError: boolean
-}
-
-export default function UserForm({
-  handleCreateUser,
-  isLoading,
-  isError,
-}: UserFormProps) {
+export default function UserForm({}) {
   const [userName, setUserName] = useState('')
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation(createUser, {
+    onSuccess: (data: User) => {
+      queryClient.setQueryData('users', (old: User[] | undefined) => {
+        if (!old) return []
+        old.push(data)
+        return old
+      })
+    },
+  })
+
+  async function handleCreateUser() {
+    if (userName.trim() === '') return
+
+    mutation.mutate(userName)
+    setUserName('')
+  }
+
   console.log('User form comp is rendered')
 
   return (
@@ -20,8 +31,7 @@ export default function UserForm({
         className="user-form container"
         onSubmit={(e) => {
           e.preventDefault()
-          handleCreateUser(userName)
-          setUserName('')
+          handleCreateUser()
         }}
       >
         <input
@@ -34,16 +44,16 @@ export default function UserForm({
         <button
           type="submit"
           className="d-flex align-center gap-1"
-          disabled={isLoading}
+          disabled={mutation.isLoading}
         >
           <svg className="bi">
             <use xlinkHref="#icon-check" />
           </svg>
-          {isLoading ? 'Saving...' : 'Save'}
+          {mutation.isLoading ? 'Saving...' : 'Save'}
         </button>
       </form>
 
-      {isError && <p>Error while saving user.</p>}
+      {mutation.isError && <p>Error while saving user.</p>}
     </>
   )
 }

@@ -1,50 +1,23 @@
 import { useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
-import { deleteUser, updateUser, User } from '../api'
+import { User } from '../api'
 
 type ListItemProps = {
   user: User
+  handleDeleteUser: (id: number) => void
+  handleEditUser: ({ id, userName }: { id: number; userName: string }) => void
+  isLoading: boolean
 }
 
-export default function ListItem({ user }: ListItemProps) {
+export default function ListItem({
+  user,
+  handleDeleteUser,
+  handleEditUser,
+  isLoading,
+}: ListItemProps) {
+  console.log('ListItem is rendered')
+
   const [isEditing, setIsEditing] = useState(false)
   const [userName, setUserName] = useState(user.name)
-  const queryClient = useQueryClient()
-  const editMutation = useMutation(updateUser)
-  const deleteMutation = useMutation(deleteUser)
-
-  async function editUserName() {
-    editMutation.mutate(
-      { id: user.id, name: userName },
-      {
-        onSuccess: (data: User) => {
-          queryClient.setQueryData('users', (old: User[] | undefined) => {
-            if (!old) return []
-
-            const updatedUsers = old.map((user) => {
-              if (user.id === data.id) return { ...user, name: data.name }
-              return user
-            })
-            return updatedUsers
-          })
-
-          setIsEditing(false)
-        },
-      }
-    )
-  }
-
-  async function deleteUserFromDb() {
-    deleteMutation.mutate(user.id, {
-      onSuccess: () => {
-        queryClient.setQueryData('users', (old: User[] | undefined) => {
-          if (!old) return []
-
-          return old.filter((oldUser) => oldUser.id !== user.id)
-        })
-      },
-    })
-  }
 
   return (
     <li className="user-list_item">
@@ -53,20 +26,17 @@ export default function ListItem({ user }: ListItemProps) {
           className="d-flex align-center gap-1"
           onSubmit={(e) => {
             e.preventDefault()
-            editUserName()
+            handleEditUser({ id: user.id, userName })
+            setIsEditing(false)
           }}
         >
           <input
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            readOnly={editMutation.isLoading}
+            readOnly={isLoading}
           />
-          <button
-            type="submit"
-            className="btn btn-icon"
-            disabled={editMutation.isLoading}
-          >
+          <button type="submit" className="btn btn-icon" disabled={isLoading}>
             <svg className="bi">
               <use xlinkHref="#icon-check" />
             </svg>
@@ -88,7 +58,7 @@ export default function ListItem({ user }: ListItemProps) {
               type="button"
               onClick={() => {
                 if (confirm('User will be deleted. Are you shure?'))
-                  deleteUserFromDb()
+                  handleDeleteUser(user.id)
               }}
             >
               <svg className="bi">

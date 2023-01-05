@@ -25,7 +25,7 @@ export async function getUsers() {
   return users
 }
 
-export async function saveUser(name: string) {
+export async function createUser(name: string) {
   await new Promise((resolve) => setTimeout(resolve, 500))
 
   const id = await getId()
@@ -36,6 +36,8 @@ export async function saveUser(name: string) {
     },
     body: JSON.stringify({ id, name }),
   })
+
+  return await res.json()
 }
 
 export async function updateUser({ id, name }: { id: number; name: string }) {

@@ -1,23 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { getUsers, saveUser } from './api'
+import { useQuery } from 'react-query'
+import { getUsers } from './api'
 import List from './components/List'
 import UserForm from './components/UserForm'
 import './styles/style.css'
 
 export default function Users() {
-  const queryClient = useQueryClient()
   const usersQuery = useQuery('users', getUsers)
-
-  const createUserMutation = useMutation(saveUser, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('users')
-    },
-  })
-
-  async function handleCreateUser(userName: string) {
-    if (userName.trim() === '') return
-    createUserMutation.mutate(userName)
-  }
 
   console.log('User comp is rendered')
 
@@ -34,11 +22,7 @@ export default function Users() {
         )}
       </p>
 
-      <UserForm
-        handleCreateUser={handleCreateUser}
-        isLoading={createUserMutation.isLoading}
-        isError={createUserMutation.isError}
-      />
+      <UserForm />
 
       <h2>Users:</h2>
       <List />
