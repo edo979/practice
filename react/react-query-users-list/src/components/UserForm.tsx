@@ -23,8 +23,6 @@ export default function UserForm({}) {
     setUserName('')
   }
 
-  console.log('User form comp is rendered')
-
   return (
     <>
       <form

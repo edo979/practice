@@ -14,8 +14,6 @@ export default function ListItem({
   handleEditUser,
   isLoading,
 }: ListItemProps) {
-  console.log('ListItem is rendered')
-
   const [isEditing, setIsEditing] = useState(false)
   const [userName, setUserName] = useState(user.name)
 

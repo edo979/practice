@@ -3,8 +3,6 @@ import { deleteUser, getUsers, updateUser, User } from '../api'
 import ListItem from './ListItem'
 
 export default function List() {
-  console.log('List is rendered')
-
   const queryClient = useQueryClient()
   const usersQuery = useQuery('users', getUsers)
   const deleteMutation = useMutation(deleteUser)
