@@ -1,26 +1,25 @@
-import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getUsers, saveUser } from './api'
 import ListItem from './components/ListItem'
+import UserForm from './components/UserForm'
 import './styles/style.css'
 
 export default function Users() {
-  const [userName, setUserName] = useState('')
-
   const queryClient = useQueryClient()
   const usersQuery = useQuery('users', getUsers)
+
   const createUserMutation = useMutation(saveUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
     },
   })
 
-  async function addUser() {
+  async function handleCreateUser(userName: string) {
     if (userName.trim() === '') return
-
     createUserMutation.mutate(userName)
-    setUserName('')
   }
+
+  console.log('User comp is rendered')
 
   return (
     <div>
@@ -35,15 +34,10 @@ export default function Users() {
         )}
       </p>
 
-      <input
-        type="text"
-        name="user"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
+      <UserForm
+        handleCreateUser={handleCreateUser}
+        isLoading={createUserMutation.isLoading}
       />
-      <button onClick={addUser} disabled={createUserMutation.isLoading}>
-        {createUserMutation.status === 'loading' ? 'Saving...' : 'Save'}
-      </button>
 
       {createUserMutation.isError && <p>Error while saving user.</p>}
 
