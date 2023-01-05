@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { User } from '../api'
 
 type ListItemProps = {
@@ -16,6 +16,11 @@ export default function ListItem({
 }: ListItemProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [userName, setUserName] = useState(user.name)
+  const editInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (isEditing) editInputRef.current?.focus()
+  }, [isEditing])
 
   return (
     <li className="user-list_item">
@@ -30,6 +35,7 @@ export default function ListItem({
         >
           <input
             type="text"
+            ref={editInputRef}
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             readOnly={isLoading}
