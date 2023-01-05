@@ -5,6 +5,17 @@ export type User = {
 
 const API_URL = 'http://localhost:5000'
 
+export async function getId() {
+  const res = await fetch(`${API_URL}/users?_page=1&_limit=1`)
+  const count = res.headers.get('x-total-count')
+
+  if (!count) {
+    throw new Error("Cant't get id")
+  }
+
+  return parseInt(count) + 1
+}
+
 export async function getUsers() {
   await new Promise((resolve) => setTimeout(resolve, 500))
 
@@ -27,13 +38,16 @@ export async function saveUser(name: string) {
   })
 }
 
-export async function getId() {
-  const res = await fetch(`${API_URL}/users?_page=1&_limit=1`)
-  const count = res.headers.get('x-total-count')
+export async function updateUser({ id, name }: { id: number; name: string }) {
+  await new Promise((resolve) => setTimeout(resolve, 500))
 
-  if (!count) {
-    throw new Error("Cant't get id")
-  }
+  const res = await fetch(`${API_URL}/users/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name }),
+  })
 
-  return parseInt(count) + 1
+  return await res.json()
 }

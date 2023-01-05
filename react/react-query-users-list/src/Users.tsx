@@ -52,7 +52,7 @@ export default function Users() {
       {usersQuery.isSuccess && (
         <ul className="user-list">
           {usersQuery.data?.map((user) => (
-            <ListItem user={user} />
+            <ListItem user={user} key={user.id} />
           ))}
         </ul>
       )}
