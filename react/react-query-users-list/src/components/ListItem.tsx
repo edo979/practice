@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import { updateUser, User } from '../api'
+import { deleteUser, updateUser, User } from '../api'
 
 type ListItemProps = {
   user: User
@@ -10,13 +10,14 @@ export default function ListItem({ user }: ListItemProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [userName, setUserName] = useState(user.name)
   const queryClient = useQueryClient()
-  const mutation = useMutation(updateUser)
+  const editMutation = useMutation(updateUser)
+  const deleteMutation = useMutation(deleteUser)
 
   async function editUserName() {
-    mutation.mutate(
+    editMutation.mutate(
       { id: user.id, name: userName },
       {
-        onSuccess: (data) => {
+        onSuccess: (data: User) => {
           queryClient.setQueryData('users', (old: User[] | undefined) => {
             if (!old) return []
 
@@ -33,6 +34,18 @@ export default function ListItem({ user }: ListItemProps) {
     )
   }
 
+  async function deleteUserFromDb() {
+    deleteMutation.mutate(user.id, {
+      onSuccess: () => {
+        queryClient.setQueryData('users', (old: User[] | undefined) => {
+          if (!old) return []
+
+          return old.filter((oldUser) => oldUser.id !== user.id)
+        })
+      },
+    })
+  }
+
   return (
     <li className="user-list_item">
       {isEditing ? (
@@ -41,12 +54,12 @@ export default function ListItem({ user }: ListItemProps) {
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            readOnly={mutation.isLoading}
+            readOnly={editMutation.isLoading}
           />
           <button
             className="btn btn-icon"
             onClick={editUserName}
-            disabled={mutation.isLoading}
+            disabled={editMutation.isLoading}
           >
             <svg className="bi">
               <use xlinkHref="#icon-check" />
@@ -64,7 +77,14 @@ export default function ListItem({ user }: ListItemProps) {
               </svg>
             </button>
 
-            <button className="btn btn-icon">
+            <button
+              className="btn btn-icon"
+              type="button"
+              onClick={() => {
+                if (confirm('User will be deleted. Are you shure?'))
+                  deleteUserFromDb()
+              }}
+            >
               <svg className="bi">
                 <use xlinkHref="#icon-delete" />
               </svg>

@@ -51,3 +51,14 @@ export async function updateUser({ id, name }: { id: number; name: string }) {
 
   return await res.json()
 }
+
+export async function deleteUser(id: number) {
+  await new Promise((resolve) => setTimeout(resolve, 500))
+
+  const res = await fetch(`${API_URL}/users/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
