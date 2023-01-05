@@ -1,11 +1,6 @@
 import { useQuery } from 'react-query'
-import { getUsers, User } from '../api'
+import { getUsers } from '../api'
 import ListItem from './ListItem'
-
-type ListProps = {
-  users?: User[]
-  serverStatus: string
-}
 
 export default function List() {
   const usersQuery = useQuery('users', getUsers)

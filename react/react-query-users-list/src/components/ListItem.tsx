@@ -49,7 +49,13 @@ export default function ListItem({ user }: ListItemProps) {
   return (
     <li className="user-list_item">
       {isEditing ? (
-        <>
+        <form
+          className="d-flex align-center gap-1"
+          onSubmit={(e) => {
+            e.preventDefault()
+            editUserName()
+          }}
+        >
           <input
             type="text"
             value={userName}
@@ -57,15 +63,15 @@ export default function ListItem({ user }: ListItemProps) {
             readOnly={editMutation.isLoading}
           />
           <button
+            type="submit"
             className="btn btn-icon"
-            onClick={editUserName}
             disabled={editMutation.isLoading}
           >
             <svg className="bi">
               <use xlinkHref="#icon-check" />
             </svg>
           </button>
-        </>
+        </form>
       ) : (
         <>
           <p className="m-0">{user.name}</p>
