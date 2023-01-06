@@ -52,10 +52,10 @@ export default function ListItem({
           </button>
         </form>
       ) : (
-        <div className="flex justify-between pl-2">
+        <div className="flex items-center justify-between pl-2">
           <p>{user.name}</p>
 
-          <span>
+          <div className="flex gap-2 items-center">
             <button
               className="hover:text-blue-400"
               onClick={() => setIsEditing(true)}
@@ -66,7 +66,7 @@ export default function ListItem({
             </button>
 
             <button
-              className="ml-2 hover:text-red-500"
+              className="hover:text-red-500"
               type="button"
               onClick={() => {
                 if (confirm('User will be deleted. Are you shure?'))
@@ -77,7 +77,7 @@ export default function ListItem({
                 <use xlinkHref="#icon-delete" />
               </svg>
             </button>
-          </span>
+          </div>
         </div>
       )}
     </li>
