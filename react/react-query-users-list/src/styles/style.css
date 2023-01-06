@@ -8,6 +8,6 @@
   }
 
   .bi {
-    @apply w-5 h-5 fill-current;
+    @apply w-4 h-4 fill-current;
   }
 }
