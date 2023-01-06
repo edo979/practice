@@ -26,8 +26,4 @@
   .btn-primary {
     @apply text-gray-200 bg-gray-800 border-gray-900  hover:bg-gray-700 hover:text-gray-50 focus:ring-gray-200;
   }
-
-  .btn-danger {
-    @apply;
-  }
 }

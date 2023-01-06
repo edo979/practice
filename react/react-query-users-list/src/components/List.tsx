@@ -48,15 +48,13 @@ export default function List() {
 
   return (
     <div className="container">
-      <div className="d-flex align-baseline gap-1">
-        <h2 className="w-full pb-2 mb-2 border-b border-cyan-500 text-2xl font-semibold">
-          Users:
-        </h2>
+      <div className="w-full flex items-center justify-between gap-2 border-b border-cyan-500">
+        <h2 className="mb-2 pl-2 text-2xl font-semibold">Users:</h2>
         {(editMutation.isLoading || deleteMutation.isLoading) && <Spinner />}
       </div>
       {usersQuery.isLoading && <p>Loading...</p>}
       {usersQuery.isSuccess && (
-        <ul className="user-list">
+        <ul className="mt-2">
           {usersQuery.data?.map((user) => (
             <ListItem
               user={user}

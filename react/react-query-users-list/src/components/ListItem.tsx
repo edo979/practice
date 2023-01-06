@@ -23,10 +23,10 @@ export default function ListItem({
   }, [isEditing])
 
   return (
-    <li className="user-list_item">
+    <li className="user-list_item even:bg-gray-100 py-2 border-t border-gray-400 first:border-t-0">
       {isEditing ? (
         <form
-          className="d-flex align-center gap-1 w-100"
+          className="flex justify-between gap-1"
           onSubmit={(e) => {
             e.preventDefault()
             handleEditUser({ id: user.id, userName })
@@ -35,30 +35,38 @@ export default function ListItem({
         >
           <input
             type="text"
+            className="form-control"
             ref={editInputRef}
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             readOnly={isLoading}
           />
-          <button type="submit" className="btn btn-icon" disabled={isLoading}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isLoading}
+          >
             <svg className="bi">
               <use xlinkHref="#icon-check" />
             </svg>
           </button>
         </form>
       ) : (
-        <>
-          <p className="m-0">{user.name}</p>
+        <div className="flex justify-between pl-2">
+          <p>{user.name}</p>
 
-          <span className="controll-icons">
-            <button className="btn btn-icon" onClick={() => setIsEditing(true)}>
+          <span>
+            <button
+              className="hover:text-blue-400"
+              onClick={() => setIsEditing(true)}
+            >
               <svg className="bi">
                 <use xlinkHref="#icon-edit" />
               </svg>
             </button>
 
             <button
-              className="btn btn-icon"
+              className="ml-2 hover:text-red-500"
               type="button"
               onClick={() => {
                 if (confirm('User will be deleted. Are you shure?'))
@@ -70,7 +78,7 @@ export default function ListItem({
               </svg>
             </button>
           </span>
-        </>
+        </div>
       )}
     </li>
   )
