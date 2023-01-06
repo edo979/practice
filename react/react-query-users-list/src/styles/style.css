@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gray-800;
+@layer components {
+  body {
+    @apply text-slate-800;
+  }
+
+  .bi {
+    @apply w-5 h-5 fill-current;
+  }
 }
