@@ -27,7 +27,7 @@ export default function UserForm({}) {
   return (
     <>
       <form
-        className="flex items-center"
+        className="flex items-center gap-2 mb-4"
         onSubmit={(e) => {
           e.preventDefault()
           handleCreateUser()
@@ -35,15 +35,14 @@ export default function UserForm({}) {
       >
         <input
           type="text"
-          className="block w-full rounded px-2 py-2 text-sm font-medium
-          bg-white border border-gray-600 focus:outline-none focus:border-indigo-500 focus:ring-indigo-500"
+          className="form-control"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
 
         <button
           type="submit"
-          className="flex items-center gap-1 py-2 px-2 ml-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          className="btn btn-inline btn-primary"
           disabled={mutation.isLoading}
         >
           {mutation.isLoading ? (
