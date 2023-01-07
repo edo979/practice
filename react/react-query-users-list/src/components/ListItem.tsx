@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { User } from '../api'
+import { UserT } from '../api'
 
 type ListItemProps = {
-  user: User
-  handleDeleteUser: (id: number) => void
-  handleEditUser: ({ id, userName }: { id: number; userName: string }) => void
+  user: UserT
+  handleDeleteUser: (id: string) => void
+  handleEditUser: ({ id, userName }: { id: string; userName: string }) => void
   isLoading: boolean
 }
 
@@ -29,7 +29,7 @@ export default function ListItem({
           className="flex justify-between gap-1"
           onSubmit={(e) => {
             e.preventDefault()
-            handleEditUser({ id: user.id, userName })
+            handleEditUser({ id: user._id, userName })
             setIsEditing(false)
           }}
         >
@@ -70,7 +70,7 @@ export default function ListItem({
               type="button"
               onClick={() => {
                 if (confirm('User will be deleted. Are you shure?'))
-                  handleDeleteUser(user.id)
+                  handleDeleteUser(user._id)
               }}
             >
               <svg className="bi">

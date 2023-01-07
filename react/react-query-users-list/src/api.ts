@@ -1,5 +1,5 @@
-export type User = {
-  id: number
+export type UserT = {
+  _id: string
   name: string
 }
 
@@ -7,8 +7,7 @@ const API_URL = 'http://localhost:3000/api'
 
 export async function getUsers() {
   const res = await fetch(`${API_URL}/users`)
-  const users: User[] = await res.json()
-  console.log(users)
+  const users: UserT[] = await res.json()
   return users
 }
 

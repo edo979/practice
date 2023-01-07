@@ -6,7 +6,7 @@ import './styles/style.css'
 export default function Users() {
   return (
     <div>
-      <UserCount />
+      {/* <UserCount /> */}
       <UserForm />
 
       <List />

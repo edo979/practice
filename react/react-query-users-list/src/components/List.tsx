@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { deleteUser, getUsers, updateUser, User } from '../api'
+import { deleteUser, getUsers, updateUser } from '../api'
 import ListItem from './ListItem'
 import Spinner from './Spinner'
 
@@ -59,7 +59,7 @@ export default function List() {
           {usersQuery.data?.map((user) => (
             <ListItem
               user={user}
-              key={user.id}
+              key={user._id}
               handleDeleteUser={handleDeleteUser}
               handleEditUser={handleEditUser}
               isLoading={editMutation.isLoading}
