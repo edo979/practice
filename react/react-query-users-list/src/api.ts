@@ -19,8 +19,8 @@ export async function createUser(name: string) {
     },
     body: JSON.stringify({ name }),
   })
-
-  return await res.json()
+  const newUser: UserT = await res.json()
+  return newUser
 }
 
 export async function updateUser({ id, name }: { id: number; name: string }) {
