@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import { createUser, User } from '../api'
+import { createUser, UserT } from '../api'
 import Spinner from './Spinner'
 
 export default function UserForm({}) {
@@ -8,8 +8,8 @@ export default function UserForm({}) {
   const queryClient = useQueryClient()
 
   const mutation = useMutation(createUser, {
-    onSuccess: (data: User) => {
-      queryClient.setQueryData('users', (old: User[] | undefined) => {
+    onSuccess: (data: UserT) => {
+      queryClient.setQueryData('users', (old: UserT[] | undefined) => {
         if (!old) return []
         old.push(data)
         return old

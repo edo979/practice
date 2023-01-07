@@ -8,7 +8,7 @@ mongoose.set('strictQuery', false)
 export default async (request: VercelRequest, response: VercelResponse) => {
   let DB_URI = process.env.MONGO_URI
   if ((process.env.NODE_ENV = 'development')) {
-    DB_URI = process.env.MONGO_URI_DEV
+    DB_URI = process.env.MONGO_URI
   }
   if (!DB_URI) {
     return response.status(500).send('Error on server')

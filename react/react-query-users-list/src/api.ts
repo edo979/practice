@@ -3,10 +3,7 @@ export type UserT = {
   name: string
 }
 
-let API_URL = ''
-import.meta.env.DEV
-  ? (API_URL = 'http://localhost:3000/api')
-  : (API_URL = import.meta.env.VITE_BASE_URI)
+const API_URL = import.meta.env.VITE_BASE_URI
 
 export async function getUsers() {
   const res = await fetch(`${API_URL}/users`)
