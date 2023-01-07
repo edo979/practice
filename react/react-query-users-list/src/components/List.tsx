@@ -8,6 +8,7 @@ export default function List() {
   const usersQuery = useQuery('users', getUsers)
   const deleteMutation = useMutation(deleteUser)
   const editMutation = useMutation(updateUser)
+  console.log(usersQuery.data)
 
   async function handleDeleteUser(id: number) {
     deleteMutation.mutate(id, {
