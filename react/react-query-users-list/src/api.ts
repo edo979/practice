@@ -23,7 +23,7 @@ export async function createUser(name: string) {
   return newUser
 }
 
-export async function updateUser({ id, name }: { id: number; name: string }) {
+export async function updateUser({ id, name }: { id: string; name: string }) {
   const res = await fetch(`${API_URL}/users/${id}`, {
     method: 'PATCH',
     headers: {

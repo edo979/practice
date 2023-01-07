@@ -25,18 +25,18 @@ export default function List() {
     id,
     userName,
   }: {
-    id: number
+    id: string
     userName: string
   }) {
     editMutation.mutate(
       { id, name: userName },
       {
-        onSuccess: (data: User) => {
-          queryClient.setQueryData('users', (old: User[] | undefined) => {
+        onSuccess: (data: UserT) => {
+          queryClient.setQueryData('users', (old: UserT[] | undefined) => {
             if (!old) return []
 
             const updatedUsers = old.map((user) => {
-              if (user.id === data.id) return { ...user, name: data.name }
+              if (user._id === data._id) return { ...user, name: data.name }
               return user
             })
             return updatedUsers
