@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { deleteUser, getUsers, updateUser } from '../api'
+import { deleteUser, getUsers, updateUser, UserT } from '../api'
 import ListItem from './ListItem'
 import Spinner from './Spinner'
 
@@ -8,15 +8,14 @@ export default function List() {
   const usersQuery = useQuery('users', getUsers)
   const deleteMutation = useMutation(deleteUser)
   const editMutation = useMutation(updateUser)
-  console.log(usersQuery.data)
 
-  async function handleDeleteUser(id: number) {
+  async function handleDeleteUser(id: string) {
     deleteMutation.mutate(id, {
       onSuccess: () => {
-        queryClient.setQueryData('users', (old: User[] | undefined) => {
+        queryClient.setQueryData('users', (old: UserT[] | undefined) => {
           if (!old) return []
 
-          return old.filter((oldUser) => oldUser.id !== id)
+          return old.filter((oldUser) => oldUser._id !== id)
         })
       },
     })

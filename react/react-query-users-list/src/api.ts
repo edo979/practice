@@ -35,11 +35,11 @@ export async function updateUser({ id, name }: { id: number; name: string }) {
   return await res.json()
 }
 
-export async function deleteUser(id: number) {
+export async function deleteUser(id: string) {
   const res = await fetch(`${API_URL}/users/${id}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-type': 'application/json; charset=UTF-8',
     },
   })
 }
