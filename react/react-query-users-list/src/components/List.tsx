@@ -74,7 +74,7 @@ export default function List() {
       )}
       {usersQuery.isError && <p>Sorry, an error is ocured!</p>}
 
-      <div className="mt-4 flex justify-center gap-2">
+      <div className="mt-4 flex justify-center items-center gap-2">
         <button className="btn btn-primary" onClick={() => setPage(1)}>
           First
         </button>
