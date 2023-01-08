@@ -7,15 +7,7 @@ export default function UserForm({}) {
   const [userName, setUserName] = useState('')
   const queryClient = useQueryClient()
 
-  const mutation = useMutation(createUser, {
-    onSuccess: (data: UserT) => {
-      queryClient.setQueryData('users', (old: UserT[] | undefined) => {
-        if (!old) return []
-        old.push(data)
-        return old
-      })
-    },
-  })
+  const mutation = useMutation(createUser)
 
   async function handleCreateUser() {
     if (userName.trim() === '') return

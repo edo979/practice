@@ -12,17 +12,14 @@ export default function List() {
   const usersQuery = useQuery(['users', limit, page], () =>
     getUsers(limit, page)
   )
+
   const deleteMutation = useMutation(deleteUser)
   const editMutation = useMutation(updateUser)
 
   async function handleDeleteUser(id: string) {
     deleteMutation.mutate(id, {
       onSuccess: () => {
-        queryClient.setQueryData('users', (old: UserT[] | undefined) => {
-          if (!old) return []
-
-          return old.filter((oldUser) => oldUser._id !== id)
-        })
+        queryClient.invalidateQueries(['users', limit, page])
       },
     })
   }
@@ -38,14 +35,17 @@ export default function List() {
       { id, name: userName },
       {
         onSuccess: (data: UserT) => {
-          queryClient.setQueryData('users', (old: UserT[] | undefined) => {
-            if (!old) return []
+          queryClient.setQueryData(['users', limit, page], (old: any) => {
+            const users = old.users as UserT[]
 
-            const updatedUsers = old.map((user) => {
+            if (!users) return { ...old, users: [] }
+
+            const updatedUsers = users.map((user) => {
               if (user._id === data._id) return { ...user, name: data.name }
               return user
             })
-            return updatedUsers
+
+            return { ...old, users: updatedUsers }
           })
         },
       }
@@ -98,11 +98,21 @@ export default function List() {
         )}
         <button
           className="btn btn-primary"
-          onClick={() => setPage((prev) => prev + 1)}
+          onClick={() =>
+            setPage((prev) => {
+              const nextPage = prev + 1
+              const pageTotal = usersQuery.data?.pageTotal ?? 1
+              if (nextPage > pageTotal) return pageTotal
+              return nextPage
+            })
+          }
         >
           Next
         </button>
-        <button className="btn btn-primary" onClick={() => setPage(5)}>
+        <button
+          className="btn btn-primary"
+          onClick={() => setPage(usersQuery.data?.pageTotal || 1)}
+        >
           Last
         </button>
       </div>
