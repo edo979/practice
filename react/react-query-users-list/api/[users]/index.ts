@@ -14,9 +14,21 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   if (request.method === 'GET') {
     await mongoose.connect(DB_URI)
 
-    const users = await User.find()
+    let limit = request.query?.limit as string
+    if (!limit) {
+      limit = '2'
+    }
+
     const usersCount = await User.count()
     const pageCount = Math.ceil(usersCount / 5)
+    const skipPage = 0
+
+    const users = await User.find()
+      .select('_id name')
+      .limit(parseInt(limit))
+      .skip(skipPage)
+      .exec()
+
     return response.status(200).json({ users, pageCount })
   } else if (request.method === 'POST') {
     await mongoose.connect(DB_URI)
