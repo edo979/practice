@@ -1,11 +1,17 @@
+import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { deleteUser, getUsers, updateUser, UserT } from '../api'
 import ListItem from './ListItem'
 import Spinner from './Spinner'
 
 export default function List() {
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(2)
+
   const queryClient = useQueryClient()
-  const usersQuery = useQuery('users', () => getUsers())
+  const usersQuery = useQuery(['users', limit, page], () =>
+    getUsers(limit, page)
+  )
   const deleteMutation = useMutation(deleteUser)
   const editMutation = useMutation(updateUser)
 
@@ -67,6 +73,24 @@ export default function List() {
         </ul>
       )}
       {usersQuery.isError && <p>Sorry, an error is ocured!</p>}
+
+      <div className="mt-4 flex justify-center gap-2">
+        <button className="btn btn-primary" onClick={() => setPage(1)}>
+          First
+        </button>
+        <button className="btn btn-primary">Prev</button>
+        {usersQuery.isLoading ? (
+          <Spinner />
+        ) : (
+          <span>
+            {usersQuery.data?.currentPage} of {usersQuery.data?.pageTotal}
+          </span>
+        )}
+        <button className="btn btn-primary">Next</button>
+        <button className="btn btn-primary" onClick={() => setPage(5)}>
+          Last
+        </button>
+      </div>
     </section>
   )
 }

@@ -5,11 +5,15 @@ export type UserT = {
 
 const API_URL = import.meta.env.VITE_BASE_URI
 
-export async function getUsers(limit = 1) {
-  const res = await fetch(`${API_URL}/users?limit=${limit}`)
-  const { users, pageCount }: { users: UserT[]; pageCount: number } =
+export async function getUsers(limit = 2, page = 2) {
+  const res = await fetch(`${API_URL}/users?limit=${limit}&page=${page}`)
+  const {
+    users,
+    pageTotal,
+    currentPage,
+  }: { users: UserT[]; pageTotal: number; currentPage: number } =
     await res.json()
-  return { users, pageCount }
+  return { users, pageTotal, currentPage }
 }
 
 export async function createUser(name: string) {

@@ -14,22 +14,23 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   if (request.method === 'GET') {
     await mongoose.connect(DB_URI)
 
-    let limit = request.query?.limit as string
-    if (!limit) {
-      limit = '2'
-    }
+    let limit = parseInt(request.query?.limit as string)
+    let currentPage = parseInt(request.query?.page as string)
+    if (!limit) limit = 2
+    if (!currentPage) currentPage = 1
 
     const usersCount = await User.count()
-    const pageCount = Math.ceil(usersCount / 5)
-    const skipPage = 0
+    const pageTotal = Math.ceil(usersCount / limit)
+    if (currentPage > pageTotal) currentPage = pageTotal
+    const skip = limit * (currentPage - 1)
 
     const users = await User.find()
       .select('_id name')
-      .limit(parseInt(limit))
-      .skip(skipPage)
+      .limit(limit)
+      .skip(skip)
       .exec()
 
-    return response.status(200).json({ users, pageCount })
+    return response.status(200).json({ users, pageTotal, currentPage })
   } else if (request.method === 'POST') {
     await mongoose.connect(DB_URI)
 
