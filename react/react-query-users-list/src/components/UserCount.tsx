@@ -5,15 +5,17 @@ export default function UserCount() {
   const usersQuery = useQuery('users', getUsers)
 
   return (
-    <p className="pl-2">
-      Total:{' '}
-      {usersQuery.isLoading ? (
-        <span>loading...</span>
-      ) : (
-        <span>
-          <b>{usersQuery.data?.length}</b> users.
-        </span>
-      )}
-    </p>
+    <section className="mt-4">
+      <p className="pl-2">
+        Total:{' '}
+        {usersQuery.isLoading ? (
+          <span>loading...</span>
+        ) : (
+          <span>
+            <b>{usersQuery.data?.length}</b> users.
+          </span>
+        )}
+      </p>
+    </section>
   )
 }

@@ -7,7 +7,8 @@ const API_URL = import.meta.env.VITE_BASE_URI
 
 export async function getUsers() {
   const res = await fetch(`${API_URL}/users`)
-  const users: UserT[] = await res.json()
+  const { users, pageCount }: { users: UserT[]; pageCount: number } =
+    await res.json()
   return users
 }
 

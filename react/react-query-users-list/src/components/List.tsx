@@ -47,7 +47,7 @@ export default function List() {
   }
 
   return (
-    <div className="container">
+    <section className="mt-4">
       <div className="w-full flex items-center justify-between gap-2 border-b border-cyan-500">
         <h2 className="mb-2 pl-2 text-2xl font-semibold">Users:</h2>
         {(editMutation.isLoading || deleteMutation.isLoading) && <Spinner />}
@@ -67,6 +67,6 @@ export default function List() {
         </ul>
       )}
       {usersQuery.isError && <p>Sorry, an error is ocured!</p>}
-    </div>
+    </section>
   )
 }

@@ -15,7 +15,9 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     await mongoose.connect(DB_URI)
 
     const users = await User.find()
-    return response.status(200).json(users)
+    const usersCount = await User.count()
+    const pageCount = Math.ceil(usersCount / 5)
+    return response.status(200).json({ users, pageCount })
   } else if (request.method === 'POST') {
     await mongoose.connect(DB_URI)
 

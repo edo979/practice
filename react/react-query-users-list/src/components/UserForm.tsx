@@ -25,9 +25,9 @@ export default function UserForm({}) {
   }
 
   return (
-    <>
+    <section>
       <form
-        className="flex items-center gap-2 mb-4"
+        className="flex items-center gap-2"
         onSubmit={(e) => {
           e.preventDefault()
           handleCreateUser()
@@ -57,6 +57,6 @@ export default function UserForm({}) {
       </form>
 
       {mutation.isError && <p>Error while saving user.</p>}
-    </>
+    </section>
   )
 }
