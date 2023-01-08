@@ -5,7 +5,7 @@ import Spinner from './Spinner'
 
 export default function List() {
   const queryClient = useQueryClient()
-  const usersQuery = useQuery('users', getUsers)
+  const usersQuery = useQuery('users', () => getUsers())
   const deleteMutation = useMutation(deleteUser)
   const editMutation = useMutation(updateUser)
 
@@ -55,7 +55,7 @@ export default function List() {
       {usersQuery.isLoading && <p>Loading...</p>}
       {usersQuery.isSuccess && (
         <ul className="mt-2">
-          {usersQuery.data?.map((user) => (
+          {usersQuery.data?.users.map((user) => (
             <ListItem
               user={user}
               key={user._id}

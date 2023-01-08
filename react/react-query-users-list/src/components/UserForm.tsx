@@ -25,7 +25,7 @@ export default function UserForm({}) {
   }
 
   return (
-    <section>
+    <section className="mt-4">
       <form
         className="flex items-center gap-2"
         onSubmit={(e) => {

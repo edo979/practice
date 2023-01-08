@@ -3,7 +3,7 @@ import { getUsers } from '../api'
 
 export default function Pagination() {
   const queryClient = useQueryClient()
-  const usersQuery = useQuery('users', getUsers)
+  //const usersQuery = useQuery('users', getUsers)
 
   function handleClick() {}
 
