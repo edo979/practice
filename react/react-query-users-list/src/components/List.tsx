@@ -78,7 +78,17 @@ export default function List() {
         <button className="btn btn-primary" onClick={() => setPage(1)}>
           First
         </button>
-        <button className="btn btn-primary">Prev</button>
+        <button
+          className="btn btn-primary"
+          onClick={() =>
+            setPage((prev) => {
+              if (prev === 1) return 1
+              return prev - 1
+            })
+          }
+        >
+          Prev
+        </button>
         {usersQuery.isLoading ? (
           <Spinner />
         ) : (
@@ -86,7 +96,12 @@ export default function List() {
             {usersQuery.data?.currentPage} of {usersQuery.data?.pageTotal}
           </span>
         )}
-        <button className="btn btn-primary">Next</button>
+        <button
+          className="btn btn-primary"
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
         <button className="btn btn-primary" onClick={() => setPage(5)}>
           Last
         </button>
