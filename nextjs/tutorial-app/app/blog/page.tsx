@@ -10,15 +10,26 @@ export default async function BlogRoute() {
   const { users }: { users: { _id: string; name: string }[] } = await res.json()
 
   return (
-    <div>
-      <h2>Blog Route</h2>
+    <>
+      <header className="text-center gradient-container">
+        <h1 className="my-4 text-4xl font-extrabold leading-none tracking-tight">
+          Welcome to Blog
+        </h1>
+        <p className="text-lg mb-6 px-8 font-normal">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quas
+          itaque suscipit quod soluta amet?
+        </p>
+        <button className="btn btn-primary">Read more</button>
+      </header>
 
-      <Counter />
-      <ul>
-        {users.map((user) => (
-          <li key={user._id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
+      <main>
+        <Counter />
+        <ul>
+          {users.map((user) => (
+            <li key={user._id}>{user.name}</li>
+          ))}
+        </ul>
+      </main>
+    </>
   )
 }
