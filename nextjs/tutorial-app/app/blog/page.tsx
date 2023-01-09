@@ -11,10 +11,8 @@ export default async function BlogRoute() {
 
   return (
     <>
-      <header className="text-center gradient-container">
-        <h1 className="my-4 text-4xl font-extrabold leading-none tracking-tight">
-          Welcome to Blog
-        </h1>
+      <header className="m-4 mb-8 text-center gradient-container">
+        <h1 className="my-4 h1">Welcome to Blog</h1>
         <p className="text-lg mb-6 px-8 font-normal">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quas
           itaque suscipit quod soluta amet?
@@ -23,7 +21,15 @@ export default async function BlogRoute() {
       </header>
 
       <main>
+        <h2 className="h2 mb-4">Blog for modern blogging!</h2>
+        <p className="text-justify">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias
+          ullam nobis, labore necessitatibus ducimus voluptate omnis
+          repudiandae, odit unde quas aliquam voluptatem, atque id quibusdam.
+        </p>
+
         <Counter />
+
         <ul>
           {users.map((user) => (
             <li key={user._id}>{user.name}</li>

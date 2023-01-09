@@ -15,7 +15,7 @@ export default function RootLayout({
           <Link href={'blog'}>Blog</Link>
         </nav>
 
-        <div className="container grid grid-cols-3 mx-auto">
+        <div className="container grid grid-cols-3 gap-4 mx-auto">
           {children}
           <section className="bg-container">sidebar</section>
         </div>
