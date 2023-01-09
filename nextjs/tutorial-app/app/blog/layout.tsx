@@ -4,11 +4,11 @@ export default function BlogLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <section className="col-span-2">
       <header>
-        <h1>Welcome to Blog</h1>
+        <h1 className="text-2xl">Welcome to Blog</h1>
       </header>
       <main>{children}</main>
-    </>
+    </section>
   )
 }
