@@ -2,7 +2,7 @@ import Counter from './components/counter'
 
 export default async function BlogRoute() {
   const res = await fetch(
-    'https://just-users-names.vercel.app/api/users?limit=5&page=1'
+    'https://just-users-names.vercel.app/api/users?limit=6&page=1'
   )
   if (!res.ok) {
     throw new Error(res.status.toString())
@@ -12,12 +12,12 @@ export default async function BlogRoute() {
   return (
     <>
       <header className="mx-4 my-12 text-center gradient-container">
-        <h1 className="my-4 h1">Welcome to Blog</h1>
+        <h1 className="my-4 mt-24 h1">Welcome to Blog</h1>
         <p className="text-lg mb-6 px-8 font-normal">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quas
           itaque suscipit quod soluta amet?
         </p>
-        <button className="btn btn-primary">Read more</button>
+        <button className="mb-24 btn btn-primary">Read more</button>
       </header>
 
       <main>
