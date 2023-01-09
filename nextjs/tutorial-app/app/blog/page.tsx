@@ -4,6 +4,9 @@ export default async function BlogRoute() {
   const res = await fetch(
     'https://just-users-names.vercel.app/api/users?limit=5&page=1'
   )
+  if (!res.ok) {
+    throw new Error(res.status.toString())
+  }
   const { users }: { users: { _id: string; name: string }[] } = await res.json()
 
   return (
