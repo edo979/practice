@@ -11,7 +11,7 @@ export default async function BlogRoute() {
 
   return (
     <>
-      <header className="m-4 mb-8 text-center gradient-container">
+      <header className="mx-4 my-12 text-center gradient-container">
         <h1 className="my-4 h1">Welcome to Blog</h1>
         <p className="text-lg mb-6 px-8 font-normal">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quas
@@ -21,7 +21,7 @@ export default async function BlogRoute() {
       </header>
 
       <main>
-        <h2 className="h2 mb-4">Blog for modern blogging!</h2>
+        <h2 className="h2">Blog for modern blogging!</h2>
         <p className="text-justify">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias
           ullam nobis, labore necessitatibus ducimus voluptate omnis
@@ -30,9 +30,19 @@ export default async function BlogRoute() {
 
         <Counter />
 
-        <ul>
+        <h2 className="h2">This blog can use fetch API</h2>
+        <p>
+          Data in bottom table is fetched from server using javaScript fetch api
+          and async/await api, too.
+        </p>
+        <ul className="w-full my-4">
           {users.map((user) => (
-            <li key={user._id}>{user.name}</li>
+            <li
+              className="py-2 border-t border-slate-600 even:bg-slate-200 first:border-none"
+              key={user._id}
+            >
+              <span className="pl-4">{user.name}</span>
+            </li>
           ))}
         </ul>
       </main>
