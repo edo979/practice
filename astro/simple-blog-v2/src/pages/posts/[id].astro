@@ -1,0 +1,23 @@
+---
+import { getPost } from '../../db/posts'
+import Layout from '../../layouts/Layout.astro'
+
+const { id } = Astro.params
+const post = await getPost(id)
+---
+
+<Layout title={post.title}>
+  <article class="prose mx-auto mt-4">
+    <aside>
+      <a href="/">
+        <button class="btn btn-primary">🏠 Početna</button>
+      </a>
+    </aside>
+
+    <header class="mt-8">
+      <h1>{post.title}</h1>
+      <p class="lead">{post.desc}</p>
+    </header>
+    <main>{post.body}</main>
+  </article>
+</Layout>

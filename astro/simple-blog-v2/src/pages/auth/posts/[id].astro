@@ -1,0 +1,76 @@
+---
+import { getPost } from '../../../db/posts'
+import Layout from '../../../layouts/Layout.astro'
+import { v4 as uuidv4 } from 'uuid'
+import { compareHashAndPassword } from 'node-hash-password'
+import DashBoardLayout from '../../../layouts/DashBoardLayout.astro'
+
+const post = await getPost(Astro.params.id)
+
+const cookie_jwt = Astro.cookies.get(import.meta.env.LOGIN_COOKIE).value
+if (
+  !compareHashAndPassword({
+    method: 'keccak256',
+    hash: cookie_jwt,
+    session: import.meta.env.SESSION,
+  })
+)
+  return Astro.redirect('/login')
+
+const csrf = uuidv4()
+Astro.cookies.set('csrf', csrf, {
+  httpOnly: true,
+  expires: new Date(Date.now() + 1000 * 3600 * 1),
+  sameSite: 'strict',
+  path: '/auth',
+})
+---
+
+<DashBoardLayout title="Uredi objavu">
+  <div class="prose mx-auto my-16">
+    <a href="/auth">
+      <button class="btn btn-primary"> ⚙ Kontrolna Ploča</button>
+    </a>
+    <h1 class="mt-8 text-slate-100">{post.title}</h1>
+    <p class="lead text-slate-200">{post.desc}</p>
+    <p class="text-slate-100">{post.body}</p>
+
+    <form>
+      <input
+        type="hidden"
+        name="postId"
+        value={post._id.toString()}
+        id="postId"
+      />
+      <input type="hidden" name="csrf" value={csrf} id="csrf" />
+
+      <div class="flex justify-end gap-2">
+        <a href={`/auth/posts/${post._id}/edit`}>
+          <button class="btn btn-primary" type="button" role="button"
+            >✏ Uredi
+          </button>
+        </a>
+        <button class="btn btn-primary" type="submit">❌ Izbriši</button>
+      </div>
+    </form>
+  </div>
+</DashBoardLayout>
+
+<script>
+  const formEl = document.querySelector('form')
+  const postIdEl = document.getElementById('postId') as HTMLInputElement
+  const csrfEl = document.getElementById('csrf') as HTMLInputElement
+
+  formEl.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const res = await fetch('/auth/api/posts.json', {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ postId: postIdEl.value, csrf: csrfEl.value }),
+    })
+
+    if (res.ok) window.location.replace('/auth')
+  })
+</script>

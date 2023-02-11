@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../../layouts/Layout.astro'
+
+const posts = await getCollection('post')
+const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags)))
+---
+
+<Layout>
+  <div class="my-8 prose mx-auto">
+    <h1>Read post marked as tag:</h1>
+
+    <section class="min-h-[300px]">
+      <ul class="flex felx-row flex-wrap gap-4 list-none p-0">
+        {
+          tags.map((tag) => (
+            <li>
+              <a href={`/posts/tags/${tag}`}>
+                <button class="btn btn-primary">{tag}</button>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Layout>

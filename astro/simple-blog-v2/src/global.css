@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply py-1 px-3 inline-flex items-center rounded;
+  }
+
+  .btn-primary {
+    @apply bg-slate-900 text-slate-50;
+  }
+}

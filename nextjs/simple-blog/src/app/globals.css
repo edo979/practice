@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .navlink {
+    @apply p-2 block text-gray-400 rounded hover:bg-gray-700 hover:text-white md:p-0 md:hover:bg-transparent md:border-0;
+  }
+  .active {
+    @apply text-white bg-cyan-500 hover:bg-cyan-500 md:bg-transparent md:text-cyan-500 md:hover:bg-transparent md:hover:text-cyan-500;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center py-2 px-4 rounded uppercase shadow-md font-semibold  text-zinc-100 hover:shadow active:scale-95;
+  }
+  .btn-sm {
+    @apply py-1 px-3 capitalize shadow-sm;
+  }
+  .btn-rounded {
+    @apply rounded-full w-12 h-12;
+  }
+  .btn-rounded-sm {
+    @apply w-8 h-8 p-0 rounded-full text-sm;
+  }
+  .btn-primary {
+    @apply border border-teal-500 bg-cyan-500 shadow-cyan-400 hover:bg-cyan-600 hover:shadow-cyan-400;
+  }
+  .btn-dark {
+    @apply border border-black bg-gray-900 shadow-gray-600 hover:bg-gray-800;
+  }
+  .btn-warning {
+    @apply border border-yellow-600 bg-yellow-400 shadow-orange-900 hover:bg-yellow-500 text-black;
+  }
+  .btn-danger {
+    @apply bg-rose-500 shadow-fuchsia-700 hover:bg-rose-600 hover:shadow-fuchsia-700;
+  }
+  .btn-info {
+    @apply bg-indigo-500 shadow-sky-700 hover:bg-indigo-600 hover:shadow-sky-700;
+  }
+  .btn:disabled {
+    @apply bg-gray-500 shadow-gray-400 border-gray-500;
+  }
+
+  .form-label {
+    @apply text-gray-900;
+  }
+
+  .form-input {
+    @apply block w-full px-2 py-1 rounded border border-gray-400 outline-none text-gray-900 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500;
+  }
+
+  .is-invalid {
+    @apply border-rose-500 text-rose-500 focus:ring-rose-500 focus:border-rose-500;
+  }
+}

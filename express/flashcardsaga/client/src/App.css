@@ -1,0 +1,85 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  height: 40px;
+  padding-inline: 2rem;
+  background-color: white;
+  color: black;
+}
+
+.cards-container {
+  padding: 0;
+  list-style: none;
+
+  display: grid;
+  width: 600px;
+  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  place-content: center;
+
+  height: 120px;
+  border: 3px solid #555;
+  border-radius: 12px;
+
+  color: black;
+  background: white;
+
+  transition: border-color 0.25s;
+}
+
+.card:hover {
+  background-color: #eee;
+  border-color: #646cff;
+}
+
+.App form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-close {
+  position: absolute;
+  border-radius: 5px;
+  padding: 5px;
+  top: 0;
+  right: 0;
+  font-size: 0.8rem;
+  background-color: salmon;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  background-color: crimson;
+}
+
+/* Utility classes */
+.p1 {
+  padding: 1rem;
+}
+
+.py-2 {
+  padding-block: 2rem;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

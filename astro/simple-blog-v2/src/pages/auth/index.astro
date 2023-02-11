@@ -1,0 +1,35 @@
+---
+import { getPosts } from '../../db/posts'
+import DashBoardLayout from '../../layouts/DashBoardLayout.astro'
+import { getIsLogged } from '../../util/session'
+
+if (!getIsLogged(Astro)) return Astro.redirect('/login')
+
+const posts = await getPosts()
+---
+
+<DashBoardLayout title="Dashboard">
+  <div class="mx-auto mt-16">
+    <a href="/">
+      <button class="btn btn-primary">🏠 Početna</button>
+    </a>
+
+    <h1 class="mt-8 text-3xl font-bold">Dobro došli u kontrolnu ploču:</h1>
+
+    <ul class="my-8">
+      {
+        posts.map((post) => (
+          <li class="bg-slate-700 p-2 odd:bg-slate-600">
+            <a href={`/auth/posts/${post._id}`} class="block">
+              {post.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a href="/auth/new">
+      <button class="btn btn-primary">➕ Novo</button>
+    </a>
+  </div>
+</DashBoardLayout>

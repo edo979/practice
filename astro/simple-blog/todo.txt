@@ -1,0 +1,17 @@
+Simple blog on Bosnian language
+
+Overview:
+- CRUD blog posts
+- Authentication?
+- Private routes?
+
+ToDo:
+- Create Navigation:
+  - Home
+  - Sign In
+
+- Create index route:
+  - Style index route
+  - Create Layout
+  
+- Create Single post route

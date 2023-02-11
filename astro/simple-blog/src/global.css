@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Navigation */
+  .nav-link {
+    @apply block py-2 pl-3 pr-4 rounded text-gray-400 md:p-0 md:border-0  hover:text-white hover:bg-gray-700  md:hover:bg-transparent md:hover:text-white;
+  }
+
+  .active {
+    @apply cursor-default text-white bg-blue-600 md:bg-transparent md:text-white hover:bg-blue-600  md:hover:bg-transparent;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply py-1 px-4 rounded inline-flex items-center;
+  }
+  .btn-primary {
+    @apply bg-slate-900 text-slate-100 hover:bg-slate-800 hover:ring-1 hover:ring-black;
+  }
+}

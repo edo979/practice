@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro'
+import logo from '../images/logo.png'
+import hero from '../images/hero-img.jpg'
+---
+
+<Layout>
+  <div class="prose mx-auto my-8">
+    <h1>About Simple blog</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi libero cum
+      dolores hic obcaecati aliquam exercitationem, aut magni sed mollitia ipsa
+      vero! Autem.
+    </p>
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus
+      provident rerum maiores ab voluptas quae nesciunt eius corporis ex,
+      obcaecati nam porro eaque adipisci! Minima labore modi voluptates quam
+      soluta?
+    </p>
+
+    <div class="flex flex-row gap-2 items-center">
+      <img src={logo} alt="Logo" class="w-20 aspect-square" />
+      <img src={hero} alt="Be inspired" class="w-24" />
+      <div class="ml-2">
+        <h2 class="mt-0">This is subtitle</h2>
+        <p class="lead mb-0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. At iure fugit
+          sed?
+        </p>
+      </div>
+    </div>
+
+    <h2>More awesome text</h2>
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus
+      provident rerum maiores ab voluptas quae nesciunt eius corporis ex,
+      obcaecati nam porro eaque adipisci! Minima labore modi voluptates quam
+      soluta?
+    </p>
+  </div>
+</Layout>

@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content'
+import Card from '../../components/Card.astro'
+import Showcase from '../../components/Showcase.astro'
+import Layout from '../../layouts/Layout.astro'
+
+const posts = await getCollection('post')
+---
+
+<Layout title="Astro Blog">
+  <Showcase heading="Astro Blog" text="A simple blog built with Astro" />
+  <section class="page-content">
+    <div class="container">
+      {
+        posts.map((post) => (
+          <Card>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.excerpt}</p>
+            <a href={`blog/${post.slug}`} class="btn">
+              Read More
+            </a>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content'
+import Hero from '../components/Hero.astro'
+import Layout from '../layouts/Layout.astro'
+
+const posts = await getCollection('post')
+---
+
+<Layout>
+  <header slot="before-main">
+    <Hero />
+  </header>
+
+  <section class="mt-16 prose mx-auto">
+    <h2>Posts:</h2>
+
+    <ul>
+      {
+        posts.map((post) => (
+          <li id={post.slug}>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.excerpt}</p>
+            <a href={`/posts/${post.slug}`}>
+              <button class="btn btn-primary">Read more</button>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>

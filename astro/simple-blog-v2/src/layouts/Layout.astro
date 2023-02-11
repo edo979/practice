@@ -1,0 +1,43 @@
+---
+import '../global.css'
+import logo from '../images/logo.png'
+
+export interface Props {
+  title: string
+  isLogged?: boolean
+}
+
+const { title } = Astro.props
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="container my-16 flex flex-col gap-8 px-4 sm:flex-row sm:px-0">
+      <a href="/" class="sm:hidden">
+        <div class="flex items-center gap-4">
+          <img src={logo} alt="logo image" class="h-8 w-8" />
+          <span>Simple Blog</span>
+        </div>
+      </a>
+
+      <div class="flex-1">
+        <slot name="before-main" />
+        <main>
+          <slot />
+        </main>
+      </div>
+
+      <aside class="mx-auto w-60 sm:mx-0">
+        <slot name="aside" />
+      </aside>
+    </div>
+  </body>
+</html>

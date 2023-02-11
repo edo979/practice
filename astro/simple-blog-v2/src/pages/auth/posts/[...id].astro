@@ -1,0 +1,46 @@
+---
+import Layout from '../../../layouts/Layout.astro'
+import EditPost from '../../../components/EditPost'
+import { compareHashAndPassword } from 'node-hash-password'
+import { v4 as uuidv4 } from 'uuid'
+import '../../../css/form.css'
+import { getPost } from '../../../db/posts'
+import DashBoardLayout from '../../../layouts/DashBoardLayout.astro'
+
+const { id } = Astro.params
+if (!id.endsWith('/edit')) return Astro.redirect('/404')
+
+const postId = id.split('/')[0]
+
+const cookie_jwt = Astro.cookies.get(import.meta.env.LOGIN_COOKIE).value
+if (
+  !compareHashAndPassword({
+    method: 'keccak256',
+    hash: cookie_jwt,
+    session: import.meta.env.SESSION,
+  })
+)
+  return Astro.redirect('/login')
+
+const csrf = uuidv4()
+Astro.cookies.set('csrf', csrf, {
+  httpOnly: true,
+  expires: new Date(Date.now() + 1000 * 3600 * 1),
+  sameSite: 'strict',
+  path: '/auth',
+})
+
+const post = await getPost(postId)
+---
+
+<DashBoardLayout title="Uredi objavu">
+  <div class="mx-auto mt-16 max-w-sm">
+    <h1 class="text-3xl font-semibold">Uredi objavu:</h1>
+    <EditPost
+      client:only="react"
+      csrfToken={csrf}
+      post={post}
+      postId={postId}
+    />
+  </div>
+</DashBoardLayout>

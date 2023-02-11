@@ -1,0 +1,144 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import '../../node_modules/bootstrap/scss/functions';
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import '../../node_modules/bootstrap/scss/variables';
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import '../../node_modules/bootstrap/scss/maps';
+@import '../../node_modules/bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/root';
+
+// 6. Optionally include any other parts as needed
+@import '../../node_modules/bootstrap/scss/utilities';
+@import '../../node_modules/bootstrap/scss/reboot';
+@import '../../node_modules/bootstrap/scss/type';
+@import '../../node_modules/bootstrap/scss/images';
+@import '../../node_modules/bootstrap/scss/containers';
+@import '../../node_modules/bootstrap/scss/grid';
+@import '../../node_modules/bootstrap/scss/buttons';
+@import '../../node_modules/bootstrap/scss/button-group';
+@import '../../node_modules/bootstrap/scss/list-group';
+@import '../../node_modules/bootstrap/scss/forms';
+
+// @import "root";
+// @import "reboot";
+// @import "type";
+// @import "images";
+// @import "containers";
+// @import "grid";
+// @import "tables";
+// @import "forms";
+// @import "buttons";
+// @import "transitions";
+// @import "dropdown";
+// @import "button-group";
+// @import "nav";
+// @import "navbar";
+// @import "card";
+// @import "accordion";
+// @import "breadcrumb";
+// @import "pagination";
+// @import "badge";
+// @import "alert";
+// @import "progress";
+// @import "list-group";
+// @import "close";
+// @import "toasts";
+// @import "modal";
+// @import "tooltip";
+// @import "popover";
+// @import "carousel";
+// @import "spinners";
+// @import "offcanvas";
+// @import "placeholders";
+
+@import '../../node_modules/bootstrap/scss/helpers';
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import '../../node_modules/bootstrap/scss/utilities/api';
+
+// 8. Add additional custom code here
+
+.blog-header {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-header-logo {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman',
+    serif /*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+  font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman',
+    serif /*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+}
+
+.display-4 {
+  font-size: 2.5rem;
+}
+@media (min-width: 768px) {
+  .display-4 {
+    font-size: 3rem;
+  }
+}
+
+.flex-auto {
+  flex: 0 0 auto;
+}
+
+.h-250 {
+  height: 250px;
+}
+@media (min-width: 768px) {
+  .h-md-250 {
+    height: 250px;
+  }
+}
+
+/* Pagination */
+.blog-pagination {
+  margin-bottom: 4rem;
+}
+
+/*
+ * Blog posts
+ */
+.blog-post {
+  margin-bottom: 4rem;
+}
+.blog-post-title {
+  font-size: 2.5rem;
+}
+.blog-post-meta {
+  margin-bottom: 1.25rem;
+  color: #727272;
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #727272;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: 0.05rem solid #e5e5e5;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}

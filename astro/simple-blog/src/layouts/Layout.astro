@@ -1,0 +1,26 @@
+---
+import Footer from '../components/Footer.astro'
+import Navigation from '../components/Navigation.astro'
+import '../global.css'
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <Navigation />
+
+    <slot name="before-main" />
+
+    <main class="container px-4 sm:px-2">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

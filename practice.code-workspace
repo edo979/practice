@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "[astro]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  }
+}

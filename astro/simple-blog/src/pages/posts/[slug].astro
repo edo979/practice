@@ -1,0 +1,43 @@
+---
+import { getCollection, CollectionEntry } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+
+export interface Props {
+  post: CollectionEntry<'post'>
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection('post')
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content } = await post.render()
+---
+
+<Layout>
+  <article class="prose mx-auto mt-8">
+    <aside>
+      <nav class="flex flex-row flex-wrap gap-4 mb-8">
+        <a href={`/#${post.slug}`}
+          ><button class="btn btn-primary">Back 🏠</button></a
+        >
+        {
+          post.data.tags.map((tag) => (
+            <a href={`/posts/tags/${tag}`} class="btn btn-primary">
+              {tag}
+            </a>
+          ))
+        }
+      </nav>
+    </aside>
+
+    <h1>{post.data.title}</h1>
+    <p class="lead">{post.data.excerpt}</p>
+    <p><Content /></p>
+  </article>
+</Layout>

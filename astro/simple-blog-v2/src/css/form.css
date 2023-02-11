@@ -1,0 +1,15 @@
+.form-control {
+  @apply block w-full appearance-none rounded border border-gray-400 py-1 px-2 focus:outline-slate-500 focus:ring focus:ring-slate-700;
+}
+
+.form-label {
+  @apply mt-4 block;
+}
+
+.is-invalid {
+  @apply border border-red-500 text-red-500 focus:outline-rose-400 focus:ring-red-500;
+}
+
+.dark .form-control {
+  @apply bg-slate-500;
+}

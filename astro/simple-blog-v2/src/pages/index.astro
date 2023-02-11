@@ -1,0 +1,59 @@
+---
+import { getPosts } from '../db/posts'
+import Layout from '../layouts/Layout.astro'
+import logo from '../images/logo.png'
+import hero from '../images/hero-img.jpg'
+
+const posts = await getPosts()
+if (!posts || posts.length === 0) return Astro.redirect('/404')
+
+const firstPost = posts.shift()
+---
+
+<Layout title="Welcome to Astro.">
+  <header class="prose" slot="before-main">
+    <h1>Dobro došli na Mini blog</h1>
+    <p class="lead">
+      Ovaj blog omogućava pisanje i čitanje članaka. Posjeduje jednostavni
+      sistem za registraciju jednog korisnika koji upravlja sadržajem cjele
+      stranice.
+    </p>
+  </header>
+
+  <p class="mt-16 border-b border-slate-300 pb-4 text-2xl font-semibold">
+    Nova objava:
+  </p>
+  <article class="prose mt-8">
+    <h2>{firstPost.title}</h2>
+    <p class="lead">{firstPost.desc}</p>
+    <p>{firstPost.body}</p>
+  </article>
+
+  <div slot="aside" class="mt-2">
+    <a href="/">
+      <div class="flex items-center gap-4">
+        <img src={logo} alt="logo image" class="h-8 w-8" />
+        <span>Simple Blog</span>
+      </div>
+    </a>
+
+    <img src={hero} alt="inspiration" class="mt-8 rounded" />
+
+    <ul class="my-8">
+      <h3 class="text-xl font-semibold">Ostale objave:</h3>
+      {
+        posts.map((post) => (
+          <li class="p-2 odd:bg-slate-100">
+            <a href={`/posts/${post._id}`}>
+              <i>{post.title}</i>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a href="/login">
+      <button class="btn btn-primary">Login In</button>
+    </a>
+  </div>
+</Layout>

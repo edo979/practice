@@ -1,0 +1,10 @@
+.bi {
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+.feature-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.75rem;
+}
