@@ -5,6 +5,8 @@ export default function handler(
   response: VercelResponse
 ) {
   response.status(200).json({
-    message: 'jah',
+    body: request.body,
+    query: request.query,
+    cookies: request.cookies,
   })
 }
