@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import List from './components/List'
 import { data } from './data'
 import './style/global.css'
-import { getWindDirection } from './util/wind'
+import { getIcon, getWindDirection } from './util/adapters'
 
 function App() {
   const weatherData = data.list,
@@ -22,7 +22,10 @@ function App() {
     humidity = currentWeather.main.humidity,
     windDir = getWindDirection(currentWeather.wind.deg),
     windSpeed = Math.round(currentWeather.wind.speed * 3.6),
-    pressure = currentWeather.main.pressure
+    pressure = currentWeather.main.pressure,
+    icon = getIcon(currentWeather.weather[0].id)
+
+  console.log(icon)
 
   // useEffect(() => {
   //   const getData = async () => {
@@ -62,10 +65,10 @@ function App() {
 
         <picture className="col-start-1 col-end-2 row-start-2 h-full place-self-center object-contain">
           <source
-            srcSet="assets/weatherIcon/hiRes/cloudy.png"
+            srcSet={`assets/weatherIcon/hiRes/${icon}.png`}
             media="(min-width: 600px)"
           />
-          <img src="assets/weatherIcon/lowRes/cloudy.png" alt="sun" />
+          <img src={`assets/weatherIcon/lowRes/${icon}.png`} alt="sun" />
         </picture>
 
         <div className="row-start-3 flex flex-row justify-between self-start pb-4 pt-1 text-sm font-extralight text-white opacity-80 sm:col-start-1 sm:col-end-2 sm:row-start-2 sm:flex-col sm:items-end sm:py-8 sm:text-lg">
