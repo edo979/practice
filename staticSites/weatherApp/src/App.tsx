@@ -68,7 +68,7 @@ function App() {
             srcSet={`assets/weatherIcon/hiRes/${icon}.png`}
             media="(min-width: 600px)"
           />
-          <img src={`assets/weatherIcon/lowRes/${icon}.png`} alt="sun" />
+          <img src={`assets/weatherIcon/lowRes/${icon}.png`} alt={icon} />
         </picture>
 
         <div className="row-start-3 flex flex-row justify-between self-start pb-4 pt-1 text-sm font-extralight text-white opacity-80 sm:col-start-1 sm:col-end-2 sm:row-start-2 sm:flex-col sm:items-end sm:py-8 sm:text-lg">

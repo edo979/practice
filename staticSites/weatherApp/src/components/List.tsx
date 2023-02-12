@@ -12,7 +12,7 @@ export default function List({ data }: ListProps) {
           key={day.day}
           day={day.day}
           temp={day.temp}
-          icon={day.weatherCode}
+          iconCode={day.weatherCode}
         />
       ))}
     </ul>
