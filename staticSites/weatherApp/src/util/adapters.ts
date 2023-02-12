@@ -1,5 +1,5 @@
 export function getWindDirection(deg: number) {
-  if (deg > 338 && deg <= 23) return 'S'
+  if (deg > 338 || deg <= 23) return 'S'
   if (deg > 23 && deg <= 68) return 'SI'
   if (deg > 68 && deg <= 113) return 'I'
   if (deg > 113 && deg <= 158) return 'JI'

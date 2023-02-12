@@ -30,37 +30,34 @@ function App() {
     const getData = async () => {
       try {
         setIsLoading(true)
-        const res = await fetch('/api', {
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const res = await fetch(
+          `http://api.openweathermap.org/data/2.5/forecast?lat=43.6685&lon=18.9749&appid=${
+            import.meta.env.VITE_API_KEY
+          }&units=metric`
+        )
+
+        const data = (await res.json()) as dataT
+
+        setData({
+          daysWeather: data.list
+            .slice(1)
+            .filter((day) => day.dt_txt.endsWith('12:00:00'))
+            .map((day) => ({
+              day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
+                weekday: 'short',
+              }),
+              temp: day.main.feels_like,
+              weatherCode: day.weather[0].id,
+            })),
+          city: data.city.name,
+          currentTemp: Math.round(data.list[0].main.feels_like),
+          humidity: data.list[0].main.humidity,
+          windDir: getWindDirection(data.list[0].wind.deg),
+          windSpeed: Math.round(data.list[0].wind.speed * 3.6),
+          pressure: data.list[0].main.pressure,
+          icon: getIcon(data.list[0].weather[0].id),
         })
-        //   `http://api.openweathermap.org/data/2.5/forecast?lat=51.5085&lon=-0.1257&appid=${
-        //   import.meta.env.API_KEY
-        // }&units=metric`
-
-        // const data = (await res.json()) as dataT
-
-        // setData({
-        //   daysWeather: data.list
-        //     .slice(1)
-        //     .filter((day) => day.dt_txt.endsWith('12:00:00'))
-        //     .map((day) => ({
-        //       day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
-        //         weekday: 'short',
-        //       }),
-        //       temp: day.main.feels_like,
-        //       weatherCode: day.weather[0].id,
-        //     })),
-        //   city: data.city.name,
-        //   currentTemp: Math.round(data.list[0].main.feels_like),
-        //   humidity: data.list[0].main.humidity,
-        //   windDir: getWindDirection(data.list[0].wind.deg),
-        //   windSpeed: Math.round(data.list[0].wind.speed * 3.6),
-        //   pressure: data.list[0].main.pressure,
-        //   icon: getIcon(data.list[0].weather[0].id),
-        // })
+        if (!res.ok) setIsError(true)
       } catch (error) {
         console.log(error)
         setIsError(true)
