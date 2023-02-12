@@ -2,15 +2,20 @@ import { useEffect } from 'react'
 import List from './components/List'
 import { data } from './data'
 import './style/global.css'
+import { getWindDirection } from './util/wind'
 
 function App() {
-  const weatherData = data.list
-  const currentWeather = data.list[0]
-  const daysWeather = data.list
-    .slice(1)
-    .filter((day) => day.dt_txt.endsWith('12:00:00'))
-  console.log(currentWeather?.dt_txt)
-  console.log(currentWeather?.main.feels_like)
+  const weatherData = data.list,
+    currentWeather = weatherData[0],
+    daysWeather = weatherData
+      .slice(1)
+      .filter((day) => day.dt_txt.endsWith('12:00:00')),
+    city = data.city.name,
+    currentTemp = Math.round(currentWeather.main.feels_like),
+    humidity = currentWeather.main.humidity,
+    windDir = getWindDirection(currentWeather.wind.deg),
+    windSpeed = Math.round(currentWeather.wind.speed * 3.6),
+    pressure = currentWeather.main.pressure
 
   // useEffect(() => {
   //   const getData = async () => {
@@ -31,7 +36,7 @@ function App() {
         <div className="row-start-1 flex items-end justify-between">
           <div className="flex flex-col">
             <h1 className="text-2xl uppercase text-white sm:text-3xl">
-              {data.city.name}
+              {city}
             </h1>
             <p className="font-light text-white opacity-80 sm:text-lg">
               {new Date().toLocaleDateString('sr-Latn', {
@@ -44,7 +49,7 @@ function App() {
           </div>
 
           <span className="row-start-1 text-5xl font-light text-white sm:text-8xl">
-            {Math.round(currentWeather.main.feels_like)} °C
+            {currentTemp} °C
           </span>
         </div>
 
@@ -72,7 +77,7 @@ function App() {
                 d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z"
               />
             </svg>
-            50%
+            {humidity}%
           </div>
 
           <div className="flex items-center gap-2">
@@ -85,7 +90,7 @@ function App() {
             >
               <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z" />
             </svg>
-            Ist. 20 km/h
+            {windDir}. {windSpeed} km/h
           </div>
 
           <div className="flex items-center gap-2">
@@ -102,7 +107,7 @@ function App() {
                 d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"
               />
             </svg>
-            1010 hPa
+            {pressure} hPa
           </div>
         </div>
 
