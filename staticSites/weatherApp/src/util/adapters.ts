@@ -7,6 +7,7 @@ export function getWindDirection(deg: number) {
   if (deg > 203 && deg <= 248) return 'JZ'
   if (deg > 248 && deg <= 293) return 'Z'
   if (deg > 293 && deg <= 338) return 'SZ'
+  return '???'
 }
 
 export function getIcon(id: number) {

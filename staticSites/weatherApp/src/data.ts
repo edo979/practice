@@ -1020,3 +1020,5 @@ export const data = {
     sunset: 1676135210,
   },
 }
+
+export type dataT = typeof data
