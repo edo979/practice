@@ -42,7 +42,7 @@ function App() {
 
   return (
     <main className="w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900">
-      <div className="row-start-1 mx-auto grid min-h-screen max-w-2xl grid-rows-[auto_minmax(300px,_max-content)_auto_auto_1fr] py-8 px-4">
+      <div className="row-start-1 mx-auto grid min-h-screen max-w-2xl grid-rows-[auto_minmax(200px,_max-content)_auto_auto_1fr] py-8 px-4">
         <div className="row-start-1 flex items-end justify-between">
           <div className="flex flex-col">
             <h1 className="text-2xl uppercase text-white sm:text-3xl">
@@ -63,7 +63,7 @@ function App() {
           </span>
         </div>
 
-        <picture className="col-start-1 col-end-2 row-start-2 h-full place-self-center object-contain">
+        <picture className="col-start-1 col-end-2 row-start-2 h-full place-self-center object-contain sm:-mt-24 sm:mb-12">
           <source
             srcSet={`assets/weatherIcon/hiRes/${icon}.png`}
             media="(min-width: 600px)"
@@ -71,7 +71,7 @@ function App() {
           <img src={`assets/weatherIcon/lowRes/${icon}.png`} alt={icon} />
         </picture>
 
-        <div className="row-start-3 flex flex-row justify-between self-start pb-4 pt-1 text-sm font-extralight text-white opacity-80 sm:col-start-1 sm:col-end-2 sm:row-start-2 sm:flex-col sm:items-end sm:py-8 sm:text-lg">
+        <div className="row-start-3 flex flex-row justify-between self-start pb-6 pt-3 text-sm font-extralight text-white opacity-80 sm:col-start-1 sm:col-end-2 sm:row-start-2 sm:flex-col sm:items-end sm:py-8 sm:text-lg">
           <div className="text-md flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
