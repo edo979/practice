@@ -60,11 +60,12 @@ function App() {
           </span>
         </div>
 
-        <img
-          src="assets/sun.png"
-          alt="sunčano"
-          className="col-start-1 col-end-2 row-start-2 h-full place-self-center object-contain"
-        />
+        <picture className="col-start-1 col-end-2 row-start-2 h-full place-self-center object-contain">
+          <source
+            srcSet="assets/weatherIcon/partyCloudy.webp"
+            type="image/webp"
+          />
+        </picture>
 
         <div className="row-start-3 flex flex-row justify-between self-start pb-4 pt-1 text-sm font-extralight text-white opacity-80 sm:col-start-1 sm:col-end-2 sm:row-start-2 sm:flex-col sm:items-end sm:py-8 sm:text-lg">
           <div className="text-md flex items-center gap-2">
