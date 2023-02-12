@@ -25,46 +25,46 @@ function App() {
   const [data, setData] = useState<WeatherDataT>()
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true)
-      const res = await fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=51.5085&lon=-0.1257&appid=${
-          import.meta.env.API_KEY
-        }&units=metric`
-      )
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setIsLoading(true)
+  //     const res = await fetch(
+  //       `http://api.openweathermap.org/data/2.5/forecast?lat=51.5085&lon=-0.1257&appid=${
+  //         import.meta.env.API_KEY
+  //       }&units=metric`
+  //     )
 
-      setIsLoading(false)
+  //     setIsLoading(false)
 
-      if (res.ok) {
-        const data = (await res.json()) as dataT
+  //     if (res.ok) {
+  //       const data = (await res.json()) as dataT
 
-        setData({
-          daysWeather: data.list
-            .slice(1)
-            .filter((day) => day.dt_txt.endsWith('12:00:00'))
-            .map((day) => ({
-              day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
-                weekday: 'short',
-              }),
-              temp: day.main.feels_like,
-              weatherCode: day.weather[0].id,
-            })),
-          city: data.city.name,
-          currentTemp: Math.round(data.list[0].main.feels_like),
-          humidity: data.list[0].main.humidity,
-          windDir: getWindDirection(data.list[0].wind.deg),
-          windSpeed: Math.round(data.list[0].wind.speed * 3.6),
-          pressure: data.list[0].main.pressure,
-          icon: getIcon(data.list[0].weather[0].id),
-        })
-      } else {
-        return <ErrorPage />
-      }
-    }
+  //       setData({
+  //         daysWeather: data.list
+  //           .slice(1)
+  //           .filter((day) => day.dt_txt.endsWith('12:00:00'))
+  //           .map((day) => ({
+  //             day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
+  //               weekday: 'short',
+  //             }),
+  //             temp: day.main.feels_like,
+  //             weatherCode: day.weather[0].id,
+  //           })),
+  //         city: data.city.name,
+  //         currentTemp: Math.round(data.list[0].main.feels_like),
+  //         humidity: data.list[0].main.humidity,
+  //         windDir: getWindDirection(data.list[0].wind.deg),
+  //         windSpeed: Math.round(data.list[0].wind.speed * 3.6),
+  //         pressure: data.list[0].main.pressure,
+  //         icon: getIcon(data.list[0].weather[0].id),
+  //       })
+  //     } else {
+  //       return <ErrorPage />
+  //     }
+  //   }
 
-    getData()
-  }, [])
+  //   getData()
+  // }, [])
 
   console.log('rendering')
 
