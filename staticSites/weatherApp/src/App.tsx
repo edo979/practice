@@ -9,7 +9,14 @@ function App() {
     currentWeather = weatherData[0],
     daysWeather = weatherData
       .slice(1)
-      .filter((day) => day.dt_txt.endsWith('12:00:00')),
+      .filter((day) => day.dt_txt.endsWith('12:00:00'))
+      .map((day) => ({
+        day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
+          weekday: 'short',
+        }),
+        temp: day.main.feels_like,
+        weatherCode: day.weather[0].id,
+      })),
     city = data.city.name,
     currentTemp = Math.round(currentWeather.main.feels_like),
     humidity = currentWeather.main.humidity,
@@ -112,7 +119,7 @@ function App() {
         </div>
 
         <div className="row-start-4">
-          <List />
+          <List data={daysWeather} />
         </div>
 
         <footer className="row-start-5 mt-4 self-end text-center text-xs font-light text-white opacity-20">
