@@ -34,9 +34,12 @@ function App() {
 
       if (res.ok) {
         const data = (await res.json()) as dataT
+        // filter days after current day, set data needed for app
         setData({
           daysWeather: data.list
-            .slice(1)
+            .filter((day, i, days) => {
+              return day.dt_txt.split(' ')[0] !== days[0].dt_txt.split(' ')[0]
+            })
             .filter((day) => day.dt_txt.endsWith('12:00:00'))
             .map((day) => ({
               day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
