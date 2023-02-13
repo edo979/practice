@@ -26,13 +26,26 @@ export function useWeatherData() {
     const getData = async () => {
       setIsLoading(true)
 
-      const res = await fetch('api')
+      //check local storage for data
+      // if no data
+      // fetch and save in storage
+      // return data
+      //if data present and valid
+      // filter data and return
+      const dataLS = localStorage.getItem('weatherData')
+      if (!dataLS) {
+        console.log('before fetch')
+        const res = await fetch('api')
 
-      if (res.ok) {
-        const data = await res.json()
-        mapDataFromResponse(data)
+        if (res.ok) {
+          const data = await res.json()
+          localStorage.setItem('weatherData', JSON.stringify(data))
+          mapDataFromResponse(data)
+        } else {
+          setIsError(true)
+        }
       } else {
-        setIsError(true)
+        mapDataFromResponse(JSON.parse(dataLS))
       }
 
       setIsLoading(false)
