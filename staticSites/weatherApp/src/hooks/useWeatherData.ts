@@ -26,10 +26,6 @@ export function useWeatherData() {
     const getData = async () => {
       setIsLoading(true)
 
-      //check local storage for data
-      // if no data
-      // fetch and save in storage
-      // return data
       //if data present and valid
       // filter data and return
       const dataLS = localStorage.getItem('weatherData')
@@ -40,12 +36,12 @@ export function useWeatherData() {
         if (res.ok) {
           const data = await res.json()
           localStorage.setItem('weatherData', JSON.stringify(data))
-          mapDataFromResponse(data)
+          mapRawData(data)
         } else {
           setIsError(true)
         }
       } else {
-        mapDataFromResponse(JSON.parse(dataLS))
+        mapRawData(JSON.parse(dataLS))
       }
 
       setIsLoading(false)
@@ -54,7 +50,7 @@ export function useWeatherData() {
     getData()
   }, [])
 
-  function mapDataFromResponse(data: dataT) {
+  function mapRawData(data: dataT) {
     setData({
       daysWeather: data.list
         .filter((day, i, days) => {
