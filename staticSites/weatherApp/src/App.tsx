@@ -1,70 +1,11 @@
-import { useEffect, useState } from 'react'
 import ErrorPage from './components/ErrorPage'
 import List from './components/List'
 import Loading from './components/Loading'
-import { dataT } from './data'
-//import { data } from './data'
-import './style/global.css'
-import { getIcon, getWindDirection } from './util/adapters'
-
-type WeatherDataT = {
-  daysWeather: {
-    day: string
-    temp: number
-    weatherCode: number
-  }[]
-  city: string
-  currentTemp: number
-  humidity: number
-  windDir: string
-  windSpeed: number
-  pressure: number
-  icon: string | undefined
-}
+import { useWeatherData } from './hooks/useWeatherData'
+import '../src/style/global.css'
 
 function App() {
-  const [data, setData] = useState<WeatherDataT>()
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true)
-      const res = await fetch('api')
-
-      if (res.ok) {
-        const data = (await res.json()) as dataT
-        // filter days after current day, set data needed for app
-        setData({
-          daysWeather: data.list
-            .filter((day, i, days) => {
-              return day.dt_txt.split(' ')[0] !== days[0].dt_txt.split(' ')[0]
-            })
-            .filter((day) => day.dt_txt.endsWith('12:00:00'))
-            .map((day) => ({
-              day: new Date(day.dt_txt).toLocaleDateString('sr-Latn', {
-                weekday: 'short',
-              }),
-              temp: day.main.feels_like,
-              weatherCode: day.weather[0].id,
-            })),
-          city: data.city.name,
-          currentTemp: Math.round(data.list[0].main.feels_like),
-          humidity: data.list[0].main.humidity,
-          windDir: getWindDirection(data.list[0].wind.deg),
-          windSpeed: Math.round(data.list[0].wind.speed * 3.6),
-          pressure: data.list[0].main.pressure,
-          icon: getIcon(data.list[0].weather[0].id),
-        })
-      } else {
-        setIsError(true)
-      }
-
-      setIsLoading(false)
-    }
-
-    getData()
-  }, [])
+  const { data, isLoading, isError } = useWeatherData()
 
   let content
 
