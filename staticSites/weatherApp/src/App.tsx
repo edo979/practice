@@ -28,16 +28,11 @@ function App() {
 
   useEffect(() => {
     const getData = async () => {
-      try {
-        setIsLoading(true)
-        const res = await fetch(
-          `http://api.openweathermap.org/data/2.5/forecast?lat=43.6685&lon=18.9749&appid=${
-            import.meta.env.VITE_API_KEY
-          }&units=metric`
-        )
+      setIsLoading(true)
+      const res = await fetch('api')
 
+      if (res.ok) {
         const data = (await res.json()) as dataT
-
         setData({
           daysWeather: data.list
             .slice(1)
@@ -57,16 +52,14 @@ function App() {
           pressure: data.list[0].main.pressure,
           icon: getIcon(data.list[0].weather[0].id),
         })
-        if (!res.ok) setIsError(true)
-      } catch (error) {
-        console.log(error)
+      } else {
         setIsError(true)
-      } finally {
-        setIsLoading(false)
       }
+
+      setIsLoading(false)
     }
 
-    //getData()
+    getData()
   }, [])
 
   console.log('rendering')
