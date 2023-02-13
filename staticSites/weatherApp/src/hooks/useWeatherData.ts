@@ -35,7 +35,7 @@ export function useWeatherData() {
       } else {
         const rawDataLS = JSON.parse(dataLS)
 
-        mapRawData(rawDataLS)
+        mapRawDataToState(rawDataLS)
       }
 
       setIsLoading(false)
@@ -50,13 +50,13 @@ export function useWeatherData() {
     if (res.ok) {
       const data = await res.json()
       localStorage.setItem('weatherData', JSON.stringify(data))
-      mapRawData(data)
+      mapRawDataToState(data)
     } else {
       setIsError(true)
     }
   }
 
-  function mapRawData(data: dataT) {
+  function mapRawDataToState(data: dataT) {
     setData({
       daysWeather: data.list
         .filter((day, i, days) => {
