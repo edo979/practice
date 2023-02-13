@@ -66,7 +66,7 @@ function App() {
       }
     }
 
-    getData()
+    //getData()
   }, [])
 
   console.log('rendering')
@@ -78,7 +78,7 @@ function App() {
       ) : (
         <>
           {isError ? (
-            <p>Error</p>
+            <ErrorPage />
           ) : (
             <main className="w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900">
               <div className="row-start-1 mx-auto grid min-h-screen max-w-2xl grid-rows-[auto_minmax(200px,_max-content)_auto_auto_1fr] py-8 px-4">
