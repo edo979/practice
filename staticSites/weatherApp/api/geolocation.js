@@ -13,12 +13,14 @@ export default async function handler(request, response) {
       const data = await res.json()
       console.log(data)
 
-      return response.status(200).json({
-        lat: data.lat,
-        lon: data.lon,
-        country: data.country,
-        name: data.name,
-      })
+      return response.status(200).json(
+        data.map((city) => ({
+          lat: city.lat,
+          lon: city.lon,
+          country: city.country,
+          name: city.name,
+        }))
+      )
     }
 
     return response.status(400).end()
