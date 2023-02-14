@@ -75,7 +75,9 @@ export function useWeatherData() {
       const res = await fetch('api')
 
       if (res.ok) {
-        return (await res.json()) as dataT
+        const data = (await res.json()) as dataT
+        saveToLS(data)
+        return data
       } else {
         return null
       }
@@ -93,6 +95,18 @@ export function useWeatherData() {
   }
 
   function mapRawDataToState(data: dataT) {
+    const currentDate = new Date()
+    const currentWeather =
+      data.list.find((day) => {
+        const dateTimeInterval = new Date(day.dt_txt)
+        const deltaTime = currentDate.getTime() - dateTimeInterval.getTime()
+
+        // use weather info in interval less than 1h and 30min
+        // or fall back to first interval
+        if (deltaTime <= 30 * 60 * 1000) return true
+        return false
+      }) || data.list[0]
+
     setData({
       daysWeather: data.list
         .filter((day, i, days) => {
@@ -107,12 +121,12 @@ export function useWeatherData() {
           weatherCode: day.weather[0].id,
         })),
       city: data.city.name,
-      currentTemp: Math.round(data.list[0].main.feels_like),
-      humidity: data.list[0].main.humidity,
-      windDir: getWindDirection(data.list[0].wind.deg),
-      windSpeed: Math.round(data.list[0].wind.speed * 3.6),
-      pressure: data.list[0].main.pressure,
-      icon: getIcon(data.list[0].weather[0].id),
+      currentTemp: Math.round(currentWeather.main.feels_like),
+      humidity: currentWeather.main.humidity,
+      windDir: getWindDirection(currentWeather.wind.deg),
+      windSpeed: Math.round(currentWeather.wind.speed * 3.6),
+      pressure: currentWeather.main.pressure,
+      icon: getIcon(currentWeather.weather[0].id),
     })
   }
 
