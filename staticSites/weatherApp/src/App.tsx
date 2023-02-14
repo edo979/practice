@@ -8,7 +8,7 @@ function App() {
   const { data, isLoading, isError } = useWeatherData()
   let content
 
-  if (true) {
+  if (isLoading) {
     content = <Loading />
   } else if (isError) {
     content = <ErrorPage />

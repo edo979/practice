@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <div className="grid min-h-screen w-full place-content-center bg-sky-600 text-2xl font-bold text-white">
-      <div className="flex flex-col items-center gap-4">
+      <div className="mx-3 flex flex-col items-center gap-4">
         <img src="assets/splash.png" alt="weather images" />
         <div className="flex flex-row items-center gap-2">
           <svg
