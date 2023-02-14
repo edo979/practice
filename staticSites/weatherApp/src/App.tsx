@@ -6,7 +6,6 @@ import '../src/style/global.css'
 
 function App() {
   const { data, isLoading, isError } = useWeatherData()
-
   let content
 
   if (isLoading) {

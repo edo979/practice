@@ -26,16 +26,28 @@ export function useWeatherData() {
     const getData = async () => {
       setIsLoading(true)
 
-      //if data present and valid
-      // filter data and return
       const dataLS = localStorage.getItem('weatherData')
       if (!dataLS) {
-        console.log('before fetch')
         fetchNewDataFromServer()
       } else {
-        const rawDataLS = JSON.parse(dataLS)
+        const rawDataLS = JSON.parse(dataLS) as dataT
+        // if data present
+        // check delta time then use LS or fetch new data
+        const dateLastVisit = new Date(rawDataLS.list[0].dt_txt)
+        const dateNow = new Date()
+        const deltaTime = dateNow.getTime() - dateLastVisit.getTime()
 
-        mapRawDataToState(rawDataLS)
+        const isIn24h = deltaTime / (1000 * 60 * 60) < 24
+        const isSameDay = dateNow.getDate() === dateLastVisit.getDate()
+
+        console.log(isIn24h, isSameDay)
+
+        if (isIn24h && isSameDay) {
+          // Fetch from LS
+          mapRawDataToState(rawDataLS)
+        } else {
+          fetchNewDataFromServer()
+        }
       }
 
       setIsLoading(false)
@@ -45,14 +57,23 @@ export function useWeatherData() {
   }, [])
 
   async function fetchNewDataFromServer() {
+    console.log('fetch from server')
     const res = await fetch('api')
 
     if (res.ok) {
-      const data = await res.json()
-      localStorage.setItem('weatherData', JSON.stringify(data))
+      const data = (await res.json()) as dataT
+      saveToLS(data)
       mapRawDataToState(data)
     } else {
       setIsError(true)
+    }
+  }
+
+  function saveToLS(data: dataT) {
+    try {
+      localStorage.setItem('weatherData', JSON.stringify(data))
+    } catch {
+      return null
     }
   }
 
