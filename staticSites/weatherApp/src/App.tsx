@@ -4,9 +4,11 @@ import Loading from './components/Loading'
 import { useWeatherData } from './hooks/useWeatherData'
 import '../src/style/global.css'
 import Modal from './components/Modal'
+import { useState } from 'react'
 
 function App() {
   const { data, isLoading, isError } = useWeatherData()
+  const [isModalShow, setIsModalShow] = useState(false)
   let content
 
   if (isLoading) {
@@ -23,7 +25,11 @@ function App() {
                 <h1 className="text-2xl uppercase text-white sm:text-3xl">
                   {data?.city}
                 </h1>
-                <button className="z-10 cursor-pointer rounded-md border border-blue-50 border-opacity-30 bg-blue-50 bg-opacity-20 py-1.5 px-2 text-white hover:border-opacity-40 hover:bg-opacity-30">
+
+                <button
+                  className="z-10 cursor-pointer rounded-md border border-blue-50 border-opacity-30 bg-blue-50 bg-opacity-20 py-1.5 px-2 text-white hover:border-opacity-40 hover:bg-opacity-30"
+                  onClick={(e) => setIsModalShow((prev) => !prev)}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -122,7 +128,7 @@ function App() {
           </footer>
         </div>
 
-        <Modal />
+        <Modal isShow={isModalShow} setIsShow={setIsModalShow} />
       </main>
     )
   }
