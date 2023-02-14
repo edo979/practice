@@ -3,6 +3,7 @@ import List from './components/List'
 import Loading from './components/Loading'
 import { useWeatherData } from './hooks/useWeatherData'
 import '../src/style/global.css'
+import Modal from './components/Modal'
 
 function App() {
   const { data, isLoading, isError } = useWeatherData()
@@ -14,7 +15,7 @@ function App() {
     content = <ErrorPage />
   } else {
     content = (
-      <main className="w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900">
+      <main className="relative w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900">
         <div className="row-start-1 mx-auto grid min-h-screen max-w-2xl grid-rows-[auto_minmax(200px,_max-content)_auto_auto_1fr] py-8 px-4">
           <div className="row-start-1 flex items-end justify-between">
             <div className="flex flex-col">
@@ -120,6 +121,8 @@ function App() {
             <p>Programirao: Edis Selimović</p>
           </footer>
         </div>
+
+        <Modal />
       </main>
     )
   }
