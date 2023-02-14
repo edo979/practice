@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type ModalProps = {
   isShow: boolean
@@ -8,11 +8,23 @@ type ModalProps = {
 export default function Modal({ isShow, setIsShow }: ModalProps) {
   const [city, setCity] = useState('')
 
-  function handleInput(value: string) {
-    setCity(value)
+  async function handleForm() {
+    const res = await fetch('api/geolocation', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ city }),
+    })
 
-    if (value.length > 3) {
-      console.log(value)
+    if (res.ok) {
+      const data = (await res.json()) as {
+        lat: string
+        lon: string
+        country: string
+        name: string
+      }
+      console.log(data)
     }
   }
 
@@ -30,21 +42,28 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
           X
         </span>
 
-        <label
-          htmlFor="city"
-          className="block w-full text-lg font-bold text-blue-800"
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleForm()
+          }}
         >
-          Vremenska prognoza za grad:
-        </label>
-        <input
-          className="mt-4 block w-full rounded border border-blue-700 bg-blue-50 py-1 px-2 text-lg text-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          type="text"
-          name="city"
-          id="city"
-          placeholder="Ime grada..."
-          value={city}
-          onChange={(e) => handleInput(e.target.value)}
-        />
+          <label
+            htmlFor="city"
+            className="block w-full text-lg font-bold text-blue-800"
+          >
+            Vremenska prognoza za grad:
+          </label>
+          <input
+            className="mt-4 block w-full rounded border border-blue-700 bg-blue-50 py-1 px-2 text-lg text-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+            type="text"
+            name="city"
+            id="city"
+            placeholder="Ime grada..."
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+        </form>
       </div>
     </div>
   )
