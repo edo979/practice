@@ -28,8 +28,14 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
     if (res.ok) {
       const data = (await res.json()) as GeolocationT[]
       setData(data)
-      console.log(data)
+      setCity('')
     }
+  }
+
+  function handleClose() {
+    setCity('')
+    setData(undefined)
+    setIsShow(false)
   }
 
   return (
@@ -41,7 +47,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
       <div className="relative min-w-[370px] rounded-md border border-blue-300 bg-blue-50 py-8 px-4 shadow-lg">
         <span
           className="absolute top-1 right-1 block cursor-pointer rounded border border-rose-500 py-0.5 px-2 text-lg font-bold text-rose-600 hover:bg-rose-600 hover:text-rose-50"
-          onClick={() => setIsShow(false)}
+          onClick={handleClose}
         >
           X
         </span>
