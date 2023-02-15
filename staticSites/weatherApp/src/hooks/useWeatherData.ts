@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { dataT } from '../data'
 import { getIcon, getWindDirection } from '../util/adapters'
+import { useWeatherContex } from './WeatherContext'
 
 type WeatherDataT = {
   daysWeather: {
@@ -21,7 +22,10 @@ export function useWeatherData() {
   const [data, setData] = useState<WeatherDataT>()
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
+  const { geolocationData } = useWeatherContex()
+  console.log(geolocationData)
 
+  // load from LS or get new data
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true)
@@ -38,28 +42,8 @@ export function useWeatherData() {
           setIsError(true)
         }
       } else {
-        // if data present in LS
-        // check delta time then use LS or fetch new data
         const rawDataLS = JSON.parse(dataLS) as dataT
-
-        const dateLastVisit = new Date(rawDataLS.list[0].dt_txt)
-        const dateNow = new Date()
-        const deltaTime = dateNow.getTime() - dateLastVisit.getTime()
-
-        const isIn24h = deltaTime / (1000 * 60 * 60) < 24
-        const isSameDay = dateNow.getDate() === dateLastVisit.getDate()
-
-        if (isIn24h && isSameDay) {
-          // Fetch from LS
-          mapRawDataToState(rawDataLS)
-        } else {
-          const rawData = await fetchNewDataFromServer()
-          if (rawData !== null) {
-            mapRawDataToState(rawData)
-          } else {
-            setIsError(true)
-          }
-        }
+        loadingByDateTime(rawDataLS)
       }
 
       setIsLoading(false)
@@ -68,11 +52,27 @@ export function useWeatherData() {
     getData()
   }, [])
 
+  // get new data on geolocation change
+  useEffect(() => {
+    // skip first load
+    if (!data) return
+    //fetchNewDataFromServer()
+  }, [geolocationData])
+
   async function fetchNewDataFromServer() {
     console.log('fetch from server')
 
     try {
-      const res = await fetch('api')
+      const res = await fetch('api', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lat: geolocationData.lat,
+          lon: geolocationData.lon,
+        }),
+      })
 
       if (res.ok) {
         const data = (await res.json()) as dataT
@@ -128,6 +128,31 @@ export function useWeatherData() {
       pressure: currentWeather.main.pressure,
       icon: getIcon(currentWeather.weather[0].id),
     })
+  }
+
+  async function loadingByDateTime(rawDataLS: dataT) {
+    const dateLastVisit = new Date(rawDataLS.list[0].dt_txt)
+    const dateNow = new Date()
+    const deltaTime = dateNow.getTime() - dateLastVisit.getTime()
+
+    const isIn24h = deltaTime / (1000 * 60 * 60) < 24
+    const isSameDay = dateNow.getDate() === dateLastVisit.getDate()
+
+    if (deltaTime < 0 || (isIn24h && isSameDay)) {
+      // Fetch from LS
+      mapRawDataToState(rawDataLS)
+    } else {
+      const rawData = await fetchNewDataFromServer()
+      if (rawData !== null) {
+        mapRawDataToState(rawData)
+      } else {
+        setIsError(true)
+      }
+    }
+  }
+
+  function loadingByGeolocationChange() {
+    console.log('change city')
   }
 
   return { data, isLoading, isError }

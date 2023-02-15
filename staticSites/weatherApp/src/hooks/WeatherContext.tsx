@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 
 export type GeolocationT = {
-  lat: string
-  lon: string
+  lat: number
+  lon: number
   country: string
   name: string
 }
@@ -24,8 +24,8 @@ export function WeatherDataContextProvider({
   children: ReactNode
 }) {
   const [geolocationData, setGeolocationData] = useState<GeolocationT>({
-    lat: '43.6673112',
-    lon: '18.9765501',
+    lat: 43.6685,
+    lon: 18.9749,
     country: 'BA',
     name: 'Goražde',
   })

@@ -5,13 +5,10 @@ import { useWeatherData } from './hooks/useWeatherData'
 import '../src/style/global.css'
 import Modal from './components/Modal'
 import { useState } from 'react'
-import { useWeatherContex } from './hooks/WeatherContext'
 
 function App() {
   const { data, isLoading, isError } = useWeatherData()
   const [isModalShow, setIsModalShow] = useState(false)
-  const { geolocationData } = useWeatherContex()
-  console.log(geolocationData)
 
   let content
 
