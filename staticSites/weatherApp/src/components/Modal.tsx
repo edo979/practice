@@ -5,8 +5,16 @@ type ModalProps = {
   setIsShow: (show: boolean) => void
 }
 
+type GeolocationT = {
+  lat: string
+  lon: string
+  country: string
+  name: string
+}
+
 export default function Modal({ isShow, setIsShow }: ModalProps) {
   const [city, setCity] = useState('')
+  const [data, setData] = useState<GeolocationT[] | undefined>(undefined)
 
   async function handleForm() {
     const res = await fetch('api/geolocation', {
@@ -18,19 +26,15 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
     })
 
     if (res.ok) {
-      const data = (await res.json()) as {
-        lat: string
-        lon: string
-        country: string
-        name: string
-      }
+      const data = (await res.json()) as GeolocationT[]
+      setData(data)
       console.log(data)
     }
   }
 
   return (
     <div
-      className={`absolute top-0 left-0 grid h-screen w-full place-content-center ${
+      className={`absolute top-0 left-0 z-30 grid h-screen w-full place-content-center ${
         isShow ? '' : ' hidden'
       }`}
     >
@@ -67,12 +71,34 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
             />
             <button
               type="submit"
-              className="inline-block rounded border border-yellow-600 bg-yellow-400 py-1 px-3"
+              className="inline-block rounded border border-yellow-600 bg-yellow-400 py-1 px-3 shadow-sm"
             >
-              Get
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+              </svg>
             </button>
           </div>
         </form>
+
+        {data && (
+          <ul className="mt-4">
+            {data.map((city, i) => (
+              <li
+                key={i}
+                className="flex flex-row items-center justify-between gap-2 py-1 px-2 odd:bg-slate-200 hover:bg-blue-200"
+              >
+                <p>{city.name}</p>
+                <p>{city.country}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   )
