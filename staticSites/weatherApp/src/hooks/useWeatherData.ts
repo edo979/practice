@@ -57,6 +57,8 @@ export function useWeatherData() {
     if (!data) return
 
     async function getData() {
+      setIsLoading(true)
+
       const rawData = await fetchNewDataFromServer()
 
       if (rawData !== null) {
@@ -64,6 +66,8 @@ export function useWeatherData() {
       } else {
         setIsError(true)
       }
+
+      setIsLoading(false)
     }
 
     getData()
