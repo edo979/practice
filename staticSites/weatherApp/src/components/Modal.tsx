@@ -1,6 +1,5 @@
-import { useContext, useEffect, useReducer, useState } from 'react'
+import { useState } from 'react'
 import { GeolocationT, useWeatherContex } from '../hooks/WeatherContext'
-import { weatherReducer } from '../reducer/WeatherReducer'
 
 type ModalProps = {
   isShow: boolean
