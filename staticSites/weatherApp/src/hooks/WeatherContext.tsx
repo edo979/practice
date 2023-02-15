@@ -1,5 +1,4 @@
-import { createContext, ReactNode, useContext, useReducer } from 'react'
-import { weatherReducer } from '../reducer/WeatherReducer'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 export type GeolocationT = {
   lat: string
@@ -9,8 +8,8 @@ export type GeolocationT = {
 }
 
 type WeatherDataContextT = {
-  state: GeolocationT
-  changeGeoLocation: (newData: GeolocationT) => void
+  geolocationData: GeolocationT
+  setGeolocationData: (newData: GeolocationT) => void
 }
 
 const WeatherDataContext = createContext({} as WeatherDataContextT)
@@ -24,18 +23,17 @@ export function WeatherDataContextProvider({
 }: {
   children: ReactNode
 }) {
-  const [state, dispatch] = useReducer(weatherReducer, {
+  const [geolocationData, setGeolocationData] = useState<GeolocationT>({
     lat: '43.6673112',
     lon: '18.9765501',
     country: 'BA',
     name: 'Goražde',
   })
 
-  const changeGeoLocation = (newData: GeolocationT) =>
-    dispatch({ type: 'change', payload: newData })
-
   return (
-    <WeatherDataContext.Provider value={{ state, changeGeoLocation }}>
+    <WeatherDataContext.Provider
+      value={{ geolocationData, setGeolocationData }}
+    >
       {children}
     </WeatherDataContext.Provider>
   )

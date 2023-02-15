@@ -10,8 +10,8 @@ import { useWeatherContex } from './hooks/WeatherContext'
 function App() {
   const { data, isLoading, isError } = useWeatherData()
   const [isModalShow, setIsModalShow] = useState(false)
-  const { state } = useWeatherContex()
-  console.log(state)
+  const { geolocationData } = useWeatherContex()
+  console.log(geolocationData)
 
   let content
 

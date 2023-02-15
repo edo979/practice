@@ -11,7 +11,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
   const [data, setData] = useState<GeolocationT[] | undefined>(undefined)
   const [isPending, setIsPending] = useState(false)
   const [isError, setIsError] = useState(false)
-  const { changeGeoLocation } = useWeatherContex()
+  const { setGeolocationData } = useWeatherContex()
 
   async function handleForm() {
     setIsPending(true)
@@ -45,7 +45,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
   }
 
   function handleChangeGeolocation(city: GeolocationT) {
-    changeGeoLocation(city)
+    setGeolocationData(city)
   }
 
   return (
