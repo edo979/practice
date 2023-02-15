@@ -2,9 +2,11 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default async function handler(request, response) {
+  const { lat, lon } = request.body
+
   try {
     const res = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=43.6685&lon=18.9749&appid=${process.env.API_KEY}&units=metric`
+      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}&units=metric`
     )
 
     if (res.ok) {

@@ -23,7 +23,6 @@ export function useWeatherData() {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
   const { geolocationData } = useWeatherContex()
-  console.log(geolocationData)
 
   // load from LS or get new data
   useEffect(() => {
@@ -56,7 +55,18 @@ export function useWeatherData() {
   useEffect(() => {
     // skip first load
     if (!data) return
-    //fetchNewDataFromServer()
+
+    async function getData() {
+      const rawData = await fetchNewDataFromServer()
+
+      if (rawData !== null) {
+        mapRawDataToState(rawData)
+      } else {
+        setIsError(true)
+      }
+    }
+
+    getData()
   }, [geolocationData])
 
   async function fetchNewDataFromServer() {
