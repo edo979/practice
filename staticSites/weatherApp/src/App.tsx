@@ -41,13 +41,17 @@ function App() {
                   </svg>
                 </button>
               </div>
+
               <p className="font-light text-white opacity-80 sm:text-lg">
-                {new Date().toLocaleDateString('sr-Latn', {
-                  month: 'long',
-                  year: 'numeric',
-                  weekday: 'long',
-                  day: 'numeric',
-                })}
+                {new Date()
+                  .toLocaleDateString('sr-Latn', {
+                    month: 'long',
+                    year: 'numeric',
+                    weekday: 'long',
+                    day: 'numeric',
+                  })
+                  .toString()
+                  .replace('sreda', 'srijeda')}
               </p>
             </div>
 
