@@ -24,7 +24,7 @@ function App() {
             <div className="flex flex-col">
               <div className="flex min-w-[180px] flex-row items-center justify-between gap-2">
                 <h1 className="text-2xl uppercase text-white sm:text-3xl">
-                  {data?.city}
+                  {data?.city.toLowerCase().replace('hrasno', 'sarajevo')}
                 </h1>
 
                 <button

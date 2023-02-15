@@ -46,6 +46,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
 
   function handleChangeGeolocation(city: GeolocationT) {
     setGeolocationData(city)
+    setIsShow(false)
   }
 
   return (
