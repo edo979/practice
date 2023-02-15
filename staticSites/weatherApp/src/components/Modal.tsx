@@ -16,6 +16,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
   const [city, setCity] = useState('')
   const [data, setData] = useState<GeolocationT[] | undefined>(undefined)
   const [isPending, setIsPending] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   async function handleForm() {
     setIsPending(true)
@@ -31,11 +32,12 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
 
       if (res.ok) {
         const data = (await res.json()) as GeolocationT[]
+        isError && setIsError(false)
         setData(data)
         setCity('')
       }
     } catch {
-      console.log('error on geolocation')
+      setIsError(true)
     }
 
     setIsPending(false)
@@ -141,6 +143,13 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
               </li>
             ))}
           </ul>
+        )}
+
+        {isError && (
+          <div className="mt-4 rounded border border-rose-400 bg-rose-200 p-4 text-center text-rose-500">
+            <p className="text-xl font-bold">❌ Došlo je do greške</p>
+            <p className="text-md">Pokušajte ponovo!</p>
+          </div>
         )}
       </div>
     </div>
