@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { dataT } from '../data'
 import { getIcon, getWindDirection } from '../util/adapters'
+import { useWeatherContex } from './WeatherContext'
 
 type WeatherDataT = {
   daysWeather: {

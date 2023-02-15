@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react'
+import { GeolocationT, useWeatherContex } from '../hooks/WeatherContext'
 
 type ModalProps = {
   isShow: boolean
   setIsShow: (show: boolean) => void
-}
-
-type GeolocationT = {
-  lat: string
-  lon: string
-  country: string
-  name: string
 }
 
 export default function Modal({ isShow, setIsShow }: ModalProps) {
@@ -17,6 +11,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
   const [data, setData] = useState<GeolocationT[] | undefined>(undefined)
   const [isPending, setIsPending] = useState(false)
   const [isError, setIsError] = useState(false)
+  const { setGeolocationData } = useWeatherContex()
 
   async function handleForm() {
     setIsPending(true)
@@ -47,6 +42,10 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
     setCity('')
     setData(undefined)
     setIsShow(false)
+  }
+
+  function handleChangeGeolocation(city: GeolocationT) {
+    setGeolocationData(city)
   }
 
   return (
@@ -137,6 +136,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
               <li
                 key={i}
                 className="flex flex-row items-center justify-between gap-2 py-1 px-2 odd:bg-slate-200 hover:bg-blue-200"
+                onClick={() => handleChangeGeolocation(city)}
               >
                 <p>{city.name}</p>
                 <p>{city.country}</p>
