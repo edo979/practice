@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useReducer, useState } from 'react'
 import { GeolocationT, useWeatherContex } from '../hooks/WeatherContext'
+import { weatherReducer } from '../reducer/WeatherReducer'
 
 type ModalProps = {
   isShow: boolean
@@ -11,7 +12,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
   const [data, setData] = useState<GeolocationT[] | undefined>(undefined)
   const [isPending, setIsPending] = useState(false)
   const [isError, setIsError] = useState(false)
-  const { setGeolocationData } = useWeatherContex()
+  const { changeGeoLocation } = useWeatherContex()
 
   async function handleForm() {
     setIsPending(true)
@@ -45,7 +46,7 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
   }
 
   function handleChangeGeolocation(city: GeolocationT) {
-    setGeolocationData(city)
+    changeGeoLocation(city)
   }
 
   return (
