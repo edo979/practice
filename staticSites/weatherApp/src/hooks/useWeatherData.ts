@@ -165,9 +165,5 @@ export function useWeatherData() {
     }
   }
 
-  function loadingByGeolocationChange() {
-    console.log('change city')
-  }
-
   return { data, isLoading, isError }
 }
