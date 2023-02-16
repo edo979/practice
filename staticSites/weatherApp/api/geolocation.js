@@ -2,7 +2,13 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default async function handler(request, response) {
+  if (request.method !== 'POST') return response.status(400).end()
+  if (request.headers['content-type'] !== 'application/json')
+    return response.status(400).end()
+
   const { city } = request.body
+
+  if (typeof city !== 'string') return response.status(400).end()
 
   try {
     const res = await fetch(
@@ -11,42 +17,6 @@ export default async function handler(request, response) {
 
     if (res.ok) {
       const data = await res.json()
-      // const data = [
-      //   {
-      //     name: 'Goražde',
-      //     local_names: {
-      //       tr: 'Gorajde',
-      //       sq: 'Gorazhda',
-      //       lt: 'Goraždė',
-      //       hr: 'Goražde',
-      //       sr: 'Горажде',
-      //       ru: 'Горажде',
-      //       ja: 'ゴラジュデ',
-      //       uk: 'Горажде',
-      //       zh: '戈拉日代',
-      //       fa: 'گراژده',
-      //     },
-      //     lat: 43.6673112,
-      //     lon: 18.9765501,
-      //     country: 'BA',
-      //     state: 'Federation of Bosnia and Herzegovina',
-      //   },
-      //   {
-      //     name: 'Goražde',
-      //     lat: 43.66757215,
-      //     lon: 18.980829116325108,
-      //     country: 'BA',
-      //     state: 'Federation of Bosnia and Herzegovina',
-      //   },
-      //   {
-      //     name: 'Goražde',
-      //     local_names: { sr: 'Горажде' },
-      //     lat: 42.8845361,
-      //     lon: 19.9227157,
-      //     country: 'ME',
-      //   },
-      // ]
-      //console.log(data)
 
       return response.status(200).json(
         data.map((city) => ({

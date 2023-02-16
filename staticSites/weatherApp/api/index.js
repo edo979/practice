@@ -2,7 +2,13 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 export default async function handler(request, response) {
+  if (request.method !== 'POST') return response.status(400).end()
+  if (request.headers['content-type'] !== 'application/json')
+    return response.status(400).end()
+
   const { lat, lon } = request.body
+  if (typeof lat !== 'number' || typeof lon !== 'number')
+    return response.status(400).end()
 
   try {
     const res = await fetch(

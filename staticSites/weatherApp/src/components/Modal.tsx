@@ -30,6 +30,8 @@ export default function Modal({ isShow, setIsShow }: ModalProps) {
         isError && setIsError(false)
         setData(data)
         setCity('')
+      } else {
+        setIsError(true)
       }
     } catch {
       setIsError(true)
