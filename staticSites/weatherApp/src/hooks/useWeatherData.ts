@@ -110,10 +110,12 @@ export function useWeatherData() {
 
   function mapRawDataToState(data: dataT) {
     const currentDate = new Date()
+    const timeZone = data.city.timezone * 1000
+
     const currentWeather =
       data.list.find((day) => {
-        const dateTimeInterval = new Date(day.dt_txt)
-        const deltaTime = currentDate.getTime() - dateTimeInterval.getTime()
+        const dateTimeInterval = new Date(day.dt_txt).getTime() + timeZone
+        const deltaTime = currentDate.getTime() - dateTimeInterval
 
         // use weather info in interval less than 1h and 30min
         // or fall back to first interval
@@ -147,7 +149,9 @@ export function useWeatherData() {
   async function loadingByDateTime(rawDataLS: dataT) {
     const dateLastVisit = new Date(rawDataLS.list[0].dt_txt)
     const dateNow = new Date()
-    const deltaTime = dateNow.getTime() - dateLastVisit.getTime()
+    const deltaTime =
+      dateNow.getTime() -
+      (dateLastVisit.getTime() + rawDataLS.city.timezone * 1000)
 
     const isIn24h = deltaTime / (1000 * 60 * 60) < 24
     const isSameDay = dateNow.getDate() === dateLastVisit.getDate()
