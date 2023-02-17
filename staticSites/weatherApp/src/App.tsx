@@ -19,7 +19,7 @@ function App() {
   } else {
     content = (
       <main className="relative w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900">
-        <div className="row-start-1 mx-auto grid min-h-screen max-w-2xl grid-rows-[auto_minmax(200px,_max-content)_auto_auto_1fr] py-8 px-4">
+        <div className="main-grid-container row-start-1 mx-auto grid max-w-2xl grid-rows-[auto_minmax(200px,_max-content)_auto_auto_1fr] py-8 px-4">
           <div className="row-start-1 flex items-end justify-between">
             <div className="flex flex-col">
               <div className="flex min-w-[180px] flex-row items-center justify-between gap-2">
