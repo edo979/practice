@@ -18,12 +18,10 @@ export default function Countries() {
     setState((prev: any) => ({ ...prev, countriesFilteredByName: countries }))
   }
 
-  console.log(state)
-
   return (
     <main>
       <SeacrhBar findByName={filterByName} />
-      <CountriesList />
+      <CountriesList countries={state.countriesFilteredByName} />
     </main>
   )
 }
