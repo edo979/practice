@@ -1,6 +1,6 @@
 export default function SeacrhBar() {
   return (
-    <div className="mt-4 flex flex-row items-center justify-between gap-4">
+    <div className="mt-4 flex flex-row items-center gap-4">
       <div className="input-group max-w-md flex-1">
         <label htmlFor="name" className="block text-md tracking-tight">
           IME DRŽAVE
