@@ -1,3 +1,3 @@
 export default function CountriesList() {
-  return <div>Countries List</div>
+  return <ul className="mt-8">countries list</ul>
 }
