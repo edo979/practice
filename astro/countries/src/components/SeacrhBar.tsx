@@ -13,8 +13,9 @@ export default function SeacrhBar({
   const [region, setRegion] = useState('')
 
   function handleRegionChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    filterByRegion(e.target.value)
-    setRegion(e.target.value)
+    const region: string = e.target.value
+    filterByRegion(region)
+    setRegion(region)
   }
 
   return (
