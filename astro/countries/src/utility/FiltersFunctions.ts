@@ -14,8 +14,16 @@ export const filterCountriesByName = (data: any, nameToFind: string) => {
       (value: any) => Object.values(value)
     )
 
+    const capital = country.capital ?? []
+
     const names = Array.from(
-      new Set([common, official, ...nativeNames, ...translationNames])
+      new Set([
+        common,
+        official,
+        ...nativeNames,
+        ...translationNames,
+        ...capital,
+      ])
     )
 
     return names.some((name) =>
