@@ -1,4 +1,4 @@
-import CountriesList from './CountriesList'
+import List from './List'
 import SeacrhBar from './SeacrhBar'
 import { useState } from 'react'
 import {
@@ -27,7 +27,7 @@ export default function Countries() {
   return (
     <main>
       <SeacrhBar search={filterCountries} />
-      <CountriesList countries={state.filteredCountries} />
+      <List countries={state.filteredCountries} />
     </main>
   )
 }
