@@ -11,7 +11,7 @@ const regions: { [key: string]: string } = {
 
 export default function ListItem({ country }: { country: CountryT }) {
   return (
-    <li className="p-4 border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md shadow-zinc-900">
+    <li className="p-4 sm:max-w-sm border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md shadow-zinc-900">
       <div className="h-48 flex">
         <img
           src={country.flags.png}
