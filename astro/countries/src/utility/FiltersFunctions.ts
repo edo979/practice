@@ -23,3 +23,8 @@ export const filterCountriesByName = (data: any, nameToFind: string) => {
     )
   })
 }
+
+export const filterCountriesByRegion = (data: any, region: string) => {
+  if (region === 'All') return []
+  return data.filter((country: any) => country.region === region)
+}

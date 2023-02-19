@@ -2,20 +2,30 @@ import { useState } from 'react'
 
 type SearchBarProps = {
   findByName: (name: string) => void
+  filterByRegion: (region: string) => void
 }
 
-export default function SeacrhBar({ findByName }: SearchBarProps) {
+export default function SeacrhBar({
+  findByName,
+  filterByRegion,
+}: SearchBarProps) {
   const [name, setName] = useState('')
+  const [region, setRegion] = useState('')
+
+  function handleRegionChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    filterByRegion(e.target.value)
+    setRegion(e.target.value)
+  }
 
   return (
-    <div className="mt-8 flex flex-row items-center gap-4">
-      <form
-        className="input-group max-w-md flex-1"
-        onSubmit={(e) => {
-          e.preventDefault()
-          findByName(name)
-        }}
-      >
+    <form
+      className="mt-8 flex flex-row items-center gap-4"
+      onSubmit={(e) => {
+        e.preventDefault()
+        findByName(name)
+      }}
+    >
+      <div className="input-group max-w-md flex-1">
         <label htmlFor="name" className="block text-md tracking-tight">
           IME DRŽAVE
         </label>
@@ -28,7 +38,7 @@ export default function SeacrhBar({ findByName }: SearchBarProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-      </form>
+      </div>
 
       <div className="input-group min-w-max">
         <label htmlFor="region" className="block text-md tracking-tight">
@@ -37,13 +47,19 @@ export default function SeacrhBar({ findByName }: SearchBarProps) {
         <select
           name="region"
           id="region"
-          className="mt-1 px-1.5 py-1 rounded text-lg border-amber-500 border-2 text-zinc-800 focus:outline-none focus:ring-amber-400 focus:ring-1"
+          className="mt-1 px-1.5 py-1 rounded text-lg border-amber-500 border-2 text-zinc-800 font-semibold focus:outline-none focus:ring-amber-400 focus:ring-1"
+          value={region}
+          onChange={(e) => handleRegionChange(e)}
         >
-          <option value="afrika" className="text-zinc-800">
-            Afrika
-          </option>
+          <option value="All">Sve regije</option>
+          <option value="Asia">Azija</option>
+          <option value="Africa">Afrika</option>
+          <option value="Americas">Amerika</option>
+          <option value="Antarctic">Antarktika</option>
+          <option value="Europe">Evropa</option>
+          <option value="Oceania">Australija</option>
         </select>
       </div>
-    </div>
+    </form>
   )
 }
