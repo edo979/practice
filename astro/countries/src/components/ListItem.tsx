@@ -11,13 +11,16 @@ const regions: { [key: string]: string } = {
 
 export default function ListItem({ country }: { country: CountryT }) {
   return (
-    <li className="w-80 p-4 border border-stone-600 rounded-md bg-stone-800 shadow-md shadow-zinc-900">
-      <img
-        src={country.flags.png}
-        alt={country.name.official}
-        className="rounded"
-      />
-      <table className="mt-4 mx-auto text-lg">
+    <li className="w-80 p-4 border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md shadow-zinc-900">
+      <div className="h-48 flex items-center">
+        <img
+          src={country.flags.png}
+          alt={country.name.official}
+          className="rounded"
+        />
+      </div>
+
+      <table className="text-lg self-center">
         <tbody>
           <tr>
             <td className="text-right font-light tracking-tight text-stone-400">
