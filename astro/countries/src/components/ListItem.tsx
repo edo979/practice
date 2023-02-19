@@ -23,23 +23,23 @@ export default function ListItem({ country }: { country: CountryT }) {
       <table className="text-lg self-center">
         <tbody>
           <tr>
-            <td className="text-right font-light tracking-tight text-stone-400">
+            <td className="text-md text-right font-light tracking-tight text-stone-400">
               Ime:
             </td>
             <td className="pl-2 font-semibold">
-              {country.translations.hrv.official}
+              {country.translations?.hrv?.official ?? country.name.official}
             </td>
           </tr>
 
           <tr>
-            <td className="text-right font-light tracking-tight text-stone-400">
+            <td className="text-md text-right font-light tracking-tight text-stone-400">
               Glavni grad:
             </td>
             <td className="pl-2 font-semibold">{country.capital}</td>
           </tr>
 
           <tr>
-            <td className="text-right font-light tracking-tight text-stone-400">
+            <td className="text-md text-right font-light tracking-tight text-stone-400">
               Stanovnika:
             </td>
             <td className="pl-2 font-semibold">
@@ -48,7 +48,7 @@ export default function ListItem({ country }: { country: CountryT }) {
           </tr>
 
           <tr>
-            <td className="text-right font-light tracking-tight text-stone-400">
+            <td className="text-md text-right font-light tracking-tight text-stone-400">
               Površina:
             </td>
             <td className="pl-2 font-semibold">
@@ -57,7 +57,7 @@ export default function ListItem({ country }: { country: CountryT }) {
           </tr>
 
           <tr>
-            <td className="text-right font-light tracking-tight text-stone-400">
+            <td className="text-md text-right font-light tracking-tight text-stone-400">
               Kontinent:
             </td>
             <td className="pl-2 font-semibold">
