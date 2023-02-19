@@ -7,39 +7,27 @@ import {
 } from '../utility/FiltersFunctions'
 
 import { data } from '../data/data'
-import { countryData } from '../data/bosna'
 
 export default function Countries() {
   const [state, setState] = useState<any>({
     countries: data,
-    countriesFilteredByName: [],
-    countriesFilteredByRegion: [],
+    filteredCountries: [],
   })
 
-  const filterByName = (name: string) => {
-    const countries = filterCountriesByName(state.countries, name)
-    setState((prev: any) => ({ ...prev, countriesFilteredByName: countries }))
+  const filterCountries = (name: string, region: string) => {
+    const regionCountries = filterCountriesByRegion(state.countries, region)
+    const countries = filterCountriesByName(regionCountries, name)
+
+    setState((prev: any) => ({ ...prev, filteredCountries: countries }))
   }
 
-  const filterByRegion = (region: string) => {
-    if (region === 'All') {
-      setState((prev: any) => ({ ...prev, countriesFilteredByRegion: [] }))
-    } else {
-      const countries = filterCountriesByRegion(state.countries, region)
-      setState((prev: any) => ({
-        ...prev,
-        countriesFilteredByRegion: countries,
-      }))
-    }
-  }
-
-  //console.log(new Set(data.map((c) => c.region)))
-  console.log(state.countriesFilteredByRegion.map((c: any) => c.name))
+  // console.log(new Set(data.map((c) => c.region)))
+  // console.log(state.filteredCountries.map((c: any) => c.name))
 
   return (
     <main>
-      <SeacrhBar findByName={filterByName} filterByRegion={filterByRegion} />
-      <CountriesList countries={state.countriesFilteredByName} />
+      <SeacrhBar search={filterCountries} />
+      <CountriesList countries={state.filteredCountries} />
     </main>
   )
 }

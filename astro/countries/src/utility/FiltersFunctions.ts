@@ -25,6 +25,6 @@ export const filterCountriesByName = (data: any, nameToFind: string) => {
 }
 
 export const filterCountriesByRegion = (data: any, region: string) => {
-  if (region === 'All') return []
+  if (region === 'All') return data
   return data.filter((country: any) => country.region === region)
 }

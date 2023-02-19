@@ -1,29 +1,19 @@
 import { useState } from 'react'
 
 type SearchBarProps = {
-  findByName: (name: string) => void
-  filterByRegion: (region: string) => void
+  search: (name: string, region: string) => void
 }
 
-export default function SeacrhBar({
-  findByName,
-  filterByRegion,
-}: SearchBarProps) {
+export default function SeacrhBar({ search }: SearchBarProps) {
   const [name, setName] = useState('')
-  const [region, setRegion] = useState('')
-
-  function handleRegionChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const region: string = e.target.value
-    filterByRegion(region)
-    setRegion(region)
-  }
+  const [region, setRegion] = useState('All')
 
   return (
     <form
       className="mt-8 flex flex-row items-center gap-4"
       onSubmit={(e) => {
         e.preventDefault()
-        findByName(name)
+        search(name, region)
       }}
     >
       <div className="input-group max-w-md flex-1">
@@ -50,7 +40,7 @@ export default function SeacrhBar({
           id="region"
           className="mt-1 px-1.5 py-1 rounded text-lg border-amber-500 border-2 text-zinc-800 font-semibold focus:outline-none focus:ring-amber-400 focus:ring-1"
           value={region}
-          onChange={(e) => handleRegionChange(e)}
+          onChange={(e) => setRegion(e.target.value)}
         >
           <option value="All">Sve regije</option>
           <option value="Asia">Azija</option>
@@ -61,6 +51,10 @@ export default function SeacrhBar({
           <option value="Oceania">Australija</option>
         </select>
       </div>
+
+      <button className="btn btn-primary self-end" type="submit">
+        Traži
+      </button>
     </form>
   )
 }
