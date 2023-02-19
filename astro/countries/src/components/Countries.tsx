@@ -26,9 +26,9 @@ export default function Countries() {
   // console.log(state.filteredCountries.map((c: any) => c.name))
 
   return (
-    <main>
+    <>
       <SeacrhBar search={filterCountries} />
-      <List countries={[countryData]} />
-    </main>
+      <List countries={state.countries.slice(0, 5)} />
+    </>
   )
 }
