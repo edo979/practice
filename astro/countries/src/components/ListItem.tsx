@@ -1,5 +1,14 @@
 import type { CountryT } from '../data/bosna'
 
+const regions: { [key: string]: string } = {
+  Asia: 'Azija',
+  Africa: 'Afrika',
+  Americas: 'Amerika',
+  Antarctic: 'Antarktika',
+  Europe: 'Evropa',
+  Oceania: 'Australija',
+}
+
 export default function ListItem({ country }: { country: CountryT }) {
   return (
     <li className="max-w-xs p-4 border border-stone-600 rounded-md bg-stone-800 shadow-md shadow-zinc-900">
@@ -45,9 +54,9 @@ export default function ListItem({ country }: { country: CountryT }) {
 
         <tr>
           <td className="text-right font-light tracking-tight text-stone-400">
-            Regija:
+            Kontinent:
           </td>
-          <td className="pl-2 font-semibold">{country.region}</td>
+          <td className="pl-2 font-semibold">{regions[`${country.region}`]}</td>
         </tr>
       </table>
     </li>
