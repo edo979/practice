@@ -7,6 +7,7 @@ import {
 } from '../utility/FiltersFunctions'
 
 import { data } from '../data/data'
+import { countryData } from '../data/bosna'
 
 export default function Countries() {
   const [state, setState] = useState<any>({
@@ -27,7 +28,7 @@ export default function Countries() {
   return (
     <main>
       <SeacrhBar search={filterCountries} />
-      <List countries={state.filteredCountries} />
+      <List countries={[countryData]} />
     </main>
   )
 }
