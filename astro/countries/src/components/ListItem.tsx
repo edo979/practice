@@ -36,7 +36,7 @@ export default function ListItem({ country, showDetails }: ListItemProps) {
               Ime:
             </td>
             <td className="pl-2 font-semibold">
-              {country.translations?.hrv?.official ?? country.name.official}
+              {country.translations?.hrv?.common ?? country.name.common}
             </td>
           </tr>
 

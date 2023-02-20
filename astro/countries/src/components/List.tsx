@@ -18,7 +18,7 @@ export default function List({
   getCountryName: (cca3: string) => string
 }) {
   const [state, setState] = useState<StateT>({
-    isShowDetails: true,
+    isShowDetails: false,
     country: countryData,
   })
 
