@@ -21,6 +21,10 @@ export default function Countries() {
     setState((prev: any) => ({ ...prev, filteredCountries: countries }))
   }
 
+  function getCountry(cca3: string) {
+    return state.countries.find((country: any) => country.cca3 === cca3)
+  }
+
   // console.log(new Set(data.map((c) => c.region)))
   // console.log(state.filteredCountries.map((c: any) => c.name))
   // console.log(state.countries)
@@ -28,7 +32,7 @@ export default function Countries() {
   return (
     <>
       <SeacrhBar search={filterCountries} />
-      <List countries={state.filteredCountries} />
+      <List countries={state.filteredCountries} getCountry={getCountry} />
     </>
   )
 }

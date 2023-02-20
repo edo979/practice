@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { CountryT } from '../data/bosna'
+import { countryData, CountryT } from '../data/bosna'
 import ListItem from './ListItem'
 import Modal from './Modal'
 
@@ -8,10 +8,16 @@ type StateT = {
   isShowDetails: boolean
 }
 
-export default function List({ countries }: { countries: any }) {
+export default function List({
+  countries,
+  getCountry,
+}: {
+  countries: CountryT[]
+  getCountry: (cca3: string) => CountryT | undefined
+}) {
   const [state, setState] = useState<StateT>({
-    isShowDetails: false,
-    country: undefined,
+    isShowDetails: true,
+    country: countryData,
   })
 
   function setDetailsHidden() {
@@ -20,6 +26,11 @@ export default function List({ countries }: { countries: any }) {
 
   function showDetails(country: CountryT) {
     setState({ country, isShowDetails: true })
+  }
+
+  function changeCountry(cca3: string) {
+    const country = getCountry(cca3)
+    setState((prev) => ({ ...prev, country: country }))
   }
 
   return (
@@ -38,6 +49,7 @@ export default function List({ countries }: { countries: any }) {
         isShow={state.isShowDetails}
         setHidden={setDetailsHidden}
         country={state.country}
+        getCountry={changeCountry}
       />
     </>
   )
