@@ -2,7 +2,7 @@ import type { CountryT } from '../data/bosna'
 
 type ListItemProps = {
   country: CountryT
-  showDetails: () => void
+  showDetails: (country: CountryT) => void
 }
 
 const regions: { [key: string]: string } = {
@@ -19,7 +19,7 @@ export default function ListItem({ country, showDetails }: ListItemProps) {
     <li
       className="p-4 sm:max-w-sm border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md 
     shadow-zinc-900"
-      onClick={showDetails}
+      onClick={() => showDetails(country)}
     >
       <div className="h-48 flex">
         <img

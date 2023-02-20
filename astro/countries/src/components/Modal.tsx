@@ -1,17 +1,19 @@
 import { useState } from 'react'
+import type { CountryT } from '../data/bosna'
 
 type ModalProps = {
   isShow: boolean
   setHidden: () => void
+  country?: CountryT
 }
 
-export default function Modal({ isShow, setHidden }: ModalProps) {
-  if (!isShow) return null
+export default function Modal({ isShow, setHidden, country }: ModalProps) {
+  if (!isShow || country === undefined) return null
 
   return (
-    <div className="absolute inset-0 bg-slate-500">
+    <div className="fixed top-0 left-0 h-full w-full bg-slate-500">
       <button onClick={setHidden}>X</button>
-      Modal
+      <p>{country.name.official}</p>
     </div>
   )
 }

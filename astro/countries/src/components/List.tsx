@@ -1,16 +1,25 @@
 import { useState } from 'react'
+import type { CountryT } from '../data/bosna'
 import ListItem from './ListItem'
 import Modal from './Modal'
 
+type StateT = {
+  country?: CountryT
+  isShowDetails: boolean
+}
+
 export default function List({ countries }: { countries: any }) {
-  const [isShowDetails, setIsShowDetails] = useState(false)
+  const [state, setState] = useState<StateT>({
+    isShowDetails: false,
+    country: undefined,
+  })
 
   function setDetailsHidden() {
-    setIsShowDetails(false)
+    setState((prev) => ({ ...prev, isShowDetails: false }))
   }
 
-  function showDetails() {
-    setIsShowDetails(true)
+  function showDetails(country: CountryT) {
+    setState({ country, isShowDetails: true })
   }
 
   return (
@@ -25,7 +34,11 @@ export default function List({ countries }: { countries: any }) {
         ))}
       </ul>
 
-      <Modal isShow={isShowDetails} setHidden={setDetailsHidden} />
+      <Modal
+        isShow={state.isShowDetails}
+        setHidden={setDetailsHidden}
+        country={state.country}
+      />
     </>
   )
 }
