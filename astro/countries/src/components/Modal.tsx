@@ -6,6 +6,7 @@ type ModalProps = {
   setHidden: () => void
   country?: CountryT
   getCountry: (cca3: string) => void
+  getCountryName: (cca3: string) => string
 }
 
 export default function Modal({
@@ -13,6 +14,7 @@ export default function Modal({
   setHidden,
   country,
   getCountry,
+  getCountryName,
 }: ModalProps) {
   if (!isShow || country === undefined) return null
 
@@ -21,14 +23,14 @@ export default function Modal({
       <button onClick={setHidden}>X</button>
       <p>{country.name.official}</p>
       <p>Susjedne države:</p>
-      <div className="flex flex-row flex-wrap gap-4 justify-center">
-        {country.borders.map((border) => (
+      <div className="flex flex-row flex-wrap gap-2">
+        {country.borders.map((cca3) => (
           <button
-            key={border}
+            key={cca3}
             className="btn btn-primary"
-            onClick={() => getCountry(border)}
+            onClick={() => getCountry(cca3)}
           >
-            {border}
+            {getCountryName(cca3)}
           </button>
         ))}
       </div>

@@ -25,6 +25,18 @@ export default function Countries() {
     return state.countries.find((country: any) => country.cca3 === cca3)
   }
 
+  function getCountryName(cca3: string) {
+    const country = state.countries.find(
+      (country: any) => country.cca3 === cca3
+    )
+
+    if (!country) return cca3
+
+    const name: string = country.translations.hrv.common || country.name
+
+    return name
+  }
+
   // console.log(new Set(data.map((c) => c.region)))
   // console.log(state.filteredCountries.map((c: any) => c.name))
   // console.log(state.countries)
@@ -32,7 +44,11 @@ export default function Countries() {
   return (
     <>
       <SeacrhBar search={filterCountries} />
-      <List countries={state.filteredCountries} getCountry={getCountry} />
+      <List
+        countries={state.filteredCountries}
+        getCountry={getCountry}
+        getCountryName={getCountryName}
+      />
     </>
   )
 }

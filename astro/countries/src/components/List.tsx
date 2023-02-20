@@ -11,9 +11,11 @@ type StateT = {
 export default function List({
   countries,
   getCountry,
+  getCountryName,
 }: {
   countries: CountryT[]
   getCountry: (cca3: string) => CountryT | undefined
+  getCountryName: (cca3: string) => string
 }) {
   const [state, setState] = useState<StateT>({
     isShowDetails: true,
@@ -50,6 +52,7 @@ export default function List({
         setHidden={setDetailsHidden}
         country={state.country}
         getCountry={changeCountry}
+        getCountryName={getCountryName}
       />
     </>
   )
