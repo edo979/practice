@@ -1,5 +1,10 @@
 import type { CountryT } from '../data/bosna'
 
+type ListItemProps = {
+  country: CountryT
+  showDetails: () => void
+}
+
 const regions: { [key: string]: string } = {
   Asia: 'Azija',
   Africa: 'Afrika',
@@ -9,9 +14,13 @@ const regions: { [key: string]: string } = {
   Oceania: 'Australija',
 }
 
-export default function ListItem({ country }: { country: CountryT }) {
+export default function ListItem({ country, showDetails }: ListItemProps) {
   return (
-    <li className="p-4 sm:max-w-sm border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md shadow-zinc-900">
+    <li
+      className="p-4 sm:max-w-sm border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md 
+    shadow-zinc-900"
+      onClick={showDetails}
+    >
       <div className="h-48 flex">
         <img
           src={country.flags.png}
