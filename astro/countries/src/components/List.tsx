@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { countryData, CountryT } from '../data/bosna'
+import type { CountryT } from '../data/bosna'
 import ListItem from './ListItem'
 import Modal from './Modal'
 
@@ -18,8 +18,8 @@ export default function List({
   getCountryName: (cca3: string) => string
 }) {
   const [state, setState] = useState<StateT>({
-    isShowDetails: true,
-    country: countryData,
+    isShowDetails: false,
+    country: undefined,
   })
 
   function setDetailsHidden() {
@@ -34,6 +34,27 @@ export default function List({
     const country = getCountry(cca3)
     setState((prev) => ({ ...prev, country: country }))
   }
+
+  if (countries.length === 0)
+    return (
+      <div className="mt-8">
+        <p className="text-lg font-bold">Uputstvo:</p>
+        <ul className="list-disc ml-8">
+          <li className="list-item">
+            Ostavite prazno polje za ime države ako želte vidjeti sve države sa
+            odabranog kontinenta.
+          </li>
+          <li>
+            Upišite ime države i odaberite kontinent ako želite precizniju
+            pretragu.
+          </li>
+          <li>
+            <b>ili samo upišite nekoliko početnih slova države</b>
+          </li>
+          <li>kliknite na polje države da bi vidjeli detalje</li>
+        </ul>
+      </div>
+    )
 
   return (
     <>

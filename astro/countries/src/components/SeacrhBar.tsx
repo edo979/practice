@@ -33,7 +33,7 @@ export default function SeacrhBar({ search }: SearchBarProps) {
 
       <div className="input-group min-w-max">
         <label htmlFor="region" className="block text-md tracking-tight">
-          REGIJA
+          KONTINENT
         </label>
         <select
           name="region"
@@ -42,7 +42,7 @@ export default function SeacrhBar({ search }: SearchBarProps) {
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
-          <option value="All">Sve regije</option>
+          <option value="All">Svi</option>
           <option value="Asia">Azija</option>
           <option value="Africa">Afrika</option>
           <option value="Americas">Amerika</option>
