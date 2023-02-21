@@ -18,7 +18,7 @@ export default function ListItem({ country, showDetails }: ListItemProps) {
   return (
     <li
       className="p-4 sm:max-w-sm border flex flex-col gap-4 border-stone-600 rounded-md bg-stone-800 shadow-md 
-    shadow-zinc-900"
+    shadow-zinc-900 cursor-pointer hover:border-stone-400 hover:shadow-zinc-600 hover:shadow-lg"
       onClick={() => showDetails(country)}
     >
       <div className="h-48 flex">
@@ -35,7 +35,7 @@ export default function ListItem({ country, showDetails }: ListItemProps) {
             <td className="text-md text-right font-light tracking-tight text-stone-400">
               Ime:
             </td>
-            <td className="pl-2 font-semibold">
+            <td className="pl-2 font-semibold md:text-2xl">
               {country.translations?.hrv?.common ?? country.name.common}
             </td>
           </tr>
