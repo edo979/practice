@@ -5,7 +5,7 @@ type ListItemProps = {
   showDetails: (country: CountryT) => void
 }
 
-const regions: { [key: string]: string } = {
+export const regions: { [key: string]: string } = {
   Asia: 'Azija',
   Africa: 'Afrika',
   Americas: 'Amerika',

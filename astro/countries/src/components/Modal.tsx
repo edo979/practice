@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { CountryT } from '../data/bosna'
+import { regions } from './ListItem'
 
 type ModalProps = {
   isShow: boolean
@@ -29,30 +30,76 @@ export default function Modal({
         </button>
 
         <div className="flex flex-col gap-4">
-          <img
-            src={country.flags.png}
-            alt={country.name.common}
-            className="mt-4 rounded"
-          />
-          <p className="text-xl font-bold">
-            {country.translations.hrv.common || country.name.common}
-          </p>
+          <div className="space-y-2">
+            <img
+              src={country.flags.png}
+              alt={country.name.common}
+              className="mt-4 rounded"
+            />
 
-          <p>Susjedne države:</p>
-          <div className="flex flex-row flex-wrap gap-2">
-            {country.borders ? (
-              country.borders.map((cca3) => (
-                <button
-                  key={cca3}
-                  className="btn btn-primary"
-                  onClick={() => getCountry(cca3)}
-                >
-                  {getCountryName(cca3)}
-                </button>
-              ))
-            ) : (
-              <p>Nema kopnenih susjednih država.</p>
-            )}
+            <p className="text-lg font-bold">
+              {country.translations.hrv.common || country.name.common}
+            </p>
+
+            <div>
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+                Glavni grad:
+              </p>
+              <p className="text-lg">{country.capital}</p>
+            </div>
+
+            <div>
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+                Broj stanovnika:
+              </p>
+              <p className="text-lg">
+                {country.population.toLocaleString('hr-BA')}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+                Kontinet:
+              </p>
+              <p className="text-lg">{regions[`${country.region}`]}</p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div>
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+                Zvanični jezici:
+              </p>
+              <p className="text-lg">
+                {Object.keys(country.languages).join(' ,')}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+                Površina države:
+              </p>
+              <p className="text-lg">
+                {(country.area / 1000).toLocaleString('hr-BA')} km<sup>2</sup>
+              </p>
+            </div>
+
+            <p>Susjedne države:</p>
+            <div className="flex flex-row flex-wrap gap-2">
+              {country.borders ? (
+                country.borders.map((cca3) => (
+                  <button
+                    key={cca3}
+                    className="btn btn-primary"
+                    onClick={() => getCountry(cca3)}
+                  >
+                    {getCountryName(cca3)}
+                  </button>
+                ))
+              ) : (
+                <p>Nema kopnenih susjednih država.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
