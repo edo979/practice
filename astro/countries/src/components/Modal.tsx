@@ -21,7 +21,7 @@ export default function Modal({
 
   return (
     <div className="fixed top-0 left-0 h-full w-full p-6 grid grid-cols-[minmax(320px,_840px)] place-content-center bg-black/70 sm:bg-black/90">
-      <div className="p-4 border border-stone-600 rounded bg-stone-800 overflow-y-auto">
+      <div className="p-4 border border-stone-600 rounded bg-stone-800 overflow-y-auto lg:px-8">
         <button
           onClick={setHidden}
           className="block py-1 px-3 ml-auto rounded-md border border-stone-500 bg-stone-600 text-sm text-stone-300 font-light"

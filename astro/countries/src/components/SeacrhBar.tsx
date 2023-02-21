@@ -17,7 +17,10 @@ export default function SeacrhBar({ search }: SearchBarProps) {
       }}
     >
       <div className="input-group w-full flex-1 sm:max-w-md">
-        <label htmlFor="name" className="block text-md tracking-tight">
+        <label
+          htmlFor="name"
+          className="block text-md tracking-tight md:text-lg"
+        >
           IME DRŽAVE
         </label>
         <input
@@ -25,20 +28,23 @@ export default function SeacrhBar({ search }: SearchBarProps) {
           name="name"
           id="name"
           placeholder="upiši ime države..."
-          className="w-full mt-1 px-1.5 py-1.5 rounded text-lg border-amber-500 border-2 text-zinc-800 focus:outline-none focus:ring-amber-400 focus:ring-1 md:text-xl"
+          className="w-full mt-1 px-1.5 py-1.5 rounded text-lg border-amber-500 border-2 text-zinc-800 focus:outline-none focus:ring-amber-400 focus:ring-1 md:text-xl lg:text-2xl"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
 
       <div className="input-group sm:min-w-max">
-        <label htmlFor="region" className="block text-md tracking-tight">
+        <label
+          htmlFor="region"
+          className="block text-md tracking-tight md:text-xl"
+        >
           KONTINENT
         </label>
         <select
           name="region"
           id="region"
-          className="mt-1 px-1.5 py-1.5 w-full rounded text-lg border-amber-500 border-2 text-zinc-800 font-semibold focus:outline-none focus:ring-amber-400 focus:ring-1"
+          className="mt-1 px-1.5 py-1.5 w-full rounded text-lg border-amber-500 border-2 text-zinc-800 font-semibold focus:outline-none focus:ring-amber-400 focus:ring-1 md:text-xl lg:text-2xl"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
