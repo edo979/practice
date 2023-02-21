@@ -20,7 +20,7 @@ export default function Modal({
   if (!isShow || country === undefined) return null
 
   return (
-    <div className="fixed top-0 left-0 h-full w-full p-6 grid grid-cols-[minmax(320px,_576px)] place-content-center bg-black/70">
+    <div className="fixed top-0 left-0 h-full w-full p-6 grid grid-cols-[minmax(320px,_700px)] place-content-center bg-black/70">
       <div className="p-4 border border-stone-600 rounded bg-stone-800 overflow-y-auto">
         <button
           onClick={setHidden}
@@ -29,15 +29,15 @@ export default function Modal({
           X
         </button>
 
-        <div className="flex flex-col gap-4">
-          <div className="space-y-2">
+        <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row">
+          <div className="space-y-2 sm:basis-52">
             <img
               src={country.flags.png}
               alt={country.name.common}
-              className="mt-4 rounded"
+              className="rounded"
             />
 
-            <p className="text-lg font-bold">
+            <p className="text-lg font-bold md:text-xl">
               {country.translations.hrv.common || country.name.common}
             </p>
 
@@ -45,20 +45,20 @@ export default function Modal({
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Glavni grad:
               </p>
-              <p className="text-lg">{country.capital}</p>
+              <p className="text-lg md:text-xl">{country.capital}</p>
             </div>
 
             <div>
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Broj stanovnika:
               </p>
-              <p className="text-lg">
+              <p className="text-lg md:text-xl">
                 {country.population.toLocaleString('hr-BA')}
               </p>
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 sm:basis-full">
             <div>
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Susjedne države:
@@ -84,14 +84,16 @@ export default function Modal({
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Kontinet:
               </p>
-              <p className="text-lg">{regions[`${country.region}`]}</p>
+              <p className="text-lg md:text-xl">
+                {regions[`${country.region}`]}
+              </p>
             </div>
 
             <div>
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Površina države:
               </p>
-              <p className="text-lg">
+              <p className="text-lg md:text-xl">
                 {(country.area / 1000).toLocaleString('hr-BA')} km<sup>2</sup>
               </p>
             </div>
@@ -100,7 +102,7 @@ export default function Modal({
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Zvanični jezici:
               </p>
-              <p className="text-lg">
+              <p className="text-lg md:text-xl">
                 {Object.keys(country.languages).join(' ,')}
               </p>
             </div>
@@ -109,7 +111,7 @@ export default function Modal({
               <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
                 Skraćenice za državu:
               </p>
-              <p className="text-lg">
+              <p className="text-lg md:text-xl">
                 <span>{country.cca2}</span>, <span>{country.cca3}</span>
               </p>
             </div>
