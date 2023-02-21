@@ -10,13 +10,13 @@ export default function SeacrhBar({ search }: SearchBarProps) {
 
   return (
     <form
-      className="mt-8 flex flex-row items-center gap-4"
+      className="mt-8 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center"
       onSubmit={(e) => {
         e.preventDefault()
         search(name, region)
       }}
     >
-      <div className="input-group max-w-md flex-1">
+      <div className="input-group w-full flex-1 sm:max-w-md">
         <label htmlFor="name" className="block text-md tracking-tight">
           IME DRŽAVE
         </label>
@@ -25,20 +25,20 @@ export default function SeacrhBar({ search }: SearchBarProps) {
           name="name"
           id="name"
           placeholder="upiši ime države..."
-          className="w-full mt-1 px-1.5 py-1 rounded text-lg border-amber-500 border-2 text-zinc-800 focus:outline-none focus:ring-amber-400 focus:ring-1"
+          className="w-full mt-1 px-1.5 py-1.5 rounded text-lg border-amber-500 border-2 text-zinc-800 focus:outline-none focus:ring-amber-400 focus:ring-1 md:text-xl"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
 
-      <div className="input-group min-w-max">
+      <div className="input-group sm:min-w-max">
         <label htmlFor="region" className="block text-md tracking-tight">
           KONTINENT
         </label>
         <select
           name="region"
           id="region"
-          className="mt-1 px-1.5 py-1 rounded text-lg border-amber-500 border-2 text-zinc-800 font-semibold focus:outline-none focus:ring-amber-400 focus:ring-1"
+          className="mt-1 px-1.5 py-1.5 w-full rounded text-lg border-amber-500 border-2 text-zinc-800 font-semibold focus:outline-none focus:ring-amber-400 focus:ring-1"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
@@ -52,7 +52,10 @@ export default function SeacrhBar({ search }: SearchBarProps) {
         </select>
       </div>
 
-      <button className="btn btn-primary self-end" type="submit">
+      <button
+        className="mt-4 btn btn-primary sm:mt-0 sm:self-end"
+        type="submit"
+      >
         Traži
       </button>
     </form>
