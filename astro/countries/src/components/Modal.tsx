@@ -42,14 +42,14 @@ export default function Modal({
             </p>
 
             <div>
-              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold lg:text-sm">
                 Glavni grad:
               </p>
               <p className="text-lg md:text-2xl">{country.capital}</p>
             </div>
 
             <div>
-              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold lg:text-sm">
                 Broj stanovnika:
               </p>
               <p className="text-lg md:text-2xl">
@@ -81,7 +81,7 @@ export default function Modal({
             </div>
 
             <div className="pt-4">
-              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold lg:text-sm">
                 Kontinet:
               </p>
               <p className="text-lg md:text-2xl">
@@ -90,7 +90,7 @@ export default function Modal({
             </div>
 
             <div>
-              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold lg:text-sm">
                 Površina države:
               </p>
               <p className="text-lg md:text-2xl">
@@ -99,16 +99,16 @@ export default function Modal({
             </div>
 
             <div>
-              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold lg:text-sm">
                 Zvanični jezici:
               </p>
               <p className="text-lg md:text-2xl">
-                {Object.keys(country.languages).join(' ,')}
+                {Object.keys(country.languages).join(', ')}
               </p>
             </div>
 
             <div>
-              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold">
+              <p className="text-xs text-stone-500 tracking-tighter uppercase font-semibold lg:text-sm">
                 Skraćenice za državu:
               </p>
               <p className="text-lg md:text-2xl">
