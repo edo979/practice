@@ -37,10 +37,6 @@ export default function Countries() {
     return name
   }
 
-  // console.log(new Set(data.map((c) => c.region)))
-  // console.log(state.filteredCountries.map((c: any) => c.name))
-  // console.log(state.countries)
-
   return (
     <>
       <SeacrhBar search={filterCountries} />
