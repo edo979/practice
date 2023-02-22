@@ -39,28 +39,41 @@ import Layout from '../layouts/Layout.astro'
   </header>
 
   <main>
-    <section class="mt-32">
+    <section class="mt-16 sm:mt-32">
       <div
         class="flex flex-col gap-4 text-lg text-center sm:flex-row md:gap-16 md:text-2xl"
       >
-        <p class="p-4 bg-stone-800 border border-stone-600 rounded-lg">
+        <p class="p-4 bg-stone-800 border border-amber-500 rounded-lg">
           Na ovoj stranici možete brzo i jednostavno saznati populaciju bilo
           koje državlje, njen glavni grad i koje druge države graniče sa njom.
         </p>
 
-        <p class="p-4 bg-stone-800 border border-stone-600 rounded-lg">
+        <p class="p-4 bg-stone-800 border border-amber-500 rounded-lg">
           Bilo da ste student koji istražuje demografiju svijeta, poslovni
           čovijek koji želi da sazna više o državi sa kojom želi da posluje, ili
           jednostavno ljubitelj putovanja koji želi da sazna više o destinaciji
           koju planira da posjeti.
         </p>
 
-        <p class="p-4 bg-stone-800 border border-stone-600 rounded-lg">
+        <p class="p-4 bg-stone-800 border border-amber-500 rounded-lg">
           Ova stranica vam pruža sve informacije na jednom mjestu. Sa lakoćom
           možete pretraživati bilo koju državu, od afganistana do zimbabvea, i
           saznati osnovne informacije o njoj.
         </p>
       </div>
+    </section>
+
+    <section class="mt-16 sm:mt-32 mx-auto w-max text-center">
+      <p class="mb-8 text-lg md:text-2xl">
+        <span class="text-amber-500 font-semibold">Pridružite nam se</span> i istražite
+        svijet na našoj stranici!
+      </p>
+
+      <a href="/drzave"
+        ><button class="btn btn-primary py-4 px-8"
+          >Kreni u istraživanje 🌍</button
+        ></a
+      >
     </section>
   </main>
 </Layout>
