@@ -8,40 +8,41 @@ import Layout from '../layouts/Layout.astro'
       class="prose prose-lg prose-invert flex-1 text-justify md:prose-xl xl:prose-2xl"
     >
       <h1 class="text-amber-500">Države</h1>
-      <p>
+
+      <p class="lead">
         Dobrodošli na internet stranicu koja vam omogućava brz i jednostavan
-        pristup osnovnim informacijama o bilo kojoj državi na svijetu. Na ovoj
-        stranici možete brzo i jednostavno saznati populaciju bilo koje
-        državlje, njen glavni grad i koje druge države graniče sa njom. Bilo da
-        ste student koji istražuje demografiju svijeta, poslovni čovijek koji
-        želi da sazna više o državi sa kojom želi da posluje, ili jednostavno
-        ljubitelj putovanja koji želi da sazna više o destinaciji koju planira
-        da posjeti.
+        pristup osnovnim informacijama o bilo kojoj državi na svijetu.
       </p>
 
-      <p>
-        Ova stranica vam pruža sve informacije na jednom mjestu. Sa lakoćom
-        možete pretraživati bilo koju državu, od afganistana do zimbabvea, i
-        saznati osnovne informacije o njoj.
+      <p class="lead">
+        Pridružite nam se i istražite svijet na našoj stranici!
       </p>
+
+      <a href="/drzave"
+        ><button class="btn btn-primary">Kreni u istraživanje 🌍</button></a
+      >
     </div>
 
-    <div class="flex-1 flex flex-col gap-8 sm:self-center lg:self-end">
+    <div class="flex-1 self-center">
       <img
         src="assets/heroImg.jpg"
         alt="airplane travel"
         class="rounded-xl border border-amber-500 shadow-lg shadow-amber-800/50"
       />
-
-      <div class="py-4 px-8 border border-amber-500/50 rounded bg-stone-800">
-        <p class="mb-2 text-amber-400">
-          Pridružite nam se i istražite svijet na našoj stranici!
-        </p>
-
-        <a href="/drzave"
-          ><button class="btn btn-primary">Kreni u istraživanje 🌍</button></a
-        >
-      </div>
     </div>
   </header>
+
+  <p>
+    Na ovoj stranici možete brzo i jednostavno saznati populaciju bilo koje
+    državlje, njen glavni grad i koje druge države graniče sa njom. Bilo da ste
+    student koji istražuje demografiju svijeta, poslovni čovijek koji želi da
+    sazna više o državi sa kojom želi da posluje, ili jednostavno ljubitelj
+    putovanja koji želi da sazna više o destinaciji koju planira da posjeti.
+  </p>
+
+  <p>
+    Ova stranica vam pruža sve informacije na jednom mjestu. Sa lakoćom možete
+    pretraživati bilo koju državu, od afganistana do zimbabvea, i saznati
+    osnovne informacije o njoj.
+  </p>
 </Layout>
