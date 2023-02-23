@@ -1,16 +1,17 @@
 import List from './List'
 import SeacrhBar from './SeacrhBar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   filterCountriesByName,
   filterCountriesByRegion,
 } from '../utility/FiltersFunctions'
 
 import { data } from '../data/data'
+import { getData } from '../model/api'
 
 export default function Countries() {
   const [state, setState] = useState<any>({
-    countries: data,
+    countries: undefined,
     filteredCountries: [],
   })
 
@@ -36,6 +37,25 @@ export default function Countries() {
 
     return name
   }
+
+  useEffect(() => {
+    let ignore = false
+
+    async function loadData() {
+      if (ignore) return
+
+      const data = await getData()
+      if (!data) window.location.href = '/404'
+
+      setState((prev: any) => ({ ...prev, countries: data }))
+    }
+
+    loadData()
+
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   return (
     <>
