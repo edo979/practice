@@ -45,7 +45,7 @@ const pathname = Astro.url.pathname
 
   <!-- About -->
   {
-    pathname.startsWith('/drzave') ? (
+    pathname.startsWith('/o_stranici') ? (
       <span
         class="text-amber-500 hover:text-amber-500 cursor-default"
         aria-current="page"
@@ -54,7 +54,6 @@ const pathname = Astro.url.pathname
       </span>
     ) : (
       <a href="/o_stranici" class="hover:text-stone-200">
-        {' '}
         o stranici
       </a>
     )
