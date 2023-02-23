@@ -1,10 +1,16 @@
 <nav
-  class="w-full mb-8 p-4 flex items-center gap-8 bg-stone-800 uppercase font-bold md:text-lg"
+  class="w-full mb-8 p-4 flex items-center gap-6 bg-stone-800 uppercase text-stone-400 font-bold md:text-lg md:gap-8"
+  aria-label="Main"
 >
-  <a href="/" class="flex items-center">
+  <a
+    href="/"
+    class="flex items-center text-amber-500"
+    aria-label="to home page"
+  >
     <span class="mb-1 text-2xl">🌍</span>
     <span>države</span>
   </a>
-  <a href="/drzave" class="ml-auto">pretraga</a>
-  <a href="/o_stranici">o stranici</a>
+  <a href="/" class="ml-auto hover:text-stone-200">Početna</a>
+  <a href="/drzave" class="hover:text-stone-200">pretraga</a>
+  <a href="/o_stranici" class="hover:text-stone-200">o stranici</a>
 </nav>
