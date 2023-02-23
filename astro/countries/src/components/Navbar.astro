@@ -3,7 +3,7 @@ const pathname = Astro.url.pathname
 ---
 
 <nav
-  class="w-full mb-8 p-4 flex items-center gap-6 bg-stone-800 uppercase text-stone-400 font-bold md:text-lg md:gap-8"
+  class="w-full mb-8 p-4 flex flex-wrap items-center justify-between gap-6 rounded-b-lg bg-stone-800 uppercase text-stone-400 font-bold md:text-lg md:gap-8"
   aria-label="Main"
 >
   <a href="/" class="flex items-center" aria-label="to home page">
@@ -11,51 +11,96 @@ const pathname = Astro.url.pathname
     <span>države</span>
   </a>
 
-  <!-- Home page -->
-  {
-    pathname.length === 1 ? (
-      <span
-        class="ml-auto text-amber-500 hover:text-amber-500 cursor-default"
-        aria-current="page"
-      >
-        Početna
-      </span>
-    ) : (
-      <a href="/" class="ml-auto hover:text-stone-200">
-        Početna
-      </a>
-    )
-  }
+  <button
+    data-collapse-toggle="navbar"
+    type="button"
+    class="text-sm text-stone-400 focus:ring-gray-600 sm:hidden focus:outline-none focus:ring-2"
+    aria-controls="navbar-solid-bg"
+    aria-expanded="false"
+  >
+    <span class="sr-only">Open main menu</span>
+    <svg
+      class="w-6 h-6"
+      aria-hidden="true"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+      ><path
+        fill-rule="evenodd"
+        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+        clip-rule="evenodd"></path></svg
+    >
+  </button>
 
-  <!-- Search -->
-  {
-    pathname.startsWith('/drzave') ? (
-      <span
-        class="text-amber-500 hover:text-amber-500 cursor-default"
-        aria-current="page"
-      >
-        pretraga
-      </span>
-    ) : (
-      <a href="/drzave" class="hover:text-stone-200">
-        pretraga
-      </a>
-    )
-  }
+  <div class="hidden w-full sm:block sm:w-auto" id="navbar">
+    <ul class="flex flex-col gap-4 items-center sm:flex-row lg:gap-8">
+      <li>
+        <!-- Home page -->
+        {
+          pathname.length === 1 ? (
+            <span
+              class="text-amber-500 hover:text-amber-500 cursor-default"
+              aria-current="page"
+            >
+              Početna
+            </span>
+          ) : (
+            <a href="/" class="ml-auto hover:text-stone-200 py-4 sm:py-0">
+              Početna
+            </a>
+          )
+        }
+      </li>
 
-  <!-- About -->
-  {
-    pathname.startsWith('/o_stranici') ? (
-      <span
-        class="text-amber-500 hover:text-amber-500 cursor-default"
-        aria-current="page"
-      >
-        o stranici
-      </span>
-    ) : (
-      <a href="/o_stranici" class="hover:text-stone-200">
-        o stranici
-      </a>
-    )
-  }
+      <li>
+        <!-- Search -->
+        {
+          pathname.startsWith('/drzave') ? (
+            <span
+              class="text-amber-500 hover:text-amber-500 cursor-default"
+              aria-current="page"
+            >
+              pretraga
+            </span>
+          ) : (
+            <a href="/drzave" class="hover:text-stone-200">
+              pretraga
+            </a>
+          )
+        }
+      </li>
+
+      <li>
+        <!-- About -->
+        {
+          pathname.startsWith('/o_stranici') ? (
+            <span
+              class="text-amber-500 hover:text-amber-500 cursor-default"
+              aria-current="page"
+            >
+              o stranici
+            </span>
+          ) : (
+            <a href="/o_stranici" class="hover:text-stone-200">
+              o stranici
+            </a>
+          )
+        }
+      </li>
+    </ul>
+  </div>
 </nav>
+
+<script>
+  const toggleBtn = document.querySelector(
+    '[data-collapse-toggle]'
+  ) as HTMLButtonElement
+  const navbarEl = document.getElementById('navbar')
+
+  toggleBtn?.addEventListener('click', function (e) {
+    navbarEl?.classList.toggle('hidden')
+    this.ariaExpanded = navbarEl?.className.includes('hidden')
+      ? 'false'
+      : 'true'
+  })
+</script>
