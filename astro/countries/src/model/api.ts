@@ -12,7 +12,17 @@ export async function getData() {
     return data
   }
 
-  return JSON.parse(dataFromLS)
+  const dataLS = JSON.parse(dataFromLS) as { lastVisit: number; data: any }
+  // if data 14 days old don't fetch
+  if (new Date().getTime() < dataLS.lastVisit + 1000 * 60 * 60 * 24 * 14)
+    return dataLS.data
+
+  const data = await fetchData()
+
+  if (!data) return null
+
+  saveToLS(data)
+  return data
 }
 
 async function fetchData() {
@@ -31,5 +41,8 @@ async function fetchData() {
 }
 
 export function saveToLS(data: any) {
-  localStorage.setItem(LSname, JSON.stringify(data))
+  localStorage.setItem(
+    LSname,
+    JSON.stringify({ lastVisit: new Date().getTime(), data })
+  )
 }
