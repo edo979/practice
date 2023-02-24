@@ -61,7 +61,7 @@ export default function ListItem({ country, showDetails }: ListItemProps) {
               Površina:
             </td>
             <td className="pl-2 font-semibold">
-              {(country.area / 1000).toLocaleString('hr-BA')} km<sup>2</sup>
+              {country.area.toLocaleString('hr-BA')} km<sup>2</sup>
             </td>
           </tr>
 

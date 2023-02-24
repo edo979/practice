@@ -94,7 +94,7 @@ export default function Modal({
                 Površina države:
               </p>
               <p className="text-lg md:text-2xl">
-                {(country.area / 1000).toLocaleString('hr-BA')} km<sup>2</sup>
+                {country.area.toLocaleString('hr-BA')} km<sup>2</sup>
               </p>
             </div>
 
