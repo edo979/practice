@@ -13,7 +13,8 @@
         <h1 class="text-4xl font-bold tracking-tighter">Generator slika</h1>
         <p class="mt-4 text-lg">
           Nacrtajte slike pomoću vještačke inteligencije. Opišite sliku koju
-          želite, što ste detaljniji to će slika biti preciznija.
+          želite, što ste detaljniji u svom opisu to će slika biti preciznija.
+          Morate koristiti engleski jezik!
         </p>
       </header>
 
@@ -38,9 +39,7 @@
       </main>
     </div>
 
-    <div class="mt-8">
-      <img src="" alt="" id="image" class="mx-auto w-64 h-64" />
-    </div>
+    <img src="" id="image" class="mx-auto mt-8" />
 
     <script>
       const formEl = document.querySelector('form')
@@ -48,6 +47,12 @@
 
       formEl.addEventListener('submit', async (e) => {
         e.preventDefault()
+        const prompt = document.querySelector('input[type=text]').value
+
+        if (prompt === '') {
+          alert('Niste upisali text!')
+          return
+        }
 
         const res = await fetch('/api', {
           method: 'post',
@@ -55,7 +60,7 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            prompt: document.querySelector('input[type=text]').value,
+            prompt,
           }),
         })
 
