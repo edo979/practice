@@ -42,9 +42,12 @@
       const formEl = document.querySelector('form')
       const imageContainerEl = document.getElementById('image')
 
-      formEl.addEventListener('submit', (e) => {
+      formEl.addEventListener('submit', async (e) => {
         e.preventDefault()
-        console.log('jah')
+
+        const res = await fetch('/api?name=edis')
+        const data = await res.json()
+        console.log(data);
       })
     </script>
   </body>
