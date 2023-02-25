@@ -9,36 +9,38 @@
   </head>
   <body class="mx-auto mb-8 max-w-lg">
     <div class="p-8 rounded-b bg-amber-400">
-    <header>
-      <h1 class="text-4xl font-bold tracking-tighter">Generator slika</h1>
-      <p class="mt-4 text-lg">
-        Nacrtajte slike pomoću vještačke inteligencije. Opišite sliku koju
-        želite, što ste detaljniji to će slika biti preciznija.
-      </p>
-    </header>
+      <header>
+        <h1 class="text-4xl font-bold tracking-tighter">Generator slika</h1>
+        <p class="mt-4 text-lg">
+          Nacrtajte slike pomoću vještačke inteligencije. Opišite sliku koju
+          želite, što ste detaljniji to će slika biti preciznija.
+        </p>
+      </header>
 
-    <main>
-      <form class="mt-8">
-        <label for="description" class="block font-semibold">Opis slike:</label>
-        <input
-          type="text"
-          name="description"
-          id="description"
-          class="block w-full mt-1 p-2 rounded border border-slate-900 text-lg"
-          placeholder="npr. nacrtaj mi slona kako pije čaj..."
-        />
-        <button
-          class="py-2 px-4 mt-2 ml-auto block rounded text-slate-100 font-bold tracking-tight bg-slate-900 shadow hover:bg-slate-800 hover:ring-1 hover:ring-slate-50"
-        >
-          Nacrtaj
-        </button>
-      </form>
+      <main>
+        <form class="mt-8">
+          <label for="description" class="block font-semibold"
+            >Opis slike:</label
+          >
+          <input
+            type="text"
+            name="description"
+            id="description"
+            class="block w-full mt-1 p-2 rounded border border-slate-900 text-lg"
+            placeholder="npr. nacrtaj mi slona kako pije čaj..."
+          />
+          <button
+            class="py-2 px-4 mt-2 ml-auto block rounded text-slate-100 font-bold tracking-tight bg-slate-900 shadow hover:bg-slate-800 hover:ring-1 hover:ring-slate-50"
+          >
+            Nacrtaj
+          </button>
+        </form>
+      </main>
     </div>
 
-      <div class="mt-8">
-        <img src="" alt="" id="image" class="mx-auto w-64 h-64">
-      </div>
-    </main>
+    <div class="mt-8">
+      <img src="" alt="" id="image" class="mx-auto w-64 h-64" />
+    </div>
 
     <script>
       const formEl = document.querySelector('form')
@@ -47,9 +49,17 @@
       formEl.addEventListener('submit', async (e) => {
         e.preventDefault()
 
-        const res = await fetch('/api')
+        const res = await fetch('/api', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt: document.querySelector('input[type=text]').value,
+          }),
+        })
+
         const data = await res.json()
-        console.log(data);
 
         document.getElementById('image').src = data.image_url
       })
