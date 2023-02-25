@@ -8,7 +8,7 @@
     <title>Generator Slika</title>
   </head>
   <body class="mx-auto mb-8 max-w-lg">
-    <div class="p-8 rounded-b bg-amber-400">
+    <div class="relative p-8 rounded-b bg-amber-400">
       <header>
         <h1 class="text-4xl font-bold tracking-tighter">Generator slika</h1>
         <p class="mt-4 text-lg">
@@ -57,6 +57,21 @@
           </button>
         </form>
       </main>
+
+      <div
+        role="alert"
+        class="absolute top-4 left-4 right-4 py-4 rounded-lg border border-rose-200 text-rose-50 text-center shadow-lg bg-rose-400"
+        id="errorMsg"
+      >
+        <button
+          class="absolute top-1 right-1 p-2 py-0 rounded border border-rose-300 text-lg font-bold text-rose-100 hover:text-rose-50 hover:border-rose-200"
+          id="errorMsgCloseBtn"
+        >
+          X
+        </button>
+        <p class="font-bold text-lg">❌ Došlo je do greške!</p>
+        <p class="text-rose-100">Pokušajte ponovo.</p>
+      </div>
     </div>
 
     <img src="" id="image" class="mx-auto mt-8" />
@@ -66,17 +81,20 @@
       const imageEl = document.getElementById('image')
       const buttonIconEl = document.getElementById('button-icon')
       const buttonSpinerEl = document.getElementById('button-spiner')
+      const errorMsgEl = document.getElementById('errorMsg')
+      const errorMsgCloseBtnEl = document.getElementById('errorMsgCloseBtn')
       let isFetching = false
 
       formEl.addEventListener('submit', async (e) => {
         e.preventDefault()
-        showSppiner()
         const prompt = document.querySelector('input[type=text]').value
 
         if (prompt === '') {
           alert('Niste upisali text!')
           return
         }
+
+        showSppiner()
 
         try {
           const res = await fetch('/api', {
@@ -89,15 +107,19 @@
             }),
           })
 
-          if (!res.ok) throw new Error('Desila se greška na serveru.')
+          if (!res.ok) throw new Error()
 
           const data = await res.json()
           document.getElementById('image').src = data.image_url
         } catch (error) {
-          console.log('show: error')
+          errorMsgEl.classList.remove('hidden')
         }
 
         hideSppiner()
+      })
+
+      errorMsgCloseBtnEl.addEventListener('click', (e) => {
+        e.target.parentElement.classList.add('hidden')
       })
 
       function showSppiner() {
