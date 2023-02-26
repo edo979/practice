@@ -17,8 +17,19 @@ export default async function handler(req, res) {
     })
     const openai = new OpenAIApi(configuration)
 
+    // translate to english
+    const translateRes = await openai.createCompletion({
+      model: 'text-davinci-003',
+      prompt: `Translate the phrase from Croatian language to English language: "${prompt}"`,
+      temperature: 0,
+      max_tokens: 100,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    })
+
     const response = await openai.createImage({
-      prompt,
+      prompt: translateRes.data.choices[0].text.trim(),
       n: 1,
       size: '256x256',
     })
