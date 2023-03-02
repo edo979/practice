@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { colors } from '../data/colors'
+---
+
+<Layout>
+  <h1>Colors:</h1>
+
+  <ul>
+    {
+      colors.map((color) => (
+        <li>
+          <a href={color.name.toLowerCase()}>{color.name}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import { colors } from '../data/colors'
+import Layout from '../layouts/Layout.astro'
+
+export function getStaticPaths() {
+  return colors.map((color) => ({
+    params: { color: color.name.toLowerCase() },
+    props: { colorData: color },
+  }))
+}
+
+const { color } = Astro.params
+const { colorData } = Astro.props as {
+  colorData: { name: string; value: string }
+}
+---
+
+<Layout title={colorData.name} bgColor={colorData.value}>
+  <main>
+    <h1>This is {colorData.name} color:</h1>
+  </main>
+</Layout>

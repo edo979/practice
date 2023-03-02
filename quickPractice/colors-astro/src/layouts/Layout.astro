@@ -1,0 +1,25 @@
+---
+const { title = 'Astro Colors', bgColor = 'e2e2e2' } = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot title={title} />
+  </body>
+</html>
+
+<style define:vars={{ colorBg: bgColor }}>
+  :root {
+    --colorBg: #e2e2e2;
+  }
+  body {
+    background-color: var(--colorBg);
+  }
+</style>
