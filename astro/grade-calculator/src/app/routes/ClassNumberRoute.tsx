@@ -1,15 +1,9 @@
-import { useState } from 'react'
-import { subjects } from '../data/subjects'
+import { useAppStore } from './IndexRoute'
 
-type StateT = {
-  classNumber?: string
-  subjects?: string[]
-}
+export default function ClassNumberRoute() {
+  const { appState, setClassNumber } = useAppStore()
 
-export default function Subjects() {
-  const [state, setState] = useState<StateT>({
-    classNumber: '6',
-  })
+  const handleClassName = () => {}
 
   return (
     <div>
@@ -21,13 +15,9 @@ export default function Subjects() {
         <select
           name="subjects"
           id="subjects"
-          onChange={(e) =>
-            setState((prev) => ({
-              ...prev,
-              classNumber: e.target.value,
-            }))
-          }
+          onChange={(e) => setClassNumber(e.target.value)}
         >
+          <option value="0">Izaberi Razred</option>
           <option value="6">6</option>
           <option value="7">7</option>
           <option value="8">8</option>
@@ -35,17 +25,19 @@ export default function Subjects() {
         </select>
       </section>
 
-      {state.classNumber && (
+      {appState.subjects && (
         <section>
           <h2>Predmeti za razred:</h2>
 
           <ul>
-            {subjects.hed[state.classNumber].map((sub) => (
+            {appState.subjects.map((sub) => (
               <li key={sub}>{sub}</li>
             ))}
           </ul>
 
-          <button className="bg-blue-200">Dalje</button>
+          <button className="bg-blue-200" onClick={handleClassName}>
+            Dalje
+          </button>
         </section>
       )}
     </div>
