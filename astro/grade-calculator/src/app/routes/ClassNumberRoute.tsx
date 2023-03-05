@@ -1,9 +1,8 @@
+import { Link } from 'react-router-dom'
 import { useAppStore } from './IndexRoute'
 
 export default function ClassNumberRoute() {
   const { appState, setClassNumber } = useAppStore()
-
-  const handleClassName = () => {}
 
   return (
     <div>
@@ -35,9 +34,9 @@ export default function ClassNumberRoute() {
             ))}
           </ul>
 
-          <button className="bg-blue-200" onClick={handleClassName}>
-            Dalje
-          </button>
+          <Link to="imenik">
+            <button className="bg-blue-200">Dalje</button>
+          </Link>
         </section>
       )}
     </div>
