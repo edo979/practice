@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import type { StudentsT } from '../data/util'
+import { getNextStudentID, getStudentsFromLS, saveToLS } from '../data/util'
 
 type StateT = {
-  students: StudentsT[]
+  students: { id: number; firstName: string; lastName: string }[]
   id: number
 }
 
 export default function Students() {
-  const [state, setState] = useState<StateT>({ id: 1, students: [] })
+  const [state, setState] = useState<StateT>({
+    id: getNextStudentID(),
+    students: getStudentsFromLS(),
+  })
   const firstNameRef = useRef<HTMLInputElement>(null)
   const lastNameRef = useRef<HTMLInputElement>(null)
   const idRef = useRef<HTMLInputElement>(null)
@@ -93,9 +96,16 @@ export default function Students() {
           Naredni učenik
         </button>
 
-        <button type="button" className="btn">
-          Unos ocjena
-        </button>
+        <div className="self-center">
+          <p>Naredni korak:</p>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => saveToLS({ students: state.students })}
+          >
+            Unos ocjena
+          </button>
+        </div>
       </div>
     </form>
   )

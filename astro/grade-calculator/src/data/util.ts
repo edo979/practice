@@ -13,10 +13,26 @@ type StoreT = {
   students?: StudentsT[]
 }
 
-const LSKEY = 'grade-calculator-ao79'
+export const LSKEY = 'grade-calculator-ao79'
 
 export const getSubjects = (classNumber: string): string[] | undefined => {
   return subjectsData.hed[classNumber] ?? undefined
+}
+
+export const getNextStudentID = () => {
+  const LS = localStorage.getItem(LSKEY)
+  if (LS) {
+    const students = (JSON.parse(LS) as StoreT).students
+    return students ? students.length + 1 : 1
+  }
+
+  return 1
+}
+
+export const getStudentsFromLS = () => {
+  const LS = localStorage.getItem(LSKEY)
+  if (LS) return (JSON.parse(LS) as StoreT).students || []
+  return []
 }
 
 // -- LS --
