@@ -1,6 +1,6 @@
 ---
 const { title = 'Prosjek Ocjena' } = Astro.params
-import style from '../global.css'
+import '../global.css'
 ---
 
 <html lang="en">
@@ -9,7 +9,6 @@ import style from '../global.css'
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="stylesheet" href={style} />
     <title>{title}</title>
   </head>
   <body>

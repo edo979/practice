@@ -1,10 +1,10 @@
 import { subjects as subjectsData } from './subjects'
 
-type StudentsT = {
+export type StudentsT = {
   id: number
   lastName: string
   firstName: string
-  grades: number[]
+  grades?: number[]
 }
 
 type StoreT = {
