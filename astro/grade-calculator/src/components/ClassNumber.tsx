@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getSubjects } from '../data/util'
+import { getSubjects, saveToLS } from '../data/util'
 
 export default function ClassNumber() {
   const [classNumber, setClassNumber] = useState<string>('')
@@ -8,6 +8,11 @@ export default function ClassNumber() {
   useEffect(() => {
     setSubjects(getSubjects(classNumber))
   }, [classNumber])
+
+  function handleClassName() {
+    saveToLS({ classNumber })
+    location.href = '/imenik'
+  }
 
   return (
     <div>
@@ -39,7 +44,7 @@ export default function ClassNumber() {
             ))}
           </ul>
 
-          <a href="imenik">Dalje</a>
+          <button onClick={handleClassName}>Dalje</button>
         </section>
       )}
     </div>

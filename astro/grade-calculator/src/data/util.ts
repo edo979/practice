@@ -1,15 +1,22 @@
 import { subjects as subjectsData } from './subjects'
 
+type StudentsT = {
+  id: number
+  lastName: string
+  firstName: string
+  grades: number[]
+}
+
 type StoreT = {
-  className?: string
+  classNumber?: string
   subjects?: string[]
-  students?: string[]
+  students?: StudentsT[]
 }
 
 const LSKEY = 'grade-calculator-ao79'
 
-export const getSubjects = (className: string): string[] | undefined => {
-  return subjectsData.hed[className] ?? undefined
+export const getSubjects = (classNumber: string): string[] | undefined => {
+  return subjectsData.hed[classNumber] ?? undefined
 }
 
 // -- LS --
