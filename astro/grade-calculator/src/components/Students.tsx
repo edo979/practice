@@ -97,13 +97,13 @@ export default function Students() {
         </button>
 
         <div className="self-center">
-          <p>Naredni korak:</p>
+          <p>Naredni korak 👉</p>
           <button
             type="button"
             className="btn"
             onClick={() => saveToLS({ students: state.students })}
           >
-            Unos ocjena
+            🔢 Unos ocjena
           </button>
         </div>
       </div>

@@ -19,6 +19,14 @@ export const getSubjects = (classNumber: string): string[] | undefined => {
   return subjectsData.hed[classNumber] ?? undefined
 }
 
+// -- LS --
+
+export const getClassNumberFromLS = () => {
+  const LS = localStorage.getItem(LSKEY)
+  if (LS) return (JSON.parse(LS) as StoreT).classNumber || '0'
+  return '0'
+}
+
 export const getNextStudentID = () => {
   const LS = localStorage.getItem(LSKEY)
   if (LS) {
@@ -34,8 +42,6 @@ export const getStudentsFromLS = () => {
   if (LS) return (JSON.parse(LS) as StoreT).students || []
   return []
 }
-
-// -- LS --
 
 export const saveToLS = (dataToSave: StoreT) => {
   const rawData = localStorage.getItem(LSKEY)

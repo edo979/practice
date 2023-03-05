@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { getSubjects, saveToLS } from '../data/util'
+import { getClassNumberFromLS, getSubjects, saveToLS } from '../data/util'
 
 export default function ClassNumber() {
-  const [classNumber, setClassNumber] = useState<string>('')
+  const [classNumber, setClassNumber] = useState<string>(getClassNumberFromLS())
   const [subjects, setSubjects] = useState<string[]>()
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function ClassNumber() {
         <select
           name="subjects"
           id="subjects"
+          defaultValue={classNumber}
           onChange={(e) => setClassNumber(e.target.value)}
         >
           <option value="0">Izaberi Razred</option>
@@ -44,7 +45,10 @@ export default function ClassNumber() {
             ))}
           </ul>
 
-          <button onClick={handleClassName}>Dalje</button>
+          <p className="mt-4">Naredni korak 👉</p>
+          <button className="btn" onClick={handleClassName}>
+            🏃‍♀️ Imenik Učenika
+          </button>
         </section>
       )}
     </div>
