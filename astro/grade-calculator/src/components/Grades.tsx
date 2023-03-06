@@ -2,9 +2,10 @@ import { useMemo, useState } from 'react'
 import { getClassNumberFromLS, getSubjects } from '../data/util'
 
 export default function Grades() {
+  // TODO check subject, handle if subjects empty
   const subjects = useMemo(() => {
     console.log('call LS')
-    return getSubjects(getClassNumberFromLS())
+    return getSubjects(getClassNumberFromLS()) || []
   }, [])
 
   const [state, setState] = useState({ currentGrade: 5 })
@@ -17,10 +18,15 @@ export default function Grades() {
 
   return (
     <div>
+      <p>Broj u dnevniku</p>
       <p>Ime i prezime učenika</p>
-      <p>Predmet:</p>
-      <p className="text-xl">Bosanski</p>
-      <label htmlFor="grade">Ocjena:</label>
+
+      <p className="mt-2">Predmet:</p>
+      <p className="text-xl">{subjects[0]}</p>
+
+      <label htmlFor="grade" className="mt-2 block">
+        Ocjena:
+      </label>
       <input
         type="number"
         name="grade"
@@ -32,7 +38,7 @@ export default function Grades() {
         disabled
       />
 
-      <div className="flex gap-1">
+      <div className="mt-2  flex gap-1">
         <button className="btn" onClick={() => handleGrade(1)}>
           1
         </button>
