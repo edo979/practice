@@ -101,7 +101,10 @@ export default function Students() {
           <button
             type="button"
             className="btn"
-            onClick={() => saveToLS({ students: state.students })}
+            onClick={() => {
+              saveToLS({ students: state.students })
+              location.href = '/ocjene'
+            }}
           >
             🔢 Unos ocjena
           </button>
