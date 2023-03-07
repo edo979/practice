@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import { getNextStudentID, getStudentsFromLS, saveToLS } from '../data/util'
+import {
+  getNextStudentID,
+  getStudentsFromLS,
+  saveToLS,
+  StudentsT,
+} from '../data/util'
 
 type StateT = {
-  students: { id: number; firstName: string; lastName: string }[]
+  students: StudentsT[]
   id: number
 }
 
@@ -30,6 +35,7 @@ export default function Students() {
             id: prev.id,
             firstName: firstName,
             lastName: lastName,
+            grades: [],
           },
         ],
       }
