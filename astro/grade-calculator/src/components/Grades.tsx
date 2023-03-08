@@ -38,7 +38,14 @@ export default function Grades() {
     gradeElRef.current!.innerText = ''
 
     // !!! MUTATE state using reference !!!
-    state.students[state.studentIndex].grades.push(grade)
+    const studentGrades = state.students[state.studentIndex].grades
+    if (studentGrades.length > state.subjectIndex) {
+      // edit grade
+      studentGrades[state.subjectIndex] = grade
+    } else {
+      // new grade
+      studentGrades.push(grade)
+    }
     // -- END MUTAUTE !!!
     setIsGradeSaving(false)
 
@@ -84,7 +91,10 @@ export default function Grades() {
           <p className="mt-2">Predmet:</p>
           <div className="flex gap-4 text-xl">
             <p>{subjects[state.subjectIndex]}</p>
-            <p ref={gradeElRef}></p>
+            <p ref={gradeElRef}>
+              {state.students[state.studentIndex].grades[state.subjectIndex] ||
+                ''}
+            </p>
           </div>
 
           {!isGradeSaving && (
