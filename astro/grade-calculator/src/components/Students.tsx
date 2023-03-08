@@ -50,72 +50,81 @@ export default function Students() {
   }, [state])
 
   return (
-    <form
-      className="max-w-sm"
-      onSubmit={(e) => {
-        e.preventDefault()
-        handleStudentsData()
-      }}
-    >
-      <label htmlFor="id" className="block">
-        Broj Dnevnika:
-      </label>
-      <input
-        ref={idRef}
-        type="number"
-        name="id"
-        id="id"
-        required
-        className="w-full border"
-        value={state.id}
-        onChange={(e) =>
-          setState((prev) => ({ ...prev, id: parseInt(e.target.value) }))
-        }
-      />
+    <div className="max-w-sm">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleStudentsData()
+        }}
+      >
+        <label htmlFor="id" className="block">
+          Broj Dnevnika:
+        </label>
+        <input
+          ref={idRef}
+          type="number"
+          name="id"
+          id="id"
+          required
+          className="w-full border"
+          value={state.id}
+          onChange={(e) =>
+            setState((prev) => ({ ...prev, id: parseInt(e.target.value) }))
+          }
+        />
 
-      <label htmlFor="firstName" className="block">
-        Ime:
-      </label>
-      <input
-        ref={firstNameRef}
-        type="text"
-        name="firstName"
-        id="firstName"
-        required
-        className="w-full border"
-      />
+        <label htmlFor="firstName" className="block">
+          Ime:
+        </label>
+        <input
+          ref={firstNameRef}
+          type="text"
+          name="firstName"
+          id="firstName"
+          required
+          className="w-full border"
+        />
 
-      <label htmlFor="lastName" className="block">
-        Prezime:
-      </label>
-      <input
-        ref={lastNameRef}
-        type="text"
-        name="lastName"
-        id="lastName"
-        required
-        className="w-full border"
-      />
+        <label htmlFor="lastName" className="block">
+          Prezime:
+        </label>
+        <input
+          ref={lastNameRef}
+          type="text"
+          name="lastName"
+          id="lastName"
+          required
+          className="w-full border"
+        />
 
-      <div className="flex flex-col gap-4">
-        <button type="submit" className="btn">
-          Naredni učenik
-        </button>
-
-        <div className="self-center">
-          <p>Naredni korak 👉</p>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              saveToLS({ students: state.students })
-              location.href = '/ocjene'
-            }}
-          >
-            🔢 Unos ocjena
+        <div className="flex justify-end">
+          <button type="submit" className="btn">
+            Dodaj učenika
           </button>
         </div>
+      </form>
+
+      <ul className="mt-4">
+        {state.students.map((student) => (
+          <li key={student.id}>
+            {student.id}. {student.firstName} {student.lastName}
+          </li>
+        ))}
+      </ul>
+
+      <div className="flex flex-col items-end mt-4">
+        <button
+          type="button"
+          className="btn"
+          onClick={() => {
+            saveToLS({ students: state.students })
+            location.href = '/ocjene'
+          }}
+        >
+          ✔ Završi imenik učenika
+        </button>
+        <p>Naredni korak 👉 Unos ocjena</p>
       </div>
-    </form>
+    </div>
   )
 }

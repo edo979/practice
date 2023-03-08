@@ -33,7 +33,7 @@ export default function Grades() {
     gradeElRef.current!.innerText = '' + grade
     // Show selected grade for fev seconds
     await new Promise((resolve) => {
-      setTimeout(resolve, 1000)
+      setTimeout(resolve, 700)
     })
     gradeElRef.current!.innerText = ''
 

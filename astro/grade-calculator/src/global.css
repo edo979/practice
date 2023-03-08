@@ -4,6 +4,6 @@
 
 @layer components {
   .btn {
-    @apply py-1 px-3 border border-stone-900 rounded bg-emerald-600 text-slate-50;
+    @apply inline-flex py-1 px-3 border border-stone-900 rounded bg-emerald-600 text-slate-50;
   }
 }
