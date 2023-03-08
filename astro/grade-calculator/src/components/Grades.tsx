@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   getClassNumberFromLS,
   getStudentsFromLS,
@@ -24,19 +24,9 @@ export default function Grades() {
     students,
   })
   const [isGradeSaving, setIsGradeSaving] = useState(false)
-  const [isInputingGrade, setIsInputingGrade] = useState(true)
-
-  const gradeElRef = useRef<HTMLParagraphElement>(null)
 
   async function next(grade: number) {
     setIsGradeSaving(true)
-    gradeElRef.current!.innerText = '' + grade
-    // Show selected grade for fev seconds
-    await new Promise((resolve) => {
-      setTimeout(resolve, 700)
-    })
-    gradeElRef.current!.innerText = ''
-
     // !!! MUTATE state using reference !!!
     const studentGrades = state.students[state.studentIndex].grades
     if (studentGrades.length > state.subjectIndex) {
@@ -64,8 +54,9 @@ export default function Grades() {
           subjectIndex: 0,
         }))
       } else {
-        setIsInputingGrade(false)
         saveToLS({ students: state.students })
+        location.href = 'provjera-ocjena'
+        return
       }
     }
   }
@@ -81,57 +72,48 @@ export default function Grades() {
   console.log('render')
 
   return (
-    <>
-      {/* inputing grades */}
-      {isInputingGrade && (
-        <div>
-          <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
-          <p>Ime i prezime učenika: {getFullStudentName()}</p>
+    <div className="max-w-sm">
+      <div>
+        <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
+        <p>Ime i prezime učenika: {getFullStudentName()}</p>
 
-          <p className="mt-2">Predmet:</p>
-          <div className="flex gap-4 text-xl">
-            <p>{subjects[state.subjectIndex]}</p>
-            <p ref={gradeElRef}>
-              {state.students[state.studentIndex].grades[state.subjectIndex] ||
-                ''}
-            </p>
+        <p className="mt-2">Predmet:</p>
+        <div className="flex gap-4 text-xl">
+          <p>{subjects[state.subjectIndex]}</p>
+          <p></p>
+        </div>
+
+        {!isGradeSaving && (
+          <div className="mt-2  flex gap-1">
+            <button
+              className="btn"
+              onClick={() =>
+                setState((prev) => ({
+                  ...prev,
+                  subjectIndex: prev.subjectIndex - 1,
+                }))
+              }
+            >
+              👈 Nazad
+            </button>
+            <button className="btn" onClick={() => next(1)}>
+              1
+            </button>
+            <button className="btn" onClick={() => next(2)}>
+              2
+            </button>
+            <button className="btn" onClick={() => next(3)}>
+              3
+            </button>
+            <button className="btn" onClick={() => next(4)}>
+              4
+            </button>
+            <button className="btn" onClick={() => next(5)}>
+              5
+            </button>
           </div>
-
-          {!isGradeSaving && (
-            <div className="flex flex-col gap-2">
-              <div className="mt-2  flex gap-1">
-                <button className="btn" onClick={() => next(1)}>
-                  1
-                </button>
-                <button className="btn" onClick={() => next(2)}>
-                  2
-                </button>
-                <button className="btn" onClick={() => next(3)}>
-                  3
-                </button>
-                <button className="btn" onClick={() => next(4)}>
-                  4
-                </button>
-                <button className="btn" onClick={() => next(5)}>
-                  5
-                </button>
-              </div>
-
-              <button className="btn" onClick={() => setIsInputingGrade(false)}>
-                Završi unos ocjena 👉
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Input is finish show options for next step */}
-      {!isInputingGrade && (
-        <div>
-          <a href="provjera-ocjena">Provjera ocjena</a>
-          <p>Dalje do rezultata</p>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   )
 }
