@@ -3,6 +3,7 @@ import {
   getClassNumberFromLS,
   getStudentsFromLS,
   getSubjects,
+  saveToLS,
 } from '../data/util'
 
 export default function Grades() {
@@ -22,9 +23,13 @@ export default function Grades() {
     studentIndex: 0,
     students,
   })
+  const [isGradeSaving, setIsGradeSaving] = useState(false)
+  const [isInputingGrade, setIsInputingGrade] = useState(true)
+
   const gradeElRef = useRef<HTMLParagraphElement>(null)
 
   async function next(grade: number) {
+    setIsGradeSaving(true)
     gradeElRef.current!.innerText = '' + grade
     // Show selected grade for fev seconds
     await new Promise((resolve) => {
@@ -35,6 +40,7 @@ export default function Grades() {
     // !!! MUTATE state using reference !!!
     state.students[state.studentIndex].grades.push(grade)
     // -- END MUTAUTE !!!
+    setIsGradeSaving(false)
 
     const nextSubjectIndex = state.subjectIndex + 1
     if (nextSubjectIndex < subjects.length) {
@@ -51,7 +57,8 @@ export default function Grades() {
           subjectIndex: 0,
         }))
       } else {
-        console.log('input is finish')
+        setIsInputingGrade(false)
+        saveToLS({ students: state.students })
       }
     }
   }
@@ -67,33 +74,48 @@ export default function Grades() {
   console.log('render')
 
   return (
-    <div>
-      <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
-      <p>Ime i prezime učenika: {getFullStudentName()}</p>
+    <>
+      {/* inputing grades */}
+      {isInputingGrade && (
+        <div>
+          <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
+          <p>Ime i prezime učenika: {getFullStudentName()}</p>
 
-      <p className="mt-2">Predmet:</p>
-      <div className="flex gap-4 text-xl">
-        <p>{subjects[state.subjectIndex]}</p>
-        <p ref={gradeElRef}></p>
-      </div>
+          <p className="mt-2">Predmet:</p>
+          <div className="flex gap-4 text-xl">
+            <p>{subjects[state.subjectIndex]}</p>
+            <p ref={gradeElRef}></p>
+          </div>
 
-      <div className="mt-2  flex gap-1">
-        <button className="btn" onClick={() => next(1)}>
-          1
-        </button>
-        <button className="btn" onClick={() => next(2)}>
-          2
-        </button>
-        <button className="btn" onClick={() => next(3)}>
-          3
-        </button>
-        <button className="btn" onClick={() => next(4)}>
-          4
-        </button>
-        <button className="btn" onClick={() => next(5)}>
-          5
-        </button>
-      </div>
-    </div>
+          {!isGradeSaving && (
+            <div className="mt-2  flex gap-1">
+              <button className="btn" onClick={() => next(1)}>
+                1
+              </button>
+              <button className="btn" onClick={() => next(2)}>
+                2
+              </button>
+              <button className="btn" onClick={() => next(3)}>
+                3
+              </button>
+              <button className="btn" onClick={() => next(4)}>
+                4
+              </button>
+              <button className="btn" onClick={() => next(5)}>
+                5
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Input is finish show options for next step */}
+      {!isInputingGrade && (
+        <div>
+          <p>Provjeriti ocjene</p>
+          <p>Dalje do rezultata</p>
+        </div>
+      )}
+    </>
   )
 }
