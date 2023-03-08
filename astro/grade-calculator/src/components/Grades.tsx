@@ -98,21 +98,27 @@ export default function Grades() {
           </div>
 
           {!isGradeSaving && (
-            <div className="mt-2  flex gap-1">
-              <button className="btn" onClick={() => next(1)}>
-                1
-              </button>
-              <button className="btn" onClick={() => next(2)}>
-                2
-              </button>
-              <button className="btn" onClick={() => next(3)}>
-                3
-              </button>
-              <button className="btn" onClick={() => next(4)}>
-                4
-              </button>
-              <button className="btn" onClick={() => next(5)}>
-                5
+            <div className="flex flex-col gap-2">
+              <div className="mt-2  flex gap-1">
+                <button className="btn" onClick={() => next(1)}>
+                  1
+                </button>
+                <button className="btn" onClick={() => next(2)}>
+                  2
+                </button>
+                <button className="btn" onClick={() => next(3)}>
+                  3
+                </button>
+                <button className="btn" onClick={() => next(4)}>
+                  4
+                </button>
+                <button className="btn" onClick={() => next(5)}>
+                  5
+                </button>
+              </div>
+
+              <button className="btn" onClick={() => setIsInputingGrade(false)}>
+                Završi unos ocjena 👉
               </button>
             </div>
           )}
@@ -122,7 +128,7 @@ export default function Grades() {
       {/* Input is finish show options for next step */}
       {!isInputingGrade && (
         <div>
-          <p>Provjeriti ocjene</p>
+          <a href="provjera-ocjena">Provjera ocjena</a>
           <p>Dalje do rezultata</p>
         </div>
       )}
