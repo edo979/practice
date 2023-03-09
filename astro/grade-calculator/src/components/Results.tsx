@@ -3,7 +3,13 @@ import {
   getStudentsFromLS,
   getSubjects,
 } from '../data/util'
-import { getStudentAverage } from '../util/grades'
+import {
+  getStudentAverage,
+  subjectAverage,
+  subjectFailStudentsCount,
+  subjectPassStudentsCount,
+  subjetGradeCount,
+} from '../util/grades'
 
 export default function Results() {
   //TODO add function to get subjects directly
@@ -52,6 +58,54 @@ export default function Results() {
               </td>
               <td className="border border-slate-400 text-center font-bold">
                 {Math.round(getStudentAverage(student.grades))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <p>Ocjene predmeta</p>
+      <table className="table-fixed border-collapse border border-slate-500 text-sm">
+        <thead>
+          <tr>
+            <th className="border border-slate-400 px-1">Predmet</th>
+            <th className="border border-slate-400 px-1">5</th>
+            <th className="border border-slate-400 px-1">4</th>
+            <th className="border border-slate-400 px-1">3</th>
+            <th className="border border-slate-400 px-1">2</th>
+            <th className="border border-slate-400 px-1">1</th>
+            <th className="border border-slate-400 px-1">Prolazi</th>
+            <th className="border border-slate-400 px-1">Popravni</th>
+            <th className="border border-slate-400 px-1">Prosjek</th>
+          </tr>
+        </thead>
+        <tbody>
+          {subjects.map((subject, i) => (
+            <tr key={subject} className="odd:bg-slate-200">
+              <td className="border border-slate-400">{subject}</td>
+              <td className="border border-slate-400 text-center">
+                {subjetGradeCount(students, i, 5)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjetGradeCount(students, i, 4)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjetGradeCount(students, i, 3)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjetGradeCount(students, i, 2)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjetGradeCount(students, i, 1)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjectPassStudentsCount(students, i)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjectFailStudentsCount(students, i)}
+              </td>
+              <td className="border border-slate-400 text-center">
+                {subjectAverage(students, i)}
               </td>
             </tr>
           ))}
