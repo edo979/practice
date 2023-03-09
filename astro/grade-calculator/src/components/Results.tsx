@@ -4,6 +4,7 @@ import {
   getSubjects,
 } from '../data/util'
 import {
+  getClassResults,
   getStudentAverage,
   subjectAverage,
   subjectFailStudentsCount,
@@ -64,7 +65,35 @@ export default function Results() {
         </tbody>
       </table>
 
-      <p>Ocjene predmeta</p>
+      <p>Ocjene razreda:</p>
+      <table className="table-fixed border-collapse border border-slate-500 text-sm">
+        <thead>
+          <tr>
+            <th className="border border-slate-400 px-1">5</th>
+            <th className="border border-slate-400 px-1">4</th>
+            <th className="border border-slate-400 px-1">3</th>
+            <th className="border border-slate-400 px-1">2</th>
+            <th className="border border-slate-400 px-1">Ukupno</th>
+            <th className="border border-slate-400 px-1">1.slaba</th>
+            <th className="border border-slate-400 px-1">2.slabe</th>
+            <th className="border border-slate-400 px-1">3.slabe</th>
+            <th className="border border-slate-400 px-1">Ukupno</th>
+            <th className="border border-slate-400 px-1">Pr.Razreda</th>
+            <th className="border border-slate-400 px-1">Pr.Ocjena</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="bg-slate-200">
+            {getClassResults(students).map((result, i) => (
+              <td key={i} className="border border-slate-400 text-center">
+                {result}
+              </td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Ocjene predmeta:</p>
       <table className="table-fixed border-collapse border border-slate-500 text-sm">
         <thead>
           <tr>
