@@ -15,8 +15,8 @@ type StoreT = {
 
 export const LSKEY = 'grade-calculator-ao79'
 
-export const getSubjects = (classNumber: string): string[] | undefined => {
-  return subjectsData.hed[classNumber] ?? undefined
+export const getSubjects = (classNumber: string): string[] => {
+  return subjectsData.hed[classNumber] ?? []
 }
 
 // -- LS --
