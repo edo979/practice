@@ -3,7 +3,7 @@ import {
   getStudentsFromLS,
   getSubjects,
 } from '../data/util'
-import { getStudentAverage, getStudentAverageShow } from '../util/grades'
+import { getStudentAverage } from '../util/grades'
 
 export default function Results() {
   //TODO add function to get subjects directly
@@ -48,10 +48,10 @@ export default function Results() {
               ))}
 
               <td className="border border-slate-400 text-center">
-                {getStudentAverageShow(student.grades)}
+                {getStudentAverage(student.grades)}
               </td>
               <td className="border border-slate-400 text-center font-bold">
-                {Math.round(getStudentAverageShow(student.grades))}
+                {Math.round(getStudentAverage(student.grades))}
               </td>
             </tr>
           ))}

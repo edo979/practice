@@ -1,10 +1,12 @@
-export const getStudentAverageShow = (grades: number[]) => {
-  const averageFloat = gradeSum(grades) / grades.length
-  return Math.round(averageFloat * 100) / 100
-}
 export const getStudentAverage = (grades: number[]) => {
-  return (gradeSum(grades) / grades.length).toFixed(2)
+  const gradesSum = gradeSum(grades)
+
+  if (gradesSum === 1) return 1
+
+  return Math.round((gradesSum / grades.length) * 100) / 100
 }
 
-const gradeSum = (grades: number[]) =>
-  grades.reduce((acc, curr) => acc + curr, 0)
+const gradeSum = (grades: number[]) => {
+  if (grades.some((grade) => grade === 1)) return 1
+  return grades.reduce((acc, curr) => acc + curr, 0)
+}
