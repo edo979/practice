@@ -163,7 +163,9 @@ export default function Grades() {
       {state.subjectIndex === subjects.length - 1 &&
         state.studentIndex === state.students.length - 1 && (
           <div>
-            <button className="btn">Rezultati</button>
+            <a href="rezultati">
+              <button className="btn">Rezultati</button>
+            </a>
             <button
               className="btn"
               onClick={() =>
