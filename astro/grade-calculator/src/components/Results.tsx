@@ -3,6 +3,7 @@ import {
   getStudentsFromLS,
   getSubjects,
 } from '../data/util'
+import { getStudentAverage, getStudentAverageShow } from '../util/grades'
 
 export default function Results() {
   //TODO add function to get subjects directly
@@ -18,11 +19,15 @@ export default function Results() {
             <th className="border border-slate-400">Br.D.</th>
             <th className="border border-slate-400">Ime</th>
             <th className="border border-slate-400">prezime</th>
+
             {subjects.map((subject) => (
               <th key={subject} className="border border-slate-400 px-1">
                 {subject.slice(0, 2)}
               </th>
             ))}
+
+            <th className="border border-slate-400 px-1">Prosjek</th>
+            <th className="border border-slate-400 px-1">Uspjeh</th>
           </tr>
         </thead>
         <tbody>
@@ -35,11 +40,19 @@ export default function Results() {
               <td className="border border-slate-400 px-1">
                 {student.lastName}
               </td>
+
               {student.grades.map((grade, i) => (
                 <td key={i} className="border border-slate-400 text-center">
                   {grade}
                 </td>
               ))}
+
+              <td className="border border-slate-400 text-center">
+                {getStudentAverageShow(student.grades)}
+              </td>
+              <td className="border border-slate-400 text-center font-bold">
+                {Math.round(getStudentAverageShow(student.grades))}
+              </td>
             </tr>
           ))}
         </tbody>

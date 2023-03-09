@@ -163,9 +163,16 @@ export default function Grades() {
       {state.subjectIndex === subjects.length - 1 &&
         state.studentIndex === state.students.length - 1 && (
           <div>
-            <a href="rezultati">
-              <button className="btn">Rezultati</button>
-            </a>
+            <button
+              className="btn"
+              onClick={() => {
+                saveToLS({ students: state.students })
+                location.href = 'rezultati'
+              }}
+            >
+              Rezultati
+            </button>
+
             <button
               className="btn"
               onClick={() =>
