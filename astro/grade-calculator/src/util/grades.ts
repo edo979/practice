@@ -38,6 +38,20 @@ export const getClassResults = (students: StudentsT[]) => {
       { 1: 0, 2: 0, 3: 0 }
     ))()
 
+  const classAverage = () => {
+    const average =
+      studentsAverage.reduce((acc, curr) => acc + Math.round(curr), 0) /
+      studentsAverage.length
+    return Math.round(average * 100) / 100
+  }
+
+  const gradeAverage = () => {
+    const grades = students.flatMap((student) => student.grades)
+    const gradesSum = grades.reduce((acc, curr) => acc + curr, 0)
+
+    return Math.round((gradesSum / grades.length) * 100) / 100
+  }
+
   return [
     studentsAverage.filter((average) => 4.5 <= average).length,
     studentsAverage.filter((average) => average >= 3.5 && average < 4.5).length,
@@ -48,8 +62,8 @@ export const getClassResults = (students: StudentsT[]) => {
     failsCount[2],
     failsCount[3],
     studentsAverage.filter((average) => average === 1).length,
-    5,
-    5,
+    classAverage(),
+    gradeAverage(),
   ]
 }
 
