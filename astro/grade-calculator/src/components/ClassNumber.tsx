@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react'
-import { getClassNumberFromLS, getSubjects, saveToLS } from '../data/util'
+import {
+  getClasesFromLS,
+  getClassNumberFromLS,
+  getSubjects,
+  saveToLS,
+} from '../data/util'
 
 export default function ClassNumber() {
-  const [classNumber, setClassNumber] = useState<string>(getClassNumberFromLS())
+  const [classNumber, setClassNumber] = useState<string>('6')
   const [subjects, setSubjects] = useState<string[]>()
+  const LSClases = getClasesFromLS()
 
   useEffect(() => {
     setSubjects(getSubjects(classNumber))
@@ -49,6 +55,14 @@ export default function ClassNumber() {
           <button className="btn" onClick={handleClassName}>
             🏃‍♀️ Imenik Učenika
           </button>
+        </section>
+      )}
+
+      {LSClases.length > 0 && (
+        <section>
+          {LSClases.map((className) => (
+            <div key={className}>{className}</div>
+          ))}
         </section>
       )}
     </div>

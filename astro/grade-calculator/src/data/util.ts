@@ -21,6 +21,10 @@ export const getSubjects = (classNumber: string): string[] => {
 
 // -- LS --
 
+export const getClasesFromLS = () => {
+  return Object.keys(localStorage).filter((key) => key.includes(LSKEY))
+}
+
 export const getClassNumberFromLS = () => {
   const LS = localStorage.getItem(LSKEY)
   if (LS) return (JSON.parse(LS) as StoreT).classNumber || '0'
