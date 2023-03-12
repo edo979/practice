@@ -7,10 +7,6 @@ import {
   getClassResults,
   getStudentAverage,
   getSubjectsResult,
-  subjectAverage,
-  subjectFailStudentsCount,
-  subjectPassStudentsCount,
-  subjetGradeCount,
 } from '../util/grades'
 
 export default function Results() {
@@ -24,18 +20,21 @@ export default function Results() {
       <table className="table-fixed border-collapse border border-slate-500 text-sm">
         <thead>
           <tr>
-            <th className="border border-slate-400">Br.D.</th>
+            <th className="border border-slate-400">Br.</th>
             <th className="border border-slate-400">Ime</th>
-            <th className="border border-slate-400">prezime</th>
+            <th className="border border-slate-400">Prezime</th>
 
             {subjects.map((subject) => (
-              <th key={subject} className="border border-slate-400 px-1">
+              <th
+                key={subject}
+                className="border border-slate-400 px-1 text-xs"
+              >
                 {subject.slice(0, 2)}
               </th>
             ))}
 
-            <th className="border border-slate-400 px-1">Prosjek</th>
-            <th className="border border-slate-400 px-1">Uspjeh</th>
+            <th className="border border-slate-400 px-1 text-xs">Prosjek</th>
+            <th className="border border-slate-400 px-1 text-xs">Uspjeh</th>
           </tr>
         </thead>
         <tbody>
