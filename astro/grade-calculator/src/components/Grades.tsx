@@ -7,7 +7,6 @@ import {
 } from '../data/util'
 
 export default function Grades() {
-  // TODO check subject, handle if subjects empty
   const subjects = useMemo(() => {
     console.log('call LS')
     return getSubjects(getClassNumberFromLS()) || []
@@ -26,12 +25,15 @@ export default function Grades() {
     students,
   })
   const [isGradeSaving, setIsGradeSaving] = useState(false)
+  const [isInputFinish, setIsInputFinish] = useState(false)
 
   useEffect(() => {
-    gradeRef.current!.innerText =
-      state.students[state.studentIndex].grades[
-        state.subjectIndex
-      ].toString() || ''
+    // show grade from LS if exist
+    gradeRef.current &&
+      (gradeRef.current.innerText =
+        state.students[state.studentIndex].grades[
+          state.subjectIndex
+        ].toString() || '')
   })
 
   async function next(grade: number) {
@@ -67,8 +69,9 @@ export default function Grades() {
           subjectIndex: 0,
         }))
       } else {
+        // finish input
         saveToLS({ students: state.students })
-        location.href = 'provjera-ocjena'
+        setIsInputFinish(true)
         return
       }
     }
@@ -96,6 +99,14 @@ export default function Grades() {
         subjectIndex: prev.subjectIndex + 1,
       }))
     } else {
+      if (state.studentIndex + 1 >= students.length) {
+        setState((prev) => ({
+          ...prev,
+          subjectIndex: 0,
+        }))
+        setIsInputFinish(true)
+      }
+
       setState((prev) => ({
         ...prev,
         subjectIndex: 0,
@@ -116,77 +127,68 @@ export default function Grades() {
 
   return (
     <div className="max-w-sm">
-      <div>
-        <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
-        <p>Ime i prezime učenika: {getFullStudentName()}</p>
+      {isInputFinish ? (
+        <div>
+          <a href="rezultati">
+            <button className="btn">Rezultati</button>
+          </a>
 
-        <p className="mt-2">Predmet:</p>
-        <div className="flex gap-4 text-xl">
-          <p>{subjects[state.subjectIndex]}</p>
-          <p ref={gradeRef}></p>
+          <button
+            className="btn"
+            onClick={() => {
+              setState((prev) => ({
+                ...prev,
+                subjectIndex: 0,
+                studentIndex: 0,
+              }))
+              setIsInputFinish(false)
+            }}
+          >
+            Provjera Unosa Ocjena
+          </button>
         </div>
+      ) : (
+        <div>
+          <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
+          <p>Ime i prezime učenika: {getFullStudentName()}</p>
 
-        {!isGradeSaving && (
-          <div className="mt-2 flex gap-1">
-            {(!!state.subjectIndex || !!state.studentIndex) && (
-              <button className="btn" onClick={handleGoToPreviusSubject}>
-                👈 Nazad
+          <p className="mt-2">Predmet:</p>
+          <div className="flex gap-4 text-xl">
+            <p>{subjects[state.subjectIndex]}</p>
+            <p ref={gradeRef}></p>
+          </div>
+
+          {!isGradeSaving && (
+            <div className="mt-2 flex gap-1">
+              {(!!state.subjectIndex || !!state.studentIndex) && (
+                <button className="btn" onClick={handleGoToPreviusSubject}>
+                  👈 Nazad
+                </button>
+              )}
+
+              <button className="btn" onClick={() => next(1)}>
+                1
               </button>
-            )}
+              <button className="btn" onClick={() => next(2)}>
+                2
+              </button>
+              <button className="btn" onClick={() => next(3)}>
+                3
+              </button>
+              <button className="btn" onClick={() => next(4)}>
+                4
+              </button>
+              <button className="btn" onClick={() => next(5)}>
+                5
+              </button>
 
-            <button className="btn" onClick={() => next(1)}>
-              1
-            </button>
-            <button className="btn" onClick={() => next(2)}>
-              2
-            </button>
-            <button className="btn" onClick={() => next(3)}>
-              3
-            </button>
-            <button className="btn" onClick={() => next(4)}>
-              4
-            </button>
-            <button className="btn" onClick={() => next(5)}>
-              5
-            </button>
-
-            {(state.studentIndex + 1 < state.students.length ||
-              state.subjectIndex + 1 < subjects.length) && (
               <button className="btn" onClick={handleGoToNextSubject}>
                 Naprijed 👉
               </button>
-            )}
-          </div>
-        )}
-      </div>
-
-      {state.subjectIndex === subjects.length - 1 &&
-        state.studentIndex === state.students.length - 1 && (
-          <div>
-            <button
-              className="btn"
-              onClick={() => {
-                saveToLS({ students: state.students })
-                location.href = 'rezultati'
-              }}
-            >
-              Rezultati
-            </button>
-
-            <button
-              className="btn"
-              onClick={() =>
-                setState((prev) => ({
-                  ...prev,
-                  subjectIndex: 0,
-                  studentIndex: 0,
-                }))
-              }
-            >
-              Provjera Unosa Ocjena
-            </button>
-          </div>
-        )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
