@@ -18,6 +18,19 @@ export const getClassResults = (students: StudentsT[]) => {
     getStudentAverage(student.grades)
   )
 
+  const resultsData = {
+    5: studentsAverage.filter((average) => 4.5 <= average).length,
+    4: studentsAverage.filter((average) => average >= 3.5 && average < 4.5)
+      .length,
+    3: studentsAverage.filter((average) => average >= 2.5 && average < 3.5)
+      .length,
+    2: studentsAverage.filter((average) => average >= 1.5 && average < 2.5)
+      .length,
+    1: studentsAverage.filter((average) => average > 1).length,
+    studentsPass: studentsAverage.filter((average) => average > 1).length,
+    studentsFail: studentsAverage.filter((average) => average === 1).length,
+  }
+
   const failsCount = (() =>
     students.reduce(
       (acc, curr) => {
@@ -53,18 +66,35 @@ export const getClassResults = (students: StudentsT[]) => {
   }
 
   return [
-    studentsAverage.filter((average) => 4.5 <= average).length,
-    studentsAverage.filter((average) => average >= 3.5 && average < 4.5).length,
-    studentsAverage.filter((average) => average >= 2.5 && average < 3.5).length,
-    studentsAverage.filter((average) => average >= 1.5 && average < 2.5).length,
-    studentsAverage.filter((average) => average > 1).length,
-    failsCount[1],
-    failsCount[2],
-    failsCount[3],
-    studentsAverage.filter((average) => average === 1).length,
-    classAverage(),
-    gradeAverage(),
+    [
+      resultsData[5],
+      resultsData[4],
+      resultsData[3],
+      resultsData[2],
+      resultsData.studentsPass,
+      failsCount[1],
+      failsCount[2],
+      failsCount[3],
+      resultsData.studentsFail,
+      classAverage(),
+      gradeAverage(),
+    ],
+    [
+      getPercentage(resultsData[5], students.length),
+      getPercentage(resultsData[4], students.length),
+      getPercentage(resultsData[3], students.length),
+      getPercentage(resultsData[2], students.length),
+      getPercentage(resultsData.studentsPass, students.length),
+      getPercentage(failsCount[1], students.length),
+      getPercentage(failsCount[2], students.length),
+      getPercentage(failsCount[3], students.length),
+      getPercentage(resultsData.studentsFail, students.length),
+    ],
   ]
+}
+
+const getPercentage = (value: number, total: number) => {
+  return (100 * value) / total + '%'
 }
 
 // SUBJECTS CALCULATION
@@ -93,9 +123,7 @@ export const subjectPassStudentsCount = (
 export const subjectFailStudentsCount = (
   students: StudentsT[],
   subjectIndex: number
-) => {
-  return subjetGradeCount(students, subjectIndex, 1)
-}
+) => subjetGradeCount(students, subjectIndex, 1)
 
 export const subjectAverage = (students: StudentsT[], subjectIndex: number) => {
   const gradesSum = students.reduce(
@@ -104,4 +132,35 @@ export const subjectAverage = (students: StudentsT[], subjectIndex: number) => {
   )
 
   return Math.round((gradesSum / students.length) * 100) / 100
+}
+
+// return [[], [], [] ...]
+export const getSubjectsResult = (
+  students: StudentsT[],
+  subjects: string[]
+) => {
+  const formatResults = (result: number) =>
+    `${result} (${getPercentage(result, students.length)})`
+  const results = subjects.map((subject, i) => {
+    const subjectResult = {
+      5: subjetGradeCount(students, i, 5),
+      4: subjetGradeCount(students, i, 4),
+      3: subjetGradeCount(students, i, 3),
+      2: subjetGradeCount(students, i, 2),
+      1: subjetGradeCount(students, i, 1),
+    }
+
+    return [
+      subject,
+      formatResults(subjectResult[5]),
+      formatResults(subjectResult[4]),
+      formatResults(subjectResult[3]),
+      formatResults(subjectResult[2]),
+      formatResults(subjectResult[1]),
+      formatResults(students.length - subjectResult[1]),
+      subjectAverage(students, i),
+    ]
+  })
+
+  return results
 }

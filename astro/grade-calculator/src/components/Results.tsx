@@ -6,6 +6,7 @@ import {
 import {
   getClassResults,
   getStudentAverage,
+  getSubjectsResult,
   subjectAverage,
   subjectFailStudentsCount,
   subjectPassStudentsCount,
@@ -66,7 +67,7 @@ export default function Results() {
       </table>
 
       <p>Ocjene razreda:</p>
-      <table className="table-fixed border-collapse border border-slate-500 text-sm">
+      <table className="table-auto border-collapse border border-slate-500 text-sm">
         <thead>
           <tr>
             <th className="border border-slate-400 px-1">5</th>
@@ -83,18 +84,23 @@ export default function Results() {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-slate-200">
-            {getClassResults(students).map((result, i) => (
-              <td key={i} className="border border-slate-400 text-center">
-                {result}
-              </td>
-            ))}
-          </tr>
+          {getClassResults(students).map((row, i) => (
+            <tr key={i} className="odd:bg-slate-200">
+              {row.map((result, i) => (
+                <td
+                  key={i}
+                  className="px-1 border border-slate-400 text-center"
+                >
+                  {result}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
 
       <p>Ocjene predmeta:</p>
-      <table className="table-fixed border-collapse border border-slate-500 text-sm">
+      <table className="table-auto border-collapse border border-slate-500 text-sm">
         <thead>
           <tr>
             <th className="border border-slate-400 px-1">Predmet</th>
@@ -104,38 +110,20 @@ export default function Results() {
             <th className="border border-slate-400 px-1">2</th>
             <th className="border border-slate-400 px-1">1</th>
             <th className="border border-slate-400 px-1">Prolazi</th>
-            <th className="border border-slate-400 px-1">Popravni</th>
             <th className="border border-slate-400 px-1">Prosjek</th>
           </tr>
         </thead>
         <tbody>
-          {subjects.map((subject, i) => (
-            <tr key={subject} className="odd:bg-slate-200">
-              <td className="border border-slate-400">{subject}</td>
-              <td className="border border-slate-400 text-center">
-                {subjetGradeCount(students, i, 5)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjetGradeCount(students, i, 4)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjetGradeCount(students, i, 3)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjetGradeCount(students, i, 2)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjetGradeCount(students, i, 1)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjectPassStudentsCount(students, i)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjectFailStudentsCount(students, i)}
-              </td>
-              <td className="border border-slate-400 text-center">
-                {subjectAverage(students, i)}
-              </td>
+          {getSubjectsResult(students, subjects).map((subjectResults, i) => (
+            <tr key={i} className="odd:bg-slate-200">
+              {subjectResults.map((result, i) => (
+                <td
+                  key={i}
+                  className="px-1 border border-slate-400 text-center"
+                >
+                  {result}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
