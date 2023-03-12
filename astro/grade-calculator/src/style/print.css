@@ -1,0 +1,28 @@
+@page {
+  size: A4;
+  margin: 1cm;
+}
+
+@page wide {
+  size: a4 landscape;
+}
+
+@media print {
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .btn {
+    display: none;
+  }
+}
+
+.print {
+  page-break-after: always;
+  break-after: page;
+}
+
+.print__landscape {
+  page: wide;
+}
