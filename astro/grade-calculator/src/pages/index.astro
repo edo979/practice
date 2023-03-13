@@ -3,6 +3,21 @@ import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
-  <h1 class="text-3xl">Prosjek ocjena</h1>
-  <a href="razred">Prosjek ocjena</a>
+  <header slot="before-main" class="mt-8 flex items-center gap-8">
+    <div class="space-y-4 basis-1/2">
+      <h1 class="text-3xl font-bold">Prosjek ocjena</h1>
+      <p class="text-lg tracking-tight">
+        Dobro došli na stranicu za računanje prosjeka ocjena učenika na kraju
+        polugodišta. Ovdje možete izračunati i ostale podatke koje razrednici
+        računaju za svoje odjeljenje.
+      </p>
+      <a href="razred" class="block"
+        ><button class="btn">Unos podataka</button></a
+      >
+    </div>
+
+    <div class="basis-1/2">
+      <div class="w-full h-[200px] bg-emerald-300"></div>
+    </div>
+  </header>
 </Layout>
