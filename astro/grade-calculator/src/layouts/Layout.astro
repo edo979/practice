@@ -13,6 +13,44 @@ const { title = 'Prosjek Ocjena' } = Astro.props
   </head>
   <body>
     <div class="container mx-auto px-4 sm:px-0">
+      <nav
+        aria-label="main"
+        class="flex justify-between p-2 py-4 rounded-b bg-emerald-600 text-emerald-100 text-lg sm:px-8 sm:gap-8 sm:text-xl"
+      >
+        <a href="/" class="sm:text-2xl">🏠</a>
+        <a
+          href="/razred"
+          class:list={[
+            'sm:ml-auto',
+            {
+              'font-semibold text-emerald-50 underline':
+                Astro.url.pathname.startsWith('/razred'),
+            },
+          ]}>Razred</a
+        >
+        <a
+          href="/imenik"
+          class:list={{
+            'font-semibold text-emerald-50 underline':
+              Astro.url.pathname.startsWith('/imenik'),
+          }}>Imenik</a
+        >
+        <a
+          href="/ocjene"
+          class:list={{
+            'font-semibold text-emerald-50 underline':
+              Astro.url.pathname.startsWith('/ocjene'),
+          }}>Ocjene</a
+        >
+        <a
+          href="/rezultati"
+          class:list={{
+            'font-semibold text-emerald-50 underline':
+              Astro.url.pathname.startsWith('/rezultati'),
+          }}>Rezultati</a
+        >
+      </nav>
+
       <slot name="before-main" />
 
       <main>
