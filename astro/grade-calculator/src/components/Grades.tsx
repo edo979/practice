@@ -126,7 +126,7 @@ export default function Grades() {
   console.log('render')
 
   return (
-    <div className="max-w-sm">
+    <div className="">
       {isInputFinish ? (
         <div>
           <a href="rezultati">
