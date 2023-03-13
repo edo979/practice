@@ -3,15 +3,18 @@ import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
-  <header slot="before-main" class="mt-8 flex items-center gap-8 lg:gap-16">
-    <div class="space-y-12 basis-1/2 max-w-lg">
-      <h1 class="text-3xl font-bold lg:text-5xl">Prosjek ocjena</h1>
-      <p class="text-xl tracking-tight">
+  <header
+    slot="before-main"
+    class="mt-8 flex flex-col-reverse items-center gap-8 text-center sm:flex-row sm:text-left lg:gap-16"
+  >
+    <div class="space-y-6 basis-1/2 max-w-lg sm:space-y-12">
+      <h1 class="text-3xl font-bold md:text-5xl">Prosjek ocjena</h1>
+      <p class="text-xl tracking-tight md:text-2xl">
         Izračunajte prosjek ocjena učenika na kraju polugodišta, kao i sve
         ostale podatke koje razrednici računaju za svoje odjeljenje.
       </p>
-      <a href="razred" class="block"
-        ><button class="btn text-lg">Unos podataka</button></a
+      <a href="razred" class="inline-block"
+        ><button class="btn text-lg md:text-xl">Unos podataka</button></a
       >
     </div>
 
@@ -26,32 +29,32 @@ import Layout from '../layouts/Layout.astro'
     </div>
   </header>
 
-  <section class="mt-20">
-    <h2 class="text-2xl font-bold lg:text-3xl">
+  <section class="mt-16 sm:mt-20">
+    <h2 class="text-2xl font-bold md:text-3xl">
       Kako funcioniše ova stranica?
     </h2>
-    <div class="mt-4 flex gap-8">
-      <article class="flex-1">
+    <div class="mt-4 flex flex-col gap-8 sm:flex-row sm:flex-wrap">
+      <article class="flex-1 min-w-[250px]">
         <h3 class="mb-4 text-5xl font-bold text-emerald-500">1.</h3>
-        <p class="lg:text-xl">
+        <p class="md:text-xl">
           Prvo je potrebno izabrati razred za koji računate podatke, a
           aplikacija razumije koji su nastavni predmeti u tom razredu. Raspored
           predmeta je preuzet iz Dnevnika za izabrani razred.
         </p>
       </article>
-      <article class="flex-1">
+      <article class="flex-1 min-w-[250px]">
         <h3 class="mb-4 text-5xl font-bold text-emerald-600">2.</h3>
-        <p class="lg:text-xl">
+        <p class="md:text-xl">
           U drugom koraku potrebno je upisati imena i prezimena učenika. Broj
           dnevnika se određuje automatski. Možete upisati prvo slovo prezimena
           zbog bržeg unosa.
         </p>
       </article>
-      <article class="flex-1">
+      <article class="flex-1 min-w-[300px]">
         <h3 class="mb-4 text-5xl font-bold text-emerald-700">3.</h3>
-        <p class="lg:text-xl">
+        <p class="md:text-xl">
           Zadnji korak je unos ocjena. Aplikacija je prilagođena radu na
-          telefonu i upis ocjena je poluautomatski. Nakon upisa svih ocjena
+          telefonu i upis ocjena je polu-automatski. Nakon upisa svih ocjena
           možete provjeriti ocjene ili pogledati rezultate.
         </p>
       </article>
@@ -59,7 +62,7 @@ import Layout from '../layouts/Layout.astro'
   </section>
 
   <section class="mt-20 text-center">
-    <h2 class="text-2xl font-bold mb-4 lg:text-3xl">
+    <h2 class="text-2xl font-bold mb-4 md:text-3xl">
       Rezultate možete odmah štampati
     </h2>
     <p class="mb-8 max-w-lg mx-auto text-xl tracking-tight">
@@ -67,7 +70,8 @@ import Layout from '../layouts/Layout.astro'
       izračunatim podacima. Podaci ostaju snimljeni na vašem uređaju ako vam
       budu potrebni kasnije.
     </p>
-    <a href="razred" class="block"><button class="btn">Unos podataka</button></a
+    <a href="razred" class="inline-block"
+      ><button class="btn text-lg">Unos podataka</button></a
     >
   </section>
 </Layout>
