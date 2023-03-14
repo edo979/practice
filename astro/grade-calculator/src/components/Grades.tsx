@@ -8,12 +8,10 @@ import {
 
 export default function Grades() {
   const subjects = useMemo(() => {
-    console.log('call LS')
     return getSubjects(getClassNumberFromLS()) || []
   }, [])
 
   const students = useMemo(() => {
-    console.log('call LS')
     return getStudentsFromLS() || []
   }, [])
 
@@ -49,6 +47,8 @@ export default function Grades() {
     }
     // -- END MUTAUTE !!!
 
+    saveToLS({ students: state.students })
+
     // wait 700 miliseconds
     gradeRef.current!.innerText = grade.toString()
     await new Promise((resolve) => setTimeout(resolve, 700))
@@ -70,7 +70,6 @@ export default function Grades() {
         }))
       } else {
         // finish input
-        saveToLS({ students: state.students })
         setIsInputFinish(true)
         return
       }
@@ -123,10 +122,8 @@ export default function Grades() {
     )
   }
 
-  console.log('render')
-
   return (
-    <div className="">
+    <div className="max-w-sm">
       {isInputFinish ? (
         <div>
           <a href="rezultati">
@@ -149,44 +146,70 @@ export default function Grades() {
         </div>
       ) : (
         <div>
-          <p>Broj u dnevniku: {students[state.studentIndex].id}</p>
-          <p>Ime i prezime učenika: {getFullStudentName()}</p>
+          <h1 className="mt-4 text-2xl font-bold md:text-5xl md:mt-8">
+            Ocjene
+          </h1>
+          <div className="mt-4 text-lg text-right">
+            <div className="flex justify-between">
+              <p>Broj u dnevniku:</p>
+              <span className="font-semibold text-xl">
+                {students[state.studentIndex].id}
+              </span>
+            </div>
 
-          <p className="mt-2">Predmet:</p>
-          <div className="flex gap-4 text-xl">
-            <p>{subjects[state.subjectIndex]}</p>
-            <p ref={gradeRef}></p>
+            <div className="flex justify-between">
+              <p>Ime i prezime:</p>
+              <span className="font-semibold text-xl">
+                {getFullStudentName()}
+              </span>
+            </div>
+
+            <div className="flex items-top gap-4">
+              <p>Predmet:</p>
+              <p className="ml-auto font-semibold text-2xl">
+                {subjects[state.subjectIndex]}
+              </p>
+              <p ref={gradeRef} className="font-semibold text-5xl"></p>
+            </div>
           </div>
 
-          {!isGradeSaving && (
-            <div className="mt-2 flex gap-1">
-              {(!!state.subjectIndex || !!state.studentIndex) && (
-                <button className="btn" onClick={handleGoToPreviusSubject}>
-                  👈 Nazad
-                </button>
-              )}
+          <div className="min-h-[328px]">
+            {!isGradeSaving && (
+              <section className="mt-4 flex justify-between items-center">
+                <div>
+                  {(state.subjectIndex > 0 || state.studentIndex > 0) && (
+                    <button
+                      className="btn w-40"
+                      onClick={handleGoToPreviusSubject}
+                    >
+                      👈 Nazad
+                    </button>
+                  )}
+                  <button className="btn w-40" onClick={handleGoToNextSubject}>
+                    Naprijed 👉
+                  </button>
+                </div>
 
-              <button className="btn" onClick={() => next(1)}>
-                1
-              </button>
-              <button className="btn" onClick={() => next(2)}>
-                2
-              </button>
-              <button className="btn" onClick={() => next(3)}>
-                3
-              </button>
-              <button className="btn" onClick={() => next(4)}>
-                4
-              </button>
-              <button className="btn" onClick={() => next(5)}>
-                5
-              </button>
-
-              <button className="btn" onClick={handleGoToNextSubject}>
-                Naprijed 👉
-              </button>
-            </div>
-          )}
+                <div className="mt-2 flex flex-col-reverse items-end gap-4">
+                  <button className="btn w-20 text-xl" onClick={() => next(1)}>
+                    1
+                  </button>
+                  <button className="btn w-20 text-xl" onClick={() => next(2)}>
+                    2
+                  </button>
+                  <button className="btn w-20 text-xl" onClick={() => next(3)}>
+                    3
+                  </button>
+                  <button className="btn w-20 text-xl" onClick={() => next(4)}>
+                    4
+                  </button>
+                  <button className="btn w-20 text-xl" onClick={() => next(5)}>
+                    5
+                  </button>
+                </div>
+              </section>
+            )}
+          </div>
         </div>
       )}
     </div>
