@@ -41,9 +41,7 @@ export default function ClassNumber() {
       {classNumberFromLS !== '0' && (
         <div className="mt-8">
           <h2 className="text-xl font-bold">Sačuvani podaci:</h2>
-          <p className="">
-            Na uređaju su sačuvani podaci za {classNumberFromLS} razred.
-          </p>
+          <p>Na uređaju su sačuvani podaci za {classNumberFromLS} razred.</p>
         </div>
       )}
 
@@ -84,10 +82,12 @@ export default function ClassNumber() {
           </div>
           {error && <p className="text-rose-500">Izaberite razred!</p>}
 
-          <p className="mt-12">Naredni korak 👉</p>
-          <button className="btn mt-2" onClick={handleSetClassName}>
-            🏃‍♀️ Imenik Učenika
-          </button>
+          <div className="flex flex-col items-end">
+            <p className="mt-12">Naredni korak 👉</p>
+            <button className="mt-2 btn text-lg" onClick={handleSetClassName}>
+              🏃‍♀️ Imenik Učenika
+            </button>
+          </div>
         </section>
       )}
     </div>

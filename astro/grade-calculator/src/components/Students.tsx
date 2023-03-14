@@ -51,7 +51,12 @@ export default function Students() {
 
   return (
     <div className="max-w-sm">
+      <h1 className="mt-4 text-2xl font-bold md:text-5xl md:mt-8">
+        Imenik učenika
+      </h1>
+
       <form
+        className="mt-8 text-lg"
         onSubmit={(e) => {
           e.preventDefault()
           handleStudentsData()
@@ -66,14 +71,14 @@ export default function Students() {
           name="id"
           id="id"
           required
-          className="w-full border"
+          className="max-w-sm w-full py-1 px-2 border-2 border-emerald-500 rounded focus-visible:outline-emerald-700"
           value={state.id}
           onChange={(e) =>
             setState((prev) => ({ ...prev, id: parseInt(e.target.value) }))
           }
         />
 
-        <label htmlFor="firstName" className="block">
+        <label htmlFor="firstName" className="mt-4 block">
           Ime:
         </label>
         <input
@@ -82,10 +87,11 @@ export default function Students() {
           name="firstName"
           id="firstName"
           required
-          className="w-full border"
+          className="max-w-sm w-full py-1 px-2 border-2 border-emerald-500 rounded focus-visible:outline-emerald-700"
+          placeholder="Ime učenika..."
         />
 
-        <label htmlFor="lastName" className="block">
+        <label htmlFor="lastName" className="mt-4 block">
           Prezime:
         </label>
         <input
@@ -94,17 +100,19 @@ export default function Students() {
           name="lastName"
           id="lastName"
           required
-          className="w-full border"
+          className="max-w-sm w-full py-1 px-2 border-2 border-emerald-500 rounded focus-visible:outline-emerald-700"
+          placeholder="Prezime ili prvo slovo..."
         />
 
         <div className="flex justify-end">
-          <button type="submit" className="btn">
+          <button type="submit" className="mt-4 btn">
             Dodaj učenika
           </button>
         </div>
       </form>
 
-      <ul className="mt-4">
+      <h2 className="mt-8 text-xl font-bold md:text-3xl">Imenik</h2>
+      <ul className="mt-4 text-lg">
         {state.students.map((student) => (
           <li key={student.id}>
             {student.id}. {student.firstName} {student.lastName}
@@ -112,10 +120,10 @@ export default function Students() {
         ))}
       </ul>
 
-      <div className="flex flex-col items-end mt-4">
+      <div className="mt-4 flex flex-col items-end">
         <button
           type="button"
-          className="btn"
+          className="mt-2 btn text-lg"
           onClick={() => {
             saveToLS({ students: state.students })
             location.href = '/ocjene'
@@ -123,7 +131,7 @@ export default function Students() {
         >
           ✔ Završi imenik učenika
         </button>
-        <p>Naredni korak 👉 Unos ocjena</p>
+        <p className="mt-2 text-lg">Naredni korak 👉 Unos ocjena</p>
       </div>
     </div>
   )
