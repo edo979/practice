@@ -4,6 +4,6 @@
 
 @layer components {
   .btn {
-    @apply inline-flex py-2 px-8 border border-emerald-800 rounded bg-emerald-600 text-emerald-50 font-semibold;
+    @apply inline-flex justify-center items-center py-2 px-8 border border-emerald-800 rounded bg-emerald-600 text-emerald-50 font-semibold;
   }
 }

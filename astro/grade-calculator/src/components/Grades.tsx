@@ -77,41 +77,35 @@ export default function Grades() {
   }
 
   function handleGoToPreviusSubject() {
-    if (state.subjectIndex - 1 < 0) {
-      setState((prev) => ({
-        ...prev,
-        studentIndex: prev.studentIndex - 1,
-        subjectIndex: subjects.length - 1,
-      }))
-    } else {
-      setState((prev) => ({
-        ...prev,
-        subjectIndex: prev.subjectIndex - 1,
-      }))
-    }
+    const prevSubjectIndex = state.subjectIndex - 1
+
+    if (prevSubjectIndex < 0) return
+
+    setState((prev) => ({ ...prev, subjectIndex: prevSubjectIndex }))
   }
 
   function handleGoToNextSubject() {
-    if (state.subjectIndex + 1 < subjects.length) {
-      setState((prev) => ({
-        ...prev,
-        subjectIndex: prev.subjectIndex + 1,
-      }))
-    } else {
-      if (state.studentIndex + 1 >= students.length) {
-        setState((prev) => ({
-          ...prev,
-          subjectIndex: 0,
-        }))
-        setIsInputFinish(true)
-      }
+    const nextSubjectIndex = state.subjectIndex + 1
 
-      setState((prev) => ({
-        ...prev,
-        subjectIndex: 0,
-        studentIndex: prev.studentIndex + 1,
-      }))
-    }
+    if (nextSubjectIndex >= subjects.length) return
+
+    setState((prev) => ({ ...prev, subjectIndex: nextSubjectIndex }))
+  }
+
+  function handleGoToNextStudent() {
+    const nextStudentIndex = state.studentIndex + 1
+
+    if (nextStudentIndex >= state.students.length) return
+
+    setState((prev) => ({ ...prev, studentIndex: nextStudentIndex }))
+  }
+
+  function handleGoToPrevStudent() {
+    const prevStudentIndex = state.studentIndex - 1
+
+    if (prevStudentIndex < 0) return
+
+    setState((prev) => ({ ...prev, studentIndex: prevStudentIndex }))
   }
 
   function getFullStudentName() {
@@ -123,7 +117,7 @@ export default function Grades() {
   }
 
   return (
-    <div className="max-w-sm">
+    <>
       {isInputFinish ? (
         <div>
           <a href="rezultati">
@@ -145,48 +139,70 @@ export default function Grades() {
           </button>
         </div>
       ) : (
-        <div>
-          <h1 className="mt-4 text-2xl font-bold md:text-5xl md:mt-8">
-            Ocjene
-          </h1>
-          <div className="mt-4 text-lg text-right">
-            <div className="flex justify-between">
-              <p>Broj u dnevniku:</p>
-              <span className="font-semibold text-xl">
-                {students[state.studentIndex].id}
-              </span>
-            </div>
+        <div className="sm:flex sm:justify-between sm:gap-8">
+          <section className="sm:flex-1 md:basis-96 md:flex-initial">
+            <h1 className="mt-4 text-2xl font-bold md:text-5xl md:mt-8">
+              Ocjene
+            </h1>
+            <div className="mt-4 text-lg text-right">
+              <div className="flex justify-between">
+                <p>Broj u dnevniku:</p>
+                <span className="font-semibold text-xl">
+                  {students[state.studentIndex].id}
+                </span>
+              </div>
 
-            <div className="flex justify-between">
-              <p>Ime i prezime:</p>
-              <span className="font-semibold text-xl">
-                {getFullStudentName()}
-              </span>
-            </div>
+              <div className="flex justify-between">
+                <p>Ime i prezime:</p>
+                <span className="font-semibold text-xl">
+                  {getFullStudentName()}
+                </span>
+              </div>
 
-            <div className="flex items-top gap-4">
-              <p>Predmet:</p>
-              <p className="ml-auto font-semibold text-2xl">
-                {subjects[state.subjectIndex]}
-              </p>
-              <p ref={gradeRef} className="font-semibold text-5xl"></p>
+              <div className="flex items-top gap-4">
+                <p>Predmet:</p>
+                <p className="ml-auto font-semibold text-2xl">
+                  {subjects[state.subjectIndex]}
+                </p>
+                <p ref={gradeRef} className="font-semibold text-5xl"></p>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <div className="min-h-[328px]">
+          <div className="ml-auto w-fit sm:basis-72">
             {!isGradeSaving && (
-              <section className="mt-4 flex justify-between items-center">
+              <section className="mt-4 flex justify-betwee gap-8 items-center">
                 <div>
-                  {(state.subjectIndex > 0 || state.studentIndex > 0) && (
-                    <button
-                      className="btn w-40"
-                      onClick={handleGoToPreviusSubject}
-                    >
-                      👈 Nazad
-                    </button>
-                  )}
-                  <button className="btn w-40" onClick={handleGoToNextSubject}>
-                    Naprijed 👉
+                  <p className="text-lg text-center font-semibold">Učenik:</p>
+                  <button
+                    className="btn w-full"
+                    onClick={handleGoToPrevStudent}
+                  >
+                    👈 Prethodni
+                  </button>
+
+                  <button
+                    className="btn mt-2 w-full"
+                    onClick={handleGoToNextStudent}
+                  >
+                    Naredni 👉
+                  </button>
+
+                  <p className="mt-4 text-lg text-center font-semibold">
+                    Predmet:
+                  </p>
+                  <button
+                    className="btn mb-2 w-full"
+                    onClick={handleGoToPreviusSubject}
+                  >
+                    👈 Prethodni
+                  </button>
+
+                  <button
+                    className="btn w-full"
+                    onClick={handleGoToNextSubject}
+                  >
+                    Naredni 👉
                   </button>
                 </div>
 
@@ -212,6 +228,6 @@ export default function Grades() {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
