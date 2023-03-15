@@ -19,6 +19,7 @@ export default function Students() {
   const firstNameRef = useRef<HTMLInputElement>(null)
   const lastNameRef = useRef<HTMLInputElement>(null)
   const idRef = useRef<HTMLInputElement>(null)
+  const [isEditingStudents, setIsEditingStudens] = useState(true)
 
   const handleStudentsData = () => {
     if (!firstNameRef.current || !lastNameRef.current) return
@@ -115,13 +116,26 @@ export default function Students() {
 
       <section className="flex-1">
         <h2 className="mt-8 text-xl font-bold sm:mt-5 md:text-3xl">Imenik:</h2>
-        <ul className="mt-4 p-4 rounded border border-emerald-500 text-lg">
+        <ul className="mt-4 py-4 rounded border border-emerald-500 text-lg">
           {state.students.map((student) => (
-            <li key={student.id}>
+            <li key={student.id} className="px-4 even:bg-emerald-100">
               {student.id}. {student.firstName} {student.lastName}
             </li>
           ))}
         </ul>
+
+        {state.students.length > 0 && (
+          <div className="mt-4 text-right">
+            <button
+              className="btn"
+              onClick={() => {
+                setIsEditingStudens(true)
+              }}
+            >
+              ✏ Uredi imenik
+            </button>
+          </div>
+        )}
 
         <div className="mt-4 flex flex-col items-end">
           <button
@@ -132,11 +146,51 @@ export default function Students() {
               location.href = '/ocjene'
             }}
           >
-            ✔ Završi imenik učenika
+            ✔ Snimi imenik učenika
           </button>
           <p className="mt-2 text-lg">Naredni korak 👉 Unos ocjena</p>
         </div>
       </section>
+
+      {/* MODAL */}
+      <div
+        id="defaultModal"
+        tabIndex={-1}
+        aria-hidden="true"
+        className={`fixed top-0 left-0 right-0 z-50 w-full h-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 md:h-full bg-stone-900/75 ${
+          isEditingStudents ? '' : 'hidden'
+        }`}
+      >
+        <div className="relative w-full h-full max-w-xl mx-auto p-4 bg-white rounded-lg md:h-auto sm:p-8">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold md:text-3xl">Imenik Učenika:</h2>
+            <button
+              className="text-2xl text-rose-500 hover:font-bold"
+              onClick={() => {
+                setIsEditingStudens(false)
+              }}
+            >
+              X
+            </button>
+          </div>
+
+          <div>
+            <ul className="mt-4 py-4 rounded border border-emerald-500 sm:text-lg">
+              {state.students.map((student) => (
+                <li
+                  key={student.id}
+                  className="px-4 flex items-center justify-between even:bg-emerald-100"
+                >
+                  <p>
+                    {student.id}. {student.firstName} {student.lastName}
+                  </p>
+                  <div className="text-sm">✏ ❌</div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
