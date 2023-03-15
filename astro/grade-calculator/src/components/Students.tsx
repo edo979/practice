@@ -19,9 +19,9 @@ export default function Students() {
   const firstNameRef = useRef<HTMLInputElement>(null)
   const lastNameRef = useRef<HTMLInputElement>(null)
   const idRef = useRef<HTMLInputElement>(null)
-  const [isEditingStudents, setIsEditingStudens] = useState(true)
+  const [isEditingStudents, setIsEditingStudens] = useState(false)
 
-  const handleStudentsData = () => {
+  const handleAddStudent = () => {
     if (!firstNameRef.current || !lastNameRef.current) return
 
     const firstName = firstNameRef.current.value
@@ -46,9 +46,44 @@ export default function Students() {
     lastNameRef.current.value = ''
   }
 
-  useEffect(() => {
-    firstNameRef.current?.focus()
-  }, [state])
+  const handleDeleteStudent = (id: number) => {
+    if (
+      !confirm(
+        `Sigurno želite izbrisati učenika | učenicu: ${
+          state.students.find((student) => student.id === id)?.firstName || ''
+        }?`
+      )
+    )
+      return
+
+    setState((prev) => {
+      const students = prev.students
+        .filter((student) => student.id !== id)
+        .map((student, i) => ({ ...student, id: i + 1 }))
+
+      return { ...prev, students }
+    })
+  }
+
+  const handleStudentFirstNameUpdate = (id: number, firstName: string) => {
+    setState((prev) => {
+      const students = prev.students.filter((student) => {
+        if (student.id !== id) return student
+        return (student.firstName = firstName)
+      })
+      return { ...prev, students }
+    })
+  }
+
+  const handleStudentLastNameUpdate = (id: number, lastName: string) => {
+    setState((prev) => {
+      const students = prev.students.filter((student) => {
+        if (student.id !== id) return student
+        return (student.lastName = lastName)
+      })
+      return { ...prev, students }
+    })
+  }
 
   return (
     <div className="sm:flex sm:gap-16 lg:gap-32">
@@ -61,7 +96,7 @@ export default function Students() {
           className="mt-8 text-lg"
           onSubmit={(e) => {
             e.preventDefault()
-            handleStudentsData()
+            handleAddStudent()
           }}
         >
           <label htmlFor="id" className="block">
@@ -174,20 +209,48 @@ export default function Students() {
             </button>
           </div>
 
-          <div>
-            <ul className="mt-4 py-4 rounded border border-emerald-500 sm:text-lg">
-              {state.students.map((student) => (
-                <li
-                  key={student.id}
-                  className="px-4 flex items-center justify-between even:bg-emerald-100"
+          <ul className="mt-4 py-4 sm:text-lg">
+            {state.students.map((student) => (
+              <li
+                key={student.id}
+                className="px-2 py-2 flex items-center even:bg-emerald-100"
+              >
+                <span>{student.id}.</span>
+                <div className="flex">
+                  <input
+                    type="text"
+                    className="w-1/2 px-1 py-0.5 ml-1 rounded border border-emerald-700"
+                    value={student.firstName}
+                    onChange={(e) =>
+                      handleStudentFirstNameUpdate(student.id, e.target.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    className="w-1/2 px-1 py-0.5 ml-1 rounded border border-emerald-700"
+                    value={student.lastName}
+                    onChange={(e) =>
+                      handleStudentLastNameUpdate(student.id, e.target.value)
+                    }
+                  />
+                </div>
+
+                <button
+                  className="ml-auto"
+                  onClick={() => handleDeleteStudent(student.id)}
                 >
-                  <p>
-                    {student.id}. {student.firstName} {student.lastName}
-                  </p>
-                  <div className="text-sm">✏ ❌</div>
-                </li>
-              ))}
-            </ul>
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-4 flex justify-end gap-4">
+            <button
+              className="btn px-4"
+              onClick={() => setIsEditingStudens(false)}
+            >
+              ✔ Gotovo
+            </button>
           </div>
         </div>
       </div>
