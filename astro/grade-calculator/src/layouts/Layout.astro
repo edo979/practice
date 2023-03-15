@@ -59,7 +59,29 @@ const { title = 'Prosjek Ocjena' } = Astro.props
       </main>
 
       <footer class="mt-24 p-8 rounded-t bg-emerald-600">
-        Programirao ja:
+        <div
+          class="flex flex-col-reverse items-center justify-between gap-4 sm:flex-row"
+        >
+          <p class="text-sm text-emerald-300">Programirao: Edis Selimović</p>
+          <div
+            class="flex gap-2 divide-x text-emerald-100 text-sm sm:text-base"
+          >
+            <a href="/">🏠</a>
+            <a href="/razred" class="pl-2 hover:underline hover:text-emerald-50"
+              >Razred</a
+            >
+            <a href="/imenik" class="pl-2 hover:underline hover:text-emerald-50"
+              >Imenik</a
+            >
+            <a href="/ocjene" class="pl-2 hover:underline hover:text-emerald-50"
+              >Ocjene</a
+            >
+            <a
+              href="/rezultati"
+              class="pl-2 hover:underline hover:text-emerald-50">Rezultati</a
+            >
+          </div>
+        </div>
       </footer>
     </div>
   </body>
