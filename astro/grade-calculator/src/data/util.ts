@@ -57,3 +57,7 @@ export const saveToLS = (dataToSave: StoreT) => {
     localStorage.setItem(LSKEY, JSON.stringify({ ...dataToSave }))
   }
 }
+
+export const deleteLS = () => {
+  localStorage.removeItem(LSKEY)
+}

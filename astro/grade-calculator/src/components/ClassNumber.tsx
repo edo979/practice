@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  deleteLS,
   getClasesFromLS,
   getClassNumberFromLS,
   getSubjects,
@@ -32,6 +33,10 @@ export default function ClassNumber() {
     setClassNumber(className)
   }
 
+  function handleDeleteLS() {
+    if (confirm('Sačuvani podaci će biti izbrisani!')) deleteLS()
+  }
+
   return (
     <div className="sm:flex sm:gap-4 md:gap-8">
       <section className="flex-1">
@@ -43,10 +48,15 @@ export default function ClassNumber() {
           <div className="mt-8">
             <h2 className="text-xl font-bold">Sačuvani podaci:</h2>
             <p>Na uređaju su sačuvani podaci za {classNumberFromLS} razred.</p>
+            <div className="text-right sm:text-left">
+              <button className="btn mt-2 bg-rose-400" onClick={handleDeleteLS}>
+                ❌Izbriši
+              </button>
+            </div>
           </div>
         )}
 
-        <div className="mt-8 text-lg text-right sm:text-xl sm:text-left">
+        <div className="mt-8 text-lg text-right sm:mt-16 sm:text-xl sm:text-left">
           <label htmlFor="subjects">Razred:</label>
 
           <select
