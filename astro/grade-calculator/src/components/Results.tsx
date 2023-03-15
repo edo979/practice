@@ -21,7 +21,7 @@ export default function Results() {
         Rezultati razreda
       </h1>
 
-      <section className="print print__landscape overflow-x-scroll">
+      <section className="print print__landscape overflow-x-auto">
         <h2 className="mt-8 text-xl font-bold md:text-3xl">Ocjene učenika:</h2>
         <table className="mt-2 table-fixed border-collapse border border-slate-400 text-sm">
           <thead>
@@ -72,7 +72,7 @@ export default function Results() {
       <section className="mt-4 print">
         <h2 className="text-xl font-bold md:text-3xl">Ocjene razreda:</h2>
 
-        <div className="overflow-x-scroll">
+        <div className="overflow-x-auto">
           <table className="w-max mt-2 table-auto border-collapse border border-slate-400 text-sm">
             <thead>
               <tr>
@@ -106,7 +106,7 @@ export default function Results() {
           </table>
         </div>
 
-        <div className="mt-4 overflow-x-scroll">
+        <div className="mt-4 overflow-x-auto">
           <h2 className="text-xl font-bold md:text-3xl">Ocjene predmeta:</h2>
           <table className="w-max mt-2 table-auto border-collapse border border-slate-400 text-sm">
             <thead>
