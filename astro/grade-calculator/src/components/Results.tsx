@@ -1,5 +1,6 @@
 import {
   getClassNumberFromLS,
+  getLangFromLS,
   getStudentsFromLS,
   getSubjects,
 } from '../data/util'
@@ -11,9 +12,34 @@ import {
 import '../style/print.css'
 
 export default function Results() {
-  //TODO add function to get subjects directly
   const subjects = getSubjects(getClassNumberFromLS())
   const students = getStudentsFromLS()
+  const lang = getLangFromLS()
+
+  function getShortSubjectName(subject: string, subjectIndex: number) {
+    if (subjectIndex === 2) {
+      let subjectName = ''
+
+      switch (lang) {
+        case 'nje':
+          subjectName = 'Njemački'
+          break
+        case 'tur':
+          subjectName = 'Turski'
+          break
+        case 'nt':
+          subjectName = 'DJ'
+          break
+
+        default:
+          subjectName = 'Njemački'
+      }
+
+      return subjectName.slice(0, 2)
+    }
+
+    return subject.slice(0, 2)
+  }
 
   return (
     <div className="px-2 print-page">
@@ -30,9 +56,9 @@ export default function Results() {
               <th className="border border-slate-400">Ime</th>
               <th className="border border-slate-400">Prezime</th>
 
-              {subjects.map((subject) => (
+              {subjects.map((subject, i) => (
                 <th key={subject} className="border border-slate-400 px-1">
-                  {subject.slice(0, 2)}
+                  {getShortSubjectName(subject, i)}
                 </th>
               ))}
 
@@ -140,8 +166,6 @@ export default function Results() {
           </table>
         </div>
       </section>
-
-      <section></section>
 
       <div className="text-right">
         <button className="mt-4 ml-auto btn" onClick={() => window.print()}>

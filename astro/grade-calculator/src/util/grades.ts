@@ -141,6 +141,7 @@ export const getSubjectsResult = (
 ) => {
   const formatResults = (result: number) =>
     `${result} (${getPercentage(result, students.length)})`
+
   const results = subjects.map((subject, i) => {
     const subjectResult = {
       5: subjetGradeCount(students, i, 5),
