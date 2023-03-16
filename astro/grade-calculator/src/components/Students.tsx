@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import {
+  getLangFromLS,
   getNextStudentID,
   getStudentsFromLS,
   saveToLS,
@@ -9,26 +10,32 @@ import {
 type StateT = {
   students: StudentsT[]
   id: number
+  lang: string
 }
 
 export default function Students() {
   const [state, setState] = useState<StateT>({
     id: getNextStudentID(),
     students: getStudentsFromLS(),
+    lang: getLangFromLS(),
   })
   const firstNameRef = useRef<HTMLInputElement>(null)
   const lastNameRef = useRef<HTMLInputElement>(null)
+  const langRef = useRef<HTMLSelectElement>(null)
   const idRef = useRef<HTMLInputElement>(null)
   const [isEditingStudents, setIsEditingStudens] = useState(false)
 
   const handleAddStudent = () => {
-    if (!firstNameRef.current || !lastNameRef.current) return
+    if (!firstNameRef.current || !lastNameRef.current || !langRef.current)
+      return
 
     const firstName = firstNameRef.current.value
     const lastName = lastNameRef.current.value
+    const lang = langRef.current.value
 
     setState((prev) => {
       return {
+        ...prev,
         id: prev.id + 1,
         students: [
           ...prev.students,
@@ -37,6 +44,7 @@ export default function Students() {
             firstName: firstName,
             lastName: lastName,
             grades: [],
+            lang,
           },
         ],
       }
@@ -84,6 +92,10 @@ export default function Students() {
       return { ...prev, students }
     })
   }
+
+  useEffect(() => {
+    saveToLS({ students: state.students })
+  }, [state])
 
   return (
     <div className="sm:flex sm:gap-16 lg:gap-32">
@@ -141,6 +153,23 @@ export default function Students() {
             placeholder="Prezime ili prvo slovo..."
           />
 
+          {state.lang === 'nt' && (
+            <div>
+              <label htmlFor="lang" className="mt-4 block">
+                Drugi strani jezik:
+              </label>
+              <select
+                name="lang"
+                id="lang"
+                className="w-full py-1 px-2 border-2 border-emerald-500 rounded focus-visible:outline-emerald-700"
+                ref={langRef}
+              >
+                <option value="nje">Njemački</option>
+                <option value="tur">Turski</option>
+              </select>
+            </div>
+          )}
+
           <div className="flex justify-end">
             <button type="submit" className="mt-4 btn">
               Dodaj učenika
@@ -181,7 +210,7 @@ export default function Students() {
               location.href = '/ocjene'
             }}
           >
-            ✔ Snimi imenik učenika
+            ✔ Snimi i Nastavi
           </button>
           <p className="mt-2 text-lg">Naredni korak 👉 Unos ocjena</p>
         </div>

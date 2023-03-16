@@ -31,7 +31,7 @@ export default function Grades() {
       (gradeRef.current.innerText =
         state.students[state.studentIndex].grades[
           state.subjectIndex
-        ].toString() || '')
+        ]?.toString() || '')
   })
 
   async function next(grade: number) {
@@ -116,6 +116,15 @@ export default function Grades() {
     )
   }
 
+  function getSubjectName() {
+    if (state.subjectIndex === 2) {
+      return state.students[state.studentIndex].lang === 'nje'
+        ? 'Njemački jezik'
+        : 'Turski jezik'
+    }
+    return subjects[state.subjectIndex]
+  }
+
   return (
     <>
       {isInputFinish ? (
@@ -162,7 +171,7 @@ export default function Grades() {
               <div className="flex items-top gap-4">
                 <p>Predmet:</p>
                 <p className="ml-auto font-semibold text-2xl">
-                  {subjects[state.subjectIndex]}
+                  {getSubjectName()}
                 </p>
                 <p ref={gradeRef} className="font-semibold text-5xl"></p>
               </div>

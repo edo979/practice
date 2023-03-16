@@ -5,6 +5,7 @@ export type StudentsT = {
   lastName: string
   firstName: string
   grades: number[]
+  lang: string
 }
 
 type StoreT = {
@@ -34,8 +35,8 @@ export const getClassNumberFromLS = () => {
 
 export const getLangFromLS = () => {
   const LS = localStorage.getItem(LSKEY)
-  if (LS) return (JSON.parse(LS) as StoreT).lang || null
-  return null
+  if (LS) return (JSON.parse(LS) as StoreT).lang || 'nje'
+  return 'nje'
 }
 
 export const getNextStudentID = () => {
