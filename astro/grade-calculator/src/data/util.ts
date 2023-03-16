@@ -11,6 +11,7 @@ type StoreT = {
   classNumber?: string
   subjects?: string[]
   students?: StudentsT[]
+  lang?: string
 }
 
 export const LSKEY = 'grade-calculator-ao79'

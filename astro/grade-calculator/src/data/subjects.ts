@@ -6,3 +6,9 @@ export const subjects = {
     9: ['Bosanski jezik', 'Engleski jezik', 'Njemački jezik'],
   } as Record<string, string[]>,
 }
+
+export enum Language {
+  nje = 'Njemački',
+  tur = 'Turski',
+  nt = 'Njemački i Turski',
+}

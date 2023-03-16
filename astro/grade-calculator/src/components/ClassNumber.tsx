@@ -11,30 +11,38 @@ export default function ClassNumber() {
   const classNumberFromLS = getClassNumberFromLS()
   const [classNumber, setClassNumber] = useState<string>(classNumberFromLS)
   const [subjects, setSubjects] = useState<string[]>()
-  const [error, setError] = useState(false)
-  const LSClases = getClasesFromLS()
+  const [error, setError] = useState({ classNumber: false, lang: false })
+  const [lang, setLang] = useState<string>()
 
   useEffect(() => {
     setSubjects(getSubjects(classNumber))
   }, [classNumber])
 
   function handleSetClassName() {
-    if (classNumber === '0') {
-      setError(true)
+    if (classNumber === '0' || lang === undefined) {
+      if (classNumber === '0')
+        setError((prev) => ({ ...prev, classNumber: true }))
+
+      if (lang === undefined) setError((prev) => ({ ...prev, lang: true }))
     } else {
-      setError(false)
-      saveToLS({ classNumber })
+      setError({ classNumber: false, lang: false })
+      saveToLS({ classNumber, lang })
       location.href = '/imenik'
     }
   }
 
   function handleClassChange(className: string) {
-    if (className !== '0') setError(false)
+    if (className !== '0') setError((prev) => ({ ...prev, classNumber: false }))
     setClassNumber(className)
   }
 
   function handleDeleteLS() {
     if (confirm('Sačuvani podaci će biti izbrisani!')) deleteLS()
+  }
+
+  function handleLanguage(value: string) {
+    setError((prev) => ({ ...prev, lang: false }))
+    setLang(value)
   }
 
   return (
@@ -62,7 +70,11 @@ export default function ClassNumber() {
           <select
             name="subjects"
             id="subjects"
-            className="w-44 ml-2 py-1 px-2 border-2 border-emerald-500 rounded focus-visible:outline-emerald-700"
+            className={`w-44 ml-2 py-1 px-2 border-2 rounded ${
+              error.classNumber
+                ? 'border-rose-400  focus-visible:outline-rose-700'
+                : 'border-emerald-500  focus-visible:outline-emerald-700'
+            }`}
             defaultValue={classNumber}
             onChange={(e) => handleClassChange(e.target.value)}
           >
@@ -72,15 +84,68 @@ export default function ClassNumber() {
             <option value="8">8</option>
             <option value="9">9</option>
           </select>
+
+          {error.classNumber && (
+            <p className="text-rose-500 text-sm">Izaberite razred!</p>
+          )}
         </div>
+
+        <fieldset
+          className={`mt-4 px-8 py-2 rounded border-2  text-right ${
+            error.lang ? 'border-rose-400' : 'border-emerald-500'
+          }`}
+        >
+          <legend className="px-2">Drugi strani jezik</legend>
+          <div className="mt-2">
+            <label htmlFor="nje" className="mr-2">
+              Njemački
+            </label>
+            <input
+              type="radio"
+              name="language"
+              id="nje"
+              value="nje"
+              onChange={(e) => handleLanguage(e.target.value)}
+            />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="tur" className="mr-2">
+              Turski
+            </label>
+            <input
+              type="radio"
+              name="language"
+              id="tur"
+              value="tur"
+              onChange={(e) => handleLanguage(e.target.value)}
+            />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="nt" className="mr-2">
+              Njemački i Turski
+            </label>
+            <input
+              type="radio"
+              name="language"
+              id="nt"
+              value="nt"
+              onChange={(e) => handleLanguage(e.target.value)}
+            />
+          </div>
+        </fieldset>
+
+        {error.lang && (
+          <p className="text-rose-500 text-sm text-right">
+            Izaberite strani jezik!
+          </p>
+        )}
       </section>
 
       {subjects && (
         <section className="mt-8 flex-1 sm:mt-5">
           <div className="flex flex-col items-end">
-            <p>Naredni korak 👉</p>
             <button className="mt-2 btn text-lg" onClick={handleSetClassName}>
-              🏃‍♀️ Imenik Učenika
+              💾 Spremi i Nastavi
             </button>
           </div>
 
@@ -88,11 +153,7 @@ export default function ClassNumber() {
             Predmeti za razred:
           </h2>
 
-          <div
-            className={`mt-2 p-4 rounded border ${
-              error ? 'border-rose-500' : 'border-emerald-500'
-            }`}
-          >
+          <div className="mt-2 p-4 rounded border border-emerald-500">
             <ul className="ml-4 text-lg list-disc">
               {subjects.map((sub) => (
                 <li key={sub} className="list-item">
@@ -101,7 +162,6 @@ export default function ClassNumber() {
               ))}
             </ul>
           </div>
-          {error && <p className="text-rose-500">Izaberite razred!</p>}
         </section>
       )}
     </div>
