@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
   deleteLS,
-  getClasesFromLS,
   getClassNumberFromLS,
   getLangFromLS,
   getSubjects,
@@ -38,7 +37,9 @@ export default function ClassNumber() {
   }
 
   function handleDeleteLS() {
-    if (confirm('Sačuvani podaci će biti izbrisani!')) deleteLS()
+    if (!confirm('Sačuvani podaci će biti izbrisani!')) return
+    deleteLS()
+    setSubjects(undefined)
   }
 
   function handleLanguage(value: string) {
