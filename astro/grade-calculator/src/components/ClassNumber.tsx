@@ -3,6 +3,7 @@ import {
   deleteLS,
   getClasesFromLS,
   getClassNumberFromLS,
+  getLangFromLS,
   getSubjects,
   saveToLS,
 } from '../data/util'
@@ -12,7 +13,7 @@ export default function ClassNumber() {
   const [classNumber, setClassNumber] = useState<string>(classNumberFromLS)
   const [subjects, setSubjects] = useState<string[]>()
   const [error, setError] = useState({ classNumber: false, lang: false })
-  const [lang, setLang] = useState<string>()
+  const [lang, setLang] = useState<string>(getLangFromLS() ?? '')
 
   useEffect(() => {
     setSubjects(getSubjects(classNumber))
@@ -106,6 +107,7 @@ export default function ClassNumber() {
               id="nje"
               value="nje"
               onChange={(e) => handleLanguage(e.target.value)}
+              checked={lang === 'nje'}
             />
           </div>
           <div className="mt-2">
@@ -118,6 +120,7 @@ export default function ClassNumber() {
               id="tur"
               value="tur"
               onChange={(e) => handleLanguage(e.target.value)}
+              checked={lang === 'tur'}
             />
           </div>
           <div className="mt-2">
@@ -130,6 +133,7 @@ export default function ClassNumber() {
               id="nt"
               value="nt"
               onChange={(e) => handleLanguage(e.target.value)}
+              checked={lang === 'nt'}
             />
           </div>
         </fieldset>

@@ -32,6 +32,12 @@ export const getClassNumberFromLS = () => {
   return '0'
 }
 
+export const getLangFromLS = () => {
+  const LS = localStorage.getItem(LSKEY)
+  if (LS) return (JSON.parse(LS) as StoreT).lang || null
+  return null
+}
+
 export const getNextStudentID = () => {
   const LS = localStorage.getItem(LSKEY)
   if (LS) {
