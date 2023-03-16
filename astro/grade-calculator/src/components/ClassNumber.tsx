@@ -39,7 +39,7 @@ export default function ClassNumber() {
   function handleDeleteLS() {
     if (!confirm('Sačuvani podaci će biti izbrisani!')) return
     deleteLS()
-    setSubjects(undefined)
+    setClassNumber('0')
   }
 
   function handleLanguage(value: string) {
@@ -77,7 +77,7 @@ export default function ClassNumber() {
                 ? 'border-rose-400  focus-visible:outline-rose-700'
                 : 'border-emerald-500  focus-visible:outline-emerald-700'
             }`}
-            defaultValue={classNumber}
+            value={classNumber}
             onChange={(e) => handleClassChange(e.target.value)}
           >
             <option value="0">Izaberi Razred</option>
