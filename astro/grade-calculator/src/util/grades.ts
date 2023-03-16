@@ -1,4 +1,4 @@
-import type { StudentsT } from '../data/util'
+import { getLangFromLS, StudentsT } from '../data/util'
 
 // STUDENTS CALCULATIOn
 export const getStudentAverage = (grades: number[]) => {
@@ -139,29 +139,63 @@ export const getSubjectsResult = (
   students: StudentsT[],
   subjects: string[]
 ) => {
+  const lang = getLangFromLS()
+
+  const results = subjects.map((subject, i) => {
+    let subjectName = subject
+
+    if (i === 2) {
+      if (lang === 'tur') subjectName = 'Turski'
+      if (lang === 'nje') subjectName = 'Njemački'
+    }
+
+    return calculateResults(subjectName, students, i)
+  })
+
+  if (lang === 'nt') {
+    const nje = calculateResults(
+      'Njemački',
+      students.filter((student) => student.lang === 'nje'),
+      2
+    )
+    const tur = calculateResults(
+      'Turski',
+      students.filter((student) => student.lang === 'tur'),
+      2
+    )
+
+    //  MUTATE ARRAY
+    results.splice(2, 1, nje, tur)
+    return results
+  } else {
+    return results
+  }
+}
+
+const calculateResults = (
+  subjectName: string,
+  students: StudentsT[],
+  subjectIndex: number
+) => {
   const formatResults = (result: number) =>
     `${result} (${getPercentage(result, students.length)})`
 
-  const results = subjects.map((subject, i) => {
-    const subjectResult = {
-      5: subjetGradeCount(students, i, 5),
-      4: subjetGradeCount(students, i, 4),
-      3: subjetGradeCount(students, i, 3),
-      2: subjetGradeCount(students, i, 2),
-      1: subjetGradeCount(students, i, 1),
-    }
+  const subjectResult = {
+    5: subjetGradeCount(students, subjectIndex, 5),
+    4: subjetGradeCount(students, subjectIndex, 4),
+    3: subjetGradeCount(students, subjectIndex, 3),
+    2: subjetGradeCount(students, subjectIndex, 2),
+    1: subjetGradeCount(students, subjectIndex, 1),
+  }
 
-    return [
-      subject,
-      formatResults(subjectResult[5]),
-      formatResults(subjectResult[4]),
-      formatResults(subjectResult[3]),
-      formatResults(subjectResult[2]),
-      formatResults(subjectResult[1]),
-      formatResults(students.length - subjectResult[1]),
-      subjectAverage(students, i),
-    ]
-  })
-
-  return results
+  return [
+    subjectName,
+    formatResults(subjectResult[5]),
+    formatResults(subjectResult[4]),
+    formatResults(subjectResult[3]),
+    formatResults(subjectResult[2]),
+    formatResults(subjectResult[1]),
+    formatResults(students.length - subjectResult[1]),
+    subjectAverage(students, subjectIndex),
+  ]
 }
