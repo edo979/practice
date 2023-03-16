@@ -14,6 +14,7 @@ type StateT = {
 }
 
 export default function Students() {
+  const langLS = getLangFromLS()
   const [state, setState] = useState<StateT>({
     id: getNextStudentID(),
     students: getStudentsFromLS(),
@@ -26,12 +27,11 @@ export default function Students() {
   const [isEditingStudents, setIsEditingStudens] = useState(false)
 
   const handleAddStudent = () => {
-    if (!firstNameRef.current || !lastNameRef.current || !langRef.current)
-      return
+    if (!firstNameRef.current || !lastNameRef.current) return
 
     const firstName = firstNameRef.current.value
     const lastName = lastNameRef.current.value
-    const lang = langRef.current.value
+    const lang = langRef.current?.value ?? langLS
 
     setState((prev) => {
       return {
