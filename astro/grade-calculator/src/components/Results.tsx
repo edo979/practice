@@ -43,7 +43,7 @@ export default function Results() {
 
   return (
     <div className="print-page">
-      <h1 className="mt-4 text-2xl font-bold md:text-5xl md:mt-8">
+      <h1 className="no-print mt-4 text-2xl font-bold md:text-5xl md:mt-8">
         Rezultati razreda
       </h1>
 

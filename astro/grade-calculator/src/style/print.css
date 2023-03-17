@@ -18,11 +18,15 @@
   }
 }
 
-.print {
+.print__landscape {
+  page: wide;
   page-break-after: always;
   break-after: page;
 }
 
-.print__landscape {
-  page: wide;
+@media print {
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
 }
