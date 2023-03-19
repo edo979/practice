@@ -1,3 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    background-image: radial-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+  }
+
+  .bg-scissors {
+    background-image: linear-gradient(hsl(39, 89%, 49%), hsl(40, 84%, 53%));
+  }
+  .bg-paper {
+    background-image: linear-gradient(hsl(230, 89%, 62%), hsl(230, 89%, 65%));
+  }
+  .bg-rock {
+    background-image: linear-gradient(hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+  }
+}
