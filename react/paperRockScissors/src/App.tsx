@@ -8,7 +8,7 @@ function App() {
       </section>
 
       <section className="mt-8 py-8 border">
-        <GameButton shadowColor="bg-yellow-700" icon="scissors" />
+        <GameButton buttonType="rock" />
       </section>
     </div>
   )
