@@ -1,11 +1,16 @@
 type GameButtonProps = {
   buttonType: 'scissors' | 'paper' | 'rock'
+  handleUserPick: (value: string) => void
 }
 
-export default function GameButton({ buttonType }: GameButtonProps) {
+export default function GameButton({
+  buttonType,
+  handleUserPick,
+}: GameButtonProps) {
   return (
     <button
       className={`w-32 relative aspect-square flex items-center justify-center rounded-full bg-${buttonType}`}
+      onClick={() => handleUserPick(buttonType)}
     >
       <div
         className={`w-full top-1.5 left-0 absolute -z-20 aspect-square rounded-full ${
