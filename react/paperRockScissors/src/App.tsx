@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import GameButton from './components/GameButton'
 
 type StateT = {
@@ -13,6 +13,14 @@ function App() {
   function handleUserPick(value: string) {
     setState((prev) => ({ ...prev, userPick: value }))
   }
+
+  useEffect(() => {
+    if (state.userPick === undefined || state.housePick !== undefined) return
+
+    setTimeout(() => {
+      setState((prev) => ({ ...prev, housePick: 'rock' }))
+    }, 1000)
+  }, [state])
 
   return (
     <div className="max-w-xs mx-auto">
