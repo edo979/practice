@@ -30,7 +30,9 @@ function App() {
         </div>
 
         <div
-          className={classNames('absolute top-0 right-0 isolate', {
+          className={classNames('absolute top-0 isolate', {
+            'right-0': state.userPick !== 'scissors',
+            'right-[unset] left-0': state.userPick === 'scissors',
             hidden: state.userPick && state.userPick !== 'scissors',
           })}
         >
@@ -38,7 +40,9 @@ function App() {
         </div>
 
         <div
-          className={classNames('absolute bottom-0 left-20 isolate', {
+          className={classNames('absolute bottom-0 isolate', {
+            'left-20': state.userPick === undefined,
+            'bottom-[unset] top-0 left-0': state.userPick === 'rock',
             hidden: state.userPick && state.userPick !== 'rock',
           })}
         >
