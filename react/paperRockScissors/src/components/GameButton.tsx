@@ -30,7 +30,11 @@ export default function GameButton({
         {/* center */}
         <div className="w-full aspect-square absolute left-0 flex items-center justify-center rounded-full bg-transparent">
           {/* icon */}
-          <svg width={50} height={58}>
+          <svg
+            width={50}
+            height={58}
+            className={buttonType === 'rock' ? 'mt-4' : ''}
+          >
             <use xlinkHref={`#${buttonType}`}></use>
           </svg>
         </div>
