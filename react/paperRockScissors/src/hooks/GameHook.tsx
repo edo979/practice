@@ -30,7 +30,11 @@ export function GameContextProvider({ children }: { children: ReactNode }) {
 
   async function handleHousePick() {
     await new Promise((r) => setTimeout(r, 1000))
-    setState((prev) => ({ ...prev, housePick: 'rock' }))
+    const gameCards: ButtonT[] = ['paper', 'rock', 'scissors']
+    setState((prev) => ({
+      ...prev,
+      housePick: gameCards[~~(gameCards.length * Math.random())],
+    }))
   }
 
   function getWiner() {
