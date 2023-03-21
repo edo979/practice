@@ -5,12 +5,13 @@ export type ButtonT = 'scissors' | 'paper' | 'rock'
 type GameStateT = {
   userPick?: ButtonT
   housePick?: ButtonT
-  showHousePick: boolean
-  winer?: 0 | 1 | 2
+  showResults: boolean
 }
 
 type GameContextT = GameStateT & {
   handleUserPick: (value: ButtonT) => void
+  getWiner: () => 0 | 1 | 2
+  resetGame: () => void
 }
 
 const GameContext = createContext({} as GameContextT)
@@ -20,33 +21,33 @@ export function useGameData() {
 }
 
 export function GameContextProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<GameStateT>({ showHousePick: false })
+  const [state, setState] = useState<GameStateT>({ showResults: false })
 
   function handleUserPick(value: ButtonT) {
-    setState((prev) => ({ ...prev, userPick: value, showHousePick: true }))
+    setState((prev) => ({ ...prev, userPick: value, showResults: true }))
     handleHousePick()
   }
 
   async function handleHousePick() {
     await new Promise((r) => setTimeout(r, 1000))
     setState((prev) => ({ ...prev, housePick: 'rock' }))
-    setGameWiner()
   }
 
-  function setGameWiner() {
-    setState((prev) => ({
-      ...prev,
-      winer: winerIs(prev.userPick, prev.housePick),
-    }))
-  }
-
-  function winerIs(userPick?: ButtonT, housePick?: ButtonT) {
-    if (userPick === housePick) return 0
-    if (userPick === 'paper' && housePick === 'rock') return 1
-    if (userPick === 'scissors' && housePick === 'paper') return 1
-    if (userPick === 'rock' && housePick === 'scissors') return 1
+  function getWiner() {
+    if (state.userPick === state.housePick) return 0
+    if (state.userPick === 'paper' && state.housePick === 'rock') return 1
+    if (state.userPick === 'scissors' && state.housePick === 'paper') return 1
+    if (state.userPick === 'rock' && state.housePick === 'scissors') return 1
 
     return 2
+  }
+
+  function resetGame() {
+    setState({
+      housePick: undefined,
+      userPick: undefined,
+      showResults: false,
+    })
   }
 
   return (
@@ -55,8 +56,9 @@ export function GameContextProvider({ children }: { children: ReactNode }) {
         userPick: state.userPick,
         housePick: state.housePick,
         handleUserPick,
-        showHousePick: state.showHousePick,
-        winer: state.winer,
+        showResults: state.showResults,
+        getWiner,
+        resetGame,
       }}
     >
       {children}

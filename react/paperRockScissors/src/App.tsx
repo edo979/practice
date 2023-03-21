@@ -4,9 +4,9 @@ import { useGameData } from './hooks/GameHook'
 
 function App() {
   let gameWindow: React.ReactNode | undefined = undefined
-  const { showHousePick } = useGameData()
+  const { showResults } = useGameData()
 
-  if (showHousePick) {
+  if (showResults) {
     gameWindow = <Compare />
   } else {
     gameWindow = <PickButton />

@@ -1,12 +1,17 @@
+import { useEffect, useState } from 'react'
 import { useGameData } from '../hooks/GameHook'
 import Button from './Button'
 
 export default function Compare() {
-  const { userPick, housePick, winer } = useGameData()
+  const { userPick, housePick, getWiner, resetGame } = useGameData()
+  if (!userPick) return null
+  const [winer, setWiner] = useState<0 | 1 | 2>()
 
-  if (!userPick) {
-    return null
-  }
+  useEffect(() => {
+    if (!housePick) return
+
+    setWiner(getWiner())
+  }, [housePick])
 
   return (
     <div>
@@ -33,7 +38,10 @@ export default function Compare() {
           <p className="text-5xl uppercase text-slate-50">
             {winer ? (winer === 1 ? 'Pobjeda' : 'Poraz') : 'Nerješeno'}
           </p>
-          <button className="mt-5 py-4 px-14 rounded-md text-neutralDark uppercase tracking-widest bg-slate-50">
+          <button
+            className="mt-5 py-4 px-14 rounded-md text-neutralDark uppercase tracking-widest bg-slate-50"
+            onClick={resetGame}
+          >
             Igraj ponovo
           </button>
         </section>
