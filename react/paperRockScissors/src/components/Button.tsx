@@ -1,4 +1,4 @@
-export type ButtonT = 'scissors' | 'paper' | 'rock'
+import { ButtonT } from '../hooks/GameHook'
 
 type GameButtonProps = {
   buttonType: ButtonT

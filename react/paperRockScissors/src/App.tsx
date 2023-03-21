@@ -1,34 +1,26 @@
-import { useEffect, useState } from 'react'
-import { ButtonT } from './components/Button'
 import Compare from './components/Compare'
 import PickButton from './components/PickButton'
-
-type StateT = {
-  userPick?: ButtonT
-  housePick?: ButtonT
-  showHousePick: boolean
-}
+import { useGameData } from './hooks/GameHook'
 
 function App() {
-  const [state, setState] = useState<StateT>({ showHousePick: false })
+  // const [state, setState] = useState<StateT>({ showHousePick: false })
   let gameWindow: React.ReactNode | undefined = undefined
+  const { userPick, housePick, handleUserPick, showHousePick } = useGameData()
 
-  function handleUserPick(value: ButtonT) {
-    setState((prev) => ({ ...prev, userPick: value, showHousePick: true }))
-  }
+  // function handleUserPick(value: ButtonT) {
+  //   setState((prev) => ({ ...prev, userPick: value, showHousePick: true }))
+  // }
 
-  useEffect(() => {
-    if (state.userPick === undefined) return
+  // useEffect(() => {
+  //   if (state.userPick === undefined) return
 
-    setTimeout(() => {
-      setState((prev) => ({ ...prev, housePick: 'rock' }))
-    }, 1000)
-  }, [state])
+  //   setTimeout(() => {
+  //     setState((prev) => ({ ...prev, housePick: 'rock' }))
+  //   }, 1000)
+  // }, [state])
 
-  if (state.showHousePick) {
-    gameWindow = (
-      <Compare userPick={state.userPick!} housePick={state.housePick} />
-    )
+  if (showHousePick) {
+    gameWindow = <Compare userPick={userPick!} housePick={housePick} />
   } else {
     gameWindow = <PickButton handleUserPick={handleUserPick} />
   }
