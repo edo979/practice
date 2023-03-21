@@ -1,10 +1,9 @@
-import Button, { ButtonT } from './Button'
+import { useGameData } from '../hooks/GameHook'
+import Button from './Button'
 
-export default function PickButton({
-  handleUserPick,
-}: {
-  handleUserPick: (valu: ButtonT) => void
-}) {
+export default function PickButton() {
+  const { handleUserPick } = useGameData()
+
   return (
     <section className="mt-8 h-72 w-72 mx-auto relative">
       <div className="absolute top-0 left-0 isolate">

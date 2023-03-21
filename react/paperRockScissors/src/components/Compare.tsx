@@ -1,11 +1,13 @@
-import Button, { ButtonT } from './Button'
+import { useGameData } from '../hooks/GameHook'
+import Button from './Button'
 
-type ComparePropsT = {
-  userPick: ButtonT
-  housePick?: ButtonT
-}
+export default function Compare() {
+  const { userPick, housePick } = useGameData()
 
-export default function Compare({ userPick, housePick }: ComparePropsT) {
+  if (!userPick) {
+    return null
+  }
+
   return (
     <div className="relative w-72 mx-auto mt-8">
       <div className="absolute left-0 top-0">
