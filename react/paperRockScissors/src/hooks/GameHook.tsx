@@ -6,6 +6,7 @@ type GameStateT = {
   userPick?: ButtonT
   housePick?: ButtonT
   showHousePick: boolean
+  winer?: 0 | 1 | 2
 }
 
 type GameContextT = GameStateT & {
@@ -27,13 +28,25 @@ export function GameContextProvider({ children }: { children: ReactNode }) {
   }
 
   async function handleHousePick() {
-    await new Promise(() => {
-      setTimeout(() => {
-        setState((prev) => ({ ...prev, housePick: 'rock' }))
-      }, 1000)
-    })
-
+    await new Promise((r) => setTimeout(r, 1000))
     setState((prev) => ({ ...prev, housePick: 'rock' }))
+    setGameWiner()
+  }
+
+  function setGameWiner() {
+    setState((prev) => ({
+      ...prev,
+      winer: winerIs(prev.userPick, prev.housePick),
+    }))
+  }
+
+  function winerIs(userPick?: ButtonT, housePick?: ButtonT) {
+    if (userPick === housePick) return 0
+    if (userPick === 'paper' && housePick === 'rock') return 1
+    if (userPick === 'scissors' && housePick === 'paper') return 1
+    if (userPick === 'rock' && housePick === 'scissors') return 1
+
+    return 2
   }
 
   return (
@@ -43,6 +56,7 @@ export function GameContextProvider({ children }: { children: ReactNode }) {
         housePick: state.housePick,
         handleUserPick,
         showHousePick: state.showHousePick,
+        winer: state.winer,
       }}
     >
       {children}

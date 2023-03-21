@@ -2,7 +2,7 @@ import { useGameData } from '../hooks/GameHook'
 import Button from './Button'
 
 export default function Compare() {
-  const { userPick, housePick } = useGameData()
+  const { userPick, housePick, winer } = useGameData()
 
   if (!userPick) {
     return null
@@ -28,12 +28,16 @@ export default function Compare() {
         </div>
       </section>
 
-      <section className="mt-16 flex flex-col items-center">
-        <p className="text-5xl uppercase text-slate-50">Pobjeda</p>
-        <button className="mt-5 py-4 px-14 rounded-md text-neutralDark uppercase tracking-widest bg-slate-50">
-          Igraj ponovo
-        </button>
-      </section>
+      {winer !== undefined && (
+        <section className="mt-16 flex flex-col items-center">
+          <p className="text-5xl uppercase text-slate-50">
+            {winer ? (winer === 1 ? 'Pobjeda' : 'Poraz') : 'Nerješeno'}
+          </p>
+          <button className="mt-5 py-4 px-14 rounded-md text-neutralDark uppercase tracking-widest bg-slate-50">
+            Igraj ponovo
+          </button>
+        </section>
+      )}
     </div>
   )
 }
