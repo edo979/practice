@@ -1,10 +1,10 @@
 export default function GradientBackground() {
   return (
     <div
-      className="w-60 aspect-square rounded-full"
+      className="w-64 aspect-square m-0 p-0  absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[49%] rounded-full -z-10"
       style={{
         backgroundImage:
-          'radial-gradient(circle at center, hsla(0, 0%, 100%, 25%) 0 40%, hsla(0, 0%, 100%, 15%) 40% 55%, hsla(0, 0%, 100%, 5%) 55% 100%)',
+          'radial-gradient(circle at center, hsla(0, 0%, 100%, 13%) 0 48%, hsla(0, 0%, 100%, 6%) 48% 60%, hsla(0, 0%, 100%, 3%) 60% 100%)',
       }}
     ></div>
   )

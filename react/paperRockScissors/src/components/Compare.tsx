@@ -19,13 +19,19 @@ export default function Compare() {
       <section className="relative w-72 mx-auto mt-8">
         <div className="flex justify-between gap-8">
           <div className="basis-1/2 flex flex-col items-center">
-            <Button buttonType={userPick} />
+            <div className="relative">
+              {winer === 1 && <GradientBackground />}
+              <Button buttonType={userPick} />
+            </div>
             <p className="mt-4 text-slate-50 uppercase">Vaš izbor</p>
           </div>
 
           <div className="basis-1/2 flex flex-col items-center justify-between">
             {housePick ? (
-              <Button buttonType={housePick} />
+              <div className="relative">
+                {winer === 2 && <GradientBackground />}
+                <Button buttonType={housePick} />
+              </div>
             ) : (
               <div className="w-24 h-24 my-auto rounded-full bg-slate-900"></div>
             )}
@@ -33,8 +39,6 @@ export default function Compare() {
           </div>
         </div>
       </section>
-
-      <GradientBackground />
 
       {winer !== undefined && (
         <section className="mt-12 flex flex-col items-center">
