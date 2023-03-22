@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useGameData } from '../hooks/GameHook'
 import Button from './Button'
+import GradientBackground from './GradientBackground'
 
 export default function Compare() {
   const { userPick, housePick, getWiner, resetGame } = useGameData()
@@ -32,6 +33,8 @@ export default function Compare() {
           </div>
         </div>
       </section>
+
+      <GradientBackground />
 
       {winer !== undefined && (
         <section className="mt-12 flex flex-col items-center">
