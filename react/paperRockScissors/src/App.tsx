@@ -38,8 +38,8 @@ function App() {
       </div>
 
       {showModal && (
-        <section className="absolute inset-0 flex items-center justify-center bg-slate-900/80">
-          <div className="w-full p-4 pb-8 max-w-xs rounded-md bg-slate-50">
+        <section className="fixed inset-0 z-50 grid place-content-center bg-slate-900/80">
+          <div className="p-4 pb-8 overflow-y-auto max-w-xs mx-auto rounded-md bg-slate-50">
             <div className="mr-2 mt-2 mb-8 flex justify-end">
               <button onClick={() => setShowModal(false)}>
                 <svg
@@ -52,7 +52,7 @@ function App() {
               </button>
             </div>
 
-            <img src="images/image-rules.svg" alt="" />
+            <img src="images/image-rules.svg" />
           </div>
         </section>
       )}
