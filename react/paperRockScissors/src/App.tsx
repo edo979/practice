@@ -16,16 +16,18 @@ function App() {
 
   return (
     <>
-      <div className="max-w-xs mx-auto pt-8">
-        <section className="p-4 border-2 border-neutralBlue50 rounded-md">
-          <h1 className=" text-xl text-white font-bold uppercase text-center">
+      <div className="max-w-xs mx-auto pt-8 grid grid-rows-[auto_auto_auto] grid-cols-3 sm:max-w-2xl">
+        <section className="p-4 border-2 col-span-3 border-neutralBlue50 rounded-md sm:justify-self-center">
+          <h1 className=" text-xl text-white font-bold uppercase text-center sm:text-3xl">
             Papir - kamen - makaze
           </h1>
         </section>
 
-        <section className="min-h-[400px]">{gameWindow}</section>
+        <section className="min-h-[400px] col-span-3 sm:min-h-[320px] sm:mx-8 sm:col-start-1 sm:row-start-2">
+          {gameWindow}
+        </section>
 
-        <section className="mt-6 flex justify-center ">
+        <section className="col-start-2 justify-self-center sm:mt-0 sm:col-start-3 sm:place-self-end">
           <button
             className="uppercase py-2 px-4 rounded-md border-2 border-neutralBlue50 bg-transparent text-neutralBlue50 hover:border-slate-50 hover:text-slate-50"
             onClick={() => setShowModal(true)}
