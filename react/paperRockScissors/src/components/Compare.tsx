@@ -15,7 +15,7 @@ export default function Compare() {
   }, [housePick])
 
   return (
-    <div className="mt-8 grid grid-rows-[auto_auto] grid-cols-2 sm:grid-rows-1 sm:grid-cols-3">
+    <div className="grid grid-rows-[auto_auto] grid-cols-2 sm:grid-rows-1 sm:grid-cols-3 sm:mt-8">
       <div className="justify-self-start flex flex-col items-center">
         <div className="relative">
           {winer === 1 && <GradientBackground />}

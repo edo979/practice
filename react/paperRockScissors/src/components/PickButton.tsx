@@ -5,7 +5,7 @@ export default function PickButton() {
   const { handleUserPick } = useGameData()
 
   return (
-    <section className="mt-8 w-72 aspect-square mx-auto relative md:w-96">
+    <section className="w-72 aspect-square mx-auto relative">
       <div className="absolute top-0 left-0 isolate">
         <Button buttonType="paper" handleUserPick={handleUserPick} />
       </div>
