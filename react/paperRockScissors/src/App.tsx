@@ -52,7 +52,7 @@ function App() {
               </button>
             </div>
 
-            <img src="images/image-rules.svg" />
+            <img src="images/image-rules.png" />
           </div>
         </section>
       )}
