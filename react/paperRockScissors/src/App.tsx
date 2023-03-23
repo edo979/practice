@@ -16,14 +16,14 @@ function App() {
 
   return (
     <>
-      <div className="max-w-xs mx-auto pt-8 grid grid-rows-[auto_auto_auto] grid-cols-3 sm:max-w-2xl">
+      <div className="max-w-xs mx-auto pt-8 grid grid-rows-[auto_auto_auto] grid-cols-3 sm:max-w-2xl sm:px-8 md:max-w-3xl">
         <section className="p-4 border-2 col-span-3 border-neutralBlue50 rounded-md sm:justify-self-center">
           <h1 className=" text-xl text-white font-bold uppercase text-center sm:text-3xl">
             Papir - kamen - makaze
           </h1>
         </section>
 
-        <section className="min-h-[400px] col-span-3 sm:min-h-[320px] sm:mx-8 sm:col-start-1 sm:row-start-2">
+        <section className="min-h-[400px] col-span-3 sm:min-h-[420px] sm:col-start-1 sm:row-start-2">
           {gameWindow}
         </section>
 
