@@ -2,16 +2,22 @@
   class="min-h-screen w-full -mt-16 pt-20 grid from-primary to-secondary bg-gradient-to-br text-primary-content"
 >
   <div
-    class="container z-0 mx-auto px-4 flex items-center col-start-1 row-start-1 place-self-center flex-col gap-1 sm:flex-row md:gap-12 md:px-8 lg:px-12"
+    class="container z-0 mx-auto px-4 flex items-center col-start-1 row-start-1 place-self-center flex-col gap-10 sm:flex-row sm:justify-between sm:gap-4 md:px-4 lg:px-12"
   >
-    <div class="prose text-inherit sm:w-1/2">
-      <h1 class="text-inherit">Pravim internet stranice</h1>
+    <div class="prose w-full text-inherit sm:w-1/2 lg:prose-xl">
+      <h1 class="text-inherit">Internet stranice po vašoj mjeri</h1>
       <p class="lead text-inherit">
-        Trebate internet stranicu? Došli ste na pravo mjesto. Jeftino, sigurno i
-        moderno.
+        Kreirajte svoju internet stranicu na najbolji mogući način.
       </p>
     </div>
-    <div class="bg-accent w-full h-96 sm:w-1/2"></div>
+    <picture class="w-full mb-20 sm:mb-0">
+      <source srcset="public/images/hero.png" media="(min-width: 950px)" />
+      <img
+        src="public/images/hero-mob.png"
+        alt="internet stranica"
+        class="w-full"
+      />
+    </picture>
   </div>
 
   <svg
