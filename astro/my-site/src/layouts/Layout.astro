@@ -18,12 +18,12 @@ const { title = 'Moja Stranica' } = Astro.props
   <body>
     <div class="container mx-auto">
       <MainNavigation />
-
-      <slot name="before-main" />
-
-      <main>
-        <slot />
-      </main>
     </div>
+
+    <slot name="before-main" />
+
+    <main class="container mx-auto">
+      <slot />
+    </main>
   </body>
 </html>
