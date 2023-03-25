@@ -1,11 +1,10 @@
 ---
+import Hero from '../components/Hero.astro'
 import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
-  <main>
-    <header class="prose">
-      <h1 class="text-base-content">Jah</h1>
-    </header>
-  </main>
+  <Hero slot="before-main" />
+
+  <div class="h-60">content</div>
 </Layout>
