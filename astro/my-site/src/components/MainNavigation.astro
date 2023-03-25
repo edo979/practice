@@ -1,5 +1,6 @@
 <div
-  class="h-16 sticky top-0 z-30 bg-opacity-90 backdrop-blur text-primary-content"
+  class="h-16 sticky top-0 z-30 bg-opacity-90 backdrop-blur text-primary-content transition-all duration-100"
+  id="main-nav-container"
 >
   <nav class="navbar w-full" aria-label="Glavna navigacija">
     <div class="navbar-start">
@@ -41,3 +42,26 @@
     </div>
   </nav>
 </div>
+
+<script>
+  const navEl = document.getElementById('main-nav-container') as HTMLElement
+  let isPageScroll = false
+
+  document.addEventListener('scroll', (e) => {
+    if (window.scrollY < 25) {
+      if (isPageScroll) {
+        navEl.classList.remove('bg-base-100', 'text-base-content', 'shadow-sm')
+        navEl.classList.add('text-primary-content')
+        isPageScroll = false
+      }
+    }
+
+    if (window.scrollY > 25) {
+      if (!isPageScroll) {
+        navEl.classList.remove('text-primary-content')
+        navEl.classList.add('bg-base-100', 'text-base-content', 'shadow-sm')
+        isPageScroll = true
+      }
+    }
+  })
+</script>
