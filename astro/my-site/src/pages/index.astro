@@ -10,47 +10,61 @@ import Layout from '../layouts/Layout.astro'
     class="max-w-screen-xl -mt-24 p-8 glass text-primary-content bg-opacity-60 sm:mx-4 sm:rounded-box lg:mx-12 xl:mx-auto"
   >
     <h2
-      class="text-2xl mb-16 text-center uppercase font-light tracking-wider md:text-3xl"
+      class="text-2xl mb-24 text-center uppercase font-light tracking-wider md:text-3xl"
     >
       Osobine i prednosti
     </h2>
+
+    <!-- Boxes Section -->
 
     <div
       class="flex flex-col gap-8 text-base-content sm:flex-row sm:flex-wrap sm:justify-center lg:flex-nowrap"
     >
       <div
-        class="p-8 prose bg-base-100 rounded-box shadow text-inherit sm:flex-1 lg:prose-lg"
+        class="p-8 prose relative bg-base-100 rounded-box shadow text-inherit sm:flex-1 lg:prose-lg"
       >
-        <h3>Brzo</h3>
+        <img
+          src="public/images/cloud.svg"
+          alt="clouds"
+          class="h-32 w-auto absolute -top-10 right-10 lg:h-36 lg:-top-16"
+        />
+        <h3>Stranice iz oblaka</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-          quos maiores quod assumenda reprehenderit delectus magnam aliquid
-          minima quasi laudantium perspiciatis error eaque sit, ducimus dolorem
-          magni ipsum repudiandae quas!
+          Stranice se snimaju pomoću servisa koji rade sa podacima spremljenim u
+          Oblaku (AWS - Amazon Web Services). Na ovaj način stranica je uvijek
+          dostupna i pregledna u svako doba.
         </p>
       </div>
 
       <div
-        class="p-8 prose bg-base-100 rounded-box shadow text-inherit sm:flex-1 lg:prose-lg"
+        class="p-8 prose bg-base-100 relative rounded-box shadow text-inherit sm:flex-1 lg:prose-lg"
       >
-        <h3>Brzo</h3>
+        <img
+          src="public/images/playButton.svg"
+          alt="play button"
+          class="h-32 w-auto absolute -top-10 right-10 lg:h-36 lg:-top-16"
+        />
+        <h3>Brzo i pouzdano</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-          quos maiores quod assumenda reprehenderit delectus magnam aliquid
-          minima quasi laudantium perspiciatis error eaque sit, ducimus dolorem
-          magni ipsum repudiandae quas!
+          Stranice se brzo učitavaju i uvijek su dostupne bez obzira gdje se
+          nalazite i koji uređaj koristite za pregled stranice. Stranice se
+          prilagođavaju svim ekranima od mobitela do televizora.
         </p>
       </div>
 
       <div
-        class="p-8 prose bg-base-100 rounded-box shadow text-inherit sm:flex-auto lg:flex-1 lg:prose-lg"
+        class="p-8 prose relative bg-base-100 rounded-box shadow text-inherit sm:flex-auto lg:flex-1 lg:prose-lg"
       >
-        <h3>Brzo</h3>
+        <img
+          src="public/images/setting.svg"
+          alt="setting"
+          class="h-32 w-auto absolute -top-10 right-10 lg:h-36 lg:-top-16"
+        />
+        <h3>Odaberite izgled</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-          quos maiores quod assumenda reprehenderit delectus magnam aliquid
-          minima quasi laudantium perspiciatis error eaque sit, ducimus dolorem
-          magni ipsum repudiandae quas!
+          Stranice se mogu prilagoditi vašim potrebama i željama. Izaberite
+          boje, pošaljite slike i tekst koji želite. Nakon spajanja svih
+          sastojaka, dobićete stranicu koju žellite.
         </p>
       </div>
     </div>
