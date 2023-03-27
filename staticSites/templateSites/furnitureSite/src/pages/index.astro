@@ -5,5 +5,33 @@ import MainLayout from '../layouts/MainLayout.astro'
 
 <MainLayout>
   <Hero slot="hero" />
-  <main class="container mx-auto">content</main>
+  <main>
+    <section class="bg-base-200">
+      <div
+        class="container mx-auto flex flex-col items-center gap-4 sm:flex-row"
+      >
+        <div class="flex items-center gap-4">
+          <div class="h-16 w-16 bg-primary"></div>
+          <div>
+            <h2 class="text-lg font-semibold">Isporuka</h2>
+            <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="h-16 w-16 bg-primary"></div>
+          <div>
+            <h2 class="text-lg font-semibold">Isporuka</h2>
+            <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="h-16 w-16 bg-primary"></div>
+          <div>
+            <h2 class="text-lg font-semibold">Isporuka</h2>
+            <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </MainLayout>
