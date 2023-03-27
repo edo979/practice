@@ -1,9 +1,9 @@
 ---
+import Hero from '../components/Hero.astro'
 import MainLayout from '../layouts/MainLayout.astro'
 ---
 
 <MainLayout>
-  <div class="prose">
-    <h1>jah</h1>
-  </div>
+  <Hero slot="hero" />
+  <main class="container mx-auto">content</main>
 </MainLayout>
