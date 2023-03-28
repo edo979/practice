@@ -1,5 +1,16 @@
+---
+export interface Props {
+  margins?: string
+}
+
+const { margins } = Astro.props
+---
+
 <div
-  class="container mx-auto mt-8 flex flex-col gap-10 sm:h-80 sm:gap-8 sm:mt-16 sm:flex-row sm:items-stretch"
+  class:list={[
+    'container mx-auto flex flex-col gap-10 sm:gap-8 sm:flex-row sm:items-stretch',
+    margins,
+  ]}
 >
   <slot />
 </div>

@@ -15,9 +15,10 @@ const { title, content, imgSrc } = Astro.props
       class="w-full h-72 object-cover sm:h-72 sm:aspect-square sm:rounded-lg md:h-80"
     />
   </figure>
-  <div class="p-4 text-center">
-    <h3 class="text-lg uppercase font-semibold md:text-xl">{title}</h3>
 
-    {content && <p>{content}</p>}
+  <div class="p-4 text-center">
+    <h3 class="text-lg uppercase font-bold md:text-xl">{title}</h3>
+
+    {content && <p class="text-lg">{content}</p>}
   </div>
 </div>

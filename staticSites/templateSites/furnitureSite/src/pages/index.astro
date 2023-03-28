@@ -76,7 +76,7 @@ import MainLayout from '../layouts/MainLayout.astro'
         content="Naši najbolji i najprecizniji proizvodi."
       />
 
-      <BoxWraper>
+      <BoxWraper margins="mt-8 sm:mt-16">
         <div>
           <img
             src="public/images/wd-4-md.jpg"
@@ -135,10 +135,37 @@ import MainLayout from '../layouts/MainLayout.astro'
         title="Katalog ponude"
         content="Spektar naše ponude je veliki"
       />
-      <BoxWraper>
+      <BoxWraper margins="mt-8 sm:mt-16">
         <Card title="Kuhinje" imgSrc="kitchen-3-md.jpg" />
         <Card title="Ormari" imgSrc="wd-1-md.jpg" />
         <Card title="Sobe" imgSrc="wd-2-md.jpg" />
+      </BoxWraper>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="w-full py-16 bg-base-100 sm:py-28">
+      <SectionTitle
+        title="Zadnji proizvodi"
+        content="Pratimo nove standarde i trendove"
+      />
+
+      <BoxWraper margins="mt-8 sm:mt-16">
+        <Card
+          title="Kuhinje"
+          imgSrc="wd-3-md.jpg"
+          content="Ormar za dječiju sobu"
+        />
+        <Card
+          title="Ormari"
+          imgSrc="wd-4-md.jpg"
+          content="Moderna i udobna spavaća soba"
+        />
+        <Card
+          title="Sobe"
+          imgSrc="kitchen-2-md.jpg"
+          content="Funkcionalna i korisna kuhinja"
+        />
       </BoxWraper>
     </section>
   </main>
