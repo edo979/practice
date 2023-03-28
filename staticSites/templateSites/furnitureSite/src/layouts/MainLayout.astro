@@ -1,4 +1,6 @@
 ---
+import Footer from '../components/Footer.astro'
+
 export interface Props {
   title?: string
 }
@@ -16,5 +18,6 @@ const { title = 'Namještaj po želji' } = Astro.props
   <body>
     <slot name="hero" />
     <slot />
+    <Footer />
   </body>
 </html>
