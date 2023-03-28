@@ -1,6 +1,8 @@
 ---
 import BoxWraper from '../components/BoxWraper.astro'
+import Card from '../components/Card.astro'
 import Hero from '../components/Hero.astro'
+import SectionTitle from '../components/SectionTitle.astro'
 import MainLayout from '../layouts/MainLayout.astro'
 ---
 
@@ -69,10 +71,10 @@ import MainLayout from '../layouts/MainLayout.astro'
     </section>
 
     <section class="w-full py-16 sm:py-28">
-      <div class="mx-auto prose lg:prose-xl text-center">
-        <h2 class="mb-1 lg:my-0 lg:mb-2">Izdvojeni proizvodi</h2>
-        <p class="lead">Naši najbolji i najprecizniji proizvodi.</p>
-      </div>
+      <SectionTitle
+        title="Izdvojeni proizvodi"
+        content="Naši najbolji i najprecizniji proizvodi."
+      />
 
       <BoxWraper>
         <div>
@@ -126,6 +128,18 @@ import MainLayout from '../layouts/MainLayout.astro'
           />
         </div>
       </div>
+    </section>
+
+    <section class="w-full py-16 bg-base-100 sm:py-28">
+      <SectionTitle
+        title="Katalog ponude"
+        content="Spektar naše ponude je veliki"
+      />
+      <BoxWraper>
+        <Card title="Kuhinje" imgSrc="kitchen-3-md.jpg" />
+        <Card title="Ormari" imgSrc="wd-1-md.jpg" />
+        <Card title="Sobe" imgSrc="wd-2-md.jpg" />
+      </BoxWraper>
     </section>
   </main>
 </MainLayout>

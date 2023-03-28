@@ -1,0 +1,23 @@
+---
+export interface Props {
+  title: string
+  content?: string
+  imgSrc: string
+}
+
+const { title, content, imgSrc } = Astro.props
+---
+
+<div class="rounded">
+  <figure>
+    <img
+      src={`public/images/${imgSrc}`}
+      class="w-full h-72 object-cover sm:h-72 sm:aspect-square sm:rounded-lg md:h-80"
+    />
+  </figure>
+  <div class="p-4 text-center">
+    <h3 class="text-lg uppercase font-semibold md:text-xl">{title}</h3>
+
+    {content && <p>{content}</p>}
+  </div>
+</div>
