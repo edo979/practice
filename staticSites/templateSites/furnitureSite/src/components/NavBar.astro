@@ -7,7 +7,10 @@ const navData = {
 
 <div class="navbar bg-base-100">
   <div class="navbar-start">
-    <div class="dropdown">
+    <a href="/" class="btn btn-ghost normal-case text-xl">Početna</a>
+  </div>
+  <div class="navbar-end">
+    <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,12 +32,12 @@ const navData = {
         <li><a href={navData.contact.href}>{navData.contact.name}</a></li>
       </ul>
     </div>
-    <a href="/" class="btn btn-ghost normal-case text-xl">Početna</a>
-  </div>
-  <div class="navbar-end hidden sm:flex">
-    <ul class="menu menu-horizontal px-1">
-      <li><a href={navData.about.href}>{navData.about.name}</a></li>
-      <li><a href={navData.contact.href}>{navData.contact.name}</a></li>
-    </ul>
+
+    <div class="hidden sm:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a href={navData.about.href}>{navData.about.name}</a></li>
+        <li><a href={navData.contact.href}>{navData.contact.name}</a></li>
+      </ul>
+    </div>
   </div>
 </div>
