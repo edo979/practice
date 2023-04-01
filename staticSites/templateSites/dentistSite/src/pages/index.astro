@@ -7,70 +7,76 @@ import MainLayout from '../layouts/MainLayout.astro'
 <MainLayout>
   <Hero slot="hero" />
 
-  <section class="container mx-auto mt-16">
-    <FlexWrapper>
-      <div>
-        <h2>Lorem, ipsum dolor.</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-          officia, adipisci neque laborum perferendis, corporis rem at ipsam
-          odit tempore architecto animi, exercitationem earum sapiente.
-        </p>
+  <section class="container mx-auto mt-24">
+    <FlexWrapper style="justify-around gap-16 sm:gap-0">
+      <div class="flex flex-col items-center gap-8">
+        <img
+          src="/images/smile-2.jpg"
+          alt="osmjeh"
+          class="mx-auto rounded-full h-40 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
+        />
+        <div class="badge badge-accent badge-lg py-4 px-8">
+          <p class="text-lg">Pregled</p>
+        </div>
       </div>
 
-      <div>
-        <h2>Lorem, ipsum dolor.</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-          officia, adipisci neque laborum perferendis, corporis rem at ipsam
-          odit tempore architecto animi, exercitationem earum sapiente.
-        </p>
+      <div class="flex flex-col items-center gap-8">
+        <img
+          src="/images/tools.jpg"
+          alt="osmjeh"
+          class="mx-auto rounded-full h-40 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
+        />
+        <div class="badge badge-accent badge-lg py-4 px-8">
+          <p class="text-lg">Kvalitet</p>
+        </div>
       </div>
 
-      <div>
-        <h2>Lorem, ipsum dolor.</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-          officia, adipisci neque laborum perferendis, corporis rem at ipsam
-          odit tempore architecto animi, exercitationem earum sapiente.
-        </p>
+      <div class="flex flex-col items-center gap-8">
+        <img
+          src="/images/smile-1.jpg"
+          alt="osmjeh"
+          class="mx-auto rounded-full h-40 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
+        />
+        <div class="badge badge-accent badge-lg py-4 px-8">
+          <p class="text-lg">Njega</p>
+        </div>
       </div>
     </FlexWrapper>
   </section>
 
-  <section class="container mx-auto mt-8">
+  <section class="container mx-auto mt-12">
     <FlexWrapper>
-      <div class="p-6 lg:p-8">
-        <h2>Lorem, ipsum dolor.</h2>
+      <div class="p-4 flex-1 prose bg-base-200/30 lg:p-8">
+        <h2>Brz i detaljan pregled</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-          officia, adipisci neque laborum perferendis, corporis rem at ipsam
-          odit tempore architecto animi, exercitationem earum sapiente.
+          Redovna kontrola zuba glavna je metoda borbe protiv karijesa. Vršimo
+          detaljan pregled uz savremene metode koje garantiraju uvjek zdrave
+          zube bez karijesa.
         </p>
       </div>
 
-      <div class="p-6 bg-base-300 lg:p-8">
-        <h2>Lorem, ipsum dolor.</h2>
+      <div class="p-4 flex-1 prose bg-base-300 lg:p-8">
+        <h2>Savremena oprema</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-          officia, adipisci neque laborum perferendis, corporis rem at ipsam
-          odit tempore architecto animi, exercitationem earum sapiente.
+          Ordinacija je opremljena savremenom opremom, a naše osoblje je obučeno
+          i prati trendove. Kvalitetna oprema i odlično znanje naših doktora
+          uvjek su vam na raspolaganju.
         </p>
       </div>
 
-      <div class="p-6 bg-primary/40 lg:p-8">
-        <h2>Lorem, ipsum dolor.</h2>
+      <div class="p-4 flex-1 prose bg-primary/40 lg:p-8">
+        <h2>Ostale usluge</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-          officia, adipisci neque laborum perferendis, corporis rem at ipsam
-          odit tempore architecto animi, exercitationem earum sapiente.
+          Nudimo sve stomatološke usluge od snimanja, dijagnostike, popravke.
+          Naš cilj je kvalitet usluge i zadovoljstvo koje pružaju zdravi i
+          lijepi zubi.
         </p>
       </div>
     </FlexWrapper>
   </section>
 
   <section class="w-full py-16 text-center bg-base-200">
-    <h2>Lorem, ipsum dolor.</h2>
+    <h2>Ostale usluge</h2>
     <p>
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio a eaque
       vel.
