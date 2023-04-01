@@ -1,14 +1,25 @@
 <header class="w-full">
-  <div class="container mx-auto flex">
-    <div>
+  <div
+    class="container mx-auto flex flex-col-reverse items-center gap-12 sm:flex-row"
+  >
+    <div class="prose lg:prose-xl text-center sm:text-left">
       <h1>Ordinacija</h1>
-      <p>
+      <p class="lead">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt vero
         necessitatibus recusandae.
       </p>
-      <buttton class="btn btn-primary btn-lg btn-wide">Kreni</buttton>
+      <buttton class="btn btn-primary btn-wide lg:btn-lg">Kreni</buttton>
     </div>
 
-    <div class="h-80 w-full bg-primary"></div>
+    <div>
+      <picture>
+        <source srcset="/images/hero-md.jpg" media="(max-width: 500px" />
+        <img
+          src="/images/hero-lg.jpg"
+          alt="pranje zuba"
+          class="object-cover h-full w-full sm:rounded-b-md"
+        />
+      </picture>
+    </div>
   </div>
 </header>
