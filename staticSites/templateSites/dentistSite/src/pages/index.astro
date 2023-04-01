@@ -15,8 +15,11 @@ import MainLayout from '../layouts/MainLayout.astro'
           alt="osmjeh"
           class="mx-auto rounded-full h-40 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
         />
-        <div class="badge badge-accent badge-lg py-4 px-8">
-          <p class="text-lg">Pregled</p>
+        <div>
+          <p class="mb-2 text-center font-semibold">Brz i detaljan</p>
+          <div class="badge badge-accent badge-lg py-4 px-8">
+            <p class="text-lg">Pregled</p>
+          </div>
         </div>
       </div>
 
@@ -26,8 +29,11 @@ import MainLayout from '../layouts/MainLayout.astro'
           alt="osmjeh"
           class="mx-auto rounded-full h-40 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
         />
-        <div class="badge badge-accent badge-lg py-4 px-8">
-          <p class="text-lg">Kvalitet</p>
+        <div>
+          <p class="mb-2 text-center font-semibold">Najbolji mogući</p>
+          <div class="badge badge-accent badge-lg py-4 px-8">
+            <p class="text-lg">Kvalitet</p>
+          </div>
         </div>
       </div>
 
@@ -37,8 +43,11 @@ import MainLayout from '../layouts/MainLayout.astro'
           alt="osmjeh"
           class="mx-auto rounded-full h-40 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
         />
-        <div class="badge badge-accent badge-lg py-4 px-8">
-          <p class="text-lg">Njega</p>
+        <div>
+          <p class="mb-2 text-center font-semibold">Brižna i sigurna</p>
+          <div class="badge badge-accent badge-lg py-4 px-8">
+            <p class="text-lg">Njega</p>
+          </div>
         </div>
       </div>
     </FlexWrapper>
@@ -79,7 +88,9 @@ import MainLayout from '../layouts/MainLayout.astro'
     <header class="mx-auto prose lg:prose-xl">
       <h2>Dođite i uvjerite se</h2>
       <p class="lead">Uljepšajte dan savršenim osmjehom.</p>
-      <button class="btn btn-primary btn-lg btn-wide shadow">Kreni</button>
+      <a href="/kontakt" class="btn btn-primary btn-lg btn-wide shadow"
+        >Pozovite nas</a
+      >
     </header>
   </section>
 </MainLayout>
