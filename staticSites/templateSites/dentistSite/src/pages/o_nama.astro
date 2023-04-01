@@ -1,0 +1,75 @@
+---
+import FlexWrapper from '../components/FlexWrapper.astro'
+import MainLayout from '../layouts/MainLayout.astro'
+---
+
+<MainLayout>
+  <header class="container mt-8 px-4 mx-auto">
+    <div class="prose lg:prose-xl">
+      <h1>O nama</h1>
+      <p>
+        Dobrodošli na stranicu naše zubne ordinacije! Naša ordinacija je
+        osnovana sa ciljem da Vam pruži najviši mogući kvalitet stomatološke
+        usluge.
+      </p>
+      <p>
+        Naša ordinacija opremljena je najnovijom tehnologijom i savremenom
+        opremom koja nam omogućava da pružimo vrhunsku uslugu našim pacijentima.
+        Naši doktori su visoko obučeni i uvijek su u toku sa najnovijim
+        trendovima u stomatologiji, kako bi Vam pružili najbolju moguću njegu.
+      </p>
+
+      <div class="flex justify-evenly gap-2 md:gap-16">
+        <div>
+          <img
+            src="/images/smile-1.jpg"
+            alt="osmjeh"
+            class="mx-auto rounded-full h-20 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
+          />
+        </div>
+        <div>
+          <img
+            src="/images/smile-2.jpg"
+            alt="osmjeh"
+            class="mx-auto rounded-full h-20 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
+          />
+        </div>
+        <div>
+          <img
+            src="/images/tools.jpg"
+            alt="osmjeh"
+            class="mx-auto rounded-full h-20 aspect-square ring-8 border-2 border-base-100 object-cover sm:h-32"
+          />
+        </div>
+      </div>
+
+      <h2>Kvalitet usluge je zagarantovan</h2>
+      <p>
+        Naša ljubaznost i brižnost prema pacijentima su od suštinskog značaja za
+        nas. Naš cilj je da se osjećate ugodno i sigurno tokom svih Vaših
+        posjeta našoj ordinaciji. Trudimo se da svaki pacijent bude zadovoljan i
+        da se osjeća kao da smo dio Vaše porodice.
+      </p>
+
+      <p>
+        Ukoliko tražite zubnu ordinaciju koja pruža vrhunsku uslugu sa
+        kvalitetnom opremom i visoko obučenim osobljem, mi smo pravi izbor za
+        Vas. Kontaktirajte nas danas i zakažite svoj termin, a mi ćemo se
+        pobrinuti da Vaš osmijeh bude zdrav i sjajan!
+      </p>
+    </div>
+  </header>
+
+  <main class="w-full mt-16 py-16 bg-base-300 sm:py-28 sm:mt-28">
+    <div class="prose px-4 mx-auto text-center lg:prose-xl">
+      <h2>Uvijek nas možete pozvati</h2>
+      <p class="lead">
+        Pozovite nas ili dođite da se dogovorimo i zakažemo naredni termin u
+        našoj ordinaciji.
+      </p>
+      <a href="/kontakt" class="btn btn-primary btn-lg btn-wide shadow"
+        >Pozovite nas</a
+      >
+    </div>
+  </main>
+</MainLayout>
