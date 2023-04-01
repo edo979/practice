@@ -1,8 +1,71 @@
 ---
+import FlexWrapper from '../components/FlexWrapper.astro'
 import Hero from '../components/Hero.astro'
 import MainLayout from '../layouts/MainLayout.astro'
 ---
 
 <MainLayout>
   <Hero slot="hero" />
+
+  <section class="container mx-auto mt-16">
+    <FlexWrapper>
+      <div>
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+          officia, adipisci neque laborum perferendis, corporis rem at ipsam
+          odit tempore architecto animi, exercitationem earum sapiente.
+        </p>
+      </div>
+
+      <div>
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+          officia, adipisci neque laborum perferendis, corporis rem at ipsam
+          odit tempore architecto animi, exercitationem earum sapiente.
+        </p>
+      </div>
+
+      <div>
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+          officia, adipisci neque laborum perferendis, corporis rem at ipsam
+          odit tempore architecto animi, exercitationem earum sapiente.
+        </p>
+      </div>
+    </FlexWrapper>
+  </section>
+
+  <section class="container mx-auto mt-8">
+    <FlexWrapper>
+      <div class="p-6 bg-base-300/30 lg:p-8">
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+          officia, adipisci neque laborum perferendis, corporis rem at ipsam
+          odit tempore architecto animi, exercitationem earum sapiente.
+        </p>
+      </div>
+
+      <div class="p-6 bg-base-300 lg:p-8">
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+          officia, adipisci neque laborum perferendis, corporis rem at ipsam
+          odit tempore architecto animi, exercitationem earum sapiente.
+        </p>
+      </div>
+
+      <div class="p-6 bg-primary/40 lg:p-8">
+        <h2>Lorem, ipsum dolor.</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+          officia, adipisci neque laborum perferendis, corporis rem at ipsam
+          odit tempore architecto animi, exercitationem earum sapiente.
+        </p>
+      </div>
+    </FlexWrapper>
+  </section>
 </MainLayout>
