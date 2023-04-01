@@ -1,0 +1,43 @@
+---
+const { about, contact } = {
+  about: { name: 'O nama', href: '/o_nama' },
+  contact: { name: 'Kontakt', href: 'kontakt' },
+}
+---
+
+<div class="navbar bg-primary text-primary-content lg:text-xl">
+  <div class="navbar-start">
+    <a href="/" class="btn btn-ghost normal-case text-xl">Ordinacija</a>
+  </div>
+
+  <div class="navbar-end">
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-ghost sm:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          ><path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path></svg
+        >
+      </label>
+      <ul
+        tabindex="0"
+        class="menu menu-normal dropdown-content mt-3 p-2 shadow bg-base-100 text-primary rounded-box w-52"
+      >
+        <li><a href={about.href}>{about.name}</a></li>
+        <li><a href={contact.href}>{contact.name}</a></li>
+      </ul>
+    </div>
+
+    <ul class="menu menu-horizontal hidden px-1 sm:flex">
+      <li><a href={about.href}>{about.name}</a></li>
+      <li><a href={contact.href}>{contact.name}</a></li>
+    </ul>
+  </div>
+</div>
