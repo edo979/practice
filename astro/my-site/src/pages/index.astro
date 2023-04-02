@@ -70,9 +70,8 @@ import Layout from '../layouts/Layout.astro'
     </div>
   </section>
 
-  <section
-    class="my-32 px-4 py-16 base-100 border-y-2 border-neutral-focus bg-base-200"
-  >
+  <!-- CTA Section -->
+  <section class="my-32 px-4 py-16 border-y-2 border-neutral-focus bg-base-200">
     <div class="prose-lg mx-auto text-center lg:prose-2xl">
       <h2>Internet stranica</h2>
       <p class="lead">
@@ -81,6 +80,78 @@ import Layout from '../layouts/Layout.astro'
       <button class="btn btn-primary btn-xl btn-wide text-lg lg:text-2xl"
         >Kreni</button
       >
+    </div>
+  </section>
+
+  <!-- Showcase section -->
+  <section class="mt-24 px-4">
+    <div class="mx-auto prose text-center lg:prose-xl">
+      <h2>Pogledajte nekoliko primjeraka</h2>
+      <p class="lead">
+        Stranice se mogu do najsitnijih detalja urediti po Vašem izboru
+      </p>
+    </div>
+
+    <div
+      class="max-w-2xl my-24 mx-auto flex flex-col-reverse items-center gap-8 sm:flex-row"
+    >
+      <div class="prose text-center sm:text-left lg:prose-xl">
+        <h3>Uslužne djelatnosti</h3>
+        <p class="lead">
+          Ova stranica prilagođena je za zubnu ordinaciju, ali se može
+          preoblikovati i prilagoditi za usluge koji Vi pružate.
+        </p>
+        <a
+          href="https://01-dentist-site.vercel.app/"
+          class="btn btn-primary btn-wide">Posjeti Stranicu</a
+        >
+      </div>
+
+      <img src="/images/zubna.png" alt="zubna ordinacija" />
+    </div>
+
+    <div class="divider my-24 sm:16"></div>
+
+    <div class="max-w-2xl mx-auto flex flex-col items-center gap-8 sm:flex-row">
+      <img src="/images/namještaj.png" alt="namještaj" />
+
+      <div class="prose text-center sm:text-left lg:prose-xl">
+        <h3>Proizvodne djelatnosti</h3>
+        <p class="lead">
+          Ova stranica prilagođena je za radionicu namještaja. Može se
+          modificirati za Vaše potrebe.
+        </p>
+        <a
+          href="https://01-furniture-site.vercel.app/"
+          class="btn btn-primary btn-wide">Posjeti Stranicu</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="mt-32 px-4 py-16 from-secondary to-primary bg-gradient-to-b sm:bg-gradient-to-r sm:py-24 lg:py-32"
+  >
+    <div
+      class="container mx-auto flex flex-col items-center justify-between gap-8 sm:flex-row lg:gap-16"
+    >
+      <div
+        class="prose-lg text-center text-secondary-content sm:text-left lg:prose-2xl"
+      >
+        <h2>Stabilne internet stranice</h2>
+        <p class="lead">Moj cilj su kvalitet i preciznost.</p>
+        <p>
+          Veoma je važno da se stranica prilagodi veličini ekrana uređaja, od
+          mobitela do televizora. Internet stranice testirane su na svim
+          veličinama ekrana i brzo se učitavaju, a snimljene su na najbržim
+          serverima.
+        </p>
+        <button class="btn btn-primary btn-wide shadow">Kontaktirajte me</button
+        >
+      </div>
+
+      <img src="/images/3d-man.png" alt="programer" class="flex-1 max-w-xs" />
     </div>
   </section>
 </Layout>
