@@ -1,4 +1,5 @@
 ---
+import Footer from '../components/Footer.astro'
 import MainNavigation from '../components/MainNavigation.astro'
 
 export interface Props {
@@ -23,5 +24,7 @@ const { title = 'Moja Stranica' } = Astro.props
     <main>
       <slot />
     </main>
+
+    <Footer />
   </body>
 </html>
