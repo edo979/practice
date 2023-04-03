@@ -107,13 +107,25 @@ import Layout from '../layouts/Layout.astro'
         >
       </div>
 
-      <img src="/images/zubna.png" alt="zubna ordinacija" />
+      <div class="relative sm:w-full">
+        <div
+          class="absolute -z-10 inset-0 bg-primary translate-x-4 translate-y-4"
+        >
+        </div>
+        <img src="/images/zubna.png" alt="zubna ordinacija" class="shadow" />
+      </div>
     </div>
 
     <div class="divider my-24 sm:16"></div>
 
     <div class="max-w-2xl mx-auto flex flex-col items-center gap-8 sm:flex-row">
-      <img src="/images/namještaj.png" alt="namještaj" />
+      <div class="relative sm:w-full">
+        <div
+          class="absolute -z-10 inset-0 bg-secondary translate-x-4 translate-y-4 sm:-translate-x-4"
+        >
+        </div>
+        <img src="/images/namještaj.png" alt="namještaj" />
+      </div>
 
       <div class="prose text-center sm:text-left lg:prose-xl">
         <h3>Proizvodne djelatnosti</h3>
@@ -123,7 +135,7 @@ import Layout from '../layouts/Layout.astro'
         </p>
         <a
           href="https://01-furniture-site.vercel.app/"
-          class="btn btn-primary btn-wide">Posjeti Stranicu</a
+          class="btn btn-secondary btn-wide">Posjeti Stranicu</a
         >
       </div>
     </div>
@@ -147,8 +159,7 @@ import Layout from '../layouts/Layout.astro'
           veličinama ekrana i brzo se učitavaju, a snimljene su na najbržim
           serverima.
         </p>
-        <button class="btn btn-primary btn-wide shadow">Kontaktirajte me</button
-        >
+        <button class="btn btn-accent btn-wide shadow">Kontaktirajte me</button>
       </div>
 
       <img src="/images/3d-man.png" alt="programer" class="flex-1 max-w-xs" />
