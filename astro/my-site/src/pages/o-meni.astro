@@ -1,22 +1,14 @@
 ---
+import PageHeader from '../components/PageHeader.astro'
 import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
-  <header
+  <PageHeader
     slot="before-main"
-    class="h-96 -mt-16 pt-20 bg-primary bg-[url('/images/blue-metal-bg-md.jpg')] bg-center bg-cover md:bg-[url('/images/blue-metal-bg-lg.jpg')]"
-  >
-    <div class="container mx-auto">
-      <div class="prose mx-auto text-center text-base-300 lg:prose-xl">
-        <h1 class="text-inherit">O meni</h1>
-        <p class="lead text-inherit">
-          Tražite kvalitetnog web developera koji će vam pomoći u izradi vaše
-          internet stranice? Ja sam tu da vam pomognem!
-        </p>
-      </div>
-    </div>
-  </header>
+    title="O meni"
+    content="Tražite kvalitetnog web developera koji će vam pomoći u izradi vaše internet stranice? Ja sam tu da vam pomognem!"
+  />
 
   <article class="prose -mt-24 mx-auto p-8 rounded-t-lg bg-base-100">
     <h2>Tehnologije i alati</h2>
