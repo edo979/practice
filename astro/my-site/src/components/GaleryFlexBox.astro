@@ -12,7 +12,9 @@ const { title, content, href, imgUrl } = Astro.props
 <div
   class="max-w-2xl my-24 mx-auto flex flex-col-reverse items-center gap-8 sm:flex-row"
 >
-  <div class="prose text-center sm:basis-2/3 sm:text-left lg:prose-xl">
+  <div
+    class="prose mt-8 text-center sm:mt-0 sm:basis-2/3 sm:text-left lg:prose-xl"
+  >
     <h3>{title}</h3>
     <p class="lead">
       {content}
