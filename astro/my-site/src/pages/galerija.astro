@@ -1,4 +1,5 @@
 ---
+import GaleryFlexBox from '../components/GaleryFlexBox.astro'
 import PageHeader from '../components/PageHeader.astro'
 import Layout from '../layouts/Layout.astro'
 ---
@@ -9,4 +10,58 @@ import Layout from '../layouts/Layout.astro'
     title="Galerija mojih radova"
     content="Pogledajte moje radove ispod. Za vašu internet stranicu možete kombinovati različite elemente stranica ispod."
   />
+
+  <section class="px-4 mt-16 container mx-auto">
+    <GaleryFlexBox
+      title="Uslužne djelatnosti"
+      content="Ova stranica  prilagođena je za zubnu ordinaciju, ali se može preoblikovati i prilagoditi za usluge koji Vi pružate."
+      href="https://01-dentist-site.vercel.app/"
+      imgUrl="/images/zubna.png"
+    />
+
+    <div class="divider"></div>
+
+    <GaleryFlexBox
+      title="Proizvodne djelatnosti"
+      content="Ova stranica prilagođena je za radionicu namještaja. Može se modificirati za Vaše potrebe."
+      href="https://01-furniture-site.vercel.app/"
+      imgUrl="/images/namještaj.png"
+    />
+
+    <div class="divider"></div>
+
+    <GaleryFlexBox
+      title="Kratke internet prezentacije"
+      content="Internet prezentacija nastavnog aktiva jedne osnovne škole"
+      href="https://my-active-edo979.vercel.app/"
+      imgUrl="/images/active.jpg"
+    />
+
+    <div class="divider"></div>
+
+    <GaleryFlexBox
+      title="Složene internet stranice"
+      content="Internet stranice koje koriste podatke treće strane (web API)"
+      href="https://drzave-app-edo979.vercel.app/"
+      imgUrl="/images/drzave.jpg"
+    />
+
+    <div class="divider"></div>
+
+    <GaleryFlexBox
+      title="Internet aplikacija"
+      content="Vremenska prognoza, aplikacija prilagodljiva svim ekranima."
+      href="https://weather-app-edo979.vercel.app/"
+      imgUrl="/images/weather-app.jpg"
+    />
+
+    <div class="divider"></div>
+
+    <GaleryFlexBox
+      title="Papir kamen makaze"
+      content="Popularna igra u obliku internet stranice, može vam pomoći prilikom izbora kada želite igrom slučaja izabrati."
+      href="https://paper-rock-scissors-edo979.vercel.app/"
+      imgUrl="/images/papir-kamen-makaze.jpg"
+    />
+  </section>
 </Layout>
