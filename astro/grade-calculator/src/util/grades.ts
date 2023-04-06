@@ -94,7 +94,7 @@ export const getClassResults = (students: StudentsT[]) => {
 }
 
 const getPercentage = (value: number, total: number) => {
-  return (100 * value) / total + '%'
+  return Math.round(((100 * value) / total) * 100) / 100 + '%'
 }
 
 // SUBJECTS CALCULATION

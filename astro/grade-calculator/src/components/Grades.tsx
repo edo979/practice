@@ -128,7 +128,7 @@ export default function Grades() {
   return (
     <>
       {isInputFinish ? (
-        <div>
+        <div className="mt-4 space-y-2 sm:space-y-0 sm:space-x-2">
           <a href="rezultati">
             <button className="btn">Rezultati</button>
           </a>

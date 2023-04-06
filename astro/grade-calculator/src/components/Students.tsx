@@ -95,6 +95,7 @@ export default function Students() {
 
   useEffect(() => {
     saveToLS({ students: state.students })
+    firstNameRef.current!.focus()
   }, [state])
 
   return (
