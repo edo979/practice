@@ -1,4 +1,5 @@
 ---
+import PageHeader from '../components/PageHeader.astro'
 import Layout from '../layouts/Layout.astro'
 ---
 
@@ -10,16 +11,13 @@ import Layout from '../layouts/Layout.astro'
 />
 
 <Layout>
-  <div class="container mx-auto px-4">
-    <header>
-      <div class="prose lg:prose-xl">
-        <h1>Kontakt:</h1>
-        <p class="lead">
-          Ispod su moji kontakti. Radujem se vašem pozivu ili dolasku.
-        </p>
-      </div>
-    </header>
+  <PageHeader
+    slot="before-main"
+    title="Kontakt podaci"
+    content="Ispod su moji kontakti. Radujem se vašem pozivu ili dolasku."
+  />
 
+  <div class="container mx-auto px-4">
     <main class="mt-16">
       <div class="flex flex-col gap-16 sm:flex-row sm:gap-16 lg:gap-32">
         <div>

@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro'
   <PageHeader
     slot="before-main"
     title="Galerija mojih radova"
-    content="Pogledajte moje radove ispod. Za vašu internet stranicu možete kombinovati različite elemente stranica ispod."
+    content="Pogledajte moje radove ispod. Za vašu internet stranicu možete kombinovati različite elemente stranica. Sve stranice se prilagođavaju veličini ekrana ili orjentaciji telefona."
   />
 
   <section class="px-4 mt-16 container mx-auto">
@@ -62,6 +62,15 @@ import Layout from '../layouts/Layout.astro'
       content="Popularna igra u obliku internet stranice, može vam pomoći prilikom izbora kada želite igrom slučaja izabrati."
       href="https://paper-rock-scissors-edo979.vercel.app/"
       imgUrl="/images/papir-kamen-makaze.jpg"
+    />
+
+    <div class="divider"></div>
+
+    <GaleryFlexBox
+      title="Kalkulator uspjeha učenika"
+      content="Aplikacija za računanje podataka na kraju prvog polugodišta. Aplikacija koristi veoma mnogo formula i podataka za računanje."
+      href="https://grade-calculator-edo979.vercel.app/"
+      imgUrl="/images/grade-calculator.jpg"
     />
   </section>
 </Layout>
