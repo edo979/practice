@@ -1,9 +1,11 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import counterSlice from './counterSlice'
+import postsReducer from '../features/blog/postsSlice'
 
 const store = configureStore({
   reducer: {
     counter: counterSlice,
+    posts: postsReducer,
   },
 })
 

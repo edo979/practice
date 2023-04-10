@@ -4,8 +4,8 @@ import {
   incrementAsync,
   selectCount,
   selectStatus,
-} from '../store/counterSlice'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
+} from '../../../store/counterSlice'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 
 const Counter = () => {
   const count = useAppSelector(selectCount)
