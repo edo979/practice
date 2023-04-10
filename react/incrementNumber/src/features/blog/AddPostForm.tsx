@@ -1,7 +1,16 @@
-import { ActionFunction, useActionData, Form, redirect } from 'react-router-dom'
+import {
+  ActionFunction,
+  useActionData,
+  Form,
+  redirect,
+  LoaderFunction,
+  useLoaderData,
+} from 'react-router-dom'
 import { postAdded } from './postsSlice'
-import { nanoid } from '@reduxjs/toolkit'
 import store from '../../store/store'
+import { useAppSelector } from '../../store/hooks'
+import { selectUsers } from '../users/usersSlice'
+import { useState } from 'react'
 
 type ActionDataT = {
   formError?: string
@@ -15,34 +24,39 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const title = formData.get('postTitle')
   const content = formData.get('postContent')
+  const userId = formData.get('userId')
+  console.log(userId)
 
-  if (typeof title !== 'string' || typeof content !== 'string')
+  if (
+    typeof title !== 'string' ||
+    typeof content !== 'string' ||
+    typeof userId !== 'string'
+  )
     return {
       formError: 'Form Error',
     }
 
-  if (title.length == 0 || content.length == 0)
+  if (title.length == 0 || content.length == 0 || userId === '')
     return {
       formError: 'Add more text',
       fields: { postContent: content, postTitle: title },
     }
 
-  if (title && content) {
-    store.dispatch(
-      postAdded({
-        id: nanoid(),
-        title,
-        content,
-      })
-    )
-  }
+  store.dispatch(postAdded(title, content, userId))
 
   return redirect('/blog')
 }
 
 const AddPostForm = () => {
   const error = useActionData() as ActionDataT
-  //console.log(error)
+  const users = useAppSelector(selectUsers)
+  const [userId, setUserId] = useState('')
+
+  const usersOptions = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ))
 
   return (
     <section>
@@ -56,13 +70,25 @@ const AddPostForm = () => {
           name="postTitle"
           defaultValue={error?.fields?.postTitle ?? ''}
         />
+        <br />
+        <label htmlFor="postAuthor">Author:</label>
+        <select
+          id="postAuthor"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          name="userId"
+        >
+          <option value=""></option>
+          {usersOptions}
+        </select>
+        <br />
         <label htmlFor="postContent">Content:</label>
         <textarea
           id="postContent"
           name="postContent"
           defaultValue={error?.fields?.postContent ?? ''}
         />
-
+        <br />
         <button type="submit">Save Post</button>
       </Form>
     </section>
