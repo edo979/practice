@@ -11,6 +11,13 @@ import PostsList from './features/blog/PostsList'
 import AddPostForm, {
   action as AddPostAction,
 } from './features/blog/AddPostForm'
+import SinglePostRoute, {
+  loader as SinglePostLoader,
+} from './features/blog/SinglePostRoute'
+import {
+  EditPostForm,
+  loader as EditPostLoader,
+} from './features/blog/EditPostRoute'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +44,16 @@ const router = createBrowserRouter([
             path: 'add_post',
             element: <AddPostForm />,
             action: AddPostAction,
+          },
+          {
+            path: ':postId',
+            element: <SinglePostRoute />,
+            loader: SinglePostLoader,
+          },
+          {
+            path: ':postId/edit',
+            element: <EditPostForm />,
+            loader: EditPostLoader,
           },
         ],
       },
