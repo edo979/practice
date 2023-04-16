@@ -1,57 +1,76 @@
-import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, View, FlatList, Button } from 'react-native'
+import GoalItem from './components/GoalItem'
+import GoalInput from './components/GoalInput'
+import { StatusBar } from 'expo-status-bar'
 
 export default function App() {
-  const [enteredGoalText, setEnteredGoalText] = useState()
+  const [courseGoals, setCourseGoals] = useState([])
+  const [modalIsVisible, setModalIsVisible] = useState(false)
 
-  function goalInputHandler(enteredText) {
-    setEnteredGoalText(enteredText)
+  function addGoalHandler(enteredGoalText) {
+    setCourseGoals((current) => [
+      ...current,
+      { text: enteredGoalText, id: Math.random().toString() },
+    ])
+
+    endAddGoalHandler()
   }
-  function addGoalHandler() {
-    console.log(enteredGoalText)
+
+  function deleteGoalHandler(id) {
+    setCourseGoals((current) => current.filter((item) => item.id !== id))
+  }
+
+  function startAddGoalHandler() {
+    setModalIsVisible(true)
+  }
+
+  function endAddGoalHandler() {
+    setModalIsVisible(false)
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Your course goal!"
-          style={styles.textInput}
-          onChangeText={goalInputHandler}
+    <>
+      <StatusBar style="light" />
+      <View style={styles.container}>
+        {modalIsVisible && (
+          <GoalInput
+            onAddGoal={addGoalHandler}
+            isVisible={modalIsVisible}
+            onCancel={endAddGoalHandler}
+          />
+        )}
+
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={courseGoals}
+            renderItem={(itemData) => {
+              return (
+                <GoalItem item={itemData.item} onDelete={deleteGoalHandler} />
+              )
+            }}
+          />
+        </View>
+
+        <Button
+          title="Add new Goal"
+          color="#5e0acc"
+          onPress={startAddGoalHandler}
         />
-        <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
-      <View style={styles.goalsContainer}>
-        <Text>List of Goals...</Text>
-      </View>
-    </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
+    paddingVertical: 50,
     paddingHorizontal: 16,
   },
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderColor: '#cccccc',
-  },
+
   goalsContainer: {
     flex: 5,
-  },
-  textInput: {
-    flex: 1,
-    marginRight: 10,
-    padding: 8,
-    borderWidth: 1,
-    borderColor: '#cccccc',
+    marginBottom: 32,
   },
 })
