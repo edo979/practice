@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 24,
+    marginTop: 24,
     padding: 24,
     borderWidth: 4,
     borderRadius: 8,
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
   numberText: {
     color: Colors.accent500,
     fontSize: 36,
-    fontWeight: 'bold',
+    fontFamily: 'Open-Sans-bold',
   },
 })
