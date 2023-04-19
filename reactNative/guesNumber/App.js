@@ -1,5 +1,11 @@
-import { useState, useCallback } from 'react'
-import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native'
+import { useState, useCallback, useEffect } from 'react'
+import {
+  Dimensions,
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  useWindowDimensions,
+} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useFonts } from 'expo-font'
 
@@ -17,6 +23,7 @@ export default function App() {
   const [userNumber, setUserNumber] = useState(0)
   const [isGameOver, setIsGameOver] = useState(true)
   const [guessRounds, setGuessRounds] = useState(0)
+  const { width, height } = useWindowDimensions()
 
   const [isFontsLoaded] = useFonts({
     'Open-Sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -62,6 +69,8 @@ export default function App() {
     return null
   }
 
+  const marginTopRes = height < 450 ? 30 : 100
+
   return (
     <LinearGradient
       style={styles.rootScreen}
@@ -74,7 +83,13 @@ export default function App() {
         imageStyle={styles.backgroundImage}
         style={styles.rootScreen}
       >
-        <SafeAreaView style={[styles.rootScreen, styles.layout]}>
+        <SafeAreaView
+          style={[
+            styles.rootScreen,
+            styles.layout,
+            { marginTop: marginTopRes },
+          ]}
+        >
           {screen}
         </SafeAreaView>
       </ImageBackground>
@@ -82,13 +97,16 @@ export default function App() {
   )
 }
 
+const isSMh = Dimensions.get('window').height < 450
+
 const styles = StyleSheet.create({
   rootScreen: {
     flex: 1,
+    height: '100%',
   },
 
   layout: {
-    marginTop: 100,
+    marginTop: isSMh ? 30 : 100,
     padding: 16,
   },
 
