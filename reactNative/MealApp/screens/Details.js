@@ -1,12 +1,27 @@
+import { useLayoutEffect } from 'react'
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+
 import { MEALS } from '../data/dammy-data'
 import MealDetails from '../components/MealDetails'
 import Subtitle from '../components/mealDetails/Subtitle'
 import List from '../components/mealDetails/List'
+import IconButton from '../components/IconButton'
 
-const Details = ({ route }) => {
+const Details = ({ route, navigation }) => {
   const { id } = route.params
   const meal = MEALS.find((meal) => meal.id === id)
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton onPress={headerBtnHandler} icon="star" color="white" />
+      ),
+    })
+  }, [])
+
+  function headerBtnHandler() {
+    console.log('press header me!')
+  }
 
   return (
     <ScrollView style={styles.mainContainer}>
