@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react'
+import { useContext, useLayoutEffect } from 'react'
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 
 import { MEALS } from '../data/dammy-data'
@@ -6,21 +6,36 @@ import MealDetails from '../components/MealDetails'
 import Subtitle from '../components/mealDetails/Subtitle'
 import List from '../components/mealDetails/List'
 import IconButton from '../components/IconButton'
+import { FavoritesContext } from '../store/context/favorite-context'
 
 const Details = ({ route, navigation }) => {
+  const {
+    ids: favoriteIds,
+    addFavorite,
+    removeFavorite,
+  } = useContext(FavoritesContext)
   const { id } = route.params
   const meal = MEALS.find((meal) => meal.id === id)
+  const isFavorite = favoriteIds.includes(id)
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <IconButton onPress={headerBtnHandler} icon="star" color="white" />
+        <IconButton
+          onPress={toggleFavoriteHandler}
+          icon={isFavorite ? 'star' : 'star-outline'}
+          color="white"
+        />
       ),
     })
-  }, [])
+  }, [isFavorite])
 
-  function headerBtnHandler() {
-    console.log('press header me!')
+  function toggleFavoriteHandler() {
+    if (isFavorite) {
+      removeFavorite(id)
+    } else {
+      addFavorite(id)
+    }
   }
 
   return (
