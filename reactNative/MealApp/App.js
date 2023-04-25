@@ -6,8 +6,10 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Ionicons } from '@expo/vector-icons'
+import { Provider } from 'react-redux'
+import { store } from './store/redux/store'
 
-import FavoritesContextProvider from './store/context/favorite-context'
+//import FavoritesContextProvider from './store/context/favorite-context'
 import Categories from './screens/Categories'
 import Overview from './screens/Overview'
 import Details from './screens/Details'
@@ -56,7 +58,7 @@ function DrawerNavigator() {
 export default function App() {
   return (
     <>
-      <FavoritesContextProvider>
+      <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
@@ -76,7 +78,7 @@ export default function App() {
             <Stack.Screen name="Details" component={Details} />
           </Stack.Navigator>
         </NavigationContainer>
-      </FavoritesContextProvider>
+      </Provider>
       <StatusBar style="light" />
     </>
   )
