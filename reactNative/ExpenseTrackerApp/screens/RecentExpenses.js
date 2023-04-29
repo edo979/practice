@@ -12,7 +12,11 @@ const RecentExpenses = () => {
   )
 
   return (
-    <ExpensesOutput expensesPeriod="Last 7 days" expenses={recentExpenses} />
+    <ExpensesOutput
+      expensesPeriod="Last 7 days"
+      expenses={recentExpenses}
+      fallBackText="No recent expenses"
+    />
   )
 }
 export default RecentExpenses

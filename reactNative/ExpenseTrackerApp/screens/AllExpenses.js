@@ -6,7 +6,13 @@ import { ExpensesContext } from '../store/expenses-context'
 const AllExpenses = () => {
   const { expenses } = useContext(ExpensesContext)
 
-  return <ExpensesOutput expensesPeriod="Total" expenses={expenses} />
+  return (
+    <ExpensesOutput
+      expensesPeriod="Total"
+      expenses={expenses}
+      fallBackText="No Expenses."
+    />
+  )
 }
 export default AllExpenses
 const styles = StyleSheet.create({})

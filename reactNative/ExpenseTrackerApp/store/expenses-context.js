@@ -77,9 +77,8 @@ function expensesReducer(state, action) {
       return [{ ...action.payload, id }, ...state]
 
     case 'UPDATE':
-      return state.filter((expense) => {
+      return state.map((expense) => {
         if (expense.id !== action.payload.id) return expense
-
         return { ...expense, ...action.payload.data }
       })
 
