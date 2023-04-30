@@ -4,6 +4,7 @@ import IconBtn from '../components/ui/IconBtn'
 import { GlobalStyles } from '../constants/style'
 import Button from '../components/ui/Button'
 import { ExpensesContext } from '../store/expenses-context'
+import ExpenseForm from '../components/MenageExpense.js/ExpenseForm'
 
 const ManageExpense = ({ route, navigation }) => {
   const { deleteExpense, addExpense, updateExpense } =
@@ -41,6 +42,7 @@ const ManageExpense = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <ExpenseForm />
       <View style={styles.buttons}>
         <Button style={styles.button} mode="flat" onPress={cancelHandler}>
           Cancel
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 16,
   },
   button: {
     minWidth: 120,
