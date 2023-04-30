@@ -1,5 +1,5 @@
 export function getformatedDate(date) {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+  return date.toISOString().slice(0, 10)
 }
 
 export function getDate7daysBeffore() {
