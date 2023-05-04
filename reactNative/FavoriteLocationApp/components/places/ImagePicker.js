@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Colors } from '../../constants/colors'
 import OutlineButton from '../ui/OutlineButton'
 
-const ImagePicker = () => {
+const ImagePicker = ({ onTakeImage }) => {
   const [imageUri, setImageUri] = useState()
 
   async function takeImageHandler() {
@@ -15,6 +15,7 @@ const ImagePicker = () => {
     })
 
     setImageUri(image.assets[0].uri)
+    onTakeImage(image.assets[0].uri)
   }
 
   let imagePreview = <Text>No image taken.</Text>
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: 'hidden',
   },
   image: {
     width: '100%',
