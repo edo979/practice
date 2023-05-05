@@ -9,6 +9,7 @@ import IconButton from './components/ui/IconButton'
 import { Colors } from './constants/colors'
 import Map from './screens/Map'
 import { init } from './util/database'
+import PlaceDetails from './screens/PlaceDetails'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -61,6 +62,11 @@ export default function App() {
             options={{ title: 'Add a new place' }}
           />
           <Stack.Screen name="Map" component={Map} />
+          <Stack.Screen
+            name="PlaceDetails"
+            component={PlaceDetails}
+            options={{ title: 'Loading places data...' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
