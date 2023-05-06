@@ -1,7 +1,7 @@
 ---
 const { about, portofolio, contact } = {
   about: { name: 'O meni', href: 'o-meni' },
-  portofolio: { name: 'Galerja', href: 'galerija' },
+  portofolio: { name: 'Galerija', href: 'galerija' },
   contact: { name: 'Kontakt', href: 'kontakt' },
 }
 ---
@@ -19,9 +19,9 @@ const { about, portofolio, contact } = {
     <div class="navbar-end">
       <div class="hidden sm:flex">
         <ul class="menu menu-horizontal px-1 lg:text-lg">
-          <li><a href={about.href}>{about.name}</a></li>
-          <li><a href={portofolio.href}>{portofolio.name}</a></li>
-          <li><a href={contact.href}>{contact.name}</a></li>
+          <li><a href={`/${about.href}`}>{about.name}</a></li>
+          <li><a href={`/${portofolio.href}`}>{portofolio.name}</a></li>
+          <li><a href={`/${contact.href}`}>{contact.name}</a></li>
         </ul>
       </div>
 
@@ -44,9 +44,9 @@ const { about, portofolio, contact } = {
           tabindex="0"
           class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-base-content"
         >
-          <li><a href={about.href}>{about.name}</a></li>
-          <li><a href={portofolio.href}>{portofolio.name}</a></li>
-          <li><a href={contact.href}>{contact.name}</a></li>
+          <li><a href={`/${about.href}`}>{about.name}</a></li>
+          <li><a href={`/${portofolio.href}`}>{portofolio.name}</a></li>
+          <li><a href={`/${contact.href}`}>{contact.name}</a></li>
         </ul>
       </div>
     </div>
