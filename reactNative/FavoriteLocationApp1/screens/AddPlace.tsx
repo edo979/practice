@@ -1,26 +1,17 @@
-import {useTheme} from '@react-navigation/native';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {main} from '../constants/style';
-import ShowPhoto from '../components/ui/ShowPhoto';
+import {DarkTheme, main} from '../constants/style';
+import Photo from '../components/ui/Photo';
+import Map from '../components/ui/Map';
 
 const AddPlace = () => {
-  const {colors} = useTheme();
-
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{fontSize: main.fsMD, color: colors.border}}>Naziv:</Text>
-        <TextInput
-          style={[
-            {
-              color: colors.border,
-              backgroundColor: colors.card,
-            },
-            styles.input,
-          ]}
-        />
+        <Text style={styles.label}>Naziv:</Text>
+        <TextInput style={styles.input} />
       </View>
-      <ShowPhoto />
+      <Photo />
+      <Map />
     </View>
   );
 };
@@ -31,10 +22,18 @@ const styles = StyleSheet.create({
     padding: main.padding,
     gap: 12,
   },
+  label: {
+    fontSize: main.fsMD,
+    color: DarkTheme.colors.border,
+  },
   input: {
     marginTop: main.verticalSpacing,
     paddingHorizontal: 8,
     borderRadius: main.borderRadius,
+    borderWidth: 1,
+    borderColor: DarkTheme.colors.border,
     fontSize: main.fsLG,
+    color: DarkTheme.colors.border,
+    backgroundColor: DarkTheme.colors.card,
   },
 });

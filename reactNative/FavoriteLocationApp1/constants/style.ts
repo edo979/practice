@@ -1,6 +1,4 @@
-export const Colors = {
-  primary500: 'blue',
-};
+import {StyleSheet} from 'react-native';
 
 export const DarkTheme = {
   dark: false,
@@ -22,3 +20,19 @@ export const main = {
   fsMD: 16,
   fsLG: 18,
 };
+
+export const mainStyle = StyleSheet.create({
+  card: {
+    width: '100%',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: main.borderRadius,
+    borderWidth: 1,
+    borderColor: DarkTheme.colors.border,
+    backgroundColor: DarkTheme.colors.card,
+  },
+  textAlt: {
+    fontSize: main.fsLG,
+  },
+});
