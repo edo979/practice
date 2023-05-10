@@ -12,8 +12,8 @@ type NavigationIconBtn = PropsWithChildren<{
 
 const IconButton = ({
   name,
+  color = DarkTheme.colors.card,
   children,
-  color = 'black',
   size = 24,
   onPress,
 }: NavigationIconBtn) => {
@@ -21,7 +21,7 @@ const IconButton = ({
     <Pressable
       android_ripple={{color: DarkTheme.colors.card, foreground: true}}>
       <View style={styles.container}>
-        <Icon name="camera-alt" size={28} color={DarkTheme.colors.card} />
+        <Icon name={name} size={size} color={color} />
         <Text style={styles.text}>{children}</Text>
       </View>
     </Pressable>

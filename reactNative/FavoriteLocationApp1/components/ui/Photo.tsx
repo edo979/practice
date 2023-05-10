@@ -14,7 +14,7 @@ const ShowPhoto = ({imgUri}: ShowPhotoProps) => {
     <View>
       <View style={mainStyle.card}>{content}</View>
       <View style={{marginTop: 12}}>
-        <IconButton onPress={() => {}} name="camera-alt">
+        <IconButton onPress={() => {}} name="camera-alt" size={28}>
           Slikaj
         </IconButton>
       </View>
