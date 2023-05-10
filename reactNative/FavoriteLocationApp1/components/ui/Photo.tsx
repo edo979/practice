@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import {main, mainStyle} from '../../constants/style';
 import IconButton from './IconButton';
 
