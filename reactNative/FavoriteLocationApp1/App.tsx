@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AddPlace from './screens/AddPlace';
 import AllPlaces from './screens/AllPlaces';
-import IconButton from './components/ui/IconButton';
+import NavigationIconBtn from './components/ui/NavigationIconBtn';
 import {DarkTheme} from './constants/style';
 
 const Stack = createNativeStackNavigator();
@@ -20,11 +20,11 @@ const App = () => {
           component={AllPlaces}
           options={({navigation}) => ({
             headerRight: ({tintColor}) => (
-              <IconButton
+              <NavigationIconBtn
                 color={tintColor}
                 onPress={() => navigation.navigate('AddPlace')}>
                 Dodaj
-              </IconButton>
+              </NavigationIconBtn>
             ),
             title: 'Sva mjesta',
           })}

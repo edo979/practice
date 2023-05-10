@@ -2,7 +2,7 @@ import {PropsWithChildren} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-type IconButtonProps = PropsWithChildren<{
+type NavigationIconBtn = PropsWithChildren<{
   onPress: () => void;
   color?: string;
   size?: number;
@@ -13,7 +13,7 @@ const IconButton = ({
   color = 'black',
   size = 24,
   onPress,
-}: IconButtonProps) => {
+}: NavigationIconBtn) => {
   return (
     <Pressable onPress={onPress}>
       <View style={styles.container}>
