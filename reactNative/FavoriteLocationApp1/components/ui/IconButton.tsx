@@ -18,7 +18,8 @@ const IconButton = ({
   onPress,
 }: NavigationIconBtn) => {
   return (
-    <Pressable style={{marginLeft: 'auto'}}>
+    <Pressable
+      android_ripple={{color: DarkTheme.colors.card, foreground: true}}>
       <View style={styles.container}>
         <Icon name="camera-alt" size={28} color={DarkTheme.colors.card} />
         <Text style={styles.text}>{children}</Text>
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: main.fsLG,
-    color: DarkTheme.colors.border,
+    fontWeight: 'bold',
+    color: DarkTheme.colors.card,
   },
 });

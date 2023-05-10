@@ -20,7 +20,7 @@ export default AddPlace;
 const styles = StyleSheet.create({
   container: {
     padding: main.padding,
-    gap: 12,
+    gap: 18,
   },
   label: {
     fontSize: main.fsMD,

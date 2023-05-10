@@ -11,14 +11,14 @@ const ShowPhoto = ({imgUri}: ShowPhotoProps) => {
   if (imgUri) content = <Image source={{}} />;
 
   return (
-    <>
+    <View>
       <View style={mainStyle.card}>{content}</View>
-      <View>
+      <View style={{marginTop: 12}}>
         <IconButton onPress={() => {}} name="camera-alt">
           Slikaj
         </IconButton>
       </View>
-    </>
+    </View>
   );
 };
 
