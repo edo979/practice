@@ -4,12 +4,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AddPlace from './screens/AddPlace';
 import AllPlaces from './screens/AllPlaces';
 import IconButton from './components/ui/IconButton';
+import {DarkTheme} from './constants/style';
 
 const Stack = createNativeStackNavigator();
+const AppTheme = {
+  ...DarkTheme,
+};
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={AppTheme}>
       <Stack.Navigator>
         <Stack.Screen
           name="AllPlaces"
