@@ -19,6 +19,7 @@ const AddPlace = () => {
 export default AddPlace;
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: main.padding,
     gap: 18,
   },

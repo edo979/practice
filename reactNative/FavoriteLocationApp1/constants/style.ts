@@ -23,16 +23,12 @@ export const main = {
 
 export const mainStyle = StyleSheet.create({
   card: {
-    width: '100%',
-    height: 200,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: main.borderRadius,
     borderWidth: 1,
     borderColor: DarkTheme.colors.border,
     backgroundColor: DarkTheme.colors.card,
-  },
-  textAlt: {
-    fontSize: main.fsLG,
   },
 });

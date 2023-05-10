@@ -11,9 +11,9 @@ const ShowPhoto = ({imgUri}: ShowPhotoProps) => {
   if (imgUri) content = <Image source={{}} />;
 
   return (
-    <View>
+    <View style={{flex: 4, gap: 12}}>
       <View style={mainStyle.card}>{content}</View>
-      <View style={{marginTop: 12}}>
+      <View>
         <IconButton onPress={() => {}} name="camera-alt" size={28}>
           Slikaj
         </IconButton>

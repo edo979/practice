@@ -11,7 +11,7 @@ const Map = ({location}: MapProps) => {
   if (location) content = <Text>The Map</Text>;
 
   return (
-    <View>
+    <View style={{flex: 3, gap: 12}}>
       <View style={mainStyle.card}>{content}</View>
 
       <View style={styles.btnGroup}>
@@ -37,6 +37,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginTop: 12,
   },
 });
