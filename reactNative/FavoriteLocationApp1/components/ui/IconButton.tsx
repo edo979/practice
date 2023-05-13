@@ -19,7 +19,8 @@ const IconButton = ({
 }: NavigationIconBtn) => {
   return (
     <Pressable
-      android_ripple={{color: DarkTheme.colors.card, foreground: true}}>
+      android_ripple={{color: DarkTheme.colors.card, foreground: true}}
+      onPress={onPress}>
       <View style={styles.container}>
         <Icon name={name} size={size} color={color} />
         <Text style={styles.text}>{children}</Text>
