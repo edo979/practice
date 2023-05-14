@@ -12,26 +12,6 @@ const GetPhoto = ({imgUri}: GetPhotoProps) => {
   if (imgUri) content = <Image source={{}} />;
 
   async function takePhotoHandler() {
-    const perrmisionGrantend = await grantCameraPerrmision();
-
-    if (perrmisionGrantend) {
-      try {
-        const {assets} = await launchCamera({quality: 0.5, mediaType: 'photo'});
-        if (!assets) throw new Error('No image!');
-
-        console.log(assets[0].uri);
-      } catch (error) {
-        Alert.alert('Upozorenje', 'Došlo je do greške, pokušajte ponovo.');
-      }
-    } else {
-      Alert.alert(
-        'Upozorenje!',
-        'Aplikacija nema dozvolu da koristi kameru. Da bi nastavili dalje morate promjeniti dozvole za ovu aplikaciju.',
-      );
-    }
-  }
-
-  async function grantCameraPerrmision() {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -45,11 +25,19 @@ const GetPhoto = ({imgUri}: GetPhotoProps) => {
         },
       );
 
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) return true;
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        const {assets} = await launchCamera({quality: 0.5, mediaType: 'photo'});
 
-      return false;
+        if (!assets) throw new Error('No image!');
+        console.log(assets[0].uri);
+      } else {
+        Alert.alert(
+          'Upozorenje!',
+          'Aplikacija nema dozvolu da koristi kameru. Da bi nastavili dalje morate promjeniti dozvole za ovu aplikaciju.',
+        );
+      }
     } catch (error) {
-      return false;
+      Alert.alert('Upozorenje', 'Došlo je do greške, pokušajte ponovo.');
     }
   }
 
