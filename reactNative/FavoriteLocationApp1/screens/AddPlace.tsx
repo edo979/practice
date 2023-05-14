@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
@@ -6,26 +7,32 @@ import GetUserLocation from '../components/ui/GetUserLocation';
 import NavigationIconBtn from '../components/ui/NavigationIconBtn';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {StackParamListT} from '../App';
+import {RawPlaceT} from '../store/dt';
 
 type AddPlaceProps = NativeStackScreenProps<StackParamListT, 'AddPlace'>;
 
 const AddPlace = ({navigation}: AddPlaceProps) => {
   const {savePlace} = useFavoritePlacesContext();
+  const [state, setState] = useState<RawPlaceT>({
+    name: '',
+    address: '',
+    imageUri: '',
+    location: {lat: 0, lng: 0},
+  });
+
+  function onSave() {
+    savePlace({
+      name: 'Prvo',
+      address: 'Prva',
+      imageUri: 'Slika prva',
+      location: {lat: 77, lng: 88},
+    });
+    navigation.navigate('AllPlaces');
+  }
 
   navigation.setOptions({
     headerRight: ({tintColor}) => (
-      <NavigationIconBtn
-        onPress={() => {
-          savePlace({
-            name: 'Prvo',
-            address: 'Prva',
-            imageUri: 'Slika prva',
-            location: {lat: 77, lng: 88},
-          });
-          navigation.navigate('AllPlaces');
-        }}
-        name="save"
-        color={tintColor}>
+      <NavigationIconBtn onPress={onSave} name="save" color={tintColor}>
         {' '}
         Snimi
       </NavigationIconBtn>
@@ -36,7 +43,11 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
     <View style={styles.container}>
       <View>
         <Text style={styles.label}>Naziv:</Text>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          value={state && state.name}
+          onChangeText={text => setState(prev => ({...prev, name: text}))}
+        />
       </View>
       <GetPhoto />
       <GetUserLocation />
