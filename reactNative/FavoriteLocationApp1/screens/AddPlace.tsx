@@ -12,20 +12,16 @@ type AddPlaceProps = NativeStackScreenProps<StackParamListT, 'AddPlace'>;
 const AddPlace = ({navigation}: AddPlaceProps) => {
   const {savePlace} = useFavoritePlacesContext();
 
-  function savePlaceHandler() {
-    savePlace({
-      id: 2,
-      name: 'Prvo',
-      address: 'Prva',
-      location: {lat: 77, lng: 88},
-    });
-  }
-
   navigation.setOptions({
     headerRight: ({tintColor}) => (
       <NavigationIconBtn
         onPress={() => {
-          savePlaceHandler();
+          savePlace({
+            name: 'Prvo',
+            address: 'Prva',
+            imageUri: 'Slika prva',
+            location: {lat: 77, lng: 88},
+          });
           navigation.navigate('AllPlaces');
         }}
         name="save"
