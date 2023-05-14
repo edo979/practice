@@ -10,6 +10,14 @@ export const DarkTheme = {
     border: '#F1F6F9',
     notification: 'rgb(255, 69, 58)',
   },
+  util: {
+    padding: 12,
+    verticalSpacing: 8,
+    borderRadius: 4,
+    fsSM: 12,
+    fsMD: 16,
+    fsLG: 18,
+  },
 };
 
 export const main = {
