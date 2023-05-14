@@ -1,16 +1,10 @@
 import {ReactNode, createContext, useContext, useEffect, useState} from 'react';
-import {createDB, getPlacesFromDB} from '../store/dt';
-
-type PlaceT = {
-  id: number;
-  name: string;
-  address: string;
-  location: {lon: number; lng: number};
-};
+import {PlaceT, createDB, getPlacesFromDB, savePlacesToDB} from '../store/dt';
 
 type FavoritePlacesContextT = {
   places: PlaceT[];
   fetchPlaces: () => void;
+  savePlace: (place: PlaceT) => void;
 };
 
 const FavoritePlacesContext = createContext({} as FavoritePlacesContextT);
@@ -35,12 +29,16 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     const placesFromDB = await getPlacesFromDB();
     //if (placesFromDB) setPlaces(placesFromDB);
   }
+  async function savePlace(place: PlaceT) {
+    await savePlacesToDB(place);
+  }
 
   return (
     <FavoritePlacesContext.Provider
       value={{
         places,
         fetchPlaces,
+        savePlace,
       }}>
       {children}
     </FavoritePlacesContext.Provider>

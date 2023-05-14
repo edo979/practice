@@ -4,6 +4,13 @@ import {
   SQLiteDatabase,
 } from 'react-native-sqlite-storage';
 
+export type PlaceT = {
+  id: number;
+  name: string;
+  address: string;
+  location: {lat: number; lng: number};
+};
+
 enablePromise(true);
 
 const getDBConnection = async () =>
@@ -39,5 +46,19 @@ export async function getPlacesFromDB() {
     console.log(results.map(item => console.log(item)));
   } catch (error) {
     return null;
+  }
+}
+
+export async function savePlacesToDB({name, address, location}: PlaceT) {
+  const db = await getDBConnection();
+
+  try {
+    const result = await db.executeSql(
+      'INSERT INTO places(name, address, lat, lng) VALUES(?, ?, ?, ?, ?)',
+      [name, address, location.lat, location.lng],
+    );
+    console.log(result[0].insertId);
+  } catch (error) {
+    console.log(error);
   }
 }

@@ -1,9 +1,41 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
 import GetPhoto from '../components/ui/GetPhoto';
 import GetUserLocation from '../components/ui/GetUserLocation';
+import NavigationIconBtn from '../components/ui/NavigationIconBtn';
+import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
+import {StackParamListT} from '../App';
 
-const AddPlace = () => {
+type AddPlaceProps = NativeStackScreenProps<StackParamListT, 'AddPlace'>;
+
+const AddPlace = ({navigation}: AddPlaceProps) => {
+  const {savePlace} = useFavoritePlacesContext();
+
+  function savePlaceHandler() {
+    savePlace({
+      id: 2,
+      name: 'Prvo',
+      address: 'Prva',
+      location: {lat: 77, lng: 88},
+    });
+  }
+
+  navigation.setOptions({
+    headerRight: ({tintColor}) => (
+      <NavigationIconBtn
+        onPress={() => {
+          savePlaceHandler();
+          navigation.navigate('AllPlaces');
+        }}
+        name="save"
+        color={tintColor}>
+        {' '}
+        Snimi
+      </NavigationIconBtn>
+    ),
+  });
+
   return (
     <View style={styles.container}>
       <View>

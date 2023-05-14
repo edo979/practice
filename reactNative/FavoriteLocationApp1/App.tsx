@@ -7,7 +7,12 @@ import NavigationIconBtn from './components/ui/NavigationIconBtn';
 import {DarkTheme} from './constants/style';
 import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
 
-const Stack = createNativeStackNavigator();
+export type StackParamListT = {
+  AllPlaces: undefined;
+  AddPlace: undefined;
+};
+
+const Stack = createNativeStackNavigator<StackParamListT>();
 const AppTheme = {
   ...DarkTheme,
 };
@@ -23,6 +28,7 @@ const App = () => {
             options={({navigation}) => ({
               headerRight: ({tintColor}) => (
                 <NavigationIconBtn
+                  name="add"
                   color={tintColor}
                   onPress={() => navigation.navigate('AddPlace')}>
                   Dodaj
