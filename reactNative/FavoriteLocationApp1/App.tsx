@@ -19,8 +19,8 @@ const AppTheme = {
 
 const App = () => {
   return (
-    <NavigationContainer theme={AppTheme}>
-      <FavoritePlaceProvider>
+    <FavoritePlaceProvider>
+      <NavigationContainer theme={AppTheme}>
         <Stack.Navigator>
           <Stack.Screen
             name="AllPlaces"
@@ -43,8 +43,8 @@ const App = () => {
             options={{title: 'Novo mjesto'}}
           />
         </Stack.Navigator>
-      </FavoritePlaceProvider>
-    </NavigationContainer>
+      </NavigationContainer>
+    </FavoritePlaceProvider>
   );
 };
 

@@ -1,15 +1,23 @@
-import {Text, View, Image, PermissionsAndroid, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  PermissionsAndroid,
+  Alert,
+  StyleSheet,
+} from 'react-native';
 import {main, mainStyle} from '../../constants/style';
 import IconButton from './IconButton';
 import {launchCamera} from 'react-native-image-picker';
 
 type GetPhotoProps = {
   imgUri?: string;
+  saveImageHandler: (imageUri: string) => void;
 };
 
-const GetPhoto = ({imgUri}: GetPhotoProps) => {
+const GetPhoto = ({imgUri, saveImageHandler}: GetPhotoProps) => {
   let content = <Text style={{fontSize: main.fsLG}}>Nema Fotografije</Text>;
-  if (imgUri) content = <Image source={{}} />;
+  if (imgUri) content = <Image style={styles.image} source={{uri: imgUri}} />;
 
   async function takePhotoHandler() {
     try {
@@ -28,8 +36,8 @@ const GetPhoto = ({imgUri}: GetPhotoProps) => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         const {assets} = await launchCamera({quality: 0.5, mediaType: 'photo'});
 
-        if (!assets) throw new Error('No image!');
-        console.log(assets[0].uri);
+        if (!assets?.[0].uri) throw new Error('No image!');
+        saveImageHandler(assets[0].uri);
       } else {
         Alert.alert(
           'Upozorenje!',
@@ -54,3 +62,9 @@ const GetPhoto = ({imgUri}: GetPhotoProps) => {
 };
 
 export default GetPhoto;
+const styles = StyleSheet.create({
+  image: {
+    height: '100%',
+    width: '100%',
+  },
+});

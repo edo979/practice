@@ -3,11 +3,20 @@ import {main, mainStyle} from '../../constants/style';
 import IconButton from './IconButton';
 import GetLocation from 'react-native-get-location';
 
-type GetUserLocationProps = {
-  location?: {lat: number; lng: number};
+type location = {
+  lat: number;
+  lng: number;
 };
 
-const GetUserLocation = ({location}: GetUserLocationProps) => {
+type GetUserLocationProps = {
+  location?: location;
+  saveLocationHandler: (location: location) => void;
+};
+
+const GetUserLocation = ({
+  location,
+  saveLocationHandler,
+}: GetUserLocationProps) => {
   let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
   if (location) content = <Text>The GetUserLocation</Text>;
 
@@ -23,12 +32,13 @@ const GetUserLocation = ({location}: GetUserLocationProps) => {
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        const {latitude, longitude} = await GetLocation.getCurrentPosition({
-          enableHighAccuracy: true,
-          timeout: 6000,
-        });
+        const {latitude: lat, longitude: lng} =
+          await GetLocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 6000,
+          });
 
-        console.log(latitude, longitude);
+        saveLocationHandler({lat, lng});
       } else {
         Alert.alert(
           'Upozorenje',

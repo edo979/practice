@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
@@ -9,7 +9,11 @@ import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {StackParamListT} from '../App';
 import {RawPlaceT} from '../store/dt';
 
-type AddPlaceProps = NativeStackScreenProps<StackParamListT, 'AddPlace'>;
+type AddPlaceProps = NativeStackScreenProps<
+  StackParamListT,
+  'AddPlace',
+  'AllPlaces'
+>;
 
 const AddPlace = ({navigation}: AddPlaceProps) => {
   const {savePlace} = useFavoritePlacesContext();
@@ -20,24 +24,26 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
     location: {lat: 0, lng: 0},
   });
 
-  function onSave() {
-    savePlace({
-      name: 'Prvo',
-      address: 'Prva',
-      imageUri: 'Slika prva',
-      location: {lat: 77, lng: 88},
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: ({tintColor}) => (
+        <NavigationIconBtn onPress={onSave} name="save" color={tintColor}>
+          Snimi
+        </NavigationIconBtn>
+      ),
     });
-    navigation.navigate('AllPlaces');
-  }
+  }, [state]);
 
-  navigation.setOptions({
-    headerRight: ({tintColor}) => (
-      <NavigationIconBtn onPress={onSave} name="save" color={tintColor}>
-        {' '}
-        Snimi
-      </NavigationIconBtn>
-    ),
-  });
+  const onSave = () => {
+    console.log(state);
+    // savePlace({
+    //   name: 'Prvo',
+    //   address: 'Prva',
+    //   imageUri: 'Slika prva',
+    //   location: {lat: 77, lng: 88},
+    // });
+    // navigation.navigate('AllPlaces');
+  };
 
   return (
     <View style={styles.container}>
@@ -49,8 +55,15 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
           onChangeText={text => setState(prev => ({...prev, name: text}))}
         />
       </View>
-      <GetPhoto />
-      <GetUserLocation />
+      <GetPhoto
+        imgUri={state.imageUri !== '' ? state.imageUri : undefined}
+        saveImageHandler={imageUri => setState(prev => ({...prev, imageUri}))}
+      />
+      <GetUserLocation
+        saveLocationHandler={location =>
+          setState(prev => ({...prev, location}))
+        }
+      />
     </View>
   );
 };
