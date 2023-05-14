@@ -21,7 +21,7 @@ const ShowPhoto = ({imgUri}: ShowPhotoProps) => {
 
         console.log(assets[0].uri);
       } catch (error) {
-        console.log(error);
+        Alert.alert('Upozorenje', 'Došlo je do greške, pokušajte ponovo.');
       }
     } else {
       Alert.alert(
@@ -49,7 +49,6 @@ const ShowPhoto = ({imgUri}: ShowPhotoProps) => {
 
       return false;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
