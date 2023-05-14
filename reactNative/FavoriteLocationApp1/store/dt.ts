@@ -35,12 +35,8 @@ export async function getPlacesFromDB() {
   const db = await getDBConnection();
 
   try {
-    const results = await db.transaction(tx =>
-      tx.executeSql(`SELECT * FROM places`),
-    );
-
-    console.log(results);
-    return results;
+    const results = await db.executeSql(`SELECT * FROM places`, []);
+    console.log(results.map(item => console.log(item)));
   } catch (error) {
     return null;
   }

@@ -2,7 +2,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 
 const AllPlaces = () => {
-  const {} = useFavoritePlacesContext();
+  const {places} = useFavoritePlacesContext();
+
+  if (!places || places.length === 0)
+    return <Text>Nijedno mjesto nije dodano, krenite dodavati mjesta.</Text>;
 
   return (
     <View>
