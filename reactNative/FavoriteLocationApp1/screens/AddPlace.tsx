@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {DarkTheme, main} from '../constants/style';
-import Photo from '../components/ui/Photo';
-import Map from '../components/ui/Map';
+import GetPhoto from '../components/ui/GetPhoto';
+import GetUserLocation from '../components/ui/GetUserLocation';
 
 const AddPlace = () => {
   return (
@@ -10,8 +10,8 @@ const AddPlace = () => {
         <Text style={styles.label}>Naziv:</Text>
         <TextInput style={styles.input} />
       </View>
-      <Photo />
-      <Map />
+      <GetPhoto />
+      <GetUserLocation />
     </View>
   );
 };
