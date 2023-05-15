@@ -5,7 +5,7 @@ import {DarkTheme} from '../constants/style';
 const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
 
-  if (!places || places.length === 0)
+  if (places.length === 0)
     return (
       <View style={styles.container}>
         <Text style={styles.text}>
