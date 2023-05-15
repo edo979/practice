@@ -45,11 +45,17 @@ export async function getPlacesFromDB() {
   const db = await getDBConnection();
 
   try {
-    const results = await db.executeSql(`SELECT * FROM places`, []);
+    const results = (await db.executeSql(`SELECT * FROM places`, []))[0];
+    const length = results.rows.length;
+    const items: PlaceT[] = [];
 
-    if (results[0].rows.length === 0) return null;
-    console.log(results);
-    return results.map((result, i) => result.rows.item(i));
+    if (length === 0) return null;
+
+    for (let i = 0; i < length; i++) {
+      items.push(results.rows.item(i));
+    }
+
+    return items;
   } catch (error) {
     return null;
   }

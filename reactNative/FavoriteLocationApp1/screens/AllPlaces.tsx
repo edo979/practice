@@ -4,7 +4,6 @@ import {DarkTheme, mainStyle} from '../constants/style';
 
 const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
-  console.log(places);
 
   if (places.length === 0)
     return (
