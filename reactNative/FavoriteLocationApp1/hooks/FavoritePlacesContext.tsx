@@ -35,6 +35,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     const placesFromDB = await getPlacesFromDB();
     if (placesFromDB && placesFromDB.length > 0) setPlaces(placesFromDB);
   }
+
   async function savePlace(place: RawPlaceT) {
     await savePlacesToDB(place);
   }

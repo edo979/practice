@@ -17,8 +17,7 @@ export type PlaceT = {
 
 enablePromise(true);
 
-const getDBConnection = async () =>
-  openDatabase({name: 'places.db', location: 'default'});
+const getDBConnection = async () => openDatabase({name: 'places.db'});
 
 export async function createDB() {
   const db: SQLiteDatabase = await getDBConnection();
@@ -48,6 +47,7 @@ export async function getPlacesFromDB() {
   try {
     const results = await db.executeSql(`SELECT * FROM places`, []);
 
+    if (results[0].rows.length === 0) return null;
     return results.map((result, i) => result.rows.item(i));
   } catch (error) {
     return null;

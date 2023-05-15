@@ -34,15 +34,15 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
     });
   }, [state]);
 
-  const onSave = () => {
-    console.log(state);
-    // savePlace({
-    //   name: 'Prvo',
-    //   address: 'Prva',
-    //   imageUri: 'Slika prva',
-    //   location: {lat: 77, lng: 88},
-    // });
-    // navigation.navigate('AllPlaces');
+  const onSave = async () => {
+    await savePlace({
+      name: state.name,
+      address: state.address,
+      imageUri: state.imageUri,
+      location: {lat: state.location.lat, lng: state.location.lng},
+    });
+
+    navigation.navigate('AllPlaces');
   };
 
   return (

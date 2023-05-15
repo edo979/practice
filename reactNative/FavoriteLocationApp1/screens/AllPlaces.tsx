@@ -1,4 +1,4 @@
-import {StyleSheet, Text, FlatList} from 'react-native';
+import {StyleSheet, Text, FlatList, View} from 'react-native';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {DarkTheme} from '../constants/style';
 
@@ -7,9 +7,11 @@ const AllPlaces = () => {
 
   if (!places || places.length === 0)
     return (
-      <Text style={styles.text}>
-        Nijedno mjesto nije dodano, krenite dodavati mjesta.
-      </Text>
+      <View style={styles.container}>
+        <Text style={styles.text}>
+          Nijedno mjesto nije dodano, krenite dodavati mjesta.
+        </Text>
+      </View>
     );
 
   return (
