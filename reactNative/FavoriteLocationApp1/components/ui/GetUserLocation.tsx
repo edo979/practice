@@ -2,6 +2,14 @@ import {Alert, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import {main, mainStyle} from '../../constants/style';
 import IconButton from './IconButton';
 import GetLocation from 'react-native-get-location';
+import {useNavigation} from '@react-navigation/native';
+import {StackParamListT} from '../../App';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+type MapNavigationPropT = NativeStackScreenProps<
+  StackParamListT,
+  'Map'
+>['navigation'];
 
 type location = {
   lat: number;
@@ -19,6 +27,7 @@ const GetUserLocation = ({
 }: GetUserLocationProps) => {
   let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
   if (location) content = <Text>The GetUserLocation</Text>;
+  const navigation = useNavigation<MapNavigationPropT>();
 
   async function getLocationHandler() {
     try {
@@ -56,7 +65,11 @@ const GetUserLocation = ({
 
       <View style={styles.btnGroup}>
         <View style={{flex: 1}}>
-          <IconButton name="add-location" onPress={() => {}}>
+          <IconButton
+            name="add-location"
+            onPress={() => {
+              navigation.navigate('Map');
+            }}>
             Odaberi
           </IconButton>
         </View>

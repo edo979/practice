@@ -6,10 +6,12 @@ import AllPlaces from './screens/AllPlaces';
 import NavigationIconBtn from './components/ui/NavigationIconBtn';
 import {DarkTheme} from './constants/style';
 import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
+import Map from './components/Map';
 
 export type StackParamListT = {
   AllPlaces: undefined;
   AddPlace: undefined;
+  Map: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamListT>();
@@ -42,6 +44,7 @@ const App = () => {
             component={AddPlace}
             options={{title: 'Novo mjesto'}}
           />
+          <Stack.Screen name="Map" component={Map} options={{title: 'Map'}} />
         </Stack.Navigator>
       </NavigationContainer>
     </FavoritePlaceProvider>
