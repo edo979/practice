@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
@@ -24,7 +24,7 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
     location: {lat: 0, lng: 0},
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: ({tintColor}) => (
         <NavigationIconBtn onPress={onSave} name="save" color={tintColor}>

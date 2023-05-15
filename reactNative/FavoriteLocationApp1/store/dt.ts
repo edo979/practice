@@ -67,8 +67,8 @@ export async function savePlacesToDB({
       'INSERT INTO places(name, address, imageUri, lat, lng) VALUES(?, ?, ?, ?, ?)',
       [name, address, imageUri, location.lat, location.lng],
     );
-    console.log(result[0].insertId);
+    return true;
   } catch (error) {
-    console.log(error);
+    return false;
   }
 }
