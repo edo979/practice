@@ -35,6 +35,7 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
   }, [state]);
 
   const onSave = async () => {
+    console.log('from onsave in add place', state);
     await savePlace({
       name: state.name,
       address: state.address,

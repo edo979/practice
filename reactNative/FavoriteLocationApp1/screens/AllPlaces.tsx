@@ -1,9 +1,10 @@
-import {StyleSheet, Text, FlatList, View} from 'react-native';
+import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
-import {DarkTheme} from '../constants/style';
+import {DarkTheme, mainStyle} from '../constants/style';
 
 const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
+  console.log(places);
 
   if (places.length === 0)
     return (
@@ -19,7 +20,13 @@ const AllPlaces = () => {
       style={styles.container}
       data={places}
       renderItem={({item: place}) => (
-        <Text style={styles.text}>{place.name}</Text>
+        <View style={styles.itemContainer}>
+          <Image source={{uri: place.imageUri}} style={styles.image} />
+          <View style={styles.detailsContainer}>
+            <Text style={[styles.text, styles.title]}>{place.name}</Text>
+            <Text style={styles.text}>{place.name}</Text>
+          </View>
+        </View>
       )}
     />
   );
@@ -30,8 +37,28 @@ const styles = StyleSheet.create({
   container: {
     padding: DarkTheme.util.padding,
   },
+  itemContainer: {
+    ...mainStyle.card,
+    height: 100,
+    marginBottom: DarkTheme.util.verticalSpacing,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+  },
+  title: {
+    marginBottom: 8,
+    fontSize: DarkTheme.util.fsXL,
+  },
   text: {
-    fontSize: DarkTheme.util.fsLG,
-    color: DarkTheme.colors.border,
+    fontSize: DarkTheme.util.fsMD,
+    color: DarkTheme.colors.text,
+  },
+  image: {
+    ...DarkTheme.imageBaseStyle,
+    borderRadius: DarkTheme.util.borderRadius,
+    flex: 1,
+  },
+  detailsContainer: {
+    flex: 2,
   },
 });

@@ -35,12 +35,16 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
 
   async function fetchPlaces() {
     const placesFromDB = await getPlacesFromDB();
+    console.log(placesFromDB);
     if (placesFromDB && placesFromDB.length > 0) setPlaces(placesFromDB);
   }
 
   async function savePlace(place: RawPlaceT) {
-    if ((await savePlacesToDB(place)) === false)
+    if ((await savePlacesToDB(place)) === false) {
       setError('Greška prilikom spremanja podataka');
+      console.log('jah save');
+    }
+    fetchPlaces();
   }
 
   return (

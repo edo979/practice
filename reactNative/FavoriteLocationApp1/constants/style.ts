@@ -17,6 +17,11 @@ export const DarkTheme = {
     fsSM: 12,
     fsMD: 16,
     fsLG: 18,
+    fsXL: 24,
+  },
+  imageBaseStyle: {
+    height: '100%',
+    width: '100%',
   },
 };
 
