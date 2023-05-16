@@ -8,6 +8,7 @@ import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
 import MapView from 'react-native-maps';
+import {GMA_KEY} from '../secrets';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -62,6 +63,7 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
           });
 
         setState({lat, lng});
+        await getAddress({lat, lng});
         saveLocationHandler({lat, lng});
       } else {
         Alert.alert(
@@ -73,6 +75,20 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
       Alert.alert('Upozorenje', 'Došlo je do greške, pokušajte ponovo.');
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function getAddress({lat, lng}: LocationT) {
+    try {
+      const res = await fetch(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=' +
+          GMA_KEY,
+      );
+
+      const data = await res.json();
+      return data.results[0].formatted_address as string;
+    } catch (error) {
+      return null;
     }
   }
 
