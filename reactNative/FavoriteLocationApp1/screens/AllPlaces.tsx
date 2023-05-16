@@ -2,6 +2,28 @@ import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {DarkTheme, mainStyle} from '../constants/style';
 
+const ImageContent = ({source}: {source: string}) => {
+  if (source === '')
+    return (
+      <View
+        style={{
+          flex: 1,
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: DarkTheme.util.fsLG,
+          }}>
+          Nema slike
+        </Text>
+      </View>
+    );
+
+  return <Image source={{uri: source}} style={styles.image} />;
+};
+
 const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
 
@@ -20,11 +42,7 @@ const AllPlaces = () => {
       data={places}
       renderItem={({item: place}) => (
         <View style={styles.itemContainer}>
-          {place.imageUri !== '' ? (
-            <Image source={{uri: place.imageUri}} style={styles.image} />
-          ) : (
-            <Text>Nema slike</Text>
-          )}
+          <ImageContent source={place.imageUri} />
 
           <View style={styles.detailsContainer}>
             <Text style={[styles.text, styles.title]}>{place.name}</Text>
