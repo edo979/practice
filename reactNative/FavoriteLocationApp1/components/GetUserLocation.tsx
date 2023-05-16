@@ -7,6 +7,7 @@ import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
+import MapView from 'react-native-maps';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -22,14 +23,27 @@ type GetUserLocationProps = {
   saveLocationHandler: (location: LocationT) => void;
 };
 
+const MapContent = ({
+  isLoading,
+  location,
+}: {
+  isLoading: boolean;
+  location?: LocationT;
+}) => {
+  if (isLoading) return <Text>Učitavanje lokacije...</Text>;
+  if (!location)
+    return <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
+
+  return <Map />;
+};
+
 const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
   const [state, setState] = useState<LocationT>();
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<MapNavigationPropT>();
 
-  let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
-  if (state) content = <Map />;
-
   async function getLocationHandler() {
+    setIsLoading(true);
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -57,12 +71,16 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
       }
     } catch (err) {
       Alert.alert('Upozorenje', 'Došlo je do greške, pokušajte ponovo.');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <View style={{flex: 3, gap: 12}}>
-      <View style={mainStyle.card}>{content}</View>
+      <View style={mainStyle.card}>
+        <MapContent isLoading={isLoading} location={state} />
+      </View>
 
       <View style={styles.btnGroup}>
         <View style={{flex: 1}}>
