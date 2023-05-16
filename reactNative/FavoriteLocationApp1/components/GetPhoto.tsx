@@ -6,8 +6,8 @@ import {
   Alert,
   StyleSheet,
 } from 'react-native';
-import {main, mainStyle} from '../../constants/style';
-import IconButton from './IconButton';
+import {main, mainStyle} from '../constants/style';
+import IconButton from './ui/IconButton';
 import {launchCamera} from 'react-native-image-picker';
 
 type GetPhotoProps = {

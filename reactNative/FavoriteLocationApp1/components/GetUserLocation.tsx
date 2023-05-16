@@ -1,9 +1,9 @@
 import {Alert, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
-import {main, mainStyle} from '../../constants/style';
-import IconButton from './IconButton';
+import {main, mainStyle} from '../constants/style';
+import IconButton from './ui/IconButton';
 import GetLocation from 'react-native-get-location';
 import {useNavigation} from '@react-navigation/native';
-import {StackParamListT} from '../../App';
+import {StackParamListT} from '../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 type MapNavigationPropT = NativeStackScreenProps<
