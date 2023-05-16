@@ -29,14 +29,9 @@ const GetUserLocation = ({
 }: GetUserLocationProps) => {
   const [state, setState] = useState<LocationT>();
   const navigation = useNavigation<MapNavigationPropT>();
-  let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
 
-  if (state)
-    content = (
-      <View style={{height: '100%', width: '100%'}}>
-        <Map />
-      </View>
-    );
+  let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
+  if (state) content = <Map />;
 
   async function getLocationHandler() {
     try {
