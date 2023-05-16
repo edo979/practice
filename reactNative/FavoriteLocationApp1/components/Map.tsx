@@ -15,7 +15,7 @@ const Map = ({location}: MapPropsT) => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
-      style={{flex: 1}}
+      style={{flex: 1, height: '100%', width: '100%'}}
     />
   );
 };

@@ -20,7 +20,12 @@ const AllPlaces = () => {
       data={places}
       renderItem={({item: place}) => (
         <View style={styles.itemContainer}>
-          <Image source={{uri: place.imageUri}} style={styles.image} />
+          {place.imageUri !== '' ? (
+            <Image source={{uri: place.imageUri}} style={styles.image} />
+          ) : (
+            <Text>Nema slike</Text>
+          )}
+
           <View style={styles.detailsContainer}>
             <Text style={[styles.text, styles.title]}>{place.name}</Text>
             <Text style={styles.text}>{place.name}</Text>

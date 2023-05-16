@@ -31,15 +31,12 @@ const GetUserLocation = ({
   const navigation = useNavigation<MapNavigationPropT>();
   let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
 
-  useEffect(() => {
-    if (!state) return;
+  if (state)
     content = (
       <View style={{height: '100%', width: '100%'}}>
         <Map />
       </View>
     );
-    console.log(content);
-  }, [state]);
 
   async function getLocationHandler() {
     try {
@@ -58,8 +55,8 @@ const GetUserLocation = ({
             enableHighAccuracy: true,
             timeout: 6000,
           });
-        console.log(lat, lng);
-        setState(prev => ({lat, lng}));
+
+        setState({lat, lng});
         saveLocationHandler({lat, lng});
       } else {
         Alert.alert(
