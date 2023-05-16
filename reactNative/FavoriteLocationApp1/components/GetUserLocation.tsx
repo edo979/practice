@@ -7,7 +7,6 @@ import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
-import MapView from 'react-native-maps';
 import {GMA_KEY} from '../secrets';
 
 type MapNavigationPropT = NativeStackScreenProps<
@@ -62,9 +61,9 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
             timeout: 6000,
           });
 
-        setState({lat, lng});
         await getAddress({lat, lng});
         saveLocationHandler({lat, lng});
+        setState({lat, lng});
       } else {
         Alert.alert(
           'Upozorenje',
@@ -81,8 +80,7 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
   async function getAddress({lat, lng}: LocationT) {
     try {
       const res = await fetch(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=' +
-          GMA_KEY,
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GMA_KEY}`,
       );
 
       const data = await res.json();

@@ -15,6 +15,9 @@ const Map = ({location}: MapPropsT) => {
 
   return (
     <MapView
+      provider={'google'}
+      showsMyLocationButton={true}
+      mapType="standard"
       initialRegion={{
         latitude: state.lat,
         longitude: state.lng,
