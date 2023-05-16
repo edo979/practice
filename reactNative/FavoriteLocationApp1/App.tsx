@@ -6,12 +6,12 @@ import AllPlaces from './screens/AllPlaces';
 import NavigationIconBtn from './components/ui/NavigationIconBtn';
 import {DarkTheme} from './constants/style';
 import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
-import Map from './components/Map';
+import PickLocation from './screens/PickLocation';
 
 export type StackParamListT = {
   AllPlaces: undefined;
   AddPlace: undefined;
-  Map: undefined;
+  PickLocation: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamListT>();
@@ -44,7 +44,11 @@ const App = () => {
             component={AddPlace}
             options={{title: 'Novo mjesto'}}
           />
-          <Stack.Screen name="Map" component={Map} options={{title: 'Map'}} />
+          <Stack.Screen
+            name="PickLocation"
+            component={PickLocation}
+            options={{title: 'Map'}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </FavoritePlaceProvider>

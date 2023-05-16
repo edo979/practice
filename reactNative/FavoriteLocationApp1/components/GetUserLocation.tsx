@@ -5,29 +5,41 @@ import GetLocation from 'react-native-get-location';
 import {useNavigation} from '@react-navigation/native';
 import {StackParamListT} from '../App';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Map from './Map';
+import {useEffect, useState} from 'react';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
-  'Map'
+  'PickLocation'
 >['navigation'];
 
-type location = {
+export type LocationT = {
   lat: number;
   lng: number;
 };
 
 type GetUserLocationProps = {
-  location?: location;
-  saveLocationHandler: (location: location) => void;
+  location?: LocationT;
+  saveLocationHandler: (location: LocationT) => void;
 };
 
 const GetUserLocation = ({
   location,
   saveLocationHandler,
 }: GetUserLocationProps) => {
-  let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
-  if (location) content = <Text>The GetUserLocation</Text>;
+  const [state, setState] = useState<LocationT>();
   const navigation = useNavigation<MapNavigationPropT>();
+  let content = <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
+
+  useEffect(() => {
+    if (!state) return;
+    content = (
+      <View style={{height: '100%', width: '100%'}}>
+        <Map />
+      </View>
+    );
+    console.log(content);
+  }, [state]);
 
   async function getLocationHandler() {
     try {
@@ -46,7 +58,8 @@ const GetUserLocation = ({
             enableHighAccuracy: true,
             timeout: 6000,
           });
-
+        console.log(lat, lng);
+        setState(prev => ({lat, lng}));
         saveLocationHandler({lat, lng});
       } else {
         Alert.alert(
@@ -68,7 +81,7 @@ const GetUserLocation = ({
           <IconButton
             name="add-location"
             onPress={() => {
-              navigation.navigate('Map');
+              navigation.navigate('PickLocation');
             }}>
             Odaberi
           </IconButton>
