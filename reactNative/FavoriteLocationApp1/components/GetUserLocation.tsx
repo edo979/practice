@@ -1,12 +1,12 @@
+import {useState} from 'react';
 import {Alert, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import GetLocation from 'react-native-get-location';
 import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
-import GetLocation from 'react-native-get-location';
-import {useNavigation} from '@react-navigation/native';
 import {StackParamListT} from '../App';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Map from './Map';
-import {useEffect, useState} from 'react';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -19,14 +19,10 @@ export type LocationT = {
 };
 
 type GetUserLocationProps = {
-  location?: LocationT;
   saveLocationHandler: (location: LocationT) => void;
 };
 
-const GetUserLocation = ({
-  location,
-  saveLocationHandler,
-}: GetUserLocationProps) => {
+const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
   const [state, setState] = useState<LocationT>();
   const navigation = useNavigation<MapNavigationPropT>();
 
