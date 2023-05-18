@@ -43,7 +43,6 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
   async function savePlace(place: RawPlaceT) {
     if ((await savePlacesToDB(place)) === false) {
       setError('Greška prilikom spremanja podataka');
-      console.log('jah save');
     }
     fetchPlaces();
   }
@@ -52,6 +51,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     <FavoritePlacesContext.Provider
       value={{
         places,
+        error,
         fetchPlaces,
         savePlace,
       }}>

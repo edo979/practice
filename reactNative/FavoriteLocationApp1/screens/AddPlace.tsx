@@ -1,5 +1,5 @@
 import {useLayoutEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
 import GetPhoto from '../components/GetPhoto';
@@ -16,7 +16,7 @@ type AddPlaceProps = NativeStackScreenProps<
 >;
 
 const AddPlace = ({navigation}: AddPlaceProps) => {
-  const {savePlace} = useFavoritePlacesContext();
+  const {savePlace, error} = useFavoritePlacesContext();
   const [state, setState] = useState<RawPlaceT>({
     name: '',
     address: '',
@@ -42,6 +42,7 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
       imageUri: state.imageUri,
       location: {lat: state.location.lat, lng: state.location.lng},
     });
+    if (error) Alert.alert('Upozorenje', error);
 
     navigation.navigate('AllPlaces');
   };
@@ -61,8 +62,8 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
         saveImageHandler={imageUri => setState(prev => ({...prev, imageUri}))}
       />
       <GetUserLocation
-        saveLocationHandler={location =>
-          setState(prev => ({...prev, location}))
+        saveLocationHandler={(location, address) =>
+          setState(prev => ({...prev, location, address}))
         }
       />
     </View>

@@ -20,7 +20,7 @@ export type LocationT = {
 };
 
 type GetUserLocationProps = {
-  saveLocationHandler: (location: LocationT) => void;
+  saveLocationHandler: (location: LocationT, address: string) => void;
 };
 
 const MapContent = ({
@@ -61,8 +61,8 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
             timeout: 6000,
           });
 
-        await getAddress({lat, lng});
-        saveLocationHandler({lat, lng});
+        const address = (await getAddress({lat, lng})) || 'Nema adrese.';
+        saveLocationHandler({lat, lng}, address);
         setState({lat, lng});
       } else {
         Alert.alert(
