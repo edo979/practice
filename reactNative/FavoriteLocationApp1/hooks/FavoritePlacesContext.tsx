@@ -12,7 +12,7 @@ type FavoritePlacesContextT = {
   places: PlaceT[];
   fetchPlaces: () => void;
   savePlace: (place: RawPlaceT) => void;
-  error?: string;
+  errorFromDB?: string;
 };
 
 const FavoritePlacesContext = createContext({} as FavoritePlacesContextT);
@@ -23,7 +23,7 @@ export function useFavoritePlacesContext() {
 
 export function FavoritePlaceProvider({children}: {children: ReactNode}) {
   const [places, setPlaces] = useState<PlaceT[]>([]);
-  const [error, setError] = useState<string>();
+  const [errorFromDB, setErrorFromDb] = useState<string>();
 
   useEffect(() => {
     const init = async () => {
@@ -42,7 +42,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
 
   async function savePlace(place: RawPlaceT) {
     if ((await savePlacesToDB(place)) === false) {
-      setError('Greška prilikom spremanja podataka');
+      setErrorFromDb('Greška prilikom spremanja podataka');
     }
     fetchPlaces();
   }
@@ -51,7 +51,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     <FavoritePlacesContext.Provider
       value={{
         places,
-        error,
+        errorFromDB,
         fetchPlaces,
         savePlace,
       }}>

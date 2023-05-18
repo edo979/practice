@@ -3,7 +3,7 @@ import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
 import GetPhoto from '../components/GetPhoto';
-import GetUserLocation from '../components/GetUserLocation';
+import GetUserLocation, {LocationT} from '../components/GetUserLocation';
 import NavigationIconBtn from '../components/ui/NavigationIconBtn';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {StackParamListT} from '../App';
@@ -15,8 +15,15 @@ type AddPlaceProps = NativeStackScreenProps<
   'AllPlaces'
 >;
 
+type ErrorsT = {
+  name: string | null;
+  address: string | null;
+  imageUri: string | null;
+  location: string | null;
+};
+
 const AddPlace = ({navigation}: AddPlaceProps) => {
-  const {savePlace, error} = useFavoritePlacesContext();
+  const {savePlace, errorFromDB} = useFavoritePlacesContext();
   const [state, setState] = useState<RawPlaceT>({
     name: '',
     address: '',
@@ -35,17 +42,45 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
   }, [state]);
 
   const onSave = async () => {
-    console.log('from onsave in add place', state);
+    const errors = validateData();
+
+    if (errors) {
+      Alert.alert(
+        'Upozorenje',
+        `${errors.name ? errors.name + '\n' : ''}${
+          errors.imageUri ? errors.imageUri + '\n' : ''
+        }${errors.address ? errors.address + '\n' : ''}${
+          errors.location ? errors.location + '\n' : ''
+        }`,
+      );
+
+      return;
+    }
+
     await savePlace({
       name: state.name,
       address: state.address,
       imageUri: state.imageUri,
       location: {lat: state.location.lat, lng: state.location.lng},
     });
-    if (error) Alert.alert('Upozorenje', error);
+    if (errorFromDB) Alert.alert('Upozorenje', errorFromDB);
 
     navigation.navigate('AllPlaces');
   };
+
+  function validateData() {
+    const errors: ErrorsT = {
+      name: state.name ? null : 'Upišite naziv za novo mjesto.',
+      address: state.address ? null : 'Lokacija nije određena.',
+      imageUri: state.imageUri ? null : 'Novo mjesto nema slike.',
+      location: state.location ? null : 'Greška prilikom lociranja.',
+    };
+
+    const hasErrors = Object.values(errors).some(Boolean);
+
+    if (hasErrors) return errors;
+    return false;
+  }
 
   return (
     <View style={styles.container}>
