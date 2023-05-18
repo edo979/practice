@@ -46,7 +46,7 @@ const AllPlaces = () => {
 
           <View style={styles.detailsContainer}>
             <Text style={[styles.text, styles.title]}>{place.name}</Text>
-            <Text style={styles.text}>{place.name}</Text>
+            <Text style={styles.text}>{place.address}</Text>
           </View>
         </View>
       )}
