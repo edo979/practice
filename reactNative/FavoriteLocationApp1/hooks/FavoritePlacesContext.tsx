@@ -3,6 +3,7 @@ import {
   PlaceT,
   RawPlaceT,
   createDB,
+  dropTable,
   getPlacesFromDB,
   savePlacesToDB,
 } from '../store/dt';
@@ -26,6 +27,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
 
   useEffect(() => {
     const init = async () => {
+      // dropTable();
       createDB();
       await fetchPlaces();
     };

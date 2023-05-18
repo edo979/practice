@@ -41,6 +41,15 @@ export async function createDB() {
   }
 }
 
+export async function dropTable() {
+  try {
+    const db: SQLiteDatabase = await getDBConnection();
+    await db.executeSql('DROP TABLE IF EXISTS places');
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getPlacesFromDB() {
   const db = await getDBConnection();
 
