@@ -1,6 +1,12 @@
-import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
+import {StyleSheet, Text, FlatList, View, Image, Pressable} from 'react-native';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {DarkTheme, mainStyle} from '../constants/style';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackParamListT} from '../App';
+
+type AllPlacesNavigationT =
+  NativeStackScreenProps<StackParamListT>['navigation'];
 
 const ImageContent = ({source}: {source: string}) => {
   if (source === '')
@@ -26,6 +32,11 @@ const ImageContent = ({source}: {source: string}) => {
 
 const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
+  const navigation = useNavigation<AllPlacesNavigationT>();
+
+  function placeNavigationHandler(id: number) {
+    navigation.navigate('Place');
+  }
 
   if (places.length === 0)
     return (
@@ -41,14 +52,16 @@ const AllPlaces = () => {
       style={styles.container}
       data={places}
       renderItem={({item: place}) => (
-        <View style={styles.itemContainer}>
+        <Pressable
+          style={styles.itemContainer}
+          onPress={() => placeNavigationHandler(place.id)}>
           <ImageContent source={place.imageUri} />
 
           <View style={styles.detailsContainer}>
             <Text style={[styles.text, styles.title]}>{place.name}</Text>
             <Text style={styles.text}>{place.address}</Text>
           </View>
-        </View>
+        </Pressable>
       )}
     />
   );

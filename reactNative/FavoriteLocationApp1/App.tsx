@@ -7,11 +7,13 @@ import NavigationIconBtn from './components/ui/NavigationIconBtn';
 import {DarkTheme} from './constants/style';
 import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
 import PickLocation from './screens/PickLocation';
+import Place from './screens/Place';
 
 export type StackParamListT = {
   AllPlaces: undefined;
   AddPlace: undefined;
   PickLocation: undefined;
+  Place: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamListT>();
@@ -49,6 +51,7 @@ const App = () => {
             component={PickLocation}
             options={{title: 'Map'}}
           />
+          <Stack.Screen name="Place" component={Place} />
         </Stack.Navigator>
       </NavigationContainer>
     </FavoritePlaceProvider>
