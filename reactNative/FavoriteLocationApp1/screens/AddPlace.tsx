@@ -3,7 +3,7 @@ import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
 import GetPhoto from '../components/GetPhoto';
-import GetUserLocation, {LocationT} from '../components/GetUserLocation';
+import GetUserLocation from '../components/GetUserLocation';
 import NavigationIconBtn from '../components/ui/NavigationIconBtn';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {StackParamListT} from '../App';

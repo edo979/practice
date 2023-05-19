@@ -22,10 +22,10 @@ const Map = ({location, style}: MapPropsT) => {
       initialRegion={{
         latitude: state.lat,
         longitude: state.lng,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.035,
+        longitudeDelta: 0.01,
       }}
-      style={{height: '100%', width: '100%', ...style}}>
+      style={{flex: 1, height: '100%', width: '100%', ...style}}>
       <Marker
         key={1}
         coordinate={{latitude: state.lat, longitude: state.lng}}
