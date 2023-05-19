@@ -8,12 +8,13 @@ import {DarkTheme} from './constants/style';
 import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
 import PickLocation from './screens/PickLocation';
 import Place from './screens/Place';
+import {PlaceT} from './store/dt';
 
 export type StackParamListT = {
   AllPlaces: undefined;
   AddPlace: undefined;
   PickLocation: undefined;
-  Place: undefined;
+  Place: {place: PlaceT} | undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamListT>();

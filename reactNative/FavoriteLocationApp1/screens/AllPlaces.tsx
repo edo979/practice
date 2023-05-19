@@ -4,6 +4,7 @@ import {DarkTheme, mainStyle} from '../constants/style';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamListT} from '../App';
+import {PlaceT} from '../store/dt';
 
 type AllPlacesNavigationT =
   NativeStackScreenProps<StackParamListT>['navigation'];
@@ -34,8 +35,8 @@ const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
   const navigation = useNavigation<AllPlacesNavigationT>();
 
-  function placeNavigationHandler(id: number) {
-    navigation.navigate('Place');
+  function placeNavigationHandler(place: PlaceT) {
+    navigation.navigate('Place', {place});
   }
 
   if (places.length === 0)
@@ -54,7 +55,7 @@ const AllPlaces = () => {
       renderItem={({item: place}) => (
         <Pressable
           style={styles.itemContainer}
-          onPress={() => placeNavigationHandler(place.id)}>
+          onPress={() => placeNavigationHandler(place)}>
           <ImageContent source={place.imageUri} />
 
           <View style={styles.detailsContainer}>
