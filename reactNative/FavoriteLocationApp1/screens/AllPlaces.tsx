@@ -35,10 +35,6 @@ const AllPlaces = () => {
   const {places} = useFavoritePlacesContext();
   const navigation = useNavigation<AllPlacesNavigationT>();
 
-  function placeNavigationHandler(place: PlaceT) {
-    navigation.navigate('Place', {place});
-  }
-
   if (places.length === 0)
     return (
       <View style={styles.container}>
@@ -55,7 +51,7 @@ const AllPlaces = () => {
       renderItem={({item: place}) => (
         <Pressable
           style={styles.itemContainer}
-          onPress={() => placeNavigationHandler(place)}>
+          onPress={() => navigation.navigate('Place', {place})}>
           <ImageContent source={place.imageUri} />
 
           <View style={styles.detailsContainer}>
