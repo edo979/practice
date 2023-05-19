@@ -5,9 +5,10 @@ import {useState} from 'react';
 
 type MapPropsT = {
   location?: LocationT;
+  style?: {};
 };
 
-const Map = ({location}: MapPropsT) => {
+const Map = ({location, style}: MapPropsT) => {
   const [state, setState] = useState<LocationT>({
     lat: location?.lat ?? 37.78825,
     lng: location?.lng ?? -122.4324,
@@ -24,7 +25,7 @@ const Map = ({location}: MapPropsT) => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
-      style={{height: '100%', width: '100%'}}>
+      style={{height: '100%', width: '100%', ...style}}>
       <Marker
         key={1}
         coordinate={{latitude: state.lat, longitude: state.lng}}
