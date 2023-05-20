@@ -13,3 +13,7 @@ export async function getAddress({lat, lng}: LocationT) {
     return 'Greška pri određivanju adrese.';
   }
 }
+
+export function getMapImage({lat, lng}: LocationT) {
+  return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=400x300&markers=color:red%7C${lat},${lng}&key=${GMA_KEY}`;
+}

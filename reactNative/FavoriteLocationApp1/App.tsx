@@ -9,6 +9,7 @@ import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
 import PickLocation from './screens/PickLocation';
 import Place from './screens/Place';
 import {PlaceT} from './store/dt';
+import {LocationT} from './components/GetUserLocation';
 
 export type StackParamListT = {
   AllPlaces: undefined;
@@ -50,7 +51,7 @@ const App = () => {
           <Stack.Screen
             name="PickLocation"
             component={PickLocation}
-            options={{title: 'Map'}}
+            options={{title: 'Odaberi lokaciju'}}
           />
           <Stack.Screen name="Place" component={Place} />
         </Stack.Navigator>

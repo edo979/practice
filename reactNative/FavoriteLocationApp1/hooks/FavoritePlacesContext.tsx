@@ -7,12 +7,16 @@ import {
   getPlacesFromDB,
   savePlacesToDB,
 } from '../store/dt';
+import {LocationT} from '../components/GetUserLocation';
+import {getAddress} from '../services/locationServices';
 
 type FavoritePlacesContextT = {
   places: PlaceT[];
+  placeLocation: LocationT | undefined;
+  errorFromDB?: string;
   fetchPlaces: () => void;
   savePlace: (place: RawPlaceT) => void;
-  errorFromDB?: string;
+  setLocation: (location: LocationT) => void;
 };
 
 const FavoritePlacesContext = createContext({} as FavoritePlacesContextT);
@@ -24,6 +28,7 @@ export function useFavoritePlacesContext() {
 export function FavoritePlaceProvider({children}: {children: ReactNode}) {
   const [places, setPlaces] = useState<PlaceT[]>([]);
   const [errorFromDB, setErrorFromDb] = useState<string>();
+  const [placeLocation, setPlaceLocation] = useState<LocationT>();
 
   useEffect(() => {
     const init = async () => {
@@ -47,13 +52,19 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     fetchPlaces();
   }
 
+  async function setLocation(location: LocationT) {
+    setPlaceLocation(location);
+  }
+
   return (
     <FavoritePlacesContext.Provider
       value={{
         places,
+        placeLocation,
         errorFromDB,
         fetchPlaces,
         savePlace,
+        setLocation,
       }}>
       {children}
     </FavoritePlacesContext.Provider>

@@ -7,7 +7,6 @@ import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
-import {getAddress} from '../services/locationServices';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -17,10 +16,6 @@ type MapNavigationPropT = NativeStackScreenProps<
 export type LocationT = {
   lat: number;
   lng: number;
-};
-
-type GetUserLocationProps = {
-  saveLocationHandler: (location: LocationT) => void;
 };
 
 const MapContent = ({
@@ -37,7 +32,7 @@ const MapContent = ({
   return <Map location={location} />;
 };
 
-const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
+const GetUserLocation = () => {
   const [state, setState] = useState<LocationT>();
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<MapNavigationPropT>();
@@ -61,8 +56,7 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
             timeout: 6000,
           });
 
-        setState({lat, lng});
-        saveLocationHandler({lat, lng});
+        saveLocation({lat, lng});
       } else {
         Alert.alert(
           'Upozorenje',
@@ -74,6 +68,10 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function saveLocation({lat, lng}: LocationT) {
+    setState({lat, lng});
   }
 
   return (
