@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
-import MapView, {LatLng, Marker} from 'react-native-maps';
+import MapView, {MapPressEvent, Marker} from 'react-native-maps';
 import {LocationT} from './GetUserLocation';
 import {useState} from 'react';
 
 type MapPropsT = {
   location?: LocationT;
-  dropPinOnMapHandler?: (latLng: LatLng) => void;
+  dropPinOnMapHandler?: (latLng: LocationT) => void;
   style?: {};
 };
 
@@ -14,6 +14,15 @@ const Map = ({location, dropPinOnMapHandler, style}: MapPropsT) => {
     lat: location?.lat ?? 37.78825,
     lng: location?.lng ?? -122.4324,
   });
+
+  function onMapPress(e: MapPressEvent) {
+    if (!dropPinOnMapHandler) return;
+
+    const {latitude: lat, longitude: lng} = e.nativeEvent.coordinate;
+
+    setState({lat, lng});
+    dropPinOnMapHandler({lat, lng});
+  }
 
   return (
     <MapView
@@ -27,9 +36,7 @@ const Map = ({location, dropPinOnMapHandler, style}: MapPropsT) => {
         longitudeDelta: 0.01,
       }}
       style={{flex: 1, height: '100%', width: '100%', ...style}}
-      onPress={e =>
-        dropPinOnMapHandler && dropPinOnMapHandler(e.nativeEvent.coordinate)
-      }>
+      onPress={onMapPress}>
       <Marker
         key={1}
         coordinate={{latitude: state.lat, longitude: state.lng}}

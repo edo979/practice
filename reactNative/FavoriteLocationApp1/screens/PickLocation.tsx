@@ -2,10 +2,9 @@ import {StyleSheet, Text, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamListT} from '../App';
 import Map from '../components/Map';
-import {useNavigation} from '@react-navigation/native';
 import {useLayoutEffect} from 'react';
 import NavigationIconBtn from '../components/ui/NavigationIconBtn';
-import {LatLng} from 'react-native-maps';
+import {LocationT} from '../components/GetUserLocation';
 
 type PickLocationPropsT = NativeStackScreenProps<
   StackParamListT,
@@ -24,7 +23,7 @@ const PickLocation = ({navigation}: PickLocationPropsT) => {
     });
   });
 
-  function pickLocationHandler(latLng: LatLng) {
+  function pickLocationHandler(latLng: LocationT) {
     console.log(latLng);
   }
 
