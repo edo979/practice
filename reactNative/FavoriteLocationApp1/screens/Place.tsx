@@ -22,7 +22,7 @@ const Place = ({route, navigation}: PlacePropT) => {
     <View style={styles.container}>
       <Image style={styles.image} source={{uri: place.imageUri}} />
       <View style={styles.map}>
-        <Map />
+        <Map location={place.location} />
       </View>
 
       <Text style={styles.text}>{place.address}</Text>
