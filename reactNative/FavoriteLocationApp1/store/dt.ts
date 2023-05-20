@@ -61,7 +61,14 @@ export async function getPlacesFromDB() {
     if (length === 0) return null;
 
     for (let i = 0; i < length; i++) {
-      items.push(results.rows.item(i));
+      const item = results.rows.item(i);
+      items.push({
+        id: item.id,
+        name: item.name,
+        address: item.address,
+        imageUri: item.imageUri,
+        location: {lat: item.lat, lng: item.lng},
+      });
     }
 
     return items;

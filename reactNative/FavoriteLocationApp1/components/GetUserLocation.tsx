@@ -7,7 +7,7 @@ import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
-import {GMA_KEY} from '../secrets';
+import {getAddress} from '../services/locationServices';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -34,7 +34,7 @@ const MapContent = ({
   if (!location)
     return <Text style={{fontSize: main.fsLG}}>Nije izabrano mjesto</Text>;
 
-  return <Map />;
+  return <Map location={location} />;
 };
 
 const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
@@ -61,7 +61,7 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
             timeout: 6000,
           });
 
-        const address = (await getAddress({lat, lng})) || 'Nema adrese.';
+        const address = await getAddress({lat, lng});
         saveLocationHandler({lat, lng}, address);
         setState({lat, lng});
       } else {
@@ -74,19 +74,6 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
       Alert.alert('Upozorenje', 'Došlo je do greške, pokušajte ponovo.');
     } finally {
       setIsLoading(false);
-    }
-  }
-
-  async function getAddress({lat, lng}: LocationT) {
-    try {
-      const res = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GMA_KEY}`,
-      );
-
-      const data = await res.json();
-      return data.results[0].formatted_address as string;
-    } catch (error) {
-      return null;
     }
   }
 

@@ -23,15 +23,9 @@ const PickLocation = ({navigation}: PickLocationPropsT) => {
     });
   });
 
-  function pickLocationHandler(latLng: LocationT) {
-    console.log(latLng);
-  }
+  function onSave() {}
 
-  function onSave() {
-    console.log('save new place location');
-  }
-
-  return <Map dropPinOnMapHandler={pickLocationHandler} />;
+  return <Map />;
 };
 
 export default PickLocation;

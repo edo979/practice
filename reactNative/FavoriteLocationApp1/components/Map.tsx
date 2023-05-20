@@ -5,23 +5,19 @@ import {useState} from 'react';
 
 type MapPropsT = {
   location?: LocationT;
-  dropPinOnMapHandler?: (latLng: LocationT) => void;
   style?: {};
 };
 
-const Map = ({location, dropPinOnMapHandler, style}: MapPropsT) => {
+const Map = ({location, style}: MapPropsT) => {
   const [state, setState] = useState<LocationT>({
-    lat: location?.lat ?? 37.78825,
-    lng: location?.lng ?? -122.4324,
+    lat: location?.lat ?? 43.6683,
+    lng: location?.lng ?? 18.9751,
   });
 
   function onMapPress(e: MapPressEvent) {
-    if (!dropPinOnMapHandler) return;
-
+    if (location) return;
     const {latitude: lat, longitude: lng} = e.nativeEvent.coordinate;
-
     setState({lat, lng});
-    dropPinOnMapHandler({lat, lng});
   }
 
   return (
@@ -32,9 +28,10 @@ const Map = ({location, dropPinOnMapHandler, style}: MapPropsT) => {
       initialRegion={{
         latitude: state.lat,
         longitude: state.lng,
-        latitudeDelta: 0.035,
+        latitudeDelta: 0.05,
         longitudeDelta: 0.01,
       }}
+      minZoomLevel={5}
       style={{flex: 1, height: '100%', width: '100%', ...style}}
       onPress={onMapPress}>
       <Marker
