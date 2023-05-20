@@ -3,11 +3,12 @@ import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
 import GetPhoto from '../components/GetPhoto';
-import GetUserLocation from '../components/GetUserLocation';
+import GetUserLocation, {LocationT} from '../components/GetUserLocation';
 import NavigationIconBtn from '../components/ui/NavigationIconBtn';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {StackParamListT} from '../App';
 import {RawPlaceT} from '../store/dt';
+import {getAddress} from '../services/locationServices';
 
 type AddPlaceProps = NativeStackScreenProps<
   StackParamListT,
@@ -82,6 +83,16 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
     return false;
   }
 
+  async function saveLocationHandler(location: LocationT) {
+    const address = await getAddress(location);
+
+    setState(prev => ({
+      ...prev,
+      location,
+      address,
+    }));
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -96,11 +107,7 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
         imgUri={state.imageUri !== '' ? state.imageUri : undefined}
         saveImageHandler={imageUri => setState(prev => ({...prev, imageUri}))}
       />
-      <GetUserLocation
-        saveLocationHandler={(location, address) =>
-          setState(prev => ({...prev, location, address}))
-        }
-      />
+      <GetUserLocation saveLocationHandler={saveLocationHandler} />
     </View>
   );
 };

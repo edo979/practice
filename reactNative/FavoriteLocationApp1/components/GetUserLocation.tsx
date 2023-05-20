@@ -20,7 +20,7 @@ export type LocationT = {
 };
 
 type GetUserLocationProps = {
-  saveLocationHandler: (location: LocationT, address: string) => void;
+  saveLocationHandler: (location: LocationT) => void;
 };
 
 const MapContent = ({
@@ -42,7 +42,7 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<MapNavigationPropT>();
 
-  async function getLocationHandler() {
+  async function locateUserHandler() {
     setIsLoading(true);
     try {
       const granted = await PermissionsAndroid.request(
@@ -61,9 +61,8 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
             timeout: 6000,
           });
 
-        const address = await getAddress({lat, lng});
-        saveLocationHandler({lat, lng}, address);
         setState({lat, lng});
+        saveLocationHandler({lat, lng});
       } else {
         Alert.alert(
           'Upozorenje',
@@ -94,7 +93,7 @@ const GetUserLocation = ({saveLocationHandler}: GetUserLocationProps) => {
           </IconButton>
         </View>
         <View style={{flex: 1}}>
-          <IconButton name="my-location" onPress={getLocationHandler}>
+          <IconButton name="my-location" onPress={locateUserHandler}>
             Lociraj
           </IconButton>
         </View>
