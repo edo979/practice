@@ -28,7 +28,6 @@ type ErrorsT = {
 type FavoritePlacesContextT = {
   places: PlaceT[];
   newPlace: NewPlaceT | undefined;
-  errorFromDB?: string;
   fetchPlaces: () => void;
   savePlace: () => Promise<ErrorsT | null>;
   updateNewPlace: (newPlaceData?: NewPlaceT) => void;
@@ -55,7 +54,6 @@ export function useFavoritePlacesContext() {
 
 export function FavoritePlaceProvider({children}: {children: ReactNode}) {
   const [places, setPlaces] = useState<PlaceT[]>([]);
-  const [errorFromDB, setErrorFromDb] = useState<string>();
   const [newPlace, setNewPlace] = useState<NewPlaceT>();
 
   useEffect(() => {
@@ -101,7 +99,6 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
       value={{
         places,
         newPlace,
-        errorFromDB,
         fetchPlaces,
         savePlace,
         updateNewPlace,

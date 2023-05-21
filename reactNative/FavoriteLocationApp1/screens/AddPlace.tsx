@@ -7,7 +7,6 @@ import GetUserLocation from '../components/GetUserLocation';
 import NavigationIconBtn from '../components/ui/NavigationIconBtn';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {StackParamListT} from '../App';
-import {RawPlaceT} from '../store/dt';
 
 type AddPlaceProps = NativeStackScreenProps<
   StackParamListT,
@@ -16,8 +15,7 @@ type AddPlaceProps = NativeStackScreenProps<
 >;
 
 const AddPlace = ({navigation}: AddPlaceProps) => {
-  const {savePlace, newPlace, updateNewPlace, errorFromDB} =
-    useFavoritePlacesContext();
+  const {savePlace, newPlace, updateNewPlace} = useFavoritePlacesContext();
 
   useLayoutEffect(() => {
     navigation.setOptions({
