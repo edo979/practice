@@ -1,22 +1,82 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {useLayoutEffect, useState} from 'react';
+import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StackParamListT} from '../App';
 import {DarkTheme} from '../constants/style';
+import {StackParamListT} from '../App';
 import Map from '../components/Map';
-import {useLayoutEffect} from 'react';
-
+import NavigationIconBtn from '../components/ui/NavigationIconBtn';
+import {PlaceT} from '../store/dt';
+import IconButton from '../components/ui/IconButton';
+import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 type PlacePropT = NativeStackScreenProps<StackParamListT, 'Place'>;
+
+const PlaceHeaderBtn = ({
+  color,
+  editHandler,
+}: {
+  color?: string;
+  editHandler: () => void;
+}) => {
+  return (
+    <View style={{flexDirection: 'row', gap: 12}}>
+      <NavigationIconBtn
+        name="delete-forever"
+        color={color}
+        onPress={editHandler}>
+        Izbriši
+      </NavigationIconBtn>
+      <NavigationIconBtn name="edit" color={color} onPress={editHandler}>
+        Uredi
+      </NavigationIconBtn>
+    </View>
+  );
+};
+
+const EditForm = ({place}: {place: PlaceT}) => {
+  const {updatePlace} = useFavoritePlacesContext();
+  const [state, setState] = useState({
+    name: place.name,
+    address: place.address,
+  });
+
+  return (
+    <View style={{flex: 1, padding: DarkTheme.util.padding, gap: 12}}>
+      <TextInput
+        style={styles.inputField}
+        value={place.name}
+        onChangeText={text => setState(prev => ({...prev, name: text}))}
+      />
+      <TextInput
+        style={styles.inputField}
+        value={place.address}
+        onChangeText={text => setState(prev => ({...prev, address: text}))}
+      />
+
+      <IconButton name="save" onPress={() => updatePlace(place.id, {...state})}>
+        Sačuvaj
+      </IconButton>
+    </View>
+  );
+};
 
 const Place = ({route, navigation}: PlacePropT) => {
   const place = route.params?.place;
+  const [isEditing, setIsEditing] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: place?.name,
+      headerRight: ({tintColor}) => (
+        <PlaceHeaderBtn
+          color={tintColor}
+          editHandler={() => setIsEditing(true)}
+        />
+      ),
     });
   });
 
   if (!place) return <Text>Nema podataka za mjesto</Text>;
+  if (isEditing) return <EditForm place={place} />;
 
   return (
     <View style={styles.container}>
@@ -29,6 +89,7 @@ const Place = ({route, navigation}: PlacePropT) => {
     </View>
   );
 };
+
 export default Place;
 const styles = StyleSheet.create({
   container: {
@@ -53,5 +114,14 @@ const styles = StyleSheet.create({
     flex: 3,
     borderRadius: DarkTheme.util.borderRadius,
     overflow: 'hidden',
+  },
+  inputField: {
+    padding: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderRadius: DarkTheme.util.borderRadius,
+    borderColor: DarkTheme.colors.border,
+    fontSize: DarkTheme.util.fsLG,
+    color: DarkTheme.colors.border,
   },
 });

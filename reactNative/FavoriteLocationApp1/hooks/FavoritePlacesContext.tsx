@@ -31,6 +31,7 @@ type FavoritePlacesContextT = {
   fetchPlaces: () => void;
   savePlace: () => Promise<ErrorsT | null>;
   updateNewPlace: (newPlaceData?: NewPlaceT) => void;
+  updatePlace: (id: number, place: NewPlaceT) => void;
 };
 
 function validateData(newPlace?: NewPlaceT) {
@@ -101,6 +102,10 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     }
   }
 
+  async function updatePlace(id: number, data: NewPlaceT) {
+    console.log(data);
+  }
+
   return (
     <FavoritePlacesContext.Provider
       value={{
@@ -109,6 +114,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
         fetchPlaces,
         savePlace,
         updateNewPlace,
+        updatePlace,
       }}>
       {children}
     </FavoritePlacesContext.Provider>
