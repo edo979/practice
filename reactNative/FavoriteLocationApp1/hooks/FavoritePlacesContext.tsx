@@ -10,13 +10,20 @@ import {
 import {LocationT} from '../components/GetUserLocation';
 import {getAddress} from '../services/locationServices';
 
+type NewPlaceT = {
+  name?: string;
+  address?: string;
+  imageUri?: string;
+  location?: LocationT;
+};
+
 type FavoritePlacesContextT = {
   places: PlaceT[];
-  placeLocation: LocationT | undefined;
+  newPlace: NewPlaceT | undefined;
   errorFromDB?: string;
   fetchPlaces: () => void;
   savePlace: (place: RawPlaceT) => void;
-  setLocation: (location: LocationT) => void;
+  setNewPlace: (newPlaceData: NewPlaceT) => void;
 };
 
 const FavoritePlacesContext = createContext({} as FavoritePlacesContextT);
@@ -28,7 +35,7 @@ export function useFavoritePlacesContext() {
 export function FavoritePlaceProvider({children}: {children: ReactNode}) {
   const [places, setPlaces] = useState<PlaceT[]>([]);
   const [errorFromDB, setErrorFromDb] = useState<string>();
-  const [placeLocation, setPlaceLocation] = useState<LocationT>();
+  const [newPlace, setNewPlace] = useState<NewPlaceT>();
 
   useEffect(() => {
     const init = async () => {
@@ -52,19 +59,15 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     fetchPlaces();
   }
 
-  async function setLocation(location: LocationT) {
-    setPlaceLocation(location);
-  }
-
   return (
     <FavoritePlacesContext.Provider
       value={{
         places,
-        placeLocation,
+        newPlace,
         errorFromDB,
         fetchPlaces,
         savePlace,
-        setLocation,
+        setNewPlace,
       }}>
       {children}
     </FavoritePlacesContext.Provider>

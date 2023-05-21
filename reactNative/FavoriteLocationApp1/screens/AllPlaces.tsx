@@ -1,13 +1,11 @@
 import {StyleSheet, Text, FlatList, View, Image, Pressable} from 'react-native';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 import {DarkTheme, mainStyle} from '../constants/style';
-import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamListT} from '../App';
-import {PlaceT} from '../store/dt';
+import {useIsFocused} from '@react-navigation/native';
 
-type AllPlacesNavigationT =
-  NativeStackScreenProps<StackParamListT>['navigation'];
+type AllPlacesProps = NativeStackScreenProps<StackParamListT>;
 
 const ImageContent = ({source}: {source: string}) => {
   if (source === '')
@@ -31,9 +29,11 @@ const ImageContent = ({source}: {source: string}) => {
   return <Image source={{uri: source}} style={styles.image} />;
 };
 
-const AllPlaces = () => {
+const AllPlaces = ({navigation}: AllPlacesProps) => {
   const {places} = useFavoritePlacesContext();
-  const navigation = useNavigation<AllPlacesNavigationT>();
+  const isFocused = useIsFocused();
+
+  console.log(isFocused);
 
   if (places.length === 0)
     return (

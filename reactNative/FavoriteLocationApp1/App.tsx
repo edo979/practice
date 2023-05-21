@@ -6,10 +6,9 @@ import AllPlaces from './screens/AllPlaces';
 import NavigationIconBtn from './components/ui/NavigationIconBtn';
 import {DarkTheme} from './constants/style';
 import {FavoritePlaceProvider} from './hooks/FavoritePlacesContext';
-import PickLocation from './screens/PickLocation';
 import Place from './screens/Place';
 import {PlaceT} from './store/dt';
-import {LocationT} from './components/GetUserLocation';
+import PickLocation from './screens/PickLocation';
 
 export type StackParamListT = {
   AllPlaces: undefined;
