@@ -77,13 +77,6 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
 
     if (hasErrors) return errors;
 
-    const placeToSave: RawPlaceT = {
-      name: newPlace?.name!,
-      address: newPlace?.address!,
-      imageUri: newPlace?.imageUri!,
-      location: newPlace?.location!,
-    };
-
     const isSave = await savePlacesToDB(newPlace as RawPlaceT);
 
     if (!isSave)
