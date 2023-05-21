@@ -12,7 +12,7 @@ export async function getAddress({lat, lng}: LocationT) {
     const data = await res.json();
     return data.results[0].formatted_address as string;
   } catch (error) {
-    return 'Greška pri određivanju adrese.';
+    return null;
   }
 }
 

@@ -77,6 +77,13 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
 
     if (hasErrors) return errors;
 
+    const placeToSave: RawPlaceT = {
+      name: newPlace?.name!,
+      address: newPlace?.address!,
+      imageUri: newPlace?.imageUri!,
+      location: newPlace?.location!,
+    };
+
     const isSave = await savePlacesToDB(newPlace as RawPlaceT);
 
     if (!isSave)
@@ -86,9 +93,16 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     return null;
   }
 
-  function updateNewPlace(data?: NewPlaceT) {
+  async function updateNewPlace(data?: NewPlaceT) {
     if (!data) {
       setNewPlace(undefined);
+    } else if (data.location) {
+      const address = await getAddress({
+        lat: data.location.lat,
+        lng: data.location.lng,
+      });
+
+      if (address) setNewPlace(prev => ({...prev, ...data, address}));
     } else {
       setNewPlace(prev => ({...prev, ...data}));
     }
