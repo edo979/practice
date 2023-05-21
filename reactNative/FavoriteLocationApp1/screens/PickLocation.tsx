@@ -1,12 +1,15 @@
 import {StyleSheet} from 'react-native';
 import MapView, {MapPressEvent, Marker} from 'react-native-maps';
-
-function onMapPress(e: MapPressEvent) {
-  const {latitude: lat, longitude: lng} = e.nativeEvent.coordinate;
-  console.log('from pick location', lat, lng);
-}
+import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 
 const PickLocation = () => {
+  const {updateNewPlace, newPlace} = useFavoritePlacesContext();
+
+  function onMapPress(e: MapPressEvent) {
+    const {latitude: lat, longitude: lng} = e.nativeEvent.coordinate;
+    updateNewPlace({location: {lat, lng}});
+  }
+
   return (
     <MapView
       provider={'google'}
@@ -23,7 +26,10 @@ const PickLocation = () => {
       onPress={onMapPress}>
       <Marker
         key={1}
-        coordinate={{latitude: 43.6683, longitude: 18.9751}}
+        coordinate={{
+          latitude: newPlace?.location?.lat ?? 43.6683,
+          longitude: newPlace?.location?.lng || 18.9751,
+        }}
         title={'Lokacija'}
         description={'Trenutna lokacija'}
       />
