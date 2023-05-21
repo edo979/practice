@@ -1,13 +1,13 @@
 import {useState} from 'react';
-import {Alert, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import GetLocation from 'react-native-get-location';
 import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
+import {getLocationPermission} from '../services/locationServices';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -41,23 +41,10 @@ const GetUserLocation = () => {
   async function locateUserHandler() {
     setIsLoading(true);
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Upozorenje',
-          message: 'Aplikacija želi pristup vašoj tačnoj lokaciji.',
-          buttonPositive: 'OK',
-        },
-      );
+      const location = await getLocationPermission();
 
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        const {latitude: lat, longitude: lng} =
-          await GetLocation.getCurrentPosition({
-            enableHighAccuracy: true,
-            timeout: 6000,
-          });
-
-        saveLocation({lat, lng});
+      if (location) {
+        updateNewPlace({location});
       } else {
         Alert.alert(
           'Upozorenje',
@@ -69,10 +56,6 @@ const GetUserLocation = () => {
     } finally {
       setIsLoading(false);
     }
-  }
-
-  function saveLocation({lat, lng}: LocationT) {
-    updateNewPlace({location: {lat, lng}});
   }
 
   return (
