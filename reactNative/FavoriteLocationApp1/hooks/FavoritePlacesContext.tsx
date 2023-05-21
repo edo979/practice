@@ -17,14 +17,35 @@ type NewPlaceT = {
   location?: LocationT;
 };
 
+type ErrorsT = {
+  error?: string;
+  name: string | null;
+  address: string | null;
+  imageUri: string | null;
+  location: string | null;
+};
+
 type FavoritePlacesContextT = {
   places: PlaceT[];
   newPlace: NewPlaceT | undefined;
   errorFromDB?: string;
   fetchPlaces: () => void;
-  savePlace: (place: RawPlaceT) => void;
+  savePlace: () => Promise<ErrorsT | null>;
   updateNewPlace: (newPlaceData?: NewPlaceT) => void;
 };
+
+function validateData(newPlace?: NewPlaceT) {
+  if (!newPlace) return {error: 'Greška prilikom snimanja.'} as ErrorsT;
+
+  const errors: ErrorsT = {
+    name: newPlace.name ? null : 'Upišite naziv za novo mjesto.',
+    address: newPlace.address ? null : 'Lokacija nije određena.',
+    imageUri: newPlace.imageUri ? null : 'Novo mjesto nema slike.',
+    location: newPlace.location ? null : 'Greška prilikom lociranja.',
+  };
+
+  return errors;
+}
 
 const FavoritePlacesContext = createContext({} as FavoritePlacesContextT);
 
@@ -52,11 +73,19 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     if (placesFromDB && placesFromDB.length > 0) setPlaces(placesFromDB);
   }
 
-  async function savePlace(place: RawPlaceT) {
-    if ((await savePlacesToDB(place)) === false) {
-      setErrorFromDb('Greška prilikom spremanja podataka');
-    }
+  async function savePlace() {
+    const errors = validateData(newPlace);
+    const hasErrors = Object.values(errors).some(Boolean);
+
+    if (hasErrors) return errors;
+
+    const isSave = await savePlacesToDB(newPlace as RawPlaceT);
+
+    if (!isSave)
+      return {error: 'Greška prilikom spremanja podataka'} as ErrorsT;
+
     fetchPlaces();
+    return null;
   }
 
   function updateNewPlace(data?: NewPlaceT) {

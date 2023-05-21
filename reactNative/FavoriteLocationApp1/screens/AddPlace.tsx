@@ -15,13 +15,6 @@ type AddPlaceProps = NativeStackScreenProps<
   'AllPlaces'
 >;
 
-type ErrorsT = {
-  name: string | null;
-  address: string | null;
-  imageUri: string | null;
-  location: string | null;
-};
-
 const AddPlace = ({navigation}: AddPlaceProps) => {
   const {savePlace, newPlace, updateNewPlace, errorFromDB} =
     useFavoritePlacesContext();
@@ -37,7 +30,7 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
   }, [newPlace]);
 
   const onSave = async () => {
-    const errors = validateData();
+    const errors = await savePlace();
 
     if (errors) {
       Alert.alert(
@@ -52,30 +45,8 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
       return;
     }
 
-    // await savePlace({
-    //   name: state.name,
-    //   address: state.address,
-    //   imageUri: state.imageUri,
-    //   location: {lat: state.location.lat, lng: state.location.lng},
-    // });
-    // if (errorFromDB) Alert.alert('Upozorenje', errorFromDB);
-
     navigation.navigate('AllPlaces');
   };
-
-  function validateData() {
-    const errors: ErrorsT = {
-      name: newPlace?.name ? null : 'Upišite naziv za novo mjesto.',
-      address: newPlace?.address ? null : 'Lokacija nije određena.',
-      imageUri: newPlace?.imageUri ? null : 'Novo mjesto nema slike.',
-      location: newPlace?.location ? null : 'Greška prilikom lociranja.',
-    };
-
-    const hasErrors = Object.values(errors).some(Boolean);
-
-    if (hasErrors) return errors;
-    return false;
-  }
 
   return (
     <View style={styles.container}>
