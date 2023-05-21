@@ -1,5 +1,5 @@
 import {useLayoutEffect, useState} from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme} from '../constants/style';
 import {StackParamListT} from '../App';
@@ -8,7 +8,13 @@ import NavigationIconBtn from '../components/ui/NavigationIconBtn';
 import {PlaceT} from '../store/dt';
 import IconButton from '../components/ui/IconButton';
 import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
+import {useNavigation} from '@react-navigation/native';
+
 type PlacePropT = NativeStackScreenProps<StackParamListT, 'Place'>;
+type PlaceNavigationPropT = NativeStackScreenProps<
+  StackParamListT,
+  'PickLocation'
+>['navigation'];
 
 const PlaceHeaderBtn = ({
   color,
@@ -38,21 +44,32 @@ const EditForm = ({place}: {place: PlaceT}) => {
     name: place.name,
     address: place.address,
   });
+  const navigation = useNavigation<PlaceNavigationPropT>();
+
+  async function onSave() {
+    const result = await updatePlace(place.id, {...state});
+
+    if (result) {
+      navigation.navigate('AllPlaces');
+    } else {
+      Alert.alert('Upozorenje', 'Došlo je do greške.');
+    }
+  }
 
   return (
     <View style={{flex: 1, padding: DarkTheme.util.padding, gap: 12}}>
       <TextInput
         style={styles.inputField}
-        value={place.name}
+        value={state.name}
         onChangeText={text => setState(prev => ({...prev, name: text}))}
       />
       <TextInput
         style={styles.inputField}
-        value={place.address}
+        value={state.address}
         onChangeText={text => setState(prev => ({...prev, address: text}))}
       />
 
-      <IconButton name="save" onPress={() => updatePlace(place.id, {...state})}>
+      <IconButton name="save" onPress={onSave}>
         Sačuvaj
       </IconButton>
     </View>

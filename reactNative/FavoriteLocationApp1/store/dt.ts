@@ -95,3 +95,20 @@ export async function savePlacesToDB({
     return false;
   }
 }
+
+export async function updatePlaceInDB(
+  id: number,
+  data: {name: string; address: string},
+) {
+  const db = await getDBConnection();
+
+  try {
+    const result = await db.executeSql(
+      `UPDATE places SET name=?, address=? WHERE id=${id}`,
+      [data.name, data.address],
+    );
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

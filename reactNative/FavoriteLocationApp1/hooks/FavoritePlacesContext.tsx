@@ -6,6 +6,7 @@ import {
   dropTable,
   getPlacesFromDB,
   savePlacesToDB,
+  updatePlaceInDB,
 } from '../store/dt';
 import {LocationT} from '../components/GetUserLocation';
 import {getAddress} from '../services/locationServices';
@@ -31,7 +32,10 @@ type FavoritePlacesContextT = {
   fetchPlaces: () => void;
   savePlace: () => Promise<ErrorsT | null>;
   updateNewPlace: (newPlaceData?: NewPlaceT) => void;
-  updatePlace: (id: number, place: NewPlaceT) => void;
+  updatePlace: (
+    id: number,
+    place: {name: string; address: string},
+  ) => Promise<boolean>;
 };
 
 function validateData(newPlace?: NewPlaceT) {
@@ -102,8 +106,15 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     }
   }
 
-  async function updatePlace(id: number, data: NewPlaceT) {
-    console.log(data);
+  async function updatePlace(
+    id: number,
+    data: {name: string; address: string},
+  ) {
+    const result = await updatePlaceInDB(id, data);
+
+    if (!result) return false;
+    await fetchPlaces();
+    return true;
   }
 
   return (
