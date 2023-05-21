@@ -23,7 +23,7 @@ type FavoritePlacesContextT = {
   errorFromDB?: string;
   fetchPlaces: () => void;
   savePlace: (place: RawPlaceT) => void;
-  setNewPlace: (newPlaceData: NewPlaceT) => void;
+  updateNewPlace: (newPlaceData?: NewPlaceT) => void;
 };
 
 const FavoritePlacesContext = createContext({} as FavoritePlacesContextT);
@@ -59,6 +59,14 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
     fetchPlaces();
   }
 
+  function updateNewPlace(data?: NewPlaceT) {
+    if (!data) {
+      setNewPlace(undefined);
+    } else {
+      setNewPlace(prev => ({...prev, ...data}));
+    }
+  }
+
   return (
     <FavoritePlacesContext.Provider
       value={{
@@ -67,7 +75,7 @@ export function FavoritePlaceProvider({children}: {children: ReactNode}) {
         errorFromDB,
         fetchPlaces,
         savePlace,
-        setNewPlace,
+        updateNewPlace,
       }}>
       {children}
     </FavoritePlacesContext.Provider>

@@ -4,6 +4,7 @@ import {DarkTheme, mainStyle} from '../constants/style';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamListT} from '../App';
 import {useIsFocused} from '@react-navigation/native';
+import {useLayoutEffect} from 'react';
 
 type AllPlacesProps = NativeStackScreenProps<StackParamListT>;
 
@@ -30,10 +31,12 @@ const ImageContent = ({source}: {source: string}) => {
 };
 
 const AllPlaces = ({navigation}: AllPlacesProps) => {
-  const {places} = useFavoritePlacesContext();
+  const {places, newPlace, updateNewPlace} = useFavoritePlacesContext();
   const isFocused = useIsFocused();
 
-  console.log(isFocused);
+  useLayoutEffect(() => {
+    if (isFocused) newPlace && updateNewPlace(undefined);
+  }, [isFocused]);
 
   if (places.length === 0)
     return (

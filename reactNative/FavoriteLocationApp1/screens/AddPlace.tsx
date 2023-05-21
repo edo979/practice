@@ -1,4 +1,4 @@
-import {useLayoutEffect, useState} from 'react';
+import {useLayoutEffect} from 'react';
 import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DarkTheme, main} from '../constants/style';
@@ -23,13 +23,8 @@ type ErrorsT = {
 };
 
 const AddPlace = ({navigation}: AddPlaceProps) => {
-  const {savePlace, errorFromDB} = useFavoritePlacesContext();
-  const [state, setState] = useState<RawPlaceT>({
-    name: '',
-    address: '',
-    imageUri: '',
-    location: {lat: 0, lng: 0},
-  });
+  const {savePlace, newPlace, updateNewPlace, errorFromDB} =
+    useFavoritePlacesContext();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,7 +34,7 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
         </NavigationIconBtn>
       ),
     });
-  }, [state]);
+  }, [newPlace]);
 
   const onSave = async () => {
     const errors = validateData();
@@ -57,23 +52,23 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
       return;
     }
 
-    await savePlace({
-      name: state.name,
-      address: state.address,
-      imageUri: state.imageUri,
-      location: {lat: state.location.lat, lng: state.location.lng},
-    });
-    if (errorFromDB) Alert.alert('Upozorenje', errorFromDB);
+    // await savePlace({
+    //   name: state.name,
+    //   address: state.address,
+    //   imageUri: state.imageUri,
+    //   location: {lat: state.location.lat, lng: state.location.lng},
+    // });
+    // if (errorFromDB) Alert.alert('Upozorenje', errorFromDB);
 
     navigation.navigate('AllPlaces');
   };
 
   function validateData() {
     const errors: ErrorsT = {
-      name: state.name ? null : 'Upišite naziv za novo mjesto.',
-      address: state.address ? null : 'Lokacija nije određena.',
-      imageUri: state.imageUri ? null : 'Novo mjesto nema slike.',
-      location: state.location ? null : 'Greška prilikom lociranja.',
+      name: newPlace?.name ? null : 'Upišite naziv za novo mjesto.',
+      address: newPlace?.address ? null : 'Lokacija nije određena.',
+      imageUri: newPlace?.imageUri ? null : 'Novo mjesto nema slike.',
+      location: newPlace?.location ? null : 'Greška prilikom lociranja.',
     };
 
     const hasErrors = Object.values(errors).some(Boolean);
@@ -88,13 +83,13 @@ const AddPlace = ({navigation}: AddPlaceProps) => {
         <Text style={styles.label}>Naziv:</Text>
         <TextInput
           style={styles.input}
-          value={state && state.name}
-          onChangeText={text => setState(prev => ({...prev, name: text}))}
+          value={newPlace && newPlace.name}
+          onChangeText={text => updateNewPlace({name: text})}
         />
       </View>
       <GetPhoto
-        imgUri={state.imageUri !== '' ? state.imageUri : undefined}
-        saveImageHandler={imageUri => setState(prev => ({...prev, imageUri}))}
+        imgUri={newPlace?.imageUri ? newPlace.imageUri : undefined}
+        saveImageHandler={imageUri => updateNewPlace({imageUri})}
       />
       <GetUserLocation />
     </View>

@@ -7,6 +7,7 @@ import {main, mainStyle} from '../constants/style';
 import IconButton from './ui/IconButton';
 import {StackParamListT} from '../App';
 import Map from './Map';
+import {useFavoritePlacesContext} from '../hooks/FavoritePlacesContext';
 
 type MapNavigationPropT = NativeStackScreenProps<
   StackParamListT,
@@ -33,7 +34,7 @@ const MapContent = ({
 };
 
 const GetUserLocation = () => {
-  const [state, setState] = useState<LocationT>();
+  const {newPlace, updateNewPlace} = useFavoritePlacesContext();
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<MapNavigationPropT>();
 
@@ -71,13 +72,13 @@ const GetUserLocation = () => {
   }
 
   function saveLocation({lat, lng}: LocationT) {
-    setState({lat, lng});
+    updateNewPlace({location: {lat, lng}});
   }
 
   return (
     <View style={{flex: 3, gap: 12}}>
       <View style={mainStyle.card}>
-        <MapContent isLoading={isLoading} location={state} />
+        <MapContent isLoading={isLoading} location={newPlace?.location} />
       </View>
 
       <View style={styles.btnGroup}>
