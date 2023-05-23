@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "blog-v3",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,8 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.4.1",
-    "firebase": "^9.22.0",
-    "firebase-admin": "^11.8.0"
+    "@astrojs/node": "^5.1.4",
+    "astro": "^2.5.3"
   }
 }
