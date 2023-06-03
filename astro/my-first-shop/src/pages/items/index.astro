@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/MainLayout.astro'
+import { ITEMS } from '../../store/sampleData'
+
+const getItems = () => ITEMS
+---
+
+<Layout>
+  <main class="container mx-auto px-4">
+    <h2 class="text-xl">Items:</h2>
+    <ul>
+      {
+        getItems().map((item) => (
+          <li>
+            <p>{item.name}</p>
+            <p>
+              <b>{item.price}</b>
+            </p>
+            <button class="px-4 py-2 rounded bg-slate-700 text-slate-50 shadow hover:bg-slate-900">
+              Buy
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Layout>
