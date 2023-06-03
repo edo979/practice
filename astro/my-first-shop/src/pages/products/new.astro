@@ -16,7 +16,7 @@ type ActionData = {
 const errors: ActionData = {}
 
 const validateProductName = (name: string) => {
-  if (name.length < 3) return 'Name is to Short!'
+  if (name.length < 3) return 'Name is to short!'
 }
 const validateProductPrice = (price: string) => {
   if (Number.isNaN(parseFloat(price)))
@@ -48,7 +48,7 @@ if (Astro.request.method === 'POST') {
     }
     //TODO:
     // save product to firestore
-    Astro.redirect('/products')
+    return Astro.redirect('/products')
   } catch (error) {
     errors.formError = 'Error when submiting the form!'
   }
@@ -71,6 +71,11 @@ if (Astro.request.method === 'POST') {
       placeholder="Product name"
       value={errors?.fields?.name}
     />
+    {
+      errors?.fieldErrors?.name && (
+        <p class="text-rose-600">{errors.fieldErrors.name}</p>
+      )
+    }
     <label for="price" class="form-label">Price</label>
     <input
       type="number"
