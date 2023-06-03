@@ -22,15 +22,32 @@ const badRequest = (data: ActionData, status = 400) =>
     },
   })
 
+const validateProductName = (name: string) => {
+  if (name.length < 3) return 'Name is to Short!'
+}
+const validateProductPrice = (price: string) => {
+  if (!parseFloat(price)) return 'Please enter valid price in this format 34.44'
+}
+
 export const post: APIRoute = async ({ request, redirect }) => {
   const fomData = await request.formData()
   const name = fomData.get('name')
   const price = fomData.get('price')
 
-  console.log(name, price)
-
   if (typeof name !== 'string' || typeof price !== 'string')
     return badRequest({ formError: 'Form submited wrong!' })
+
+  const fieldErrors = {
+    name: validateProductName(name),
+    price: validateProductPrice(price),
+  }
+  const fields = {
+    name,
+    price,
+  }
+
+  if (Object.values(fieldErrors).some(Boolean))
+    return badRequest({ fieldErrors, fields })
 
   return redirect('/products')
 }
