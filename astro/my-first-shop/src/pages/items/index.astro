@@ -1,20 +1,35 @@
 ---
 import Layout from '../../layouts/MainLayout.astro'
-import { ITEMS } from '../../store/sampleData'
+import { getFirestore } from 'firebase-admin/firestore'
+import { app } from '../../firebase/server'
 
-const getItems = () => ITEMS
+interface Product {
+  id: string
+  name: string
+  imageUrl: string
+  price: number
+}
+
+const db = getFirestore(app)
+const productsRef = db.collection('products')
+const snapshot = await productsRef.get()
+const products = snapshot.docs.map((doc) => ({
+  id: doc.id,
+  ...doc.data(),
+})) as Product[]
 ---
 
 <Layout>
   <main class="container mx-auto px-4">
     <h2 class="text-xl">Items:</h2>
+    <a href="/">Back to Home Page</a>
     <ul>
       {
-        getItems().map((item) => (
+        products.map((product) => (
           <li>
-            <p>{item.name}</p>
+            <p>{product.name}</p>
             <p>
-              <b>{item.price}</b>
+              <b>{product.price}</b>
             </p>
             <button class="px-4 py-2 rounded bg-slate-700 text-slate-50 shadow hover:bg-slate-900">
               Buy
