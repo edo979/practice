@@ -31,10 +31,31 @@ const products = snapshot.docs.map((doc) => ({
             <p>
               <b>{product.price}</b>
             </p>
-            <button class="btn btn-primary">Buy</button>
+            <button
+              class="btn btn-primary"
+              data-addToChart-button
+              data-product-id={product.id}
+            >
+              Buy
+            </button>
           </li>
         ))
       }
     </ul>
   </main>
 </Layout>
+
+<script>
+  const addToChartBtn = document.querySelectorAll('[data-addToChart-button]')
+
+  addToChartBtn.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const button = e.target as HTMLButtonElement
+      const productId = button.dataset.productId
+
+      if (!productId) return
+
+      console.log(productId)
+    })
+  })
+</script>
