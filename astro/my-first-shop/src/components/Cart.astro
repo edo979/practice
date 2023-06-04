@@ -1,0 +1,38 @@
+<shopping-cart>
+  <div class="relative">
+    <button class="py-0.5 px-1.5 rounded text-2xl hover:bg-slate-100/50"
+      >🛒
+    </button>
+    <span class="hidden px-1 absolute top-1 left-0 rounded bg-rose-500 text-xs"
+      >0</span
+    >
+  </div>
+</shopping-cart>
+
+<script>
+  import { $cart } from '../store/store'
+
+  class Cart extends HTMLElement {
+    constructor() {
+      super()
+
+      const button = this.querySelector('button')
+      const itemCount = this.querySelector('span')
+
+      $cart.subscribe((store) => {
+        if (store.length > 0) {
+          if (itemCount) {
+            itemCount?.classList.remove('hidden')
+            itemCount.textContent = store
+              .reduce((prev, current) => prev + current.quantity, 0)
+              .toString()
+          }
+        } else {
+          itemCount?.classList.add('hidden')
+        }
+      })
+    }
+  }
+
+  customElements.define('shopping-cart', Cart)
+</script>
