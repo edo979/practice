@@ -46,6 +46,8 @@ const products = snapshot.docs.map((doc) => ({
 </Layout>
 
 <script>
+  import { $cart } from '../../store/store'
+
   const addToChartBtn = document.querySelectorAll('[data-addToChart-button]')
 
   addToChartBtn.forEach((btn) => {
@@ -54,8 +56,25 @@ const products = snapshot.docs.map((doc) => ({
       const productId = button.dataset.productId
 
       if (!productId) return
-
-      console.log(productId)
+      addItemToCart(productId)
     })
   })
+
+  function addItemToCart(productId: string) {
+    const isProductInCart = $cart
+      .get()
+      .find((product) => product.productId === productId)
+    if (!isProductInCart) {
+      $cart.set([...$cart.get(), { productId, quantity: 1 }])
+    } else {
+      $cart.set(
+        $cart.get().map((product) => {
+          if (product.productId === productId)
+            return { ...product, quantity: product.quantity + 1 }
+
+          return product
+        })
+      )
+    }
+  }
 </script>
