@@ -5,13 +5,11 @@ const Cart = () => {
   const cartItemsTotal = useStore($cartItemsTotal)
 
   return (
-    <div className="relative">
-      <button className="py-0.5 px-1.5 rounded text-2xl hover:bg-slate-100/50">
-        🛒
-      </button>
-      <span className="px-1 absolute top-1 left-0 rounded bg-rose-500 text-xs">
+    <div className="indicator">
+      <span className="indicator-item indicator-middle indicator-start badge badge-accent text-xs">
         {cartItemsTotal}
       </span>
+      <span className="text-2xl">🛒</span>
     </div>
   )
 }
