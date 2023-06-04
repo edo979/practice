@@ -8,9 +8,14 @@
       <a href="/products/new">➕ Add new</a>
     </nav>
     <div>
-      <button class="py-0.5 px-1.5 rounded text-2xl hover:bg-slate-100/50"
-        >🛒</button
-      >
+      <button class="py-0.5 px-1.5 rounded hover:bg-slate-100/50">
+        <div class="relative">
+          <span class="text-2xl">🛒</span>
+          <span
+            class="hidden px-1 absolute top-1 left-0 rounded bg-rose-500 text-xs"
+            data-chart></span>
+        </div>
+      </button>
     </div>
   </div>
 </div>
@@ -18,5 +23,18 @@
 <script>
   import { $cart } from '../store/store'
 
-  $cart.subscribe((store) => console.log(store))
+  const chartEl = document.querySelector('[data-chart]')
+
+  $cart.subscribe((store) => {
+    if (store.length > 0) {
+      if (chartEl) {
+        chartEl?.classList.remove('hidden')
+        chartEl.textContent = store
+          .reduce((prev, current) => prev + current.quantity, 0)
+          .toString()
+      }
+    } else {
+      chartEl?.classList.add('hidden')
+    }
+  })
 </script>
