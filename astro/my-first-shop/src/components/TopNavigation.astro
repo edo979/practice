@@ -1,16 +1,57 @@
 ---
 import Cart from '../components/Cart'
+
+const links = [
+  { name: '🏠 Home', url: '/' },
+  { name: '🏷 Products', url: '/products' },
+  { name: '➕ New Product', url: '/products/new' },
+]
 ---
 
-<div class="p-2 w-full bg-slate-800">
-  <div
-    class="container mx-auto flex justify-between items-center text-slate-50"
-  >
-    <nav aria-label="main navigation" class="space-x-4">
-      <a href="/">🏠 Home</a>
-      <a href="/products">🏷 Products</a>
-      <a href="/products/new">➕ Add new</a>
-    </nav>
+<div class="navbar bg-primary text-primary-content">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          ><path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"></path></svg
+        >
+      </label>
+      <ul
+        tabindex="0"
+        class="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+      >
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.url}>{link.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <a class="btn btn-ghost normal-case text-xl">My Shop</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.url}>{link.name}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <div class="navbar-end">
     <Cart client:only />
   </div>
 </div>

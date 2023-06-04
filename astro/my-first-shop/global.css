@@ -3,13 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-  .btn {
-    @apply px-4 py-2 rounded;
-  }
-  .btn-primary {
-    @apply bg-slate-700 text-slate-50 shadow hover:bg-slate-900;
-  }
-
   .form-label {
     @apply block;
   }
