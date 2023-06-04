@@ -46,7 +46,7 @@ const products = snapshot.docs.map((doc) => ({
 </Layout>
 
 <script>
-  import { $cart } from '../../store/store'
+  import { $cart } from '../../stores/cart'
 
   const addToChartBtn = document.querySelectorAll('[data-addToChart-button]')
 
@@ -57,7 +57,6 @@ const products = snapshot.docs.map((doc) => ({
 
       if (!productId) return
       addItemToCart(productId)
-      console.log($cart.get())
     })
   })
 

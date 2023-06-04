@@ -1,5 +1,5 @@
 import { useStore } from '@nanostores/react'
-import { $cart } from '../store/store'
+import { $cart } from '../stores/cart'
 
 const Cart = () => {
   const cart = useStore($cart)
