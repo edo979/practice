@@ -1,8 +1,8 @@
 import { useStore } from '@nanostores/react'
-import { $cart } from '../stores/cart'
+import { $cartItemsTotal } from '../stores/cart'
 
 const Cart = () => {
-  const cart = useStore($cart)
+  const cartItemsTotal = useStore($cartItemsTotal)
 
   return (
     <div className="relative">
@@ -10,7 +10,7 @@ const Cart = () => {
         🛒
       </button>
       <span className="px-1 absolute top-1 left-0 rounded bg-rose-500 text-xs">
-        {cart.reduce((prev, current) => prev + current.quantity, 0)}
+        {cartItemsTotal}
       </span>
     </div>
   )

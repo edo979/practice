@@ -1,4 +1,4 @@
-import { atom } from 'nanostores'
+import { atom, computed } from 'nanostores'
 
 type CartItemT = {
   productId: string
@@ -6,3 +6,6 @@ type CartItemT = {
 }
 
 export const $cart = atom<CartItemT[]>([])
+export const $cartItemsTotal = computed($cart, (products) =>
+  products.reduce((prev, current) => prev + current.quantity, 0)
+)
