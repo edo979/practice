@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/MainLayout.astro'
+import { app } from '../../firebase/server'
+import { getFirestore } from 'firebase-admin/firestore'
 
 type ActionData = {
   formError?: string
@@ -46,8 +48,14 @@ if (Astro.request.method === 'POST') {
       errors.fields = fields
       throw new Error()
     }
-    //TODO:
-    // save product to firestore
+
+    const db = getFirestore(app)
+    const productsRef = db.collection('products')
+    await productsRef.add({
+      name,
+      price: parseFloat(price),
+    })
+
     return Astro.redirect('/products')
   } catch (error) {
     errors.formError = 'Error when submiting the form!'
