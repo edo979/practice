@@ -1,5 +1,5 @@
 ---
-import Cart from './Cart.astro'
+import Cart from '../components/Cart'
 ---
 
 <div class="p-2 w-full bg-slate-800">
@@ -11,6 +11,6 @@ import Cart from './Cart.astro'
       <a href="/products">🏷 Products</a>
       <a href="/products/new">➕ Add new</a>
     </nav>
-    <Cart />
+    <Cart client:only />
   </div>
 </div>

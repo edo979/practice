@@ -57,6 +57,7 @@ const products = snapshot.docs.map((doc) => ({
 
       if (!productId) return
       addItemToCart(productId)
+      console.log($cart.get())
     })
   })
 
