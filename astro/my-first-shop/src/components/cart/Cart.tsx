@@ -1,12 +1,10 @@
-import { useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { $cart, $cartItemsTotal } from '../stores/cart'
+import { $cart, $cartItemsTotal } from '../../stores/cart'
+import CartList from './CartList'
 
 const Cart = () => {
   const cartItemsTotal = useStore($cartItemsTotal)
   const cart = useStore($cart)
-  const [isDrawerShow, setIsDrawerShow] = useState(false)
-  console.log(cart)
 
   return (
     <div className="drawer drawer-end w-auto">
@@ -35,13 +33,7 @@ const Cart = () => {
             <p className="text-xl">Your chart</p>
             <hr className="mt-2 border border-base-300" />
           </div>
-          <ul>
-            {cart.map((item) => (
-              <li key={item.productId}>
-                {item.productId} x {item.quantity}
-              </li>
-            ))}
-          </ul>
+          <CartList cart={cart} />
         </div>
       </div>
     </div>

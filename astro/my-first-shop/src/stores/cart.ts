@@ -1,6 +1,6 @@
 import { atom, computed } from 'nanostores'
 
-type CartItemT = {
+export type CartItemT = {
   productId: string
   quantity: number
 }
