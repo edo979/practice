@@ -1,19 +1,16 @@
 import { useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { $cartItemsTotal } from '../stores/cart'
+import { $cart, $cartItemsTotal } from '../stores/cart'
 
 const Cart = () => {
   const cartItemsTotal = useStore($cartItemsTotal)
+  const cart = useStore($cart)
   const [isDrawerShow, setIsDrawerShow] = useState(false)
+  console.log(cart)
 
   return (
     <div className="drawer drawer-end w-auto">
-      <input
-        id="my-drawer-4"
-        type="checkbox"
-        className="drawer-toggle"
-        checked
-      />
+      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <label htmlFor="my-drawer-4" className="drawer-button btn btn-ghost">
           <div className="indicator isolate">
@@ -26,20 +23,26 @@ const Cart = () => {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-        <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
+        <div className="menu p-4 w-80 h-full bg-base-200 text-base-content">
           <label
             htmlFor="my-drawer-4"
             className="ml-auto drawer-button btn btn-outline btn-circle btn-ghost btn-sm font-bold"
           >
             X
           </label>
-          <li>
-            <a>Sidebar Item 1</a>
-          </li>
-          <li>
-            <a>Sidebar Item 2</a>
-          </li>
-        </ul>
+          <div className="text-center">
+            <span className="text-4xl">🛒</span>
+            <p className="text-xl">Your chart</p>
+            <hr className="mt-2 border border-base-300" />
+          </div>
+          <ul>
+            {cart.map((item) => (
+              <li key={item.productId}>
+                {item.productId} x {item.quantity}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )
