@@ -1,12 +1,11 @@
 import type { CartItemT } from '../../stores/cart'
+import CartItem from './CartItem'
 
 const CartList = ({ cart }: { cart: CartItemT[] }) => {
   return (
     <ul>
       {cart.map((item) => (
-        <li key={item.productId}>
-          {item.productId} x {item.quantity}
-        </li>
+        <CartItem item={item} key={item.productId} />
       ))}
     </ul>
   )
