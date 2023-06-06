@@ -10,13 +10,13 @@ export const $cartItemsTotal = computed($cart, (products) =>
   products.reduce((prev, current) => prev + current.quantity, 0)
 )
 
-export const addProductInCartHandler = (productId: string) => {
+export const addProductInCartHandler = (productId: string, quantity = 0) => {
   const isProductInCart = $cart
     .get()
     .find((product) => product.productId === productId)
 
   if (!isProductInCart) {
-    $cart.set([...$cart.get(), { productId, quantity: 1 }])
+    $cart.set([...$cart.get(), { productId, quantity }])
   } else {
     $cart.set(
       $cart.get().map((product) => {
