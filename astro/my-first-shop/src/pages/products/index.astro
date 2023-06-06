@@ -2,8 +2,9 @@
 import Layout from '../../layouts/MainLayout.astro'
 import { getFirestore } from 'firebase-admin/firestore'
 import { app } from '../../firebase/server'
+import Product from '../../components/Product'
 
-interface Product {
+export type ProductT = {
   id: string
   name: string
   imageUrl: string
@@ -16,7 +17,7 @@ const snapshot = await productsRef.orderBy('price').get()
 const products = snapshot.docs.map((doc) => ({
   id: doc.id,
   ...doc.data(),
-})) as Product[]
+})) as ProductT[]
 ---
 
 <Layout>
@@ -24,57 +25,7 @@ const products = snapshot.docs.map((doc) => ({
     <h2 class="text-xl">Items:</h2>
     <a href="/">Back to Home Page</a>
     <ul>
-      {
-        products.map((product) => (
-          <li>
-            <p>{product.name}</p>
-            <p>
-              <b>{product.price}</b>
-            </p>
-            <button
-              class="btn btn-primary"
-              data-addToChart-button
-              data-product-id={product.id}
-            >
-              Buy
-            </button>
-          </li>
-        ))
-      }
+      {products.map((product) => <Product client:only product={product} />)}
     </ul>
   </main>
 </Layout>
-
-<script>
-  import { $cart } from '../../stores/cart'
-
-  const addToChartBtn = document.querySelectorAll('[data-addToChart-button]')
-
-  addToChartBtn.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const button = e.target as HTMLButtonElement
-      const productId = button.dataset.productId
-
-      if (!productId) return
-      addItemToCart(productId)
-    })
-  })
-
-  function addItemToCart(productId: string) {
-    const isProductInCart = $cart
-      .get()
-      .find((product) => product.productId === productId)
-    if (!isProductInCart) {
-      $cart.set([...$cart.get(), { productId, quantity: 1 }])
-    } else {
-      $cart.set(
-        $cart.get().map((product) => {
-          if (product.productId === productId)
-            return { ...product, quantity: product.quantity + 1 }
-
-          return product
-        })
-      )
-    }
-  }
-</script>
