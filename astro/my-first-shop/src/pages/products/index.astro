@@ -1,8 +1,9 @@
 ---
 import Layout from '../../layouts/MainLayout.astro'
 import { getFirestore } from 'firebase-admin/firestore'
-import { app } from '../../firebase/server'
+//import { app } from '../../firebase/server'
 import Product from '../../components/Product'
+import { db } from '../../firestore/server'
 
 export type ProductT = {
   id: string
@@ -11,7 +12,7 @@ export type ProductT = {
   price: number
 }
 
-const db = getFirestore(app)
+// const db = getFirestore(app)
 const productsRef = db.collection('products')
 const snapshot = await productsRef.orderBy('price').get()
 const products = snapshot.docs.map((doc) => ({

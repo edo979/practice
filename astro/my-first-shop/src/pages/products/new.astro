@@ -1,7 +1,8 @@
 ---
 import Layout from '../../layouts/MainLayout.astro'
-import { app } from '../../firebase/server'
+//import { app } from '../../firebase/server'
 import { getFirestore } from 'firebase-admin/firestore'
+import { db } from '../../firestore/server'
 
 type ActionData = {
   formError?: string
@@ -49,7 +50,6 @@ if (Astro.request.method === 'POST') {
       throw new Error()
     }
 
-    const db = getFirestore(app)
     const productsRef = db.collection('products')
     await productsRef.add({
       name,
