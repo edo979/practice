@@ -2,9 +2,12 @@
 import { bucket } from '../googleCloud/server/cloudStorage'
 import Cart from './cart/Cart'
 
-const [files] = await bucket.getFiles()
+const [files] = await bucket.getFiles({
+  prefix: 'my-shop-items/',
+  delimiter: '/',
+})
 
-console.log(files)
+files.forEach((file) => console.log(file.name))
 
 const links = [
   { name: '🏠 Home', url: '/' },
