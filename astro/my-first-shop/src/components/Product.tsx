@@ -17,6 +17,8 @@ const product = ({ product }: { product: ProductT }) => {
           type="number"
           name="quantity"
           placeholder="0"
+          min={0}
+          max={50}
           value={quantity}
           onChange={(e) => setQuantity(parseInt(e.target.value))}
         />
