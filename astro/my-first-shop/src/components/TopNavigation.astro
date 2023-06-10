@@ -7,7 +7,7 @@ const [files] = await bucket.getFiles({
   delimiter: '/',
 })
 
-files.forEach((file) => console.log(file.name))
+files.forEach((file) => console.log(file.publicUrl()))
 
 const links = [
   { name: '🏠 Home', url: '/' },
