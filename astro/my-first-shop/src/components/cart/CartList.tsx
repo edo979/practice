@@ -5,7 +5,7 @@ const CartList = ({ cart }: { cart: CartItemT[] }) => {
   return (
     <ul>
       {cart.map((item) => (
-        <CartItem item={item} key={item.productId} />
+        <CartItem item={item} key={item.id} />
       ))}
     </ul>
   )

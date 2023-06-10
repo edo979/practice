@@ -23,7 +23,7 @@ const product = ({ product }: { product: ProductT }) => {
         <button
           className="btn btn-primary"
           onClick={() => {
-            addProductInCartHandler(product.id, quantity)
+            addProductInCartHandler(product, quantity)
           }}
         >
           🛒 Add

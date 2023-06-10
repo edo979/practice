@@ -1,30 +1,28 @@
 import { atom, computed } from 'nanostores'
+import type { ProductT } from '../pages/products/index.astro'
 
-export type CartItemT = {
-  productId: string
-  quantity: number
-}
+export type CartItemT = ProductT & { quantity: number }
 
 export const $cart = atom<CartItemT[]>([])
 export const $cartItemsTotal = computed($cart, (products) =>
   products.reduce((prev, current) => prev + current.quantity, 0)
 )
 
-export const addProductInCartHandler = (productId: string, quantity = 0) => {
+export const addProductInCartHandler = (product: ProductT, quantity = 0) => {
   const isProductInCart = $cart
     .get()
-    .find((product) => product.productId === productId)
+    .find((cartItem) => cartItem.id === product.id)
 
-  if (!isProductInCart) {
-    $cart.set([...$cart.get(), { productId, quantity }])
-  } else {
+  if (isProductInCart) {
     $cart.set(
-      $cart.get().map((product) => {
-        if (product.productId === productId)
-          return { ...product, quantity: product.quantity + 1 }
+      $cart.get().map((cartItem) => {
+        if (cartItem.id === product.id)
+          return { ...cartItem, quantity: quantity }
 
-        return product
+        return cartItem
       })
     )
+  } else {
+    $cart.set([...$cart.get(), { ...product, quantity }])
   }
 }
