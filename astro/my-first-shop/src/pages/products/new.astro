@@ -1,8 +1,6 @@
 ---
+import { db } from '../../googleCloud/server/firestore'
 import Layout from '../../layouts/MainLayout.astro'
-//import { app } from '../../firebase/server'
-import { getFirestore } from 'firebase-admin/firestore'
-import { db } from '../../firestore/server'
 
 type ActionData = {
   formError?: string
