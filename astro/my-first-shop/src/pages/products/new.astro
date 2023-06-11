@@ -91,8 +91,25 @@ if (Astro.request.method === 'POST') {
     <form
       method="POST"
       enctype="multipart/form-data"
-      class="space-y-2 w-56 mx-auto"
+      class="w-56 mt-8 mx-auto space-y-4"
     >
+      <label for="product_image" class="btn btn-secondary w-full"
+        >Product Image</label
+      >
+      <input
+        type="file"
+        name="product_image"
+        id="product_image"
+        accept=".jpg, .jpeg, .png"
+        class="hidden"
+      />
+      {
+        errors?.fieldErrors?.image && (
+          <p class="text-rose-600">{errors.fieldErrors.image}</p>
+        )
+      }
+      <img id="image-preview" class="hidden" />
+
       {errors?.formError && <p class="text-rose-600">{errors.formError}</p>}
       <label for="name" class="form-label">Name</label>
       <input
@@ -130,20 +147,6 @@ if (Astro.request.method === 'POST') {
           <p class="text-rose-600">{errors.fieldErrors.price}</p>
         )
       }
-
-      <label for="product_image">Chose image</label>
-      <input
-        type="file"
-        name="product_image"
-        id="product_image"
-        accept=".jpg, .jpeg, .png"
-      />
-      {
-        errors?.fieldErrors?.image && (
-          <p class="text-rose-600">{errors.fieldErrors.image}</p>
-        )
-      }
-      <img id="image-preview" class="hidden" />
 
       <button type="submit" class="btn btn-primary">Add product</button>
     </form>
