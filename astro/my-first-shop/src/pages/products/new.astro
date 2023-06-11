@@ -79,7 +79,7 @@ if (Astro.request.method === 'POST') {
     return Astro.redirect('/products')
   } catch (error) {
     if (error instanceof Error) {
-      errors.formError = error.message ? error.message : 'Form submitet wrong.'
+      errors.formError = error.message ? error.message : 'Form submited wrong.'
     }
   }
 }
