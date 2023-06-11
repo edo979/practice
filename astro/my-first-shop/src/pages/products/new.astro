@@ -1,4 +1,5 @@
 ---
+import { bucket } from '../../googleCloud/server/cloudStorage'
 import { db } from '../../googleCloud/server/firestore'
 import Layout from '../../layouts/MainLayout.astro'
 
@@ -27,9 +28,10 @@ const validateProductPrice = (price: string) => {
 
 if (Astro.request.method === 'POST') {
   try {
-    const fomData = await Astro.request.formData()
-    const name = fomData.get('name')
-    const price = fomData.get('price')
+    const formData = await Astro.request.formData()
+    const name = formData.get('name')
+    const price = formData.get('price')
+    const image = formData.get('product_image') as File
 
     if (typeof name !== 'string' || typeof price !== 'string') throw new Error()
 
@@ -48,10 +50,18 @@ if (Astro.request.method === 'POST') {
       throw new Error()
     }
 
+    // save image and get link
+    const file = bucket.file(`${Date.now()}_${image.name}`)
+    await file.save(Buffer.from(await image.arrayBuffer()))
+    await file.makePublic()
+    const imageUrl = file.publicUrl()
+
+    // save to db
     const productsRef = db.collection('products')
     await productsRef.add({
       name,
       price: parseFloat(price),
+      imageUrl,
     })
 
     return Astro.redirect('/products')
@@ -63,7 +73,11 @@ if (Astro.request.method === 'POST') {
 
 <Layout>
   <h1>Add a new friend</h1>
-  <form method="POST" class="space-y-2 w-56 mx-auto">
+  <form
+    method="POST"
+    enctype="multipart/form-data"
+    class="space-y-2 w-56 mx-auto"
+  >
     {errors?.formError && <p class="text-rose-600">{errors.formError}</p>}
     <label for="name" class="form-label">Name</label>
     <input
@@ -101,6 +115,15 @@ if (Astro.request.method === 'POST') {
         <p class="text-rose-600">{errors.fieldErrors.price}</p>
       )
     }
+
+    <label for="product_image">Chose image</label>
+    <input
+      type="file"
+      name="product_image"
+      id="product_image"
+      accept=".jpg, .jpeg, .png"
+    />
+
     <button type="submit" class="btn btn-primary">Add product</button>
   </form>
 </Layout>
