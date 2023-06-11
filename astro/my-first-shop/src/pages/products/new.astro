@@ -143,8 +143,37 @@ if (Astro.request.method === 'POST') {
           <p class="text-rose-600">{errors.fieldErrors.image}</p>
         )
       }
+      <img id="image-preview" class="hidden" />
 
       <button type="submit" class="btn btn-primary">Add product</button>
     </form>
   </main>
 </Layout>
+
+<script>
+  const chooseFile = document.getElementById(
+    'product_image'
+  ) as HTMLInputElement
+  const imgPreview = document.getElementById('image-preview')
+
+  chooseFile?.addEventListener('change', () => {
+    getImageData()
+  })
+
+  function getImageData() {
+    if (!chooseFile.files || !imgPreview) return
+
+    const file = chooseFile.files[0]
+    if (!file) {
+      imgPreview.classList.add('hidden')
+      return
+    }
+
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(file)
+    fileReader.addEventListener('load', function () {
+      imgPreview.classList.remove('hidden')
+      imgPreview.setAttribute('src', this.result as string)
+    })
+  }
+</script>
