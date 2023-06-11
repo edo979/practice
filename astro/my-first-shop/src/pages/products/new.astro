@@ -8,6 +8,7 @@ type ActionData = {
   fieldErrors?: {
     name?: string
     price?: string
+    image?: string
   }
   fields?: {
     name: string
@@ -26,6 +27,16 @@ const validateProductPrice = (price: string) => {
   if (parseFloat(price) <= 0) return 'Add valid price!'
 }
 
+const validateProductImage = (image: File) => {
+  const allowedFileTypes = ['image/png', 'image/jpeg']
+
+  if (image.size === 0) return 'No image selected.'
+  if (!allowedFileTypes.includes(image.type))
+    return 'Only png, jpg, jpeg images is alloved!'
+
+  if (image.size > 1e6) return 'Max size of image is 1Mb!'
+}
+
 if (Astro.request.method === 'POST') {
   try {
     const formData = await Astro.request.formData()
@@ -38,6 +49,7 @@ if (Astro.request.method === 'POST') {
     const fieldErrors = {
       name: validateProductName(name),
       price: validateProductPrice(price),
+      image: validateProductImage(image),
     }
     const fields = {
       name,
@@ -47,7 +59,7 @@ if (Astro.request.method === 'POST') {
     if (Object.values(fieldErrors).some(Boolean)) {
       errors.fieldErrors = fieldErrors
       errors.fields = fields
-      throw new Error()
+      throw new Error('Please enter valid data.')
     }
 
     // save image and get link
@@ -66,7 +78,9 @@ if (Astro.request.method === 'POST') {
 
     return Astro.redirect('/products')
   } catch (error) {
-    errors.formError = 'Error when submiting the form!'
+    if (error instanceof Error) {
+      errors.formError = error.message ? error.message : 'Form submitet wrong.'
+    }
   }
 }
 ---
@@ -123,6 +137,11 @@ if (Astro.request.method === 'POST') {
       id="product_image"
       accept=".jpg, .jpeg, .png"
     />
+    {
+      errors?.fieldErrors?.image && (
+        <p class="text-rose-600">{errors.fieldErrors.image}</p>
+      )
+    }
 
     <button type="submit" class="btn btn-primary">Add product</button>
   </form>
