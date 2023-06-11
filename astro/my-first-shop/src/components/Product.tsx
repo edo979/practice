@@ -11,6 +11,7 @@ const product = ({ product }: { product: ProductT }) => {
       <p>
         <b>{product.price}</b>
       </p>
+      <img src={product.imageUrl} alt={product.name} />
       <div className="join space-x-2">
         <input
           className="w-16 px-2 input input-bordered"
