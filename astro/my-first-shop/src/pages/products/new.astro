@@ -154,7 +154,9 @@ if (Astro.request.method === 'POST') {
   const chooseFile = document.getElementById(
     'product_image'
   ) as HTMLInputElement
-  const imgPreview = document.getElementById('image-preview')
+  const imgPreview = document.getElementById(
+    'image-preview'
+  ) as HTMLImageElement
 
   chooseFile?.addEventListener('change', () => {
     getImageData()
@@ -169,11 +171,7 @@ if (Astro.request.method === 'POST') {
       return
     }
 
-    const fileReader = new FileReader()
-    fileReader.readAsDataURL(file)
-    fileReader.addEventListener('load', function () {
-      imgPreview.classList.remove('hidden')
-      imgPreview.setAttribute('src', this.result as string)
-    })
+    imgPreview.classList.remove('hidden')
+    imgPreview.src = URL.createObjectURL(file)
   }
 </script>
