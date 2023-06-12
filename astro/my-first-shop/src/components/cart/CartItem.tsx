@@ -2,7 +2,7 @@ import type { CartItemT } from '../../stores/cart'
 
 const CartItem = ({ item }: { item: CartItemT }) => {
   return (
-    <li className="mt-4 bg-base-300 rounded-lg">
+    <li className="bg-base-300 rounded-lg">
       <img
         className="w-full p-0  object-cover object-center"
         src={item.imageUrl}
