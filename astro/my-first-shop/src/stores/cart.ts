@@ -3,7 +3,48 @@ import type { ProductT } from '../pages/products/index.astro'
 
 export type CartItemT = ProductT & { quantity: number }
 
-export const $cart = atom<CartItemT[]>([])
+export const $cart = atom<CartItemT[]>([
+  {
+    name: 'test cable test cable test cable test cable',
+    id: '222',
+    imageUrl:
+      'https://storage.googleapis.com/my-shop-app-storage/1686486321445_hdmi.jpg',
+    price: 12.55,
+    quantity: 4,
+  },
+  {
+    name: 'test cable test cable test cable test cable',
+    id: '222',
+    imageUrl:
+      'https://storage.googleapis.com/my-shop-app-storage/1686486321445_hdmi.jpg',
+    price: 12.55,
+    quantity: 4,
+  },
+  {
+    name: 'test cable test cable test cable test cable',
+    id: '222',
+    imageUrl:
+      'https://storage.googleapis.com/my-shop-app-storage/1686486321445_hdmi.jpg',
+    price: 12.55,
+    quantity: 4,
+  },
+  {
+    name: 'test cable test cable test cable test cable',
+    id: '222',
+    imageUrl:
+      'https://storage.googleapis.com/my-shop-app-storage/1686486321445_hdmi.jpg',
+    price: 12.55,
+    quantity: 4,
+  },
+  {
+    name: 'test cable test cable test cable test cable',
+    id: '222',
+    imageUrl:
+      'https://storage.googleapis.com/my-shop-app-storage/1686486321445_hdmi.jpg',
+    price: 12.55,
+    quantity: 4,
+  },
+])
 export const $cartItemsTotal = computed($cart, (products) =>
   products.reduce((prev, current) => prev + current.quantity, 0)
 )

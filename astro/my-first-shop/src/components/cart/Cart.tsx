@@ -8,7 +8,12 @@ const Cart = () => {
 
   return (
     <div className="drawer drawer-end w-auto">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <input
+        id="my-drawer-4"
+        type="checkbox"
+        checked
+        className="drawer-toggle"
+      />
       <div className="drawer-content">
         <label htmlFor="my-drawer-4" className="drawer-button btn btn-ghost">
           <div className="indicator isolate">
