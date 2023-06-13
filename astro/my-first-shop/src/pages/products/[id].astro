@@ -1,9 +1,15 @@
 ---
 import Layout from '../../layouts/MainLayout.astro'
+import Product from '../../components/Product'
+import { db } from '../../googleCloud/server/firestore'
+import type { ProductT } from './index.astro'
 
 const { id } = Astro.params
+const productsRef = db.collection('products').doc(id!)
+const doc = await productsRef.get()
+const product = doc.data() as ProductT
 ---
 
 <Layout>
-  <p>product-id: {id}</p>
+  <Product client:only product={product} />
 </Layout>

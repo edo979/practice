@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/MainLayout.astro'
-import Product from '../../components/Product'
 import { db } from '../../googleCloud/server/firestore'
 
 export type ProductT = {
@@ -21,9 +20,17 @@ const products = snapshot.docs.map((doc) => ({
 <Layout>
   <main class="container mx-auto px-4">
     <h2 class="text-xl">Items:</h2>
-    <a href="/">Back to Home Page</a>
     <ul>
-      {products.map((product) => <Product client:only product={product} />)}
+      {
+        products.map((product) => (
+          <li>
+            <a href={`/products/${product.id}`}>
+              <h3 class="font-bold">{product.name}</h3>
+              <img src={product.imageUrl} alt={product.name} />
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </main>
 </Layout>

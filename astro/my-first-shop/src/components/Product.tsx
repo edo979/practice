@@ -6,8 +6,8 @@ const product = ({ product }: { product: ProductT }) => {
   const [quantity, setQuantity] = useState(0)
 
   return (
-    <li>
-      <p>{product.name}</p>
+    <>
+      <h2 className="text-lg font-semibold">{product.name}</h2>
       <p>
         <b>{product.price}</b>
       </p>
@@ -32,7 +32,7 @@ const product = ({ product }: { product: ProductT }) => {
           🛒 Add
         </button>
       </div>
-    </li>
+    </>
   )
 }
 export default product
