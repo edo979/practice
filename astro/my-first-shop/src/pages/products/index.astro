@@ -9,7 +9,7 @@ export type ProductT = {
   price: number
 }
 
-const productsRef = db.collection('products')
+const productsRef = db.collection('products').select('name', 'imageUrl')
 const snapshot = await productsRef.orderBy('price').get()
 const products = snapshot.docs.map((doc) => ({
   id: doc.id,
