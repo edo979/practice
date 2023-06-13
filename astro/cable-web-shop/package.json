@@ -10,7 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.5.6",
+    "@astrojs/node": "^5.2.0",
+    "astro": "^2.6.3",
     "firebase": "^9.22.2",
     "firebase-admin": "^11.9.0"
   }
