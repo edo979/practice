@@ -2,6 +2,7 @@
 import Layout from '../layouts/MainLayout.astro'
 import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
+import { getProducts } from '../firebase/firestore'
 
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
@@ -14,6 +15,19 @@ try {
 } catch (error) {
   return Astro.redirect('/login')
 }
+
+console.log((await getProducts())[0].data().price)
+
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData()
+    const name = formData.get('name')
+    const price = formData.get('price')
+    if (!name || !price) throw new Error('Bad data')
+  } catch (error) {
+    console.log(error)
+  }
+}
 ---
 
 <Layout>
@@ -21,5 +35,12 @@ try {
   <p>Welcome {user?.displayName}</p>
   <form action="/api/auth/logout">
     <button type="submit">Logout</button>
+  </form>
+  <h2>Add product</h2>
+  <form method="post">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" />
+    <label for="price">Price</label>
+    <input type="number" name="price" id="price" />
   </form>
 </Layout>
