@@ -7,14 +7,18 @@ const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
 if (!sessionCookie) return Astro.redirect('/login')
 
-const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-const user = await auth.getUser(decodedCookie.uid)
-if (!user) return Astro.redirect('/login')
+let user = undefined
+try {
+  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+  user = await auth.getUser(decodedCookie.uid)
+} catch (error) {
+  return Astro.redirect('/login')
+}
 ---
 
 <Layout>
   <h1>Dashboard</h1>
-  <p>Welcome {user.displayName}</p>
+  <p>Welcome {user?.displayName}</p>
   <form action="/api/auth/logout">
     <button type="submit">Logout</button>
   </form>

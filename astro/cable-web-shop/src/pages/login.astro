@@ -7,10 +7,10 @@ import Layout from '../layouts/MainLayout.astro'
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
 if (sessionCookie) {
-  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  if (decodedCookie) {
+  try {
+    await auth.verifySessionCookie(sessionCookie)
     return Astro.redirect('/dashboard')
-  }
+  } catch (error) {}
 }
 ---
 
