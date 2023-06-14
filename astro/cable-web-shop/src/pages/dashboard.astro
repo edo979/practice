@@ -15,7 +15,7 @@ if (!user) return Astro.redirect('/login')
 <Layout>
   <h1>Dashboard</h1>
   <p>Welcome {user.displayName}</p>
-  <form action="/ap/auth/logout">
+  <form action="/api/auth/logout">
     <button type="submit">Logout</button>
   </form>
 </Layout>
