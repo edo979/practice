@@ -1,7 +1,21 @@
 ---
 import Layout from '../layouts/MainLayout.astro'
+import { app } from '../firebase/server'
+import { getAuth } from 'firebase-admin/auth'
+
+const auth = getAuth(app)
+const sessionCookie = Astro.cookies.get('session').value
+if (!sessionCookie) return Astro.redirect('/login')
+
+const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+const user = await auth.getUser(decodedCookie.uid)
+if (!user) return Astro.redirect('/login')
 ---
 
 <Layout>
   <h1>Dashboard</h1>
+  <p>Welcome {user.displayName}</p>
+  <form action="/ap/auth/logout">
+    <button type="submit">Logout</button>
+  </form>
 </Layout>
