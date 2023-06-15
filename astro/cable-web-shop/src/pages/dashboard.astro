@@ -20,8 +20,6 @@ try {
   return Astro.redirect('/login')
 }
 
-const products = await getProductsOrderedByTime()
-
 // Process form and POST method
 type ActionDataT = {
   formError?: string
@@ -62,6 +60,8 @@ if (Astro.request.method === 'POST') {
     if (error instanceof Error) console.log(error.message)
   }
 }
+
+const products = await getProductsOrderedByTime()
 ---
 
 <Layout>
