@@ -9,11 +9,14 @@ type ProductT = RawProductT & { id: string; created_at: Timestamp }
 
 const productsRef = getFirestore().collection('products')
 
-export const getProducts = async () =>
-  (await productsRef.get()).docs.map((doc) => ({
-    name: doc.data().name,
-    price: doc.data().price,
-  })) as ProductT[]
+export const getProductsOrderedByTime = async () =>
+  (await productsRef.orderBy('created_at', 'desc').limit(5).get()).docs.map(
+    (doc) => ({
+      name: doc.data().name,
+      price: doc.data().price,
+      created_at: doc.data().created_at,
+    })
+  ) as ProductT[]
 
 export const isProductNameExist = async (name: string) => {
   try {

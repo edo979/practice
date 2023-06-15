@@ -2,7 +2,11 @@
 import Layout from '../layouts/MainLayout.astro'
 import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
-import { isProductNameExist, saveProduct } from '../firebase/utility/firestore'
+import {
+  isProductNameExist,
+  saveProduct,
+  getProductsOrderedByTime,
+} from '../firebase/utility/firestore'
 
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
@@ -16,8 +20,9 @@ try {
   return Astro.redirect('/login')
 }
 
-// Process form and POST method
+const products = await getProductsOrderedByTime()
 
+// Process form and POST method
 type ActionDataT = {
   formError?: string
   fields?: {
@@ -65,6 +70,11 @@ if (Astro.request.method === 'POST') {
   <form action="/api/auth/logout">
     <button type="submit">Logout</button>
   </form>
+
+  <ul>
+    {products.map((product) => <li>{product.name}</li>)}
+  </ul>
+
   <h2>Add product</h2>
   <form method="post">
     {actionData.formError && <p>{actionData.formError}</p>}
