@@ -2,7 +2,7 @@
 import Layout from '../layouts/MainLayout.astro'
 import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
-import { getProducts } from '../firebase/firestore'
+import { getProducts, saveProduct } from '../firebase/firestore'
 
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
@@ -16,16 +16,40 @@ try {
   return Astro.redirect('/login')
 }
 
-console.log((await getProducts())[0])
+// Process form and POST method
 
+type ActionDataT = {
+  formError?: string
+  fields?: {
+    name?: string
+    price?: string
+  }
+  fieldsError?: {
+    name?: string
+    price?: string
+  }
+}
+
+const actionData: ActionDataT = {}
 if (Astro.request.method === 'POST') {
   try {
     const formData = await Astro.request.formData()
     const name = formData.get('name')
     const price = formData.get('price')
-    if (!name || !price) throw new Error('Bad data')
+
+    if (
+      !name ||
+      typeof name !== 'string' ||
+      !price ||
+      typeof price !== 'string'
+    ) {
+      actionData.formError = 'Form submitet wrong!'
+      throw new Error('Form submited wrong!')
+    }
+
+    saveProduct({ name, price })
   } catch (error) {
-    console.log(error)
+    if (error instanceof Error) console.log(error)
   }
 }
 ---
@@ -38,6 +62,7 @@ if (Astro.request.method === 'POST') {
   </form>
   <h2>Add product</h2>
   <form method="post">
+    {actionData.formError && <p>{actionData.formError}</p>}
     <label for="name">Name</label>
     <input type="text" name="name" id="name" />
     <label for="price">Price</label>
