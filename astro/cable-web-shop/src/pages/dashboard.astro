@@ -2,7 +2,7 @@
 import Layout from '../layouts/MainLayout.astro'
 import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
-import { getProducts, saveProduct } from '../firebase/firestore'
+import { isProductNameExist, saveProduct } from '../firebase/firestore'
 
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
@@ -47,9 +47,14 @@ if (Astro.request.method === 'POST') {
       throw new Error('Form submited wrong!')
     }
 
-    saveProduct({ name, price })
+    if (await isProductNameExist(name)) {
+      actionData.formError = 'Product with same name allready exist!'
+      throw new Error('Product name exist!')
+    }
+    const isSaved = await saveProduct({ name, price })
+    if (isSaved) console.log('product saved')
   } catch (error) {
-    if (error instanceof Error) console.log(error)
+    if (error instanceof Error) console.log(error.message)
   }
 }
 ---
@@ -67,5 +72,6 @@ if (Astro.request.method === 'POST') {
     <input type="text" name="name" id="name" />
     <label for="price">Price</label>
     <input type="number" name="price" id="price" />
+    <button type="submit">Add new product</button>
   </form>
 </Layout>

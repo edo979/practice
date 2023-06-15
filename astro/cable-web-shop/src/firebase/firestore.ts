@@ -14,6 +14,23 @@ export const getProducts = async () =>
     price: doc.data().price,
   })) as ProductT[]
 
+export const isProductNameExist = async (name: string) => {
+  try {
+    const snapshot = await productsRef.where('name', '==', name).get()
+    if (snapshot.empty) {
+      return false
+    }
+    return true
+  } catch (error) {
+    throw new Error('Erros just hapen on database!')
+  }
+}
+
 export const saveProduct = async (data: RawProductT) => {
-  productsRef.doc().set(data)
+  try {
+    await productsRef.doc().set(data)
+    return true
+  } catch (error) {
+    throw new Error('Erros just hapen on database!')
+  }
 }
