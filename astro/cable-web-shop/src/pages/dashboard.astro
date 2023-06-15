@@ -2,12 +2,10 @@
 import Layout from '../layouts/MainLayout.astro'
 import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
-import {
-  isProductNameExist,
-  saveProduct,
-  getProductsOrderedByTime,
-} from '../firebase/utility/firestore'
+import { productsRef, ProductT } from '../firebase/utility/firestore'
+import { FieldValue } from 'firebase-admin/firestore'
 
+// Protect route
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
 if (!sessionCookie) return Astro.redirect('/login')
@@ -50,18 +48,36 @@ if (Astro.request.method === 'POST') {
       throw new Error('Form submited wrong!')
     }
 
-    if (await isProductNameExist(name)) {
+    const snapshot = await productsRef.where('name', '==', name).get()
+    if (snapshot.empty) {
+      await productsRef
+        .doc()
+        .set({ name, price, created_at: FieldValue.serverTimestamp() })
+    } else {
       actionData.formError = 'Product with same name allready exist!'
       throw new Error('Product name exist!')
     }
-    const isSaved = await saveProduct({ name, price })
-    if (isSaved) console.log('product saved')
   } catch (error) {
     if (error instanceof Error) console.log(error.message)
   }
 }
 
-const products = await getProductsOrderedByTime()
+// Set products data (get request or refresh after post request)
+let products
+try {
+  const snapshot = await productsRef
+    .orderBy('created_at', 'desc')
+    .limit(5)
+    .get()
+
+  products = snapshot.docs.map((doc) => ({
+    name: doc.data().name,
+    price: doc.data().price,
+    created_at: doc.data().created_at,
+  })) as ProductT[]
+} catch (error) {
+  products = undefined
+}
 ---
 
 <Layout>
@@ -72,7 +88,13 @@ const products = await getProductsOrderedByTime()
   </form>
 
   <ul>
-    {products.map((product) => <li>{product.name}</li>)}
+    {
+      products ? (
+        products.map((product) => <li>{product.name}</li>)
+      ) : (
+        <p>No products!</p>
+      )
+    }
   </ul>
 
   <h2>Add product</h2>
