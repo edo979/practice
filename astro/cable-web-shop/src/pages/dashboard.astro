@@ -2,7 +2,7 @@
 import Layout from '../layouts/MainLayout.astro'
 import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
-import { isProductNameExist, saveProduct } from '../firebase/firestore'
+import { isProductNameExist, saveProduct } from '../firebase/utility/firestore'
 
 const auth = getAuth(app)
 const sessionCookie = Astro.cookies.get('session').value
