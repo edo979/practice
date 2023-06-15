@@ -1,10 +1,11 @@
-import { getFirestore } from 'firebase-admin/firestore'
+import { FieldValue, Timestamp, getFirestore } from 'firebase-admin/firestore'
+
 type RawProductT = {
   name: string
   price: string
 }
 
-type ProductT = RawProductT & { id: string }
+type ProductT = RawProductT & { id: string; created_at: Timestamp }
 
 const productsRef = getFirestore().collection('products')
 
@@ -28,7 +29,9 @@ export const isProductNameExist = async (name: string) => {
 
 export const saveProduct = async (data: RawProductT) => {
   try {
-    await productsRef.doc().set(data)
+    await productsRef
+      .doc()
+      .set({ ...data, created_at: FieldValue.serverTimestamp() })
     return true
   } catch (error) {
     throw new Error('Erros just hapen on database!')
