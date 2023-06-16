@@ -137,6 +137,7 @@ try {
   <h2>Add product</h2>
   <form method="post" enctype="multipart/form-data">
     {actionData.formError && <p>{actionData.formError}</p>}
+
     <label for="name">Name</label>
     <input
       type="text"
@@ -147,6 +148,7 @@ try {
     />
     {actionData.fieldsError?.name && <p>{actionData.fieldsError.name}</p>}
     <br />
+
     <label for="price">Price</label>
     <input
       type="number"
@@ -154,11 +156,13 @@ try {
       id="price"
       required
       min="0"
-      step="0.1"
-      value={actionData.fields?.price || ''}
+      step="0.01"
+      placeholder="0.00"
+      value={actionData.fields?.price || '0.00'}
     />
     {actionData.fieldsError?.price && <p>{actionData.fieldsError.price}</p>}
     <br />
+
     <label for="product_image" class="btn btn-secondary w-full"
       >Product Image</label
     >
