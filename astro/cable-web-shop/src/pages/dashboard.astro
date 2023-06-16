@@ -4,6 +4,7 @@ import { app } from '../firebase/server'
 import { getAuth } from 'firebase-admin/auth'
 import { productsRef, ProductT } from '../firebase/utility/firestore'
 import { FieldValue } from 'firebase-admin/firestore'
+import { bucket } from '../firebase/utility/storage'
 
 // Protect route
 const auth = getAuth(app)
@@ -31,12 +32,32 @@ type ActionDataT = {
   }
 }
 
+const validateProductName = (name: string) => {
+  if (name.length < 3) return 'Name is to short!'
+}
+const validateProductPrice = (price: string) => {
+  if (Number.isNaN(parseFloat(price)))
+    return 'Please enter valid price in this format 34.44'
+  if (parseFloat(price) <= 0) return 'Add valid price!'
+}
+
+const validateProductImage = (image: File) => {
+  const allowedFileTypes = ['image/png', 'image/jpeg']
+
+  if (image.size === 0) return 'No image selected.'
+  if (!allowedFileTypes.includes(image.type))
+    return 'Only png, jpg, jpeg images is alloved!'
+
+  if (image.size > 1e6) return 'Max size of image is 1Mb!'
+}
+
 const actionData: ActionDataT = {}
 if (Astro.request.method === 'POST') {
   try {
     const formData = await Astro.request.formData()
     const name = formData.get('name')
     const price = formData.get('price')
+    const image = formData.get('product_image') as File
 
     if (
       !name ||
@@ -48,11 +69,21 @@ if (Astro.request.method === 'POST') {
       throw new Error('Form submited wrong!')
     }
 
+    // save image
+    const file = bucket.file(`products/${Date.now()}_${image.name}`)
+    await file.save(Buffer.from(await image.arrayBuffer()))
+    await file.makePublic()
+    const imageUrl = file.publicUrl()
+
+    // save to firestore
     const snapshot = await productsRef.where('name', '==', name).get()
     if (snapshot.empty) {
-      await productsRef
-        .doc()
-        .set({ name, price, created_at: FieldValue.serverTimestamp() })
+      await productsRef.doc().set({
+        name,
+        price,
+        imageUrl,
+        created_at: FieldValue.serverTimestamp(),
+      })
     } else {
       actionData.formError = 'Product with same name allready exist!'
       throw new Error('Product name exist!')
@@ -74,6 +105,7 @@ try {
     name: doc.data().name,
     price: doc.data().price,
     created_at: doc.data().created_at,
+    imageUrl: doc.data().imageUrl,
   })) as ProductT[]
 } catch (error) {
   products = undefined
@@ -90,7 +122,14 @@ try {
   <ul>
     {
       products ? (
-        products.map((product) => <li>{product.name}</li>)
+        products.map((product) => (
+          <li>
+            <div>
+              <h2>{product.name}</h2>
+              <img src={product.imageUrl} alt={product.name} />
+            </div>
+          </li>
+        ))
       ) : (
         <p>No products!</p>
       )
@@ -98,12 +137,22 @@ try {
   </ul>
 
   <h2>Add product</h2>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {actionData.formError && <p>{actionData.formError}</p>}
     <label for="name">Name</label>
     <input type="text" name="name" id="name" />
     <label for="price">Price</label>
     <input type="number" name="price" id="price" />
+    <label for="product_image" class="btn btn-secondary w-full"
+      >Product Image</label
+    >
+    <input
+      type="file"
+      name="product_image"
+      id="product_image"
+      accept=".jpg, .jpeg, .png"
+      class="hidden"
+    />
     <button type="submit">Add new product</button>
   </form>
 </Layout>

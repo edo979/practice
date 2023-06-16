@@ -1,0 +1,19 @@
+{
+  "name": "products/hdmiCable.jpg",
+  "bucket": "cable-web-shop.appspot.com",
+  "metageneration": 1,
+  "generation": 1686932969046,
+  "contentType": "image/jpeg",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "e81761bc-a0f0-4bdd-9935-e5fee194d82b"
+  ],
+  "etag": "Q+1TEdxCyDFt5f7jY76X5iglTAw",
+  "customMetadata": {},
+  "timeCreated": "2023-06-16T16:29:29.046Z",
+  "updated": "2023-06-16T16:29:29.046Z",
+  "size": 5678,
+  "md5Hash": "s6RDn4gytBu9f6thQsYi3g==",
+  "crc32c": "757546990"
+}
