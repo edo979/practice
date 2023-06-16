@@ -35,7 +35,7 @@ if (sessionCookie) {
   import { app } from '../firebase/client'
 
   const auth = getAuth(app)
-  connectAuthEmulator(auth, 'http://localhost:9099')
+  connectAuthEmulator(auth, 'http://127.0.0.1:9099')
   // This will prevent the browser from storing session data
   auth.setPersistence(inMemoryPersistence)
 
