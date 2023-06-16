@@ -5,6 +5,11 @@ import { getAuth } from 'firebase-admin/auth'
 import { productsRef, ProductT } from '../firebase/utility/firestore'
 import { FieldValue } from 'firebase-admin/firestore'
 import { bucket } from '../firebase/utility/storage'
+import {
+  validateProductImage,
+  validateProductName,
+  validateProductPrice,
+} from '../utils/newProductFormValidators'
 
 // Protect route
 const auth = getAuth(app)
@@ -29,26 +34,8 @@ type ActionDataT = {
   fieldsError?: {
     name?: string
     price?: string
+    image?: string
   }
-}
-
-const validateProductName = (name: string) => {
-  if (name.length < 3) return 'Name is to short!'
-}
-const validateProductPrice = (price: string) => {
-  if (Number.isNaN(parseFloat(price)))
-    return 'Please enter valid price in this format 34.44'
-  if (parseFloat(price) <= 0) return 'Add valid price!'
-}
-
-const validateProductImage = (image: File) => {
-  const allowedFileTypes = ['image/png', 'image/jpeg']
-
-  if (image.size === 0) return 'No image selected.'
-  if (!allowedFileTypes.includes(image.type))
-    return 'Only png, jpg, jpeg images is alloved!'
-
-  if (image.size > 1e6) return 'Max size of image is 1Mb!'
 }
 
 const actionData: ActionDataT = {}
@@ -58,7 +45,7 @@ if (Astro.request.method === 'POST') {
     const name = formData.get('name')
     const price = formData.get('price')
     const image = formData.get('product_image') as File
-
+    console.log(image)
     if (
       !name ||
       typeof name !== 'string' ||
@@ -67,6 +54,17 @@ if (Astro.request.method === 'POST') {
     ) {
       actionData.formError = 'Form submitet wrong!'
       throw new Error('Form submited wrong!')
+    }
+    const formFields = { name, price }
+    const fieldsError = {
+      name: validateProductName(name),
+      price: validateProductPrice(price),
+      image: validateProductImage(image),
+    }
+    if (Object.values(fieldsError).some(Boolean)) {
+      actionData.fieldsError = fieldsError
+      actionData.fields = formFields
+      throw new Error('Form fields have errors!')
     }
 
     // save image
@@ -80,7 +78,7 @@ if (Astro.request.method === 'POST') {
     if (snapshot.empty) {
       await productsRef.doc().set({
         name,
-        price,
+        price: parseFloat(price),
         imageUrl,
         created_at: FieldValue.serverTimestamp(),
       })
@@ -140,9 +138,27 @@ try {
   <form method="post" enctype="multipart/form-data">
     {actionData.formError && <p>{actionData.formError}</p>}
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" />
+    <input
+      type="text"
+      name="name"
+      id="name"
+      required
+      value={actionData.fields?.name || ''}
+    />
+    {actionData.fieldsError?.name && <p>{actionData.fieldsError.name}</p>}
+    <br />
     <label for="price">Price</label>
-    <input type="number" name="price" id="price" />
+    <input
+      type="number"
+      name="price"
+      id="price"
+      required
+      min="0"
+      step="0.1"
+      value={actionData.fields?.price || ''}
+    />
+    {actionData.fieldsError?.price && <p>{actionData.fieldsError.price}</p>}
+    <br />
     <label for="product_image" class="btn btn-secondary w-full"
       >Product Image</label
     >
@@ -153,6 +169,7 @@ try {
       accept=".jpg, .jpeg, .png"
       class="hidden"
     />
+    {actionData.fieldsError?.image && <p>{actionData.fieldsError.image}</p>}
     <button type="submit">Add new product</button>
   </form>
 </Layout>
