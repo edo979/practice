@@ -1,0 +1,31 @@
+---
+import type { ProductT } from '../../firebase/utility/firestore'
+
+export interface Props {
+  products: ProductT[] | undefined
+}
+
+const { products } = Astro.props
+---
+
+<h2>Last added product</h2>
+{
+  products ? (
+    <ul>
+      {products.map((product) => (
+        <li>
+          <div>
+            <h2>{product.name}</h2>
+            <button id="delete-product" data-product-id={product.id}>
+              Delete product
+            </button>
+            <br />
+            <img src={product.imageUrl} alt={product.name} />
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No products in store!</p>
+  )
+}

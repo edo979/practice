@@ -10,6 +10,7 @@ import {
   validateProductName,
   validateProductPrice,
 } from '../utils/newProductFormValidators'
+import NewProducts from '../components/dashboard/NewProducts.astro'
 
 // Protect route
 const auth = getAuth(app)
@@ -100,6 +101,7 @@ try {
     .get()
 
   products = snapshot.docs.map((doc) => ({
+    id: doc.id,
     name: doc.data().name,
     price: doc.data().price,
     created_at: doc.data().created_at,
@@ -117,22 +119,7 @@ try {
     <button type="submit">Logout</button>
   </form>
 
-  <ul>
-    {
-      products ? (
-        products.map((product) => (
-          <li>
-            <div>
-              <h2>{product.name}</h2>
-              <img src={product.imageUrl} alt={product.name} />
-            </div>
-          </li>
-        ))
-      ) : (
-        <p>No products!</p>
-      )
-    }
-  </ul>
+  <NewProducts products={products} />
 
   <h2>Add product</h2>
   <form method="post" enctype="multipart/form-data">
