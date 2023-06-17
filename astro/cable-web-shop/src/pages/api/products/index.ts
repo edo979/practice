@@ -6,6 +6,5 @@ export const del: APIRoute = async ({ request }) => {
 
   return new Response(null, {
     status: 200,
-    statusText: 'deleted',
   })
 }
