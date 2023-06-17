@@ -10,7 +10,7 @@ import {
   validateProductName,
   validateProductPrice,
 } from '../utils/newProductFormValidators'
-import NewProducts from '../components/dashboard/NewProducts.astro'
+import Products from '../components/dashboard/Products.astro'
 
 // Protect route
 const auth = getAuth(app)
@@ -119,7 +119,7 @@ try {
     <button type="submit">Logout</button>
   </form>
 
-  <NewProducts products={products} />
+  <Products products={products} />
 
   <h2>Add product</h2>
   <form method="post" enctype="multipart/form-data">
