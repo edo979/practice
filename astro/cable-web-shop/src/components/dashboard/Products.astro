@@ -42,7 +42,7 @@ const { products } = Astro.props
   async function sendeDeleteProductRequest(id: string) {
     if (!confirm('Delete product from store. Are you shure?')) return
 
-    const res = await fetch(`/api/products/jah`, {
+    const res = await fetch(`/api/products/${id}`, {
       method: 'delete',
     })
 
