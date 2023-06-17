@@ -11,14 +11,12 @@ const { products } = Astro.props
 <h2>Last added product</h2>
 {
   products ? (
-    <ul>
+    <ul id="products">
       {products.map((product) => (
         <li>
           <div>
             <h2>{product.name}</h2>
-            <button id="delete-product" data-product-id={product.id}>
-              Delete product
-            </button>
+            <button data-product-id={product.id}>Delete product</button>
             <br />
             <img src={product.imageUrl} alt={product.name} />
           </div>
@@ -29,3 +27,19 @@ const { products } = Astro.props
     <p>No products in store!</p>
   )
 }
+
+<script>
+  const productListEl = document.getElementById('products')
+  productListEl?.addEventListener('click', (e) => {
+    const clickedEl = e.target as HTMLElement
+    // is button clicked
+    if (clickedEl.hasAttribute('data-product-id')) {
+      const productId = clickedEl.dataset.productId
+      productId && sendeDeleteProductRequest(productId)
+    }
+  })
+
+  async function sendeDeleteProductRequest(id: string) {
+    console.log(id)
+  }
+</script>
