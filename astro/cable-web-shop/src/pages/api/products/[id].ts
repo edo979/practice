@@ -40,10 +40,9 @@ export const del: APIRoute = async ({ request, cookies, params }) => {
           )
           await file.delete({ ifGenerationMatch: generationMatchNumber })
           // continue to firestore
-        } catch (error) {
-          // abort deleting operation
-          console.log(error)
-          return new Response(null, { status: 500 })
+        } catch (error: any) {
+          // if file not exist continue
+          if (error.code !== 404) return new Response(null, { status: 500 })
         }
       }
     }
