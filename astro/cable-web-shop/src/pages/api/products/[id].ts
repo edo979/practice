@@ -16,7 +16,7 @@ async function isValidUser(sessionCookie?: string) {
   }
 }
 
-export const del: APIRoute = async ({ request, cookies, params }) => {
+export const del: APIRoute = async ({ request, redirect, cookies, params }) => {
   const id = params.id
   if (!id) return new Response(null, { status: 400 })
 
@@ -52,7 +52,7 @@ export const del: APIRoute = async ({ request, cookies, params }) => {
     // Delete product from db
     try {
       productRef.delete()
-      return new Response(null, { status: 200 })
+      return redirect('/dashboard')
     } catch (error) {
       return new Response(null, { status: 500 })
     }

@@ -46,7 +46,10 @@ const { products } = Astro.props
       method: 'delete',
     })
 
-    if (res.ok) console.log('deleted', id)
-    else console.log('Erro when deleting')
+    if (res.redirected) {
+      window.location.assign(res.url)
+    }
+
+    console.log('Erro when deleting')
   }
 </script>
