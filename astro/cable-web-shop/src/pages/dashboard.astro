@@ -11,19 +11,11 @@ import {
   validateProductPrice,
 } from '../utils/newProductFormValidators'
 import Products from '../components/dashboard/Products.astro'
+import { getUser } from '../firebase/utility/auth'
 
 // Protect route
-const auth = getAuth(app)
-const sessionCookie = Astro.cookies.get('session').value
-if (!sessionCookie) return Astro.redirect('/login')
-
-let user = undefined
-try {
-  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  user = await auth.getUser(decodedCookie.uid)
-} catch (error) {
-  return Astro.redirect('/login')
-}
+const user = await getUser(Astro.cookies.get('session').value)
+if (!user) return Astro.redirect('/login')
 
 // Process form and POST method
 type ActionDataT = {
@@ -114,7 +106,7 @@ try {
 
 <Layout>
   <h1>Dashboard</h1>
-  <p>Welcome {user?.displayName}</p>
+  <p>Welcome {user.displayName}</p>
   <form action="/api/auth/logout">
     <button type="submit">Logout</button>
   </form>

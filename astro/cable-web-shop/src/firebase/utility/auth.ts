@@ -13,3 +13,15 @@ export async function isValidUser(sessionCookie?: string) {
     return false
   }
 }
+
+export async function getUser(sessionCookie?: string) {
+  if (!sessionCookie) return null
+
+  try {
+    const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+    const user = await auth.getUser(decodedCookie.uid)
+    return user
+  } catch (error) {
+    return null
+  }
+}
