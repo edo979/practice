@@ -122,7 +122,7 @@ try {
   <Products products={products} />
 
   <h2>Add product</h2>
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" action="/api/products" enctype="multipart/form-data">
     {actionData.formError && <p>{actionData.formError}</p>}
 
     <label for="name">Name</label>
