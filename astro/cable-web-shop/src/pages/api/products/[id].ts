@@ -1,20 +1,7 @@
 import type { APIRoute } from 'astro'
-import { getAuth } from 'firebase-admin/auth'
-import { app } from '../../../firebase/server'
 import { productsRef } from '../../../firebase/utility/firestore'
 import { bucket } from '../../../firebase/utility/storage'
-
-async function isValidUser(sessionCookie?: string) {
-  if (!sessionCookie) return false
-
-  try {
-    const auth = getAuth(app)
-    await auth.verifySessionCookie(sessionCookie)
-    return true
-  } catch (error) {
-    return false
-  }
-}
+import { isValidUser } from '../../../firebase/utility/auth'
 
 export const del: APIRoute = async ({ request, redirect, cookies, params }) => {
   const id = params.id
