@@ -53,5 +53,5 @@ export const post: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify(actionData), { status: 400 })
   }
 
-  return new Response(null, { status: 200 })
+  return new Response(JSON.stringify({ data: 'jah' }), { status: 200 })
 }
