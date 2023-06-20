@@ -1,7 +1,5 @@
 ---
-import Layout from '../layouts/MainLayout.astro'
-import { app } from '../firebase/server'
-import { getAuth } from 'firebase-admin/auth'
+import { getUser } from '../firebase/utility/auth'
 import { productsRef, ProductT } from '../firebase/utility/firestore'
 import { FieldValue } from 'firebase-admin/firestore'
 import { bucket } from '../firebase/utility/storage'
@@ -11,7 +9,8 @@ import {
   validateProductPrice,
 } from '../utils/newProductFormValidators'
 import Products from '../components/dashboard/Products.astro'
-import { getUser } from '../firebase/utility/auth'
+import Layout from '../layouts/MainLayout.astro'
+import NewProductForm from '../components/dashboard/NewProductForm'
 
 // Protect route
 const user = await getUser(Astro.cookies.get('session').value)
@@ -114,7 +113,7 @@ try {
   <Products products={products} />
 
   <h2>Add product</h2>
-  <form method="post" action="/api/products" enctype="multipart/form-data">
+  <!-- <form method="post" action="/api/products" enctype="multipart/form-data">
     {actionData.formError && <p>{actionData.formError}</p>}
 
     <label for="name">Name</label>
@@ -154,5 +153,7 @@ try {
     />
     {actionData.fieldsError?.image && <p>{actionData.fieldsError.image}</p>}
     <button type="submit">Add new product</button>
-  </form>
+  </form> -->
+
+  <NewProductForm client:only />
 </Layout>

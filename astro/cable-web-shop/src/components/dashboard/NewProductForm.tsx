@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 type ActionDataT = {
   formError?: string
   fields?: {
@@ -13,17 +11,33 @@ type ActionDataT = {
 }
 
 const NewProductForm = () => {
-  useEffect(() => {
-    return () => {}
-  }, [])
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append('name', 'jah')
+    formData.append('price', '55')
+
+    const res = await fetch('/api/products', {
+      method: 'post',
+      body: formData,
+    })
+
+    if (res.ok) {
+      const data = await res.json()
+      console.log(data)
+    }
+
+    console.log(res.status)
+  }
 
   return (
-    <form method="post">
+    <form onSubmit={(e) => submitHandler(e)}>
       {/* {actionData.formError && <p>{actionData.formError}</p>} */}
       <label htmlFor="name">Name</label>
       <input type="text" name="name" id="name" />
       <label htmlFor="price">Price</label>
       <input type="number" name="price" id="price" />
+      <input type="file" name="image" id="image" />
       <button type="submit">Add new product</button>
     </form>
   )
