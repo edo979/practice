@@ -4,6 +4,7 @@ import { productsRef, ProductT } from '../../firebase/utility/firestore'
 import { FieldValue } from 'firebase-admin/firestore'
 import { bucket } from '../../firebase/utility/storage'
 import {
+  validateProductDesc,
   validateProductImage,
   validateProductName,
   validateProductPrice,
@@ -21,10 +22,12 @@ type ActionDataT = {
   fields?: {
     name?: string
     price?: string
+    desc?: string
   }
   fieldsError?: {
     name?: string
     price?: string
+    desc?: string
     image?: string
   }
 }
@@ -35,11 +38,14 @@ if (Astro.request.method === 'POST') {
     const formData = await Astro.request.formData()
     const name = formData.get('name')
     const price = formData.get('price')
+    const desc = formData.get('desc')
     const image = formData.get('product_image') as File
 
     if (
       !name ||
       typeof name !== 'string' ||
+      !desc ||
+      typeof desc !== 'string' ||
       !price ||
       typeof price !== 'string'
     ) {
@@ -47,10 +53,11 @@ if (Astro.request.method === 'POST') {
       throw new Error('Form submited wrong!')
     }
 
-    const formFields = { name, price }
+    const formFields = { name, price, desc }
     const fieldsError = {
       name: validateProductName(name),
       price: validateProductPrice(price),
+      desc: validateProductDesc(desc),
       image: validateProductImage(image),
     }
     if (Object.values(fieldsError).some(Boolean)) {
@@ -71,6 +78,7 @@ if (Astro.request.method === 'POST') {
       await productsRef.doc().set({
         name,
         price: parseFloat(price),
+        desc,
         imageUrl,
         created_at: FieldValue.serverTimestamp(),
       })
@@ -95,6 +103,7 @@ try {
     id: doc.id,
     name: doc.data().name,
     price: doc.data().price,
+    desc: doc.data().desc,
     created_at: doc.data().created_at,
     imageUrl: doc.data().imageUrl,
   })) as ProductT[]
@@ -125,6 +134,17 @@ try {
       value={actionData.fields?.name || ''}
     />
     {actionData.fieldsError?.name && <p>{actionData.fieldsError.name}</p>}
+    <br />
+
+    <label for="desc">Description</label>
+    <input
+      type="text"
+      name="desc"
+      id="desc"
+      required
+      value={actionData.fields?.desc || ''}
+    />
+    {actionData.fieldsError?.desc && <p>{actionData.fieldsError.desc}</p>}
     <br />
 
     <label for="price">Price</label>

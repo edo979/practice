@@ -16,6 +16,7 @@ const { products } = Astro.props
         <li>
           <div>
             <h2>{product.name}</h2>
+            <p>{product.desc}</p>
             <button data-product-id={product.id}>Delete product</button>
             <br />
             <img src={product.imageUrl} alt={product.name} />

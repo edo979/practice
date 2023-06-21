@@ -1,6 +1,11 @@
 export const validateProductName = (name: string) => {
   if (name.length < 3) return 'Name is to short!'
 }
+
+export const validateProductDesc = (desc: string) => {
+  if (desc.length < 3) return 'Description is to short!'
+}
+
 export const validateProductPrice = (price: string) => {
   if (Number.isNaN(parseFloat(price)))
     return 'Please enter valid price in this format 34.44'
