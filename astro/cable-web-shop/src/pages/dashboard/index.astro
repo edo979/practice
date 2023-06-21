@@ -1,16 +1,15 @@
 ---
-import { getUser } from '../firebase/utility/auth'
-import { productsRef, ProductT } from '../firebase/utility/firestore'
+import { getUser } from '../../firebase/utility/auth'
+import { productsRef, ProductT } from '../../firebase/utility/firestore'
 import { FieldValue } from 'firebase-admin/firestore'
-import { bucket } from '../firebase/utility/storage'
+import { bucket } from '../../firebase/utility/storage'
 import {
   validateProductImage,
   validateProductName,
   validateProductPrice,
-} from '../utils/newProductFormValidators'
-import Products from '../components/dashboard/Products.astro'
-import Layout from '../layouts/MainLayout.astro'
-import NewProductForm from '../components/dashboard/NewProductForm'
+} from '../../utils/newProductFormValidators'
+import Products from '../../components/dashboard/Products.astro'
+import Layout from '../../layouts/MainLayout.astro'
 
 // Protect route
 const user = await getUser(Astro.cookies.get('session').value)
@@ -29,24 +28,25 @@ type ActionDataT = {
     image?: string
   }
 }
-
 const actionData: ActionDataT = {}
+
 if (Astro.request.method === 'POST') {
   try {
     const formData = await Astro.request.formData()
     const name = formData.get('name')
     const price = formData.get('price')
     const image = formData.get('product_image') as File
-    console.log(image)
+
     if (
       !name ||
       typeof name !== 'string' ||
       !price ||
       typeof price !== 'string'
     ) {
-      actionData.formError = 'Form submitet wrong!'
+      actionData.formError = 'Form submited wrong!'
       throw new Error('Form submited wrong!')
     }
+
     const formFields = { name, price }
     const fieldsError = {
       name: validateProductName(name),
@@ -83,7 +83,7 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-// Set products data (get request or refresh after post request)
+//Allways run this code
 let products
 try {
   const snapshot = await productsRef
@@ -113,7 +113,7 @@ try {
   <Products products={products} />
 
   <h2>Add product</h2>
-  <!-- <form method="post" action="/api/products" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data">
     {actionData.formError && <p>{actionData.formError}</p>}
 
     <label for="name">Name</label>
@@ -152,8 +152,7 @@ try {
       class="hidden"
     />
     {actionData.fieldsError?.image && <p>{actionData.fieldsError.image}</p>}
-    <button type="submit">Add new product</button>
-  </form> -->
 
-  <NewProductForm client:only />
+    <button type="submit">Add new product</button>
+  </form>
 </Layout>
