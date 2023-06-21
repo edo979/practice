@@ -1,27 +1,31 @@
 import type { APIRoute } from 'astro'
+import { isValidUser } from '../../../firebase/utility/auth'
 import {
   validateProductImage,
   validateProductName,
   validateProductPrice,
 } from '../../../utils/newProductFormValidators'
 
+type ActionDataT = {
+  formError?: string
+  fields?: {
+    name?: string
+    price?: string
+  }
+  fieldsError?: {
+    name?: string
+    price?: string
+    image?: string
+  }
+}
+
 export const get: APIRoute = async ({ request }) => {
   return new Response(null, { status: 200 })
 }
 
-export const post: APIRoute = async ({ request }) => {
-  type ActionDataT = {
-    formError?: string
-    fields?: {
-      name?: string
-      price?: string
-    }
-    fieldsError?: {
-      name?: string
-      price?: string
-      image?: string
-    }
-  }
+export const post: APIRoute = async ({ request, cookies }) => {
+  if (!(await isValidUser(cookies.get('session').value)))
+    return new Response(null, { status: 401 })
 
   const actionData: ActionDataT = {}
 
