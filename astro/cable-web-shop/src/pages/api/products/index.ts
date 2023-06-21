@@ -28,7 +28,7 @@ export const post: APIRoute = async ({ request }) => {
   const formData = await request.formData()
   const name = formData.get('name')
   const price = formData.get('price')
-  const image = formData.get('product_image') as File | undefined
+  const image = formData.get('product_image') as File | null
 
   if (
     !name ||
