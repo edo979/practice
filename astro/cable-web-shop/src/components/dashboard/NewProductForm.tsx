@@ -9,24 +9,25 @@ type ActionDataT = {
   fieldsError?: {
     name?: string
     price?: string
+    image?: string
   }
 }
 
 const NewProductForm = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [productImage, setProductImage] = useState<File | null>(null)
+  const [productName, setProductName] = useState<string>()
+  const [productPrice, setProductPrice] = useState<string>()
+  const [actionData, setActionData] = useState<ActionDataT>({})
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.files) setSelectedFile(event.target.files[0])
+    if (event.target.files) setProductImage(event.target.files[0])
   }
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    console.log(selectedFile)
     const formData = new FormData()
-    formData.append('name', 'jah')
-    formData.append('price', '55')
-    if (selectedFile) {
-      formData.append('product_image', selectedFile)
+    if (productImage) {
+      formData.append('product_image', productImage)
     }
 
     const res = await fetch('/api/products', {
@@ -34,9 +35,9 @@ const NewProductForm = () => {
       body: formData,
     })
 
-    if (res.ok) {
-      const data = await res.json()
-      console.log(data)
+    if (!res.ok) {
+      setActionData(await res.json())
+      console.log(actionData)
     }
 
     console.log(res.status)
@@ -44,12 +45,19 @@ const NewProductForm = () => {
 
   return (
     <form onSubmit={(e) => submitHandler(e)}>
-      {/* {actionData.formError && <p>{actionData.formError}</p>} */}
+      {actionData.formError && <p>{actionData.formError}</p>}
+
       <label htmlFor="name">Name</label>
       <input type="text" name="name" id="name" />
+      {actionData.fieldsError?.name && <p>{actionData.fieldsError.name}</p>}
+
       <label htmlFor="price">Price</label>
       <input type="number" name="price" id="price" />
+      {actionData.fieldsError?.price && <p>{actionData.fieldsError.price}</p>}
+
       <input type="file" name="image" id="image" onChange={handleFileChange} />
+      {actionData.fieldsError?.image && <p>{actionData.fieldsError.image}</p>}
+
       <button type="submit">Add new product</button>
     </form>
   )
