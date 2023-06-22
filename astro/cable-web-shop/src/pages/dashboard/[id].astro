@@ -1,7 +1,9 @@
 ---
+import Product from '../../components/dashboard/Product'
 import { isValidUser } from '../../firebase/utility/auth'
 import { productsRef } from '../../firebase/utility/firestore'
 import { bucket } from '../../firebase/utility/storage'
+import Layout from '../../layouts/MainLayout.astro'
 
 // PROTECT route
 if (!(await isValidUser(Astro.cookies.get('session').value))) {
@@ -56,6 +58,11 @@ if (Astro.request.method === 'DELETE') {
     if (error instanceof Error) actionData.errorMsg = error.message
   }
 }
+
+if (Astro.request.method === 'GET') {
+}
 ---
 
-<h2>jah</h2>
+<Layout>
+  {actionData.errorMsg ? <p>{actionData.errorMsg}</p> : <Product client:only />}
+</Layout>

@@ -16,12 +16,11 @@ const { products } = Astro.props
         <li>
           <div>
             <h2>
-              <a href={`/dashboard/${product.id}`}>{product.name}</a>
+              <p>{product.name}</p>
             </h2>
             <p>{product.desc}</p>
             <a href={product.imageUrl}>Image Link</a>
-            <button data-product-id={product.id}>Delete product</button>
-            <br />
+            <a href={`/dashboard/${product.id}`}>✏️</a>
           </div>
         </li>
       ))}
