@@ -1,0 +1,61 @@
+---
+import { isValidUser } from '../../firebase/utility/auth'
+import { productsRef } from '../../firebase/utility/firestore'
+import { bucket } from '../../firebase/utility/storage'
+
+// PROTECT route
+if (!(await isValidUser(Astro.cookies.get('session').value))) {
+  return Astro.redirect('/login')
+}
+
+type ActionDataT = {
+  errorMsg?: string
+}
+
+const actionData: ActionDataT = {}
+
+// proces DELETE request
+if (Astro.request.method === 'DELETE') {
+  try {
+    const id = Astro.params.id
+    if (!id) throw new Error('No product id given!')
+
+    const productRef = productsRef.doc(id)
+    const doc = await productRef.get()
+
+    if (doc.exists) {
+      // Delete image from storage
+      const imageUrl: string | undefined = doc.data()?.imageUrl
+      if (imageUrl) {
+        const imageName = imageUrl.split('/').pop()?.replace('%2F', '/')
+        if (imageName) {
+          const file = bucket.file(imageName)
+          try {
+            const generationMatchNumber = new Date().getTime()
+            Astro.request.headers.append(
+              'x-goog-if-generation-match',
+              generationMatchNumber.toString()
+            )
+            await file.delete({ ifGenerationMatch: generationMatchNumber })
+            // continue to firestore
+          } catch (error: any) {
+            // if file not exist continue
+            if (error.code !== 404)
+              throw new Error('Error when deleting image.')
+          }
+        }
+      }
+
+      // Delete product from db
+      productRef.delete()
+      return Astro.redirect('/dashboard')
+    }
+
+    throw new Error('Product not found in database!')
+  } catch (error) {
+    if (error instanceof Error) actionData.errorMsg = error.message
+  }
+}
+---
+
+<h2>jah</h2>

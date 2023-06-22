@@ -15,11 +15,13 @@ const { products } = Astro.props
       {products.map((product) => (
         <li>
           <div>
-            <h2>{product.name}</h2>
+            <h2>
+              <a href={`/dashboard/${product.id}`}>{product.name}</a>
+            </h2>
             <p>{product.desc}</p>
+            <a href={product.imageUrl}>Image Link</a>
             <button data-product-id={product.id}>Delete product</button>
             <br />
-            <img src={product.imageUrl} alt={product.name} />
           </div>
         </li>
       ))}
