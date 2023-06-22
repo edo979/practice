@@ -7,7 +7,7 @@ export type RawProductT = {
 }
 export type ProductT = RawProductT & {
   id: string
-  created_at: Timestamp
+  created_at: Date
   imageUrl: string
 }
 

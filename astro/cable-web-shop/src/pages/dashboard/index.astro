@@ -104,7 +104,7 @@ try {
     name: doc.data().name,
     price: doc.data().price,
     desc: doc.data().desc,
-    created_at: doc.data().created_at,
+    created_at: doc.data().created_at.toDate(),
     imageUrl: doc.data().imageUrl,
   })) as ProductT[]
 } catch (error) {

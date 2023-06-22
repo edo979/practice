@@ -1,9 +1,10 @@
 ---
 import Product from '../../components/dashboard/Product'
 import { isValidUser } from '../../firebase/utility/auth'
-import { productsRef } from '../../firebase/utility/firestore'
+import { ProductT, productsRef } from '../../firebase/utility/firestore'
 import { bucket } from '../../firebase/utility/storage'
 import Layout from '../../layouts/MainLayout.astro'
+import type Index from '../index.astro'
 
 // PROTECT route
 if (!(await isValidUser(Astro.cookies.get('session').value))) {
@@ -16,12 +17,12 @@ type ActionDataT = {
 
 const actionData: ActionDataT = {}
 
+const id = Astro.params.id
+if (!id) throw new Error('No product id si given!')
+
 // proces DELETE request
 if (Astro.request.method === 'DELETE') {
   try {
-    const id = Astro.params.id
-    if (!id) throw new Error('No product id given!')
-
     const productRef = productsRef.doc(id)
     const doc = await productRef.get()
 
@@ -59,10 +60,35 @@ if (Astro.request.method === 'DELETE') {
   }
 }
 
+let product
 if (Astro.request.method === 'GET') {
+  try {
+    const productRef = await productsRef.doc(id)
+    const doc = await productRef.get()
+
+    if (doc.exists) {
+      product = {
+        ...doc.data(),
+        created_at: doc.data()!.created_at.toDate(),
+      } as ProductT
+
+      if (!product)
+        throw new Error('Error when retriving product from database!')
+    } else {
+      throw new Error('No such product in database!')
+    }
+  } catch (error) {
+    if (error instanceof Error) actionData.errorMsg = error.message
+  }
 }
 ---
 
 <Layout>
-  {actionData.errorMsg ? <p>{actionData.errorMsg}</p> : <Product client:only />}
+  {
+    actionData.errorMsg ? (
+      <p>{actionData.errorMsg}</p>
+    ) : (
+      product && <Product client:only product={product} />
+    )
+  }
 </Layout>
