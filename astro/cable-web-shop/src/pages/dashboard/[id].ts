@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro'
-import { productsRef } from '../../../firebase/utility/firestore'
-import { bucket } from '../../../firebase/utility/storage'
-import { isValidUser } from '../../../firebase/utility/auth'
+import { isValidUser } from '../../firebase/utility/auth'
+import { productsRef } from '../../firebase/utility/firestore'
+import { bucket } from '../../firebase/utility/storage'
 
 export const del: APIRoute = async ({ request, redirect, cookies, params }) => {
   const id = params.id
