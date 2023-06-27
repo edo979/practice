@@ -1,0 +1,36 @@
+---
+type ActionDataT = {
+  formError?: string
+}
+
+const actionData: ActionDataT = {}
+
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData()
+    const product_name = formData.get('product_name')
+    const product_price = formData.get('product_price')
+
+    if (
+      !product_name ||
+      typeof product_name !== 'string' ||
+      !product_price ||
+      typeof product_price !== 'string'
+    )
+      throw new Error('Form submited wrong!')
+  } catch (error) {
+    if (error instanceof Error) actionData.formError = error.message
+  }
+}
+---
+
+<form method="POST">
+  {actionData.formError && <p>{actionData.formError}</p>}
+  <label for="product_name">Product name:</label>
+  <input type="text" name="product_name" id="product_name" />
+
+  <label for="product_price">Product price:</label>
+  <input type="number" name="product_price" id="product_price" />
+
+  <input type="submit" value="Submit" />
+</form>
