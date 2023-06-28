@@ -20,26 +20,47 @@ const ViewProduct = ({ product }: { product: ProductT }) => (
   </div>
 )
 
-const EditProduct = ({ cancelEdit, product }: EditProductPropT) => (
-  <div>
-    <label htmlFor="name">Name:</label>
-    <input type="text" name="name" id="name" value={product.name} />
+const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
+  const [newImageUrl, setNewImageUrl] = useState<string>()
 
-    <br />
-    <label htmlFor="desc">Description:</label>
-    <input type="text" name="desc" id="desc" value={product.desc} />
+  function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      setNewImageUrl(URL.createObjectURL(file))
+    }
 
-    <br />
-    <label htmlFor="price">Price:</label>
-    <input type="number" name="price" id="price" value={product.price} />
+    return
+  }
 
-    <img src={product.imageUrl} alt={product.name} />
+  return (
+    <div>
+      <label htmlFor="name">Name:</label>
+      <input type="text" name="name" id="name" value={product.name} />
 
-    <br />
-    <button onClick={cancelEdit}>✖️ Cancel</button>
-    <button>💾 Save</button>
-  </div>
-)
+      <br />
+      <label htmlFor="desc">Description:</label>
+      <input type="text" name="desc" id="desc" value={product.desc} />
+
+      <br />
+      <label htmlFor="price">Price:</label>
+      <input type="number" name="price" id="price" value={product.price} />
+
+      <img src={newImageUrl || product.imageUrl} alt={product.name} />
+      <label htmlFor="product_image">Change image</label>
+      <input
+        type="file"
+        name="product_image"
+        id="product_image"
+        onChange={handleImage}
+        hidden
+      />
+
+      <br />
+      <button onClick={cancelEdit}>✖️ Cancel</button>
+      <button>💾 Save</button>
+    </div>
+  )
+}
 
 const Product = ({ product }: { product: ProductT }) => {
   const [isEdit, setIsEdit] = useState(false)
