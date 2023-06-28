@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import type { ProductT } from '../../firebase/utility/firestore'
 
+type EditProductPropT = {
+  cancelEdit: () => void
+  product: ProductT
+}
+
 const ViewProduct = ({ product }: { product: ProductT }) => (
   <div>
     <h1>{product.name}</h1>
@@ -15,8 +20,22 @@ const ViewProduct = ({ product }: { product: ProductT }) => (
   </div>
 )
 
-const EditProduct = ({ cancelEdit }: { cancelEdit: () => void }) => (
+const EditProduct = ({ cancelEdit, product }: EditProductPropT) => (
   <div>
+    <label htmlFor="name">Name:</label>
+    <input type="text" name="name" id="name" value={product.name} />
+
+    <br />
+    <label htmlFor="desc">Description:</label>
+    <input type="text" name="desc" id="desc" value={product.desc} />
+
+    <br />
+    <label htmlFor="price">Price:</label>
+    <input type="number" name="price" id="price" value={product.price} />
+
+    <img src={product.imageUrl} alt={product.name} />
+
+    <br />
     <button onClick={cancelEdit}>✖️ Cancel</button>
     <button>💾 Save</button>
   </div>
@@ -34,7 +53,9 @@ const Product = ({ product }: { product: ProductT }) => {
   }
 
   if (isEdit) {
-    content = <EditProduct cancelEdit={() => setIsEdit(false)} />
+    content = (
+      <EditProduct cancelEdit={() => setIsEdit(false)} product={product} />
+    )
   } else {
     content = (
       <>
