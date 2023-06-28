@@ -4,7 +4,6 @@ import { isValidUser } from '../../firebase/utility/auth'
 import { ProductT, productsRef } from '../../firebase/utility/firestore'
 import { bucket } from '../../firebase/utility/storage'
 import Layout from '../../layouts/MainLayout.astro'
-import type Index from '../index.astro'
 
 // PROTECT route
 if (!(await isValidUser(Astro.cookies.get('session').value))) {
@@ -18,7 +17,10 @@ type ActionDataT = {
 const actionData: ActionDataT = {}
 
 const id = Astro.params.id
-if (!id) throw new Error('No product id si given!')
+if (!id) {
+  actionData.errorMsg = 'No product id si given!'
+  return
+}
 
 // proces DELETE request
 if (Astro.request.method === 'DELETE') {
@@ -70,6 +72,7 @@ if (Astro.request.method === 'GET') {
       product = {
         ...doc.data(),
         created_at: doc.data()!.created_at.toDate(),
+        id: doc.id,
       } as ProductT
 
       if (!product)
