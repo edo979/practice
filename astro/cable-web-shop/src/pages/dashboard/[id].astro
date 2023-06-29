@@ -36,10 +36,13 @@ if (Astro.request.method === 'PATCH') {
     if (Object.values(fieldsError).some(Boolean)) {
       actionData.fieldsError = fieldsError
       actionData.fields = formFields
-      throw new Error('Form fields have errors!')
     }
+    Astro.response.status = 402
+    return new Response('jah', { status: 402 })
   } catch (error) {
-    if (error instanceof Error) console.log(error.message)
+    if (error instanceof Error) {
+      Astro.response.status = 500
+    }
   }
 }
 
