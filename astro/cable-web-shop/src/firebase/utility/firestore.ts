@@ -1,13 +1,11 @@
-import { Timestamp, getFirestore } from 'firebase-admin/firestore'
+import { getFirestore } from 'firebase-admin/firestore'
 
-export type RawProductT = {
-  name: string
-  price: string
-  desc: string
-}
-export type ProductT = RawProductT & {
+export type ProductT = {
   id: string
   created_at: Date
+  name: string
+  price: number
+  desc: string
   imageUrl: string
 }
 
