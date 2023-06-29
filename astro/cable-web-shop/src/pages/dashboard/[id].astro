@@ -42,6 +42,9 @@ function badRequest() {
 const id = Astro.params.id
 if (!id) return badRequest()
 
+const productRef = productsRef.doc(id)
+const doc = await productRef.get()
+
 if (Astro.request.method === 'PATCH') {
   try {
     const formData = await Astro.request.formData()
@@ -71,11 +74,6 @@ if (Astro.request.method === 'PATCH') {
       return new Response(JSON.stringify(actionData), { status: 400 })
     }
 
-    console.log(actionData.fieldsError)
-
-    const productRef = productsRef.doc(id)
-    const doc = await productRef.get()
-
     if (doc.exists) {
       const imageUrl: string | undefined = doc.data()?.imageUrl
       if (imageUrl) {
@@ -88,6 +86,8 @@ if (Astro.request.method === 'PATCH') {
         }
       }
     }
+
+    // TODO: use throw instead response, see delete method below
 
     let imageUrl
     if (image) {
@@ -118,9 +118,6 @@ if (Astro.request.method === 'PATCH') {
 // proces DELETE request
 if (Astro.request.method === 'DELETE') {
   try {
-    const productRef = productsRef.doc(id)
-    const doc = await productRef.get()
-
     if (doc.exists) {
       // first try to delete image from storage
       const imageUrl: string | undefined = doc.data()?.imageUrl
