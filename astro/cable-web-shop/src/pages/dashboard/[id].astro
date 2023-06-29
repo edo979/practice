@@ -22,6 +22,20 @@ if (!id) {
   return
 }
 
+if (Astro.request.method === 'PATCH') {
+  try {
+    const formData = await Astro.request.formData()
+    const name = formData.get('name')
+    const price = formData.get('price')
+    const desc = formData.get('desc')
+    const image = formData.get('product_image') as File
+
+    console.log(name, image)
+  } catch (error) {
+    if (error instanceof Error) console.log(error.message)
+  }
+}
+
 // proces DELETE request
 if (Astro.request.method === 'DELETE') {
   try {

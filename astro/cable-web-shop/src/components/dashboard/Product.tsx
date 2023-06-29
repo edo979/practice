@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { ProductT } from '../../firebase/utility/firestore'
 
 type EditProductPropT = {
@@ -22,28 +22,57 @@ const ViewProduct = ({ product }: { product: ProductT }) => (
 
 const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
   const [newImageUrl, setNewImageUrl] = useState<string>()
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const nameRef = useRef<HTMLInputElement>(null)
 
   function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0]
       setNewImageUrl(URL.createObjectURL(file))
+      setSelectedFile(file)
     }
 
     return
   }
 
+  async function saveHandler() {
+    const formData = new FormData()
+    if (nameRef.current && nameRef.current.value !== product.name)
+      formData.append('name', nameRef.current.value)
+    if (selectedFile) formData.append('product_image', selectedFile)
+
+    // send data if change is made
+    if (nameRef.current?.value !== product.name || selectedFile) {
+      const res = await fetch(`/dashboard/${product.id}`, {
+        method: 'PATCH',
+        body: formData,
+      })
+    }
+  }
+
   return (
     <div>
       <label htmlFor="name">Name:</label>
-      <input type="text" name="name" id="name" value={product.name} />
+      <input
+        type="text"
+        name="name"
+        id="name"
+        defaultValue={product.name}
+        ref={nameRef}
+      />
 
       <br />
       <label htmlFor="desc">Description:</label>
-      <input type="text" name="desc" id="desc" value={product.desc} />
+      <input type="text" name="desc" id="desc" defaultValue={product.desc} />
 
       <br />
       <label htmlFor="price">Price:</label>
-      <input type="number" name="price" id="price" value={product.price} />
+      <input
+        type="number"
+        name="price"
+        id="price"
+        defaultValue={product.price}
+      />
 
       <img src={newImageUrl || product.imageUrl} alt={product.name} />
       <label htmlFor="product_image">Change image</label>
@@ -57,7 +86,7 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
 
       <br />
       <button onClick={cancelEdit}>✖️ Cancel</button>
-      <button>💾 Save</button>
+      <button onClick={saveHandler}>💾 Save</button>
     </div>
   )
 }
