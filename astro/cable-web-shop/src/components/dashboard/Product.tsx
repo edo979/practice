@@ -6,6 +6,10 @@ type EditProductPropT = {
   product: ProductT
 }
 
+type ActionDataT = {
+  formError?: string
+}
+
 const ViewProduct = ({ product }: { product: ProductT }) => (
   <div>
     <h1>{product.name}</h1>
@@ -23,6 +27,7 @@ const ViewProduct = ({ product }: { product: ProductT }) => (
 const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
   const [newImageUrl, setNewImageUrl] = useState<string>()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [actionData, setActionData] = useState<ActionDataT>({})
   const nameRef = useRef<HTMLInputElement>(null)
   const descRef = useRef<HTMLInputElement>(null)
   const priceRef = useRef<HTMLInputElement>(null)
@@ -53,11 +58,15 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
         method: 'PATCH',
         body: formData,
       })
+      if (res.redirected) window.location.assign(res.url)
+
+      setActionData(await res.json())
     }
   }
 
   return (
     <div>
+      {actionData.formError && <p>{actionData.formError}</p>}
       <label htmlFor="name">Name:</label>
       <input
         type="text"

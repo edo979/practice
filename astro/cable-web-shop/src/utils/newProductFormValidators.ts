@@ -12,7 +12,9 @@ export const validateProductPrice = (price: string) => {
   if (parseFloat(price) <= 0) return 'Add valid price!'
 }
 
-export const validateProductImage = (image: File | null) => {
+export const validateProductImage = (
+  image: File | null
+): string | undefined => {
   const allowedFileTypes = ['image/png', 'image/jpeg']
 
   if (!image || image.size === 0) return 'No image selected.'

@@ -4,7 +4,12 @@ import { isValidUser } from '../../firebase/utility/auth'
 import { ProductT, productsRef } from '../../firebase/utility/firestore'
 import { bucket } from '../../firebase/utility/storage'
 import Layout from '../../layouts/MainLayout.astro'
-import { validateProductImage } from '../../utils/newProductFormValidators'
+import {
+  validateProductDesc,
+  validateProductImage,
+  validateProductName,
+  validateProductPrice,
+} from '../../utils/newProductFormValidators'
 import type { ActionDataT } from './index.astro'
 
 // PROTECT route
@@ -28,17 +33,34 @@ if (Astro.request.method === 'PATCH') {
     const desc = formData.get('desc')
     const image = formData.get('product_image') as File
 
-    const fieldsError = {
-      image: validateProductImage(image),
+    function badRequest() {
+      return new Response(
+        JSON.stringify({ formError: 'Form submited wrong!' }),
+        { status: 400 }
+      )
     }
-    const formFields = {}
 
-    if (Object.values(fieldsError).some(Boolean)) {
-      actionData.fieldsError = fieldsError
-      actionData.fields = formFields
+    actionData.fieldsError = {}
+    if (name !== null) {
+      if (typeof name !== 'string') return badRequest()
+      actionData.fieldsError.name = validateProductName(name)
     }
-    Astro.response.status = 402
-    return new Response('jah', { status: 402 })
+    if (desc !== null) {
+      if (typeof desc !== 'string') return badRequest()
+      actionData.fieldsError.desc = validateProductDesc(desc)
+    }
+    if (price !== null) {
+      if (typeof price !== 'string') return badRequest()
+      actionData.fieldsError.price = validateProductPrice(price)
+    }
+    if (image !== null) {
+      actionData.fieldsError.image = validateProductImage(image)
+    }
+
+    if (Object.values(actionData.fieldsError).some(Boolean)) {
+      return new Response(JSON.stringify(actionData), { status: 400 })
+    }
+    return new Response(null, { status: 200 })
   } catch (error) {
     if (error instanceof Error) {
       Astro.response.status = 500
