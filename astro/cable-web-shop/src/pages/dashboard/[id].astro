@@ -4,21 +4,19 @@ import { isValidUser } from '../../firebase/utility/auth'
 import { ProductT, productsRef } from '../../firebase/utility/firestore'
 import { bucket } from '../../firebase/utility/storage'
 import Layout from '../../layouts/MainLayout.astro'
+import { validateProductImage } from '../../utils/newProductFormValidators'
+import type { ActionDataT } from './index.astro'
 
 // PROTECT route
 if (!(await isValidUser(Astro.cookies.get('session').value))) {
   return Astro.redirect('/login')
 }
 
-type ActionDataT = {
-  errorMsg?: string
-}
-
 const actionData: ActionDataT = {}
 
 const id = Astro.params.id
 if (!id) {
-  actionData.errorMsg = 'No product id si given!'
+  actionData.formError = 'No product id si given!'
   return
 }
 
@@ -30,7 +28,16 @@ if (Astro.request.method === 'PATCH') {
     const desc = formData.get('desc')
     const image = formData.get('product_image') as File
 
-    console.log(name, image)
+    const fieldsError = {
+      image: validateProductImage(image),
+    }
+    const formFields = {}
+
+    if (Object.values(fieldsError).some(Boolean)) {
+      actionData.fieldsError = fieldsError
+      actionData.fields = formFields
+      throw new Error('Form fields have errors!')
+    }
   } catch (error) {
     if (error instanceof Error) console.log(error.message)
   }
@@ -72,7 +79,7 @@ if (Astro.request.method === 'DELETE') {
 
     throw new Error('Product not found in database!')
   } catch (error) {
-    if (error instanceof Error) actionData.errorMsg = error.message
+    if (error instanceof Error) actionData.formError = error.message
   }
 }
 
@@ -95,15 +102,15 @@ if (Astro.request.method === 'GET') {
       throw new Error('No such product in database!')
     }
   } catch (error) {
-    if (error instanceof Error) actionData.errorMsg = error.message
+    if (error instanceof Error) actionData.formError = error.message
   }
 }
 ---
 
 <Layout>
   {
-    actionData.errorMsg ? (
-      <p>{actionData.errorMsg}</p>
+    actionData.formError ? (
+      <p>{actionData.formError}</p>
     ) : (
       product && <Product client:only product={product} />
     )

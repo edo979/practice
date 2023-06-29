@@ -17,7 +17,7 @@ const user = await getUser(Astro.cookies.get('session').value)
 if (!user) return Astro.redirect('/login')
 
 // Process form and POST method
-type ActionDataT = {
+export type ActionDataT = {
   formError?: string
   fields?: {
     name?: string
