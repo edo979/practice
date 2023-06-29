@@ -12,18 +12,35 @@ import {
 } from '../../utils/newProductFormValidators'
 import type { ActionDataT } from './index.astro'
 
+const actionData: ActionDataT = {}
+
 // PROTECT route
 if (!(await isValidUser(Astro.cookies.get('session').value))) {
   return Astro.redirect('/login')
 }
 
-const actionData: ActionDataT = {}
+async function deleteImageFromStore(imageUrl: string) {
+  const imageName = imageUrl.split('/').pop()?.replace('%2F', '/')
+  if (imageName) {
+    const file = bucket.file(imageName)
+
+    const generationMatchNumber = new Date().getTime()
+    Astro.request.headers.append(
+      'x-goog-if-generation-match',
+      generationMatchNumber.toString()
+    )
+    await file.delete({ ifGenerationMatch: generationMatchNumber })
+  }
+}
+
+function badRequest() {
+  return new Response(JSON.stringify({ formError: 'Form submited wrong!' }), {
+    status: 400,
+  })
+}
 
 const id = Astro.params.id
-if (!id) {
-  actionData.formError = 'No product id si given!'
-  return
-}
+if (!id) return badRequest()
 
 if (Astro.request.method === 'PATCH') {
   try {
@@ -32,13 +49,6 @@ if (Astro.request.method === 'PATCH') {
     const price = formData.get('price')
     const desc = formData.get('desc')
     const image = formData.get('product_image') as File
-
-    function badRequest() {
-      return new Response(
-        JSON.stringify({ formError: 'Form submited wrong!' }),
-        { status: 400 }
-      )
-    }
 
     actionData.fieldsError = {}
     if (name !== null) {
@@ -60,11 +70,37 @@ if (Astro.request.method === 'PATCH') {
     if (Object.values(actionData.fieldsError).some(Boolean)) {
       return new Response(JSON.stringify(actionData), { status: 400 })
     }
-    return new Response(null, { status: 200 })
-  } catch (error) {
-    if (error instanceof Error) {
-      Astro.response.status = 500
+
+    const productRef = productsRef.doc(id)
+    const doc = await productRef.get()
+
+    if (doc.exists) {
+      const imageUrl: string | undefined = doc.data()?.imageUrl
+      if (imageUrl) {
+        try {
+          await deleteImageFromStore(imageUrl)
+          // continue to firestore
+        } catch (error: any) {
+          // if file not exist continue
+          if (error.code !== 404) throw new Error('Error when deleting image.')
+        }
+      }
     }
+    const dataArray = [
+      { name: 'name', data: name },
+      { name: 'desc', data: desc },
+      { name: 'price', data: price },
+      { name: 'imageUrl', data: image },
+    ].filter((field) => Boolean(field.data))
+    const data = dataArray.reduce(
+      (o, field) => Object.assign(o, { [field.name]: field.data }),
+      {}
+    )
+    console.log(data)
+    //productRef.update({data})
+    return Astro.redirect('/dashboard')
+  } catch (error) {
+    if (error instanceof Error) Astro.response.status = 500
   }
 }
 
@@ -75,28 +111,17 @@ if (Astro.request.method === 'DELETE') {
     const doc = await productRef.get()
 
     if (doc.exists) {
-      // Delete image from storage
+      // first try to delete image from storage
       const imageUrl: string | undefined = doc.data()?.imageUrl
       if (imageUrl) {
-        const imageName = imageUrl.split('/').pop()?.replace('%2F', '/')
-        if (imageName) {
-          const file = bucket.file(imageName)
-          try {
-            const generationMatchNumber = new Date().getTime()
-            Astro.request.headers.append(
-              'x-goog-if-generation-match',
-              generationMatchNumber.toString()
-            )
-            await file.delete({ ifGenerationMatch: generationMatchNumber })
-            // continue to firestore
-          } catch (error: any) {
-            // if file not exist continue
-            if (error.code !== 404)
-              throw new Error('Error when deleting image.')
-          }
+        try {
+          await deleteImageFromStore(imageUrl)
+          // continue to firestore
+        } catch (error: any) {
+          // if file not exist continue
+          if (error.code !== 404) throw new Error('Error when deleting image.')
         }
       }
-
       // Delete product from db
       productRef.delete()
       return Astro.redirect('/dashboard')
