@@ -24,6 +24,8 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
   const [newImageUrl, setNewImageUrl] = useState<string>()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const nameRef = useRef<HTMLInputElement>(null)
+  const descRef = useRef<HTMLInputElement>(null)
+  const priceRef = useRef<HTMLInputElement>(null)
 
   function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -39,10 +41,14 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
     const formData = new FormData()
     if (nameRef.current && nameRef.current.value !== product.name)
       formData.append('name', nameRef.current.value)
+    // if (descRef.current && descRef.current.value !== product.desc)
+    //   formData.append('desc', descRef.current.value)
+    if (priceRef.current && priceRef.current.value !== product.price.toString())
+      formData.append('price', priceRef.current.value)
     if (selectedFile) formData.append('product_image', selectedFile)
 
     // send data if change is made
-    if (nameRef.current?.value !== product.name || selectedFile) {
+    if (Array.from(formData.values()).length > 0) {
       const res = await fetch(`/dashboard/${product.id}`, {
         method: 'PATCH',
         body: formData,
@@ -63,7 +69,13 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
 
       <br />
       <label htmlFor="desc">Description:</label>
-      <input type="text" name="desc" id="desc" defaultValue={product.desc} />
+      <input
+        type="text"
+        name="desc"
+        id="desc"
+        defaultValue={product.desc}
+        ref={descRef}
+      />
 
       <br />
       <label htmlFor="price">Price:</label>
@@ -71,7 +83,10 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
         type="number"
         name="price"
         id="price"
+        min="0"
+        step="0.01"
         defaultValue={product.price}
+        ref={priceRef}
       />
 
       <img src={newImageUrl || product.imageUrl} alt={product.name} />
