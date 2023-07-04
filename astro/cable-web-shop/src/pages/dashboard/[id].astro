@@ -47,6 +47,8 @@ const doc = await productRef.get()
 
 if (Astro.request.method === 'PATCH') {
   try {
+    if (!doc.exists) throw new Error('No such document')
+
     const formData = await Astro.request.formData()
     const name = formData.get('name')
     const price = formData.get('price')
@@ -54,7 +56,7 @@ if (Astro.request.method === 'PATCH') {
     const image = formData.get('product_image') as File
 
     actionData.fieldsError = {}
-    // check for fields who has updated
+    // check for updated fields and validates it
     if (name !== null) {
       if (typeof name !== 'string') return badRequest()
       actionData.fieldsError.name = validateProductName(name)
@@ -75,8 +77,10 @@ if (Astro.request.method === 'PATCH') {
       return new Response(JSON.stringify(actionData), { status: 404 })
     }
 
-    if (doc.exists) {
-      const imageUrl: string | undefined = doc.data()?.imageUrl
+    // delete image if new image send in form data
+    let imageUrl: string | undefined
+    if (image) {
+      imageUrl = doc.data()?.imageUrl
       if (imageUrl) {
         try {
           await deleteImageFromStore(imageUrl)
@@ -86,16 +90,14 @@ if (Astro.request.method === 'PATCH') {
           if (error.code !== 404) throw new Error('Error when deleting image.')
         }
       }
-    }
 
-    let imageUrl
-    if (image) {
       const file = bucket.file(`products/${Date.now()}_${image.name}`)
       await file.save(Buffer.from(await image.arrayBuffer()))
       await file.makePublic()
       imageUrl = file.publicUrl()
     }
 
+    // save to firestore
     const dataArray = [
       { name: 'name', data: name },
       { name: 'desc', data: desc },
@@ -163,5 +165,5 @@ if (Astro.request.method === 'GET') {
 
 <Layout>
   {actionData.formError && <p>{actionData.formError}</p>}
-  {product && <Product client:only product={product} actionData={actionData} />}
+  {product && <Product client:only product={product} />}
 </Layout>
