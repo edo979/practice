@@ -144,9 +144,6 @@ if (Astro.request.method === 'DELETE') {
 let product
 if (Astro.request.method === 'GET') {
   try {
-    const productRef = await productsRef.doc(id)
-    const doc = await productRef.get()
-
     if (doc.exists) {
       product = {
         ...doc.data(),
@@ -170,7 +167,9 @@ if (Astro.request.method === 'GET') {
     actionData.formError ? (
       <p>{actionData.formError}</p>
     ) : (
-      product && <Product client:only product={product} />
+      product && (
+        <Product client:only product={product} actionData={actionData} />
+      )
     )
   }
 </Layout>

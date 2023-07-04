@@ -1,13 +1,11 @@
 import { useRef, useState } from 'react'
 import type { ProductT } from '../../firebase/utility/firestore'
+import type { ActionDataT } from '../../pages/dashboard/index.astro'
 
 type EditProductPropT = {
   cancelEdit: () => void
   product: ProductT
-}
-
-type ActionDataT = {
-  formError?: string
+  actionData: ActionDataT
 }
 
 const ViewProduct = ({ product }: { product: ProductT }) => (
@@ -24,10 +22,9 @@ const ViewProduct = ({ product }: { product: ProductT }) => (
   </div>
 )
 
-const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
+const EditProduct = ({ cancelEdit, product, actionData }: EditProductPropT) => {
   const [newImageUrl, setNewImageUrl] = useState<string>()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [actionData, setActionData] = useState<ActionDataT>({})
   const nameRef = useRef<HTMLInputElement>(null)
   const descRef = useRef<HTMLInputElement>(null)
   const priceRef = useRef<HTMLInputElement>(null)
@@ -59,8 +56,6 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
         body: formData,
       })
       if (res.redirected) window.location.assign(res.url)
-
-      setActionData(await res.json())
     }
   }
 
@@ -75,6 +70,7 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
         defaultValue={product.name}
         ref={nameRef}
       />
+      {actionData.fieldsError?.name && <p>{actionData.fieldsError.name}</p>}
 
       <br />
       <label htmlFor="desc">Description:</label>
@@ -115,7 +111,13 @@ const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
   )
 }
 
-const Product = ({ product }: { product: ProductT }) => {
+const Product = ({
+  product,
+  actionData,
+}: {
+  product: ProductT
+  actionData: ActionDataT
+}) => {
   const [isEdit, setIsEdit] = useState(false)
   let content
 
@@ -128,7 +130,11 @@ const Product = ({ product }: { product: ProductT }) => {
 
   if (isEdit) {
     content = (
-      <EditProduct cancelEdit={() => setIsEdit(false)} product={product} />
+      <EditProduct
+        cancelEdit={() => setIsEdit(false)}
+        product={product}
+        actionData={actionData}
+      />
     )
   } else {
     content = (
