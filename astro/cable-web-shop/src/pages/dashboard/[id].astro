@@ -54,6 +54,7 @@ if (Astro.request.method === 'PATCH') {
     const image = formData.get('product_image') as File
 
     actionData.fieldsError = {}
+    // check for fields who has updated
     if (name !== null) {
       if (typeof name !== 'string') return badRequest()
       actionData.fieldsError.name = validateProductName(name)
@@ -71,7 +72,7 @@ if (Astro.request.method === 'PATCH') {
     }
 
     if (Object.values(actionData.fieldsError).some(Boolean)) {
-      return new Response(JSON.stringify(actionData), { status: 400 })
+      return new Response(JSON.stringify(actionData), { status: 404 })
     }
 
     if (doc.exists) {
@@ -86,8 +87,6 @@ if (Astro.request.method === 'PATCH') {
         }
       }
     }
-
-    // TODO: use throw instead response, see delete method below
 
     let imageUrl
     if (image) {
@@ -163,13 +162,6 @@ if (Astro.request.method === 'GET') {
 ---
 
 <Layout>
-  {
-    actionData.formError ? (
-      <p>{actionData.formError}</p>
-    ) : (
-      product && (
-        <Product client:only product={product} actionData={actionData} />
-      )
-    )
-  }
+  {actionData.formError && <p>{actionData.formError}</p>}
+  {product && <Product client:only product={product} actionData={actionData} />}
 </Layout>

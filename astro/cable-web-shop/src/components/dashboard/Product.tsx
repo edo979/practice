@@ -5,26 +5,45 @@ import type { ActionDataT } from '../../pages/dashboard/index.astro'
 type EditProductPropT = {
   cancelEdit: () => void
   product: ProductT
-  actionData: ActionDataT
 }
 
-const ViewProduct = ({ product }: { product: ProductT }) => (
-  <div>
-    <h1>{product.name}</h1>
-    <p>{product.desc}</p>
-    <img src={product.imageUrl} alt={product.name} />
-    <p>
-      <b>{product.price}</b>
-    </p>
-    <p>
-      <i>Added: {product.created_at.toLocaleDateString()}</i>
-    </p>
-  </div>
-)
+const ViewProduct = ({
+  product,
+  handleEdit,
+}: {
+  product: ProductT
+  handleEdit: () => void
+}) => {
+  async function handleDelete() {
+    if (!confirm('Pruduct will be deleted. Are you shure?')) return
+    const res = await fetch(`/dashboard/${product.id}`, { method: 'delete' })
+    if (res.redirected) window.location.assign(res.url)
+    return
+  }
 
-const EditProduct = ({ cancelEdit, product, actionData }: EditProductPropT) => {
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>{product.desc}</p>
+      <img src={product.imageUrl} alt={product.name} />
+      <p>
+        <b>{product.price}</b>
+      </p>
+      <p>
+        <i>Added: {product.created_at.toLocaleDateString()}</i>
+      </p>
+      <div>
+        <button onClick={handleEdit}>✏️</button>
+        <button onClick={handleDelete}>❌</button>
+      </div>
+    </div>
+  )
+}
+
+const EditProduct = ({ cancelEdit, product }: EditProductPropT) => {
   const [newImageUrl, setNewImageUrl] = useState<string>()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [actionData, setActionData] = useState<ActionDataT>({})
   const nameRef = useRef<HTMLInputElement>(null)
   const descRef = useRef<HTMLInputElement>(null)
   const priceRef = useRef<HTMLInputElement>(null)
@@ -55,7 +74,12 @@ const EditProduct = ({ cancelEdit, product, actionData }: EditProductPropT) => {
         method: 'PATCH',
         body: formData,
       })
-      if (res.redirected) window.location.assign(res.url)
+
+      if (res.redirected) {
+        window.location.assign(res.url)
+      } else {
+        setActionData(await res.json())
+      }
     }
   }
 
@@ -111,40 +135,17 @@ const EditProduct = ({ cancelEdit, product, actionData }: EditProductPropT) => {
   )
 }
 
-const Product = ({
-  product,
-  actionData,
-}: {
-  product: ProductT
-  actionData: ActionDataT
-}) => {
+const Product = ({ product }: { product: ProductT }) => {
   const [isEdit, setIsEdit] = useState(false)
   let content
 
-  async function handleDelete() {
-    if (!confirm('Pruduct will be deleted. Are you shure?')) return
-    const res = await fetch(`/dashboard/${product.id}`, { method: 'delete' })
-    if (res.redirected) window.location.assign(res.url)
-    return
-  }
-
   if (isEdit) {
     content = (
-      <EditProduct
-        cancelEdit={() => setIsEdit(false)}
-        product={product}
-        actionData={actionData}
-      />
+      <EditProduct cancelEdit={() => setIsEdit(false)} product={product} />
     )
   } else {
     content = (
-      <>
-        <ViewProduct product={product} />
-        <div>
-          <button onClick={() => setIsEdit(true)}>✏️</button>
-          <button onClick={handleDelete}>❌</button>
-        </div>
-      </>
+      <ViewProduct product={product} handleEdit={() => setIsEdit(true)} />
     )
   }
 
