@@ -1,3 +1,4 @@
+import { app } from '../server'
 import { getFirestore } from 'firebase-admin/firestore'
 
 export type ProductT = {

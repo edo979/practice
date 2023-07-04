@@ -1,5 +1,5 @@
-import { getAuth } from 'firebase-admin/auth'
 import { app } from '../server'
+import { getAuth } from 'firebase-admin/auth'
 
 const auth = getAuth(app)
 
