@@ -1,0 +1,13 @@
+---
+import type { ProductT } from '../firebase/utility/firestore'
+
+interface Props {
+  products: ProductT[]
+}
+
+const { products } = Astro.props
+---
+
+<ul>
+  {products.map((product) => <li>{product.name}</li>)}
+</ul>
