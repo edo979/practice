@@ -1,12 +1,19 @@
 ---
-import { ProductT, productsRef } from '../firebase/utility/firestore'
+import { productsRef } from '../firebase/utility/firestore'
 import Layout from '../layouts/MainLayout.astro'
-import Product from '../components/Product'
 
-let products: ProductT[] | undefined
+type ProductPreviewT = {
+	id: string
+	name: string
+	price: number
+	imageUrl: string
+}
+
+let products: ProductPreviewT[] | undefined
 
 try {
 	const snapshot = await productsRef
+		.select('name', 'price', 'imageUrl')
 		.orderBy('created_at', 'desc')
 		.limit(10)
 		.get()
@@ -15,8 +22,6 @@ try {
 		id: doc.id,
 		name: doc.data().name,
 		price: doc.data().price,
-		desc: doc.data().desc,
-		created_at: doc.data().created_at.toDate(),
 		imageUrl: doc.data().imageUrl,
 	}))
 } catch (error) {
@@ -31,7 +36,12 @@ try {
 		products ? (
 			<ul>
 				{products.map((product) => (
-					<Product client:only="react" product={product} />
+					<li>
+						<h2>{product.name}</h2>
+						<img src={product.imageUrl} alt={product.name} />
+						<p>{product.price} $</p>
+						<a href={`/products/${product.id}`}>View</a>
+					</li>
 				))}
 			</ul>
 		) : (

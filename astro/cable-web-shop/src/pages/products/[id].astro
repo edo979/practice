@@ -1,0 +1,30 @@
+---
+import Product from '../../components/Product'
+import { ProductT, productsRef } from '../../firebase/utility/firestore'
+
+const { id } = Astro.params
+
+const productRef = productsRef.doc(id!)
+const doc = await productRef.get()
+
+let product: ProductT | undefined
+if (doc.exists) {
+  try {
+    product = {
+      ...doc.data(),
+      created_at: doc.data()!.created_at.toDate(),
+      id: doc.id,
+    } as ProductT
+  } catch (error) {
+    product = undefined
+  }
+}
+---
+
+{
+  product ? (
+    <Product client:only="react" product={product} />
+  ) : (
+    <p>No Product!</p>
+  )
+}

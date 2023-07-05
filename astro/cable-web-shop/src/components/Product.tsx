@@ -16,7 +16,7 @@ const Product = ({ product }: ProductPropsT) => {
   }
 
   return (
-    <li>
+    <div>
       <h2>{product.name}</h2>
       <p>{product.desc}</p>
       <img src={product.imageUrl} alt={product.name} />
@@ -28,7 +28,7 @@ const Product = ({ product }: ProductPropsT) => {
         onChange={quantityHandler}
       />
       <button onClick={() => addToCart(product)}>Add to Cart</button>
-    </li>
+    </div>
   )
 }
 
