@@ -1,9 +1,11 @@
 import { atom } from 'nanostores'
 import type { ProductT } from '../firebase/utility/firestore'
 
-export const $cart = atom<ProductT[]>(getCartFromLS())
+type CartItemT = ProductT & { quantity: number }
 
-export const addToCart = (product: ProductT) =>
+export const $cart = atom<CartItemT[]>(getCartFromLS())
+
+export const addToCart = (product: CartItemT) =>
   $cart.set([...$cart.get(), product])
 
 export const getCartItems = $cart.get()
@@ -12,7 +14,7 @@ export const getCartItems = $cart.get()
 // Update LS on $cart change
 $cart.listen((cart) => localStorage.setItem('cart', JSON.stringify(cart)))
 
-export function getCartFromLS(): ProductT[] {
+export function getCartFromLS(): CartItemT[] {
   const data = localStorage.getItem('cart')
   if (!data) return []
   return JSON.parse(data)
