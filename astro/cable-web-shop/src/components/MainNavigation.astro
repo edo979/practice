@@ -1,8 +1,9 @@
 ---
 import NavigationCart from './NavigationCart'
+const { pathname } = Astro.url
 ---
 
 <a href="/">Home</a>
 <a href="/dashboard">Dashboard</a>
 <a href="/login">Login</a>
-<NavigationCart client:only="react" />
+{!pathname.startsWith('/dashboard') && <NavigationCart client:only="react" />}
