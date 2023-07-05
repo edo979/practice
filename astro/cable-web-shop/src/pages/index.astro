@@ -2,6 +2,7 @@
 import { ProductT, productsRef } from '../firebase/utility/firestore'
 import Products from '../components/Products.astro'
 import Layout from '../layouts/MainLayout.astro'
+import Product from '../components/Product'
 
 let products: ProductT[] | undefined
 
@@ -27,5 +28,15 @@ try {
 <Layout>
 	<h1>Home page</h1>
 
-	{products ? <Products products={products} /> : <p>No Products jet!</p>}
+	{
+		products ? (
+			<ul>
+				{products.map((product) => (
+					<Product product={product} />
+				))}
+			</ul>
+		) : (
+			<p>No Products jet!</p>
+		)
+	}
 </Layout>
