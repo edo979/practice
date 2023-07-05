@@ -31,7 +31,7 @@ try {
 		products ? (
 			<ul>
 				{products.map((product) => (
-					<Product client:only product={product} />
+					<Product client:only="react" product={product} />
 				))}
 			</ul>
 		) : (

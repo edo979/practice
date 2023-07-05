@@ -5,7 +5,7 @@ const NavigationCart = () => {
   const cart = useStore($cart)
   console.log(cart)
 
-  return <div>0</div>
+  return <span>{cart.length}</span>
 }
 
 export default NavigationCart
