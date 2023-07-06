@@ -10,7 +10,24 @@ import MainNavigation from '../components/MainNavigation.astro'
     <title>Cable Shop</title>
   </head>
   <body class="container mx-auto">
-    <MainNavigation />
-    <slot />
+    <div class="drawer drawer-end">
+      <input id="cart-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <MainNavigation />
+        <slot />
+      </div>
+      <div class="drawer-side">
+        <label for="cart-drawer" class="drawer-overlay"></label>
+        <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+          <!-- Sidebar content here -->
+          <label
+            for="cart-drawer"
+            class="btn btn-error text-lg text-base-100 font-bold">X</label
+          >
+          <li><a>Sidebar Item 1</a></li>
+          <li><a>Sidebar Item 2</a></li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>

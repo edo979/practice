@@ -1,5 +1,4 @@
 ---
-import NavigationCart from './NavigationCart'
 const { pathname } = Astro.url
 ---
 
@@ -45,6 +44,25 @@ const { pathname } = Astro.url
     </ul>
   </div>
   <div class="navbar-end">
-    {!pathname.startsWith('/dashboard') && <butotn class="btn">🛒 Cart</butotn>}
+    {
+      !pathname.startsWith('/dashboard') && (
+        <butotn class="btn" id="cart-btn">
+          🛒 Cart
+        </butotn>
+      )
+    }
   </div>
 </div>
+
+<script>
+  const cartBtn = document.getElementById('cart-btn')
+  const cartCheckBox = document.getElementById(
+    'cart-drawer'
+  ) as HTMLInputElement | null
+
+  if (cartBtn && cartCheckBox) {
+    cartBtn.addEventListener('click', () => {
+      cartCheckBox.checked = true
+    })
+  }
+</script>
