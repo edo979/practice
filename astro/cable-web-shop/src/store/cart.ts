@@ -7,6 +7,9 @@ export const $cart = atom<CartItemT[]>(getCartFromLS())
 export const $cartTotalPrice = computed($cart, (cart) => {
   return cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0)
 })
+export const $totalCartItems = computed($cart, (cart) =>
+  $cart.get().reduce((acc, curr) => acc + curr.quantity, 0)
+)
 
 export const addToCart = (newItem: CartItemT) => {
   const isInCart = $cart.get().find((item) => item.id === newItem.id)
