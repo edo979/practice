@@ -9,9 +9,24 @@ const NavigationCart = () => {
   console.log(cart)
 
   return (
-    <span>
-      {totalCartItems}-{cartTotalPrice}
-    </span>
+    <div>
+      <p>
+        {totalCartItems}-{cartTotalPrice}
+      </p>
+      <ul>
+        {cart.map((item) => (
+          <li style={{ display: 'inline-block' }}>
+            <small>{item.name}</small>
+            <img src={item.imageUrl} alt={item.name} height={32} />
+            <small>
+              {item.quantity && <span>{item.quantity} * </span>}
+              {item.price} $
+              <strong>total: {item.quantity * item.price}$</strong>
+            </small>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
