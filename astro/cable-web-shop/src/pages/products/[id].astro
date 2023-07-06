@@ -1,4 +1,5 @@
 ---
+import Layout from '../../layouts/MainLayout.astro'
 import Product from '../../components/Product'
 import { ProductT, productsRef } from '../../firebase/utility/firestore'
 
@@ -21,10 +22,12 @@ if (doc.exists) {
 }
 ---
 
-{
-  product ? (
-    <Product client:only="react" product={product} />
-  ) : (
-    <p>No Product!</p>
-  )
-}
+<Layout>
+  {
+    product ? (
+      <Product client:only="react" product={product} />
+    ) : (
+      <p>No Product!</p>
+    )
+  }
+</Layout>
