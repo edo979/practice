@@ -9,13 +9,21 @@ export const addToCart = (newItem: CartItemT) => {
   const isInCart = $cart.get().find((item) => item.id === newItem.id)
 
   if (isInCart) {
-    $cart.set(
-      $cart.get().map((item) => {
+    let newCart: CartItemT[] = []
+
+    if (newItem.quantity === 0) {
+      // remove if quantity = 0
+      newCart = $cart.get().filter((item) => item.id !== newItem.id)
+    } else {
+      // update quantity
+      newCart = $cart.get().map((item) => {
         if (item.id === newItem.id)
           return { ...item, quantity: newItem.quantity }
         return item
       })
-    )
+    }
+
+    $cart.set(newCart)
   } else {
     $cart.set([...$cart.get(), newItem])
   }
