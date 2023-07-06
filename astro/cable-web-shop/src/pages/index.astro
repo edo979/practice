@@ -1,51 +1,8 @@
 ---
-import { productsRef } from '../firebase/utility/firestore'
 import Layout from '../layouts/MainLayout.astro'
-
-type ProductPreviewT = {
-	id: string
-	name: string
-	price: number
-	imageUrl: string
-}
-
-let products: ProductPreviewT[] | undefined
-
-try {
-	const snapshot = await productsRef
-		.select('name', 'price', 'imageUrl')
-		.orderBy('created_at', 'desc')
-		.limit(10)
-		.get()
-
-	products = snapshot.docs.map((doc) => ({
-		id: doc.id,
-		name: doc.data().name,
-		price: doc.data().price,
-		imageUrl: doc.data().imageUrl,
-	}))
-} catch (error) {
-	products = undefined
-}
 ---
 
 <Layout>
-	<h1>Home page</h1>
-
-	{
-		products ? (
-			<ul>
-				{products.map((product) => (
-					<li>
-						<h2>{product.name}</h2>
-						<img src={product.imageUrl} alt={product.name} />
-						<p>{product.price} $</p>
-						<a href={`/products/${product.id}`}>View</a>
-					</li>
-				))}
-			</ul>
-		) : (
-			<p>No Products jet!</p>
-		)
-	}
+	<h1>Welcome to store</h1>
+	<p>This is index page</p>
 </Layout>

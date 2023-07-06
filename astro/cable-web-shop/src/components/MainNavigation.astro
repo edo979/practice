@@ -4,6 +4,7 @@ const { pathname } = Astro.url
 ---
 
 <a href="/">Home</a>
+<a href="/products">Products</a>
 <a href="/dashboard">Dashboard</a>
 <a href="/login">Login</a>
 {!pathname.startsWith('/dashboard') && <NavigationCart client:only="react" />}
