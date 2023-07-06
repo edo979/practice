@@ -46,8 +46,12 @@ const { pathname } = Astro.url
   <div class="navbar-end">
     {
       !pathname.startsWith('/dashboard') && (
-        <butotn class="btn" id="cart-btn">
-          🛒 Cart
+        <butotn class="btn btn-ghost py-1 px-2 relative" id="cart-btn">
+          <span class="font-bold text-2xl">🛒</span>
+          <span
+            id="cart-number-of-items"
+            class="absolute top-0 left-0 w-7 h-7 -translate-y-1/4 flex items-center justify-center rounded-full text-xs bg-info text-base-content font-bold"
+          />
         </butotn>
       )
     }
@@ -55,14 +59,23 @@ const { pathname } = Astro.url
 </div>
 
 <script>
+  import { $totalCartItems } from '../store/cart'
+
   const cartBtn = document.getElementById('cart-btn')
   const cartCheckBox = document.getElementById(
     'cart-drawer'
   ) as HTMLInputElement | null
+  const cartNumberOfItems = document.getElementById('cart-number-of-items')
 
   if (cartBtn && cartCheckBox) {
     cartBtn.addEventListener('click', () => {
       cartCheckBox.checked = true
     })
+  }
+
+  if (cartNumberOfItems) {
+    $totalCartItems.subscribe(
+      (value) => (cartNumberOfItems.innerText = value.toString())
+    )
   }
 </script>
