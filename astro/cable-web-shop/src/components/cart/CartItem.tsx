@@ -19,7 +19,7 @@ const CartItem = ({ item }: { item: CartItemT }) => {
           <small className="hidden group-hover:inline-block">
             Click to update!
           </small>
-          <p className="ml-auto">
+          <p className="ml-auto underline">
             Price: <strong>{item.price} $</strong>
           </p>
         </div>
