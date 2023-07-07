@@ -30,17 +30,27 @@ try {
 ---
 
 <Layout>
-  <h1>Home page</h1>
+  <h1 class="text-2xl font-bold my-8">Products:</h1>
 
   {
     products ? (
-      <ul>
+      <ul class="flex gap-4">
         {products.map((product) => (
-          <li>
-            <h2>{product.name}</h2>
-            <img src={product.imageUrl} alt={product.name} />
-            <p>{product.price} $</p>
-            <a href={`/products/${product.id}`}>View</a>
+          <li class="basis-1/4 rounded bg-base-200 border border-neutral/30 hover:bg-base-300">
+            <a
+              href={`/products/${product.id}`}
+              class="space-y-4 p-4 rounded block"
+            >
+              <h2 class="text-lg text-center">{product.name}</h2>
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                class="w-[92%] rounded mx-auto"
+              />
+              <p>
+                <span>Price:</span> <strong>{product.price} $</strong>
+              </p>
+            </a>
           </li>
         ))}
       </ul>
