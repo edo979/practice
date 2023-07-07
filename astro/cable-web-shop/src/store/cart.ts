@@ -1,7 +1,7 @@
 import { atom, computed } from 'nanostores'
 import type { ProductT } from '../firebase/utility/firestore'
 
-type CartItemT = ProductT & { quantity: number }
+export type CartItemT = ProductT & { quantity: number }
 
 export const $cart = atom<CartItemT[]>(getCartFromLS())
 export const $cartTotalPrice = computed($cart, (cart) => {

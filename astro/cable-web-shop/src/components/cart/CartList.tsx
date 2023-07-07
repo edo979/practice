@@ -1,14 +1,15 @@
-import React from 'react'
+import { useStore } from '@nanostores/react'
+import CartItem from './CartItem'
+import { $cart } from '../../store/cart'
 
 const CartList = () => {
+  const cart = useStore($cart)
+
   return (
-    <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
-      <li>
-        <a>Sidebar Item 1</a>
-      </li>
-      <li>
-        <a>Sidebar Item 2</a>
-      </li>
+    <ul>
+      {cart.map((item) => (
+        <CartItem item={item} key={item.id} />
+      ))}
     </ul>
   )
 }

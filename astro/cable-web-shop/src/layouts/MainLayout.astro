@@ -12,14 +12,21 @@ import CartList from '../components/cart/CartList'
   </head>
   <body class="container mx-auto">
     <div class="drawer drawer-end">
-      <input id="cart-drawer" type="checkbox" class="drawer-toggle" />
+      <input
+        id="cart-drawer"
+        type="checkbox"
+        class="drawer-toggle"
+        checked="true"
+      />
       <div class="drawer-content">
         <MainNavigation />
         <slot />
       </div>
       <div class="drawer-side">
         <label for="cart-drawer" class="drawer-overlay"></label>
-        <CartList />
+        <div class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+          <CartList client:only="react" />
+        </div>
       </div>
     </div>
   </body>
