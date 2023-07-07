@@ -25,11 +25,12 @@ import CartList from '../components/cart/CartList'
       <div class="drawer-side">
         <label for="cart-drawer" class="drawer-overlay"></label>
         <div
-          class="menu p-4 w-80 h-full bg-base-200 text-base-content border-2 border-blue-500"
+          class="menu p-4 w-80 h-full gap-4 overflow-y-hidden bg-base-200 text-base-content"
         >
           <label
             for="cart-drawer"
-            class="btn btn-accent text-lg text-base-100 font-bold">X</label
+            class="ml-auto drawer-button btn btn-outline btn-circle btn-ghost btn-sm font-bold"
+            >X</label
           >
           <CartList client:only="react" />
         </div>
