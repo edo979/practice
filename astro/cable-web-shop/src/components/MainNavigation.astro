@@ -5,7 +5,7 @@ const { pathname } = Astro.url
 <div class="navbar bg-primary text-primary-content">
   <div class="navbar-start">
     <div class="dropdown">
-      <label tabindex="0" class="btn btn-ghost lg:hidden">
+      <label tabindex="0" class="btn btn-ghost md:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
@@ -36,8 +36,8 @@ const { pathname } = Astro.url
     </div>
     <a class="btn btn-ghost normal-case text-xl" href="/">🏠 Cable-Shop</a>
   </div>
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
+  <div class="navbar-center hidden md:flex">
+    <ul class="menu menu-horizontal px-1 lg:text-lg">
       <li><a href="/products">Products</a></li>
       <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="login">Login</a></li>
