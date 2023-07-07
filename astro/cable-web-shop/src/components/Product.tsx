@@ -33,23 +33,35 @@ const Product = ({ product }: ProductPropsT) => {
   }
 
   return (
-    <div>
-      <a href="/">Back</a>
-      <h2>{product.name}</h2>
-      <p>{product.desc}</p>
-      <img src={product.imageUrl} alt={product.name} />
-      <p>{product.price}$</p>
+    <div className="max-w-md mt-16 mx-auto space-y-8">
+      <h1 className="text-2xl">{product.name}</h1>
+      <p className="text-lg">{product.desc}</p>
+      <img src={product.imageUrl} alt={product.name} className="w-72 mx-auto" />
+      <p className="text-right text-lg">
+        <span>Price: </span>
+        <strong>{product.price}$</strong>
+      </p>
 
       {isInCart && <p>You have {cartQuantity} item in cart!</p>}
-      <input
-        type="number"
-        value={quantity}
-        min="0"
-        onChange={quantityHandler}
-      />
-      <button onClick={() => addToCart({ ...product, quantity })}>
-        {isInCart ? 'Update cart' : 'Add to cart'}
-      </button>
+      <div className="flex justify-end gap-4">
+        <input
+          type="number"
+          value={quantity}
+          min="0"
+          onChange={quantityHandler}
+          className="py-1.5 px-3 rounded w-20 border border-base-300"
+        />
+        <button
+          className="btn btn-accent"
+          onClick={() => addToCart({ ...product, quantity })}
+        >
+          {isInCart ? 'Update cart' : 'Add to cart'}
+        </button>
+      </div>
+
+      <a href="/" className="my-8 btn btn-primary">
+        ⬅️ Back
+      </a>
     </div>
   )
 }
