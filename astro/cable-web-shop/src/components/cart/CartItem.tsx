@@ -2,11 +2,16 @@ import type { CartItemT } from '../../store/cart'
 
 const CartItem = ({ item }: { item: CartItemT }) => {
   return (
-    <li>
-      <p>jah</p>
-      <h3>{item.name}</h3>
-      <img src={item.imageUrl} alt={item.name} />
-      <p>{item.price}</p>
+    <li className="border border-green-400">
+      <a href={`/products/${item.id}`} className="block w-full p-0 m-0">
+        <div className="w-full p-2 rounded-lg bg-base-100 hover:ring-2 hover:ring-accent-focus hover:shadow">
+          <h3 className="text-lg">{item.name}</h3>
+          <img src={item.imageUrl} alt={item.name} />
+          <p className="text-right">
+            Price: <strong>{item.price} $</strong>
+          </p>
+        </div>
+      </a>
     </li>
   )
 }
