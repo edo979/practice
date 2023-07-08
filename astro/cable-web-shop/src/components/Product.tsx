@@ -52,7 +52,7 @@ const Product = ({ product }: ProductPropsT) => {
           className="py-1.5 px-3 rounded w-20 border border-base-300"
         />
         <button
-          className="btn btn-accent"
+          className="btn btn-info text-info-content"
           onClick={() => addToCart({ ...product, quantity })}
         >
           {isInCart ? 'Update cart' : 'Add to cart'}
