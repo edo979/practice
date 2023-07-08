@@ -38,3 +38,13 @@ import CartList from '../components/cart/CartList'
     </div>
   </body>
 </html>
+
+<script>
+  const drawerInputEl = document.getElementById(
+    'cart-drawer'
+  ) as HTMLInputElement | null
+
+  onload = () => {
+    if (drawerInputEl) drawerInputEl.checked = false
+  }
+</script>

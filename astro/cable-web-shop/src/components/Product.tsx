@@ -59,9 +59,9 @@ const Product = ({ product }: ProductPropsT) => {
         </button>
       </div>
 
-      <a href="/" className="my-8 btn btn-primary">
+      <button onClick={() => history.back()} className="my-8 btn btn-primary">
         ⬅️ Back
-      </a>
+      </button>
     </div>
   )
 }
