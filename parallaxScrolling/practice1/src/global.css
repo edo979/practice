@@ -12,6 +12,10 @@
       white 60%
     );
   }
+
+  body {
+    @apply bg-gray-200;
+  }
 }
 
 @layer components {

@@ -4,15 +4,15 @@ import Layout from '../layouts/Layout.astro'
 
 <Layout title="Welcome to Astro.">
 	<main>
-		<section class="full-screen-section">
-			<div class="prose md:prose-2xl mx-auto">
+		<section class="full-screen-section p-0 flex flex-col md:flex-row">
+			<div class="mx-auto p-4 flex-1 prose md:prose-2xl prose-neutral">
 				<h1>Build Better Backends</h1>
 				<p>
 					The only platform that gives AI the ability to autonomously build web
 					services.
 				</p>
 			</div>
-			<div class="right"></div>
+			<div class="hidden bg-neutral-400 md:flex-1 md:block"></div>
 		</section>
 
 		<section class="full-screen-section">
