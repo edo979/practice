@@ -1,4 +1,6 @@
 ---
+import '../global.css'
+
 interface Props {
 	title: string
 }
@@ -21,50 +23,3 @@ const { title } = Astro.props
 		<slot />
 	</body>
 </html>
-
-<style is:global>
-	/* Reset */
-	*,
-	*::before,
-	*::after {
-		box-sizing: border-box;
-	}
-
-	/* Variables */
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			#da62c4 30%,
-			white 60%
-		);
-	}
-
-	/* Layout */
-	body {
-		margin: 0;
-		color: #141616;
-		background-color: #e6e9ea;
-		font-size: 28px;
-	}
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-
-	/* Typography */
-	h1 {
-		font-size: 110px;
-		margin-bottom: 1rem;
-	}
-
-	/* Components */
-	.full-screen-section {
-		height: 100vh;
-		text-align: center;
-		padding: 1rem;
-		position: relative;
-	}
-</style>
