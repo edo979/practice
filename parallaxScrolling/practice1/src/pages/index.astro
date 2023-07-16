@@ -5,14 +5,19 @@ import Layout from '../layouts/Layout.astro'
 <Layout title="Welcome to Astro.">
 	<main>
 		<section class="full-screen-section p-0 flex flex-col md:flex-row">
-			<div class="mx-auto p-4 flex-1 prose md:prose-2xl prose-neutral">
+			<div
+				class="mx-auto p-4 flex-1 prose prose-neutral bg-white/[var(--background-opacity)] md:prose-2xl"
+			>
 				<h1>Build Better Backends</h1>
 				<p>
 					The only platform that gives AI the ability to autonomously build web
 					services.
 				</p>
 			</div>
-			<div class="hidden bg-neutral-400 md:flex-1 md:block"></div>
+			<div
+				class="hidden bg-neutral-400/[var(--background-opacity)] md:flex-1 md:block"
+			>
+			</div>
 		</section>
 
 		<section class="full-screen-section">
@@ -34,3 +39,20 @@ import Layout from '../layouts/Layout.astro'
 		</section>
 	</main>
 </Layout>
+
+<script>
+	// (oldVal - oldMin) * newRange / oldRange + newMin
+	window.addEventListener('scroll', setScrollVar)
+
+	function setScrollVar() {
+		const htmlEl = document.documentElement,
+			scrollPercentage = (htmlEl.scrollTop / htmlEl.clientHeight) * 100
+		console.log(scrollPercentage)
+		htmlEl.style.setProperty(
+			'--scroll',
+			Math.min(scrollPercentage, 100).toString()
+		)
+	}
+
+	setScrollVar()
+</script>

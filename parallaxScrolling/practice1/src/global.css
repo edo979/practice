@@ -11,6 +11,9 @@
       #da62c4 30%,
       white 60%
     );
+    --scroll: 0;
+    /* (oldVal - oldMin) * newRange / oldRange + newMin */
+    --background-opacity: calc(100% - 1% * min(var(--scroll), 30) * 100 / 30);
   }
 
   body {
