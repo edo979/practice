@@ -61,7 +61,6 @@ import Layout from '../layouts/Layout.astro'
 	function setScrollVar() {
 		const htmlEl = document.documentElement,
 			scrollPercentage = (htmlEl.scrollTop / htmlEl.clientHeight) * 100
-		console.log(scrollPercentage)
 		htmlEl.style.setProperty(
 			'--scroll',
 			Math.min(scrollPercentage, 100).toString()
@@ -71,9 +70,7 @@ import Layout from '../layouts/Layout.astro'
 	setScrollVar()
 
 	const observer = new IntersectionObserver((entries) => {
-		for (let i = entries.length - 1; i >= 0; i--) {
-			const entry = entries[i]
-
+		entries.forEach((entry) => {
 			if (entry.isIntersecting) {
 				document
 					.querySelectorAll('[data-img]')
@@ -82,9 +79,8 @@ import Layout from '../layouts/Layout.astro'
 				const imgToShowEl = entry.target as HTMLElement
 				const img = document.querySelector(imgToShowEl.dataset.imgToShow!)
 				img?.classList.add('show')
-				break
 			}
-		}
+		})
 	})
 
 	document
