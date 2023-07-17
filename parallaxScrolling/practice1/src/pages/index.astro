@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro'
 <Layout title="Welcome to Astro.">
 	<main class="relative">
 		<div class="images">
-			<img src="/images/img-1.png" id="img-1" data-img class="show" />
+			<img src="/images/img-1.png" id="img-1" data-img />
 			<img src="/images/img-2.png" id="img-2" data-img />
 			<img src="/images/img-3.png" id="img-3" data-img />
 		</div>
@@ -26,6 +26,7 @@ import Layout from '../layouts/Layout.astro'
 				class="hidden bg-neutral-400/[var(--background-opacity)] md:flex-1 md:block"
 			>
 			</div>
+			<div data-img-to-show="#img-1"></div>
 		</section>
 
 		<section
