@@ -14,6 +14,9 @@
     --scroll: 0;
     /* (oldVal - oldMin) * newRange / oldRange + newMin */
     --background-opacity: calc(100% - 1% * min(var(--scroll), 30) * 100 / 30);
+    --top-section-translate: calc(
+      -1% * (max(var(--scroll), 25) - 25) * 100 / 75
+    );
   }
 
   body {

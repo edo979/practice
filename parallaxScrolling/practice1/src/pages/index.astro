@@ -4,7 +4,9 @@ import Layout from '../layouts/Layout.astro'
 
 <Layout title="Welcome to Astro.">
 	<main>
-		<section class="full-screen-section p-0 flex flex-col md:flex-row">
+		<section
+			class="full-screen-section p-0 sticky top-0 flex flex-col translate-y-[var(--top-section-translate)] md:flex-row"
+		>
 			<div
 				class="mx-auto p-4 flex-1 prose prose-neutral bg-white/[var(--background-opacity)] md:prose-2xl"
 			>
