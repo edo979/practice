@@ -47,4 +47,9 @@
     width: calc(50vw + 1vw * var(--scroll-var));
     transform: translateY(calc(50% - 1% * var(--scroll-var)));
   }
+
+  [data-img-to-show] {
+    position: absolute;
+    top: 20%;
+  }
 }

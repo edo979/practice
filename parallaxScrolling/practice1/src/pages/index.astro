@@ -5,9 +5,9 @@ import Layout from '../layouts/Layout.astro'
 <Layout title="Welcome to Astro.">
 	<main class="relative">
 		<div class="images">
-			<img src="/images/img-1.png" class="show" />
-			<img src="/images/img-2.png" />
-			<img src="/images/img-3.png" />
+			<img src="/images/img-1.png" id="img-1" class="show" />
+			<img src="/images/img-2.png" id="img-2" />
+			<img src="/images/img-3.png" id="img-3" />
 		</div>
 
 		<section
@@ -33,6 +33,7 @@ import Layout from '../layouts/Layout.astro'
 		>
 			<h1>Completely Visual</h1>
 			<p>Never touch the command line, from provision to production.</p>
+			<div data-img-to-show="#img-1"></div>
 		</section>
 
 		<section class="full-screen-section prose prose-neutral md:prose-2xl">
@@ -41,11 +42,13 @@ import Layout from '../layouts/Layout.astro'
 				Never manage infrastructure again. One click gets you: a database, APIs,
 				deployments, hosting, etc.
 			</p>
+			<div data-img-to-show="#img-2"></div>
 		</section>
 
 		<section class="full-screen-section prose prose-neutral md:prose-2xl">
 			<h1>Launch Faster</h1>
 			<p>Logical can get systems to market in minutes instead of weeks.</p>
+			<div data-img-to-show="#img-3"></div>
 		</section>
 	</main>
 </Layout>
