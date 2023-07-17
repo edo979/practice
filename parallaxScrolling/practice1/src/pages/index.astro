@@ -3,7 +3,13 @@ import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
+	<main class="relative">
+		<div class="images">
+			<img src="/images/img-1.png" class="show" />
+			<img src="/images/img-2.png" />
+			<img src="/images/img-3.png" />
+		</div>
+
 		<section
 			class="full-screen-section p-0 sticky top-0 flex flex-col translate-y-[var(--top-section-translate)] md:flex-row"
 		>

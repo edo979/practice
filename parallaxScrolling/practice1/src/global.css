@@ -28,4 +28,12 @@
   .full-screen-section {
     @apply h-screen relative p-4 text-center;
   }
+
+  .images > * {
+    @apply fixed w-screen bottom-0 z-10 [translate:_0_100%];
+  }
+
+  .images > .show {
+    translate: 0 0;
+  }
 }
