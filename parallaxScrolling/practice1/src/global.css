@@ -30,10 +30,21 @@
   }
 
   .images > * {
-    @apply fixed w-screen bottom-0 z-10 [translate:_0_100%];
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+    z-index: 10;
+    translate: 0 100%;
+    transition: translate 250ms ease-in-out;
   }
 
   .images > .show {
     translate: 0 0;
+  }
+
+  .images :first-child {
+    --scroll-var: min(var(--scroll), 30) * 50 / 30;
+    width: calc(50vw + 1vw * var(--scroll-var));
+    transform: translateY(calc(50% - 1% * var(--scroll-var)));
   }
 }
