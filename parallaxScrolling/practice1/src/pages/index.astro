@@ -5,9 +5,9 @@ import Layout from '../layouts/Layout.astro'
 <Layout title="Welcome to Astro.">
 	<main class="relative">
 		<div class="images">
-			<img src="/images/img-1.png" id="img-1" class="show" />
-			<img src="/images/img-2.png" id="img-2" />
-			<img src="/images/img-3.png" id="img-3" />
+			<img src="/images/img-1.png" id="img-1" data-img class="show" />
+			<img src="/images/img-2.png" id="img-2" data-img />
+			<img src="/images/img-3.png" id="img-3" data-img />
 		</div>
 
 		<section
@@ -68,4 +68,25 @@ import Layout from '../layouts/Layout.astro'
 	}
 
 	setScrollVar()
+
+	const observer = new IntersectionObserver((entries) => {
+		for (let i = entries.length - 1; i >= 0; i--) {
+			const entry = entries[i]
+
+			if (entry.isIntersecting) {
+				document
+					.querySelectorAll('[data-img]')
+					.forEach((img) => img.classList.remove('show'))
+
+				const imgToShowEl = entry.target as HTMLElement
+				const img = document.querySelector(imgToShowEl.dataset.imgToShow!)
+				img?.classList.add('show')
+				break
+			}
+		}
+	})
+
+	document
+		.querySelectorAll('[data-img-to-show]')
+		.forEach((el) => observer.observe(el))
 </script>
