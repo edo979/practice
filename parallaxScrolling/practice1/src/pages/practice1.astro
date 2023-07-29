@@ -3,9 +3,11 @@ import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout title="Practice 1">
-  <main>
-    <section class="h-screen md:flex">
-      <div class="flex-1">
+  <main class="relative">
+    <section
+      class="h-screen sticky top-0 translate-y-[var(--translate-header)] md:flex"
+    >
+      <div class="flex-1 mt-[20%]">
         <header class="px-4 py-12 prose prose-neutral lg:prose-2xl text-center">
           <h1>New practice</h1>
           <p>
@@ -33,7 +35,8 @@ import Layout from '../layouts/Layout.astro'
 
   :root {
     --scroll: 0;
-    --bg-opacity: calc(1 - (var(--scroll) * 1 / 100));
+    --bg-opacity: calc(1 - (min(var(--scroll), 30) / 30));
+    --translate-header: calc(-1% * (max(var(--scroll), 25) - 25) * 100 / 75);
   }
 </style>
 
