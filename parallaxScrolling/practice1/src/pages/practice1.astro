@@ -15,7 +15,7 @@ import Layout from '../layouts/Layout.astro'
         </header>
       </div>
 
-      <aside class="flex-1 bg-zinc-400"></aside>
+      <aside class="flex-1 bg-zinc-400/[var(--bg-opacity)]"></aside>
     </section>
 
     <section class="h-screen prose prose-neutral lg:prose-2xl">
@@ -27,6 +27,15 @@ import Layout from '../layouts/Layout.astro'
     </section>
   </main>
 </Layout>
+
+<style>
+  /* (oldVal - oldMin) * newRange / (oldRange + newMin) */
+
+  :root {
+    --scroll: 0;
+    --bg-opacity: calc(1 - (var(--scroll) * 1 / 100));
+  }
+</style>
 
 <script>
   window.addEventListener('scroll', setScrollVar)
