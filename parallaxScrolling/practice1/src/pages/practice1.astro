@@ -3,13 +3,19 @@ import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout title="Practice 1">
-  <main class="p-4">
-    <section class="h-screen prose prose-neutral lg:prose-2xl">
-      <h1>New practice</h1>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt dicta
-        id iusto a natus et.
-      </p>
+  <main>
+    <section class="h-screen md:flex">
+      <div class="flex-1">
+        <header class="px-4 py-12 prose prose-neutral lg:prose-2xl text-center">
+          <h1>New practice</h1>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+            dicta id iusto a natus et.
+          </p>
+        </header>
+      </div>
+
+      <aside class="flex-1 bg-zinc-400"></aside>
     </section>
 
     <section class="h-screen prose prose-neutral lg:prose-2xl">
@@ -21,3 +27,15 @@ import Layout from '../layouts/Layout.astro'
     </section>
   </main>
 </Layout>
+
+<script>
+  window.addEventListener('scroll', setScrollVar)
+  setScrollVar()
+
+  function setScrollVar() {
+    const htmlEl = document.documentElement,
+      scrollPercentage = Math.min(window.scrollY / window.innerHeight, 1) * 100
+
+    htmlEl.style.setProperty('--scroll', scrollPercentage.toString())
+  }
+</script>
