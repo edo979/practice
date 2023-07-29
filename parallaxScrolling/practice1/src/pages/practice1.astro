@@ -4,6 +4,12 @@ import Layout from '../layouts/Layout.astro'
 
 <Layout title="Practice 1">
   <main class="relative">
+    <div class="images">
+      <img src="/images/img-1.png" id="img-1" data-img />
+      <img src="/images/img-2.png" id="img-2" data-img />
+      <img src="/images/img-3.png" id="img-3" data-img />
+    </div>
+
     <section
       class="h-screen sticky top-0 translate-y-[var(--translate-header)] md:flex"
     >
@@ -18,9 +24,10 @@ import Layout from '../layouts/Layout.astro'
       </div>
 
       <aside class="flex-1 bg-zinc-400/[var(--bg-opacity)]"></aside>
+      <div data-show-image="#img-1"></div>
     </section>
 
-    <section class="h-screen prose prose-neutral lg:prose-2xl">
+    <section class="h-screen mt-52 prose prose-neutral lg:prose-2xl">
       <h1>New practice</h1>
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt dicta
@@ -50,4 +57,21 @@ import Layout from '../layouts/Layout.astro'
 
     htmlEl.style.setProperty('--scroll', scrollPercentage.toString())
   }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting)
+        document
+          .querySelectorAll('[data-img]')
+          .forEach((image) => image.classList.remove('show'))
+
+      const imageToShowEl = entry.target as HTMLElement
+      const image = document.querySelector(imageToShowEl.dataset.showImage!)
+      image?.classList.add('show')
+    })
+  })
+
+  document
+    .querySelectorAll('[data-show-image]')
+    .forEach((el) => observer.observe(el))
 </script>
