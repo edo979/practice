@@ -24,15 +24,16 @@ import Layout from '../layouts/Layout.astro'
       </div>
 
       <aside class="flex-1 bg-zinc-400/[var(--bg-opacity)]"></aside>
-      <div data-show-image="#img-1"></div>
+      <div data-img-to-show="#img-1"></div>
     </section>
 
-    <section class="h-screen mt-52 prose prose-neutral lg:prose-2xl">
+    <section class="h-screen mt-60 relative prose prose-neutral lg:prose-2xl">
       <h1>New practice</h1>
       <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt dicta
         id iusto a natus et.
       </p>
+      <div data-img-to-show="#img-2" class="mt-64"></div>
     </section>
   </main>
 </Layout>
@@ -60,18 +61,19 @@ import Layout from '../layouts/Layout.astro'
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting)
+      if (entry.isIntersecting) {
         document
           .querySelectorAll('[data-img]')
           .forEach((image) => image.classList.remove('show'))
 
-      const imageToShowEl = entry.target as HTMLElement
-      const image = document.querySelector(imageToShowEl.dataset.showImage!)
-      image?.classList.add('show')
+        const imageToShowEl = entry.target as HTMLElement
+        const image = document.querySelector(imageToShowEl.dataset.imgToShow!)
+        image?.classList.add('show')
+      }
     })
   })
 
   document
-    .querySelectorAll('[data-show-image]')
+    .querySelectorAll('[data-img-to-show]')
     .forEach((el) => observer.observe(el))
 </script>
