@@ -5,20 +5,24 @@ import Layout from '../layouts/Layout.astro'
 <Layout title="Practice 1">
   <main class="relative">
     <div class="images">
-      <img src="/images/img-1.png" id="img-1" data-img />
+      <img src="/images/img-1.png" id="img-1" data-img class="" />
       <img src="/images/img-2.png" id="img-2" data-img />
       <img src="/images/img-3.png" id="img-3" data-img />
     </div>
 
-    <section class="fixed inset-0 z-20 border border-rose-400">
+    <section class="fixed inset-0 z-10 border border-rose-400">
       <img
         src="/images/env-card.png"
-        class="sticky top-[33%] left-[50%] w-[34%] translate-y-[var(--translate-env-card-y)] translate-x-[var(--translate-env-card-x)]"
+        class="absolute top-[33%] left-[50%] w-[34%] translate-y-[var(--translate-y-env-card)] translate-x-[var(--translate-x-env-card)]"
+      />
+      <img
+        src="/images/modal.png"
+        class="absolute top-[75%] left-[50%] w-[34%] translate-y-[var(--translate-y-modal)]"
       />
     </section>
 
     <section
-      class="h-screen sticky translate-y-[var(--translate-header)] top-0 md:flex"
+      class="h-screen sticky translate-y-[var(--translate-header)] top-0 md:flex z-0"
     >
       <div class="flex-1 mt-[20%]">
         <header class="px-4 py-12 prose prose-neutral lg:prose-2xl text-center">
@@ -54,10 +58,11 @@ import Layout from '../layouts/Layout.astro'
     --scroll: 0;
     --bg-opacity: calc(1 - (min(var(--scroll), 30) / 30));
     --translate-header: calc(-1% * (max(var(--scroll), 25) - 25) * 100 / 75);
-    --translate-env-card-y: calc(
+    --translate-y-env-card: calc(
       -1vh * (max(var(--scroll), 15) - 15) * 70 / 85
     );
-    --translate-env-card-x: calc(-1% * (max(var(--scroll), 15) - 15) * 40 / 85);
+    --translate-x-env-card: calc(-1% * (max(var(--scroll), 15) - 15) * 40 / 85);
+    --translate-y-modal: calc(-1vh * (max(var(--scroll), 15) - 15) * 160 / 85);
   }
 </style>
 
