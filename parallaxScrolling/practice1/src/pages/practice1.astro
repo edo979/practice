@@ -10,8 +10,15 @@ import Layout from '../layouts/Layout.astro'
       <img src="/images/img-3.png" id="img-3" data-img />
     </div>
 
+    <section class="fixed inset-0 z-20 border border-rose-400">
+      <img
+        src="/images/env-card.png"
+        class="absolute top-[33%] left-[50%] w-[34%]"
+      />
+    </section>
+
     <section
-      class="h-screen sticky top-0 translate-y-[var(--translate-header)] md:flex"
+      class="h-screen sticky translate-y-[var(--translate-header)] top-0 md:flex"
     >
       <div class="flex-1 mt-[20%]">
         <header class="px-4 py-12 prose prose-neutral lg:prose-2xl text-center">
