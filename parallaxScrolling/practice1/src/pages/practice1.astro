@@ -46,18 +46,18 @@ import Layout from '../layouts/Layout.astro'
 </Layout>
 
 <style>
-  /* (oldVal - oldMin) * newRange / (oldRange + newMin) */
+  /* (oldVal - oldMin) * newRange / oldRange + newMin */
+  /* output = ((input - input_min) * (output_max - output_min) / (input_max - input_min)) + output_min
+ */
 
   :root {
     --scroll: 0;
     --bg-opacity: calc(1 - (min(var(--scroll), 30) / 30));
     --translate-header: calc(-1% * (max(var(--scroll), 25) - 25) * 100 / 75);
     --translate-env-card-y: calc(
-      -1vh * (max(var(--scroll), 15) - 15) * 60 / 42
+      -1vh * (max(var(--scroll), 15) - 15) * 70 / 85
     );
-    --translate-env-card-x: calc(
-      -1vh * (max(var(--scroll), 15) - 15) * 40 / 100
-    );
+    --translate-env-card-x: calc(-1% * (max(var(--scroll), 15) - 15) * 40 / 85);
   }
 </style>
 
