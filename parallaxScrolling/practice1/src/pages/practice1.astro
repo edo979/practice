@@ -13,7 +13,7 @@ import Layout from '../layouts/Layout.astro'
     <section class="fixed inset-0 z-20 border border-rose-400">
       <img
         src="/images/env-card.png"
-        class="absolute top-[33%] left-[50%] w-[34%]"
+        class="sticky top-[33%] left-[50%] w-[34%] translate-y-[var(--translate-env-card-y)] translate-x-[var(--translate-env-card-x)]"
       />
     </section>
 
@@ -52,6 +52,12 @@ import Layout from '../layouts/Layout.astro'
     --scroll: 0;
     --bg-opacity: calc(1 - (min(var(--scroll), 30) / 30));
     --translate-header: calc(-1% * (max(var(--scroll), 25) - 25) * 100 / 75);
+    --translate-env-card-y: calc(
+      -1vh * (max(var(--scroll), 15) - 15) * 60 / 42
+    );
+    --translate-env-card-x: calc(
+      -1vh * (max(var(--scroll), 15) - 15) * 40 / 100
+    );
   }
 </style>
 
