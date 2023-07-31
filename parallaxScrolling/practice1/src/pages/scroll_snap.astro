@@ -8,11 +8,13 @@ import '../css/scroll-snap.css'
     <nav
       class="h-full flex items-center justify-center gap-8 border border-rose-400"
     >
-      <a href="#section-1" class="font-extrabold text-lg border border-sky-500"
-        >Section 1</a
+      <a
+        href="#section-1"
+        class="font-extrabold text-lg border border-sky-500"
+        data-nav-link="section-1">Section 1</a
       >
-      <a href="#section-2">Section 2</a>
-      <a href="#section-3">Section 3</a>
+      <a href="#section-2" data-nav-link="section-2">Section 2</a>
+      <a href="#section-3" data-nav-link="section-3">Section 3</a>
     </nav>
   </header>
 
@@ -39,3 +41,31 @@ import '../css/scroll-snap.css'
     </section>
   </main>
 </Layout>
+
+<script>
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.51,
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const currentSection = entry.target.getAttribute('id')
+
+        document
+          .querySelectorAll('[data-nav-link]')
+          .forEach((link) => link.classList.remove('active'))
+
+        document
+          .querySelector(`[data-nav-link="${currentSection}"]`)
+          ?.classList.add('active')
+      }
+    })
+  }, options)
+
+  document
+    .querySelectorAll('section')
+    .forEach((section) => observer.observe(section))
+</script>
