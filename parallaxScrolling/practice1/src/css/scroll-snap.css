@@ -11,4 +11,25 @@
   section {
     @apply h-screen w-full pt-16 snap-start;
   }
+
+  nav a {
+    position: relative;
+    @apply font-extrabold text-lg;
+  }
+
+  nav a::before {
+    content: '';
+    height: 0.25rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    @apply bg-fuchsia-500;
+    transform: scaleX(0);
+    transition: transform 0.5s 0.215s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  }
+
+  nav a.active::before {
+    transform: scaleX(1);
+  }
 }
