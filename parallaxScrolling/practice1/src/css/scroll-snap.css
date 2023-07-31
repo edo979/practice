@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+
+@layer base {
+  body {
+    @apply bg-rose-50;
+  }
+}
+
+@layer components {
+  section {
+    @apply h-screen w-full;
+  }
+}
