@@ -2,13 +2,13 @@
 @tailwind components;
 
 @layer base {
-  body {
-    @apply bg-rose-50;
+  html {
+    @apply snap-mandatory snap-y;
   }
 }
 
 @layer components {
   section {
-    @apply h-screen w-full;
+    @apply h-screen w-full snap-start;
   }
 }
