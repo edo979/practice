@@ -48,15 +48,23 @@ import '../css/scroll-snap.css'
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        const currentSection = entry.target.getAttribute('id')
-
+        // cleaning
         document
           .querySelectorAll('[data-nav-link]')
           .forEach((link) => link.classList.remove('active'))
 
+        const currentSectionId = entry.target.getAttribute('id')
+
         document
-          .querySelector(`[data-nav-link="${currentSection}"]`)
+          .querySelector(`[data-nav-link="${currentSectionId}"]`)
           ?.classList.add('active')
+
+        if (currentSectionId === 'section-1')
+          document.querySelector('nav')?.classList.add('bg-black', 'text-white')
+        else
+          document
+            .querySelector('nav')
+            ?.classList.remove('bg-black', 'text-white')
       }
     })
   }, options)
