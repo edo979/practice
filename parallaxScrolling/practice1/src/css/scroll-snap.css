@@ -9,6 +9,6 @@
 
 @layer components {
   section {
-    @apply h-screen w-full snap-start;
+    @apply h-screen w-full snap-start scroll-m-16;
   }
 }
