@@ -3,7 +3,7 @@
 
 @layer base {
   html {
-    @apply snap-mandatory snap-y;
+    @apply snap-mandatory snap-y scroll-smooth;
   }
 }
 

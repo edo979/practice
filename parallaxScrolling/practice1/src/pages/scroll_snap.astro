@@ -4,24 +4,34 @@ import '../css/scroll-snap.css'
 ---
 
 <Layout title="Scroll Snap">
-  <header class="h-16 w-full bg-white fixed"></header>
+  <header class="h-16 w-full bg-white fixed">
+    <nav
+      class="h-full flex items-center justify-center gap-8 border border-rose-400"
+    >
+      <a href="#section-1" class="font-extrabold text-lg border border-sky-500"
+        >Section 1</a
+      >
+      <a href="#section-2">Section 2</a>
+      <a href="#section-3">Section 3</a>
+    </nav>
+  </header>
 
   <main>
-    <section class="pt-16 bg-emerald-400">
+    <section class="pt-16 bg-emerald-400" id="section-1">
       <div class="p-16 prose prose-2xl prose-stone">
         <h1>Section 1</h1>
         <p class="lead">This is section 1</p>
       </div>
     </section>
 
-    <section class="bg-lime-400">
+    <section class="bg-lime-400" id="section-2">
       <div class="p-16 prose prose-2xl prose-stone">
         <h1>Section 2</h1>
         <p class="lead">This is section 2</p>
       </div>
     </section>
 
-    <section class="bg-sky-500">
+    <section class="bg-sky-500" id="section-3">
       <div class="p-16 prose prose-2xl prose-stone">
         <h1>Section 3</h1>
         <p class="lead">This is section 3</p>
