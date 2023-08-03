@@ -1,0 +1,7 @@
+#phone-img {
+  @apply w-full h-full;
+}
+
+#phone-img #bubble0 {
+  display: none;
+}
