@@ -2,6 +2,8 @@
   @apply w-full h-full;
 }
 
-#phone-img #bubble0 {
-  display: none;
+#bubble0,
+#bubble1,
+#bubble2 {
+  opacity: 0;
 }
