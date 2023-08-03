@@ -162,3 +162,15 @@ import '../css/landingPage.css'
     </div>
   </main>
 </Layout>
+
+<script>
+  window.addEventListener('scroll', setScrollVar)
+  setScrollVar()
+
+  function setScrollVar() {
+    const htmlEl = document.documentElement,
+      scrollPercentage = Math.min(window.scrollY / window.innerHeight, 1) * 100
+
+    htmlEl.style.setProperty('--scroll', scrollPercentage.toString())
+  }
+</script>
