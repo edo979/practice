@@ -1,7 +1,16 @@
+/* output = ((input - input_min) * (output_max - output_min) / (input_max - input_min)) + output_min
+ */
 :root {
   --scroll: 0;
+  --translate-y-hero: calc(1% * (max(var(--scroll), 25) - 25) * 100 / 75);
 }
 
 #phone-img {
   @apply w-full h-full;
+}
+
+#bubble0,
+#bubble1,
+#bubble2 {
+  translate: calc(100% - (1% * (min(var(--scroll), 25)) * 100 / 25)) 0;
 }
