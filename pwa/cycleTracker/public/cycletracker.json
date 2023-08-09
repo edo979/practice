@@ -8,11 +8,11 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "/circle.png",
+      "src": "/assets/circle.png",
       "sizes": "48x48"
     },
     {
-      "src": "/cycle.svg",
+      "src": "/assets/cycle.svg",
       "sizes": "any"
     }
   ]
