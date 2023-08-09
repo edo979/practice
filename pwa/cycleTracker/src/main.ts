@@ -1,6 +1,7 @@
 const newPeriodFormEl = document.getElementsByTagName('form')[0]
 const startDateInputEl = <HTMLInputElement>document.getElementById('start-date')
 const endDateInputEl = <HTMLInputElement>document.getElementById('end-date')
+const pastPeriodContainer = document.getElementById('past-periods')
 const STORAGE_KEY = 'period-tracker-app'
 
 type PeriodT = {
@@ -47,4 +48,33 @@ function getAllStoredPeriods() {
   return periods
 }
 
-function renderPastPeriods() {}
+function renderPastPeriods() {
+  const periods = getAllStoredPeriods()
+
+  if (periods.length === 0) return
+
+  if (!pastPeriodContainer) return
+
+  let periodListItem = ''
+  periods.forEach((period) => {
+    periodListItem += `<li>Od: ${formatDate(period.startDate)} Do: ${formatDate(
+      period.endDate
+    )}</li>`
+  })
+  pastPeriodContainer.innerHTML = `
+    <h2>Prošli periodi</h2>
+    <ul>${periodListItem}</ul>
+  `
+}
+
+function formatDate(date: string) {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  }
+  return new Date(date).toLocaleDateString('hr-BA', options)
+}
+
+renderPastPeriods()
