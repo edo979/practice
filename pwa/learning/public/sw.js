@@ -1,7 +1,11 @@
+const VERSION = 'v2'
+const CACHE_STATIC_NAME = `static-${VERSION}`
+const CACHE_DYNAMIC_NAME = `dynamic-${VERSION}`
+
 self.addEventListener('install', function (event) {
   console.log('Service worker: Instaling', event)
   event.waitUntil(
-    caches.open('static').then((cache) => {
+    caches.open(CACHE_STATIC_NAME).then((cache) => {
       console.log('[Service worker] Precaching App Shell')
       cache.addAll([
         '/',
@@ -22,22 +26,39 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('activate', function (event) {
   console.log('Service worker: Activating', event)
-  return self.clients.claim()
+
+  event.waitUntil(
+    (async () => {
+      const keys = await caches.keys()
+      await Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
+            console.log('Service worker: Deleting key', key)
+            return caches.delete(key)
+          }
+        })
+      )
+      self.clients.claim()
+    })()
+  )
 })
 
 self.addEventListener('fetch', function (event) {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response
-      } else {
-        return fetch(event.request).then((res) =>
-          caches.open('dynamic').then((cache) => {
-            cache.put(event.request.url, res.clone())
-            return res
-          })
-        )
-      }
-    })
+    caches
+      .match(event.request)
+      .then((response) => {
+        if (response) {
+          return response
+        } else {
+          return fetch(event.request).then((res) =>
+            caches.open(CACHE_DYNAMIC_NAME).then((cache) => {
+              cache.put(event.request.url, res.clone())
+              return res
+            })
+          )
+        }
+      })
+      .catch((e) => console.log(e))
   )
 })
