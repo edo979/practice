@@ -1,4 +1,4 @@
-const VERSION = 'v5'
+const VERSION = 'v6'
 const CACHE_STATIC_NAME = `static-${VERSION}`
 const CACHE_DYNAMIC_NAME = `dynamic-${VERSION}`
 
@@ -10,6 +10,7 @@ self.addEventListener('install', function (event) {
       cache.addAll([
         '/',
         '/index.html',
+        '/offline.html',
         '/src/js/app.js',
         '/src/js/feed.js',
         '/src/js/material.min.js',
@@ -59,6 +60,9 @@ self.addEventListener('fetch', function (event) {
           )
         }
       })
-      .catch((e) => console.log(e))
+      .catch(async (e) => {
+        const staticCache = await caches.open(CACHE_STATIC_NAME)
+        return staticCache.match('/offline.html')
+      })
   )
 })
