@@ -1,4 +1,4 @@
-const VERSION = 'v10'
+const VERSION = 'v11'
 const CACHE_STATIC_NAME = `static-${VERSION}`
 const CACHE_DYNAMIC_NAME = `dynamic-${VERSION}`
 const STATIC_FILES = [
@@ -15,6 +15,16 @@ const STATIC_FILES = [
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
 ]
+
+// async function trimCache(cacheName, maxItems) {
+//   const cache = await caches.open(cacheName)
+//   const keys = await cache.keys()
+
+//   if (keys.length > maxItems) {
+//     await cache.delete(keys[0])
+//     await trimCache(cacheName, maxItems)
+//   }
+// }
 
 self.addEventListener('install', function (event) {
   console.log('Service worker: Instaling', event)
@@ -74,7 +84,8 @@ self.addEventListener('fetch', (event) => {
   if (event.request.url.indexOf(url) > -1) {
     event.respondWith(
       caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
-        fetch(event.request).then((res) => {
+        fetch(event.request).then(async (res) => {
+          // await trimCache(CACHE_DYNAMIC_NAME, 1)
           cache.put(event.request, res.clone())
           return res
         })
@@ -91,7 +102,8 @@ self.addEventListener('fetch', (event) => {
             return response
           } else {
             return fetch(event.request).then((res) =>
-              caches.open(CACHE_DYNAMIC_NAME).then((cache) => {
+              caches.open(CACHE_DYNAMIC_NAME).then(async (cache) => {
+                // await trimCache(CACHE_DYNAMIC_NAME, 1)
                 cache.put(event.request.url, res.clone())
                 return res
               })
@@ -100,7 +112,7 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(async (error) => {
           const staticCache = await caches.open(CACHE_STATIC_NAME)
-          if (event.request.url.indexOf('/help')) {
+          if (event.request.headers.get('accept').includes('text/html')) {
             return staticCache.match('/offline.html')
           }
         })
