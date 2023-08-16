@@ -1,19 +1,18 @@
-const VERSION = 'v11'
+const VERSION = 'v12'
 const CACHE_STATIC_NAME = `static-${VERSION}`
 const CACHE_DYNAMIC_NAME = `dynamic-${VERSION}`
 const STATIC_FILES = [
   '/',
   '/index.html',
   '/offline.html',
-  '/src/js/app.js',
-  '/src/js/feed.js',
-  '/src/js/material.min.js',
-  '/src/css/app.css',
-  '/src/css/feed.css',
-  '/src/images/main-image.jpg',
+  // '/src/js/script.js',
+  // '/src/js/feed.js',
+  // '/src/css/app.css',
+  // '/src/css/feed.css',
+  '/assets/js/material.min.js',
+  '/assets/images/main-image.jpg',
   'https://fonts.googleapis.com/css?family=Roboto:400,700',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
-  'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
 ]
 
 // async function trimCache(cacheName, maxItems) {
@@ -27,7 +26,7 @@ const STATIC_FILES = [
 // }
 
 self.addEventListener('install', function (event) {
-  console.log('Service worker: Instaling', event)
+  console.log('Service worker: Instaling')
   event.waitUntil(
     caches.open(CACHE_STATIC_NAME).then((cache) => {
       console.log('[Service worker] Precaching App Shell')
@@ -37,7 +36,7 @@ self.addEventListener('install', function (event) {
 })
 
 self.addEventListener('activate', function (event) {
-  console.log('Service worker: Activating', event)
+  console.log('Service worker: Activating')
 
   event.waitUntil(
     (async () => {
@@ -79,18 +78,17 @@ self.addEventListener('activate', function (event) {
 // })
 
 self.addEventListener('fetch', (event) => {
-  const url = 'https://httpbin.org/get'
-
-  if (event.request.url.indexOf(url) > -1) {
-    event.respondWith(
-      caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
-        fetch(event.request).then(async (res) => {
-          // await trimCache(CACHE_DYNAMIC_NAME, 1)
-          cache.put(event.request, res.clone())
-          return res
-        })
-      )
-    )
+  if (event.request.url.includes('/google.')) {
+    // event.respondWith(
+    //   caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
+    //     fetch(event.request).then(async (res) => {
+    //       // await trimCache(CACHE_DYNAMIC_NAME, 1)
+    //       cache.put(event.request, res.clone())
+    //       return res
+    //     })
+    //   )
+    // )
+    return
   } else if (STATIC_FILES.includes(event.request.url)) {
     event.respondWith(caches.match(event.request))
   } else {

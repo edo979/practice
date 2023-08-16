@@ -1,3 +1,6 @@
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../firebase/firebase-config'
+
 var shareImageButton = document.querySelector('#share-image-button')
 var createPostArea = document.querySelector('#create-post')
 var closeCreatePostModalButton = document.querySelector(
@@ -45,23 +48,23 @@ function clearCards() {
   }
 }
 
-function createCard() {
+function createCard(data) {
   var cardWrapper = document.createElement('div')
   cardWrapper.className = 'shared-moment-card mdl-card mdl-shadow--2dp'
   var cardTitle = document.createElement('div')
   cardTitle.className = 'mdl-card__title'
-  cardTitle.style.backgroundImage = 'url("/src/images/sf-boat.jpg")'
+  cardTitle.style.backgroundImage = `url("${data.image}")`
   cardTitle.style.backgroundSize = 'cover'
   cardTitle.style.height = '180px'
   cardWrapper.appendChild(cardTitle)
   var cardTitleTextElement = document.createElement('h2')
   cardTitleTextElement.className = 'mdl-card__title-text'
-  cardTitleTextElement.textContent = 'San Francisco Trip'
+  cardTitleTextElement.textContent = data.location
   cardTitleTextElement.style.color = 'black'
   cardTitle.appendChild(cardTitleTextElement)
   var cardSupportingText = document.createElement('div')
   cardSupportingText.className = 'mdl-card__supporting-text'
-  cardSupportingText.textContent = 'In San Francisco'
+  cardSupportingText.textContent = data.title
   cardSupportingText.style.textAlign = 'center'
   // var cardSaveButton = document.createElement('button')
   // cardSaveButton.textContent = 'Save'
@@ -75,28 +78,32 @@ function createCard() {
 const url = 'https://httpbin.org/get'
 let networkDataRecived = false
 
-fetch(url)
-  .then(function (res) {
-    return res.json()
+function updateUI(posts) {
+  posts.forEach((post) => createCard(post))
+}
+
+getDocs(collection(db, 'posts'))
+  .then((snapshot) => {
+    return snapshot.docs.map((doc) => doc.data())
   })
   .then(function (data) {
     console.log('From web', data)
     networkDataRecived = true
     clearCards()
-    createCard()
+    updateUI(data)
   })
 
-if ('caches' in window) {
-  caches
-    .match(url)
-    .then((response) => {
-      if (response) return response.json()
-    })
-    .then((data) => {
-      if (!networkDataRecived) {
-        console.log('From cache', data)
-        clearCards()
-        createCard()
-      }
-    })
-}
+// if ('caches' in window) {
+//   caches
+//     .match(url)
+//     .then((response) => {
+//       if (response) return response.json()
+//     })
+//     .then((data) => {
+//       if (!networkDataRecived) {
+//         console.log('From cache', data)
+//         updateUI(data)
+//         createCard()
+//       }
+//     })
+// }
