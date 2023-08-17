@@ -1,4 +1,7 @@
-const VERSION = 'v12'
+importScripts('/assets/js/idb.js')
+importScripts('./src/js/utility')
+
+const VERSION = 'v14'
 const CACHE_STATIC_NAME = `static-${VERSION}`
 const CACHE_DYNAMIC_NAME = `dynamic-${VERSION}`
 const STATIC_FILES = [
@@ -9,6 +12,7 @@ const STATIC_FILES = [
   // '/src/js/feed.js',
   // '/src/css/app.css',
   // '/src/css/feed.css',
+  '/assets/js/idb.js',
   '/assets/js/material.min.js',
   '/assets/images/main-image.jpg',
   'https://fonts.googleapis.com/css?family=Roboto:400,700',
@@ -76,7 +80,7 @@ self.addEventListener('activate', function (event) {
 //       })
 //   )
 // })
-
+let saveOne = false
 self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('/google.')) {
     // event.respondWith(
@@ -88,6 +92,8 @@ self.addEventListener('fetch', (event) => {
     //     })
     //   )
     // )
+
+    event.waitUntil(writeData())
     return
   } else if (STATIC_FILES.includes(event.request.url)) {
     event.respondWith(caches.match(event.request))

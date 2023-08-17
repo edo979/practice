@@ -79,31 +79,32 @@ const url = 'https://httpbin.org/get'
 let networkDataRecived = false
 
 function updateUI(posts) {
-  posts.forEach((post) => createCard(post))
+  posts.forEach((post) => {
+    createCard(post)
+  })
 }
 
-getDocs(collection(db, 'posts'))
-  .then((snapshot) => {
-    return snapshot.docs.map((doc) => doc.data())
+try {
+  getDocs(collection(db, 'posts'))
+    .then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data())
+    })
+    .then(function (data) {
+      console.log('From web', data)
+      if (data.length === 0) return
+      networkDataRecived = true
+      clearCards()
+      updateUI(data)
+    })
+} catch (error) {
+  console.log(error)
+}
+console.log('jah')
+if ('indexedDB' in window) {
+  readAllData().then((data) => {
+    if (!networkDataRecived) {
+      console.log('From Cache', data)
+      updateUI(data)
+    }
   })
-  .then(function (data) {
-    console.log('From web', data)
-    networkDataRecived = true
-    clearCards()
-    updateUI(data)
-  })
-
-// if ('caches' in window) {
-//   caches
-//     .match(url)
-//     .then((response) => {
-//       if (response) return response.json()
-//     })
-//     .then((data) => {
-//       if (!networkDataRecived) {
-//         console.log('From cache', data)
-//         updateUI(data)
-//         createCard()
-//       }
-//     })
-// }
+}
