@@ -1,6 +1,3 @@
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../firebase/firebase-config'
-
 var shareImageButton = document.querySelector('#share-image-button')
 var createPostArea = document.querySelector('#create-post')
 var closeCreatePostModalButton = document.querySelector(
@@ -84,22 +81,34 @@ function updateUI(posts) {
   })
 }
 
-try {
-  getDocs(collection(db, 'posts'))
-    .then((snapshot) => {
-      return snapshot.docs.map((doc) => doc.data())
-    })
-    .then(function (data) {
-      console.log('From web', data)
-      if (data.length === 0) return
-      networkDataRecived = true
-      clearCards()
-      updateUI(data)
-    })
-} catch (error) {
-  console.log(error)
+async function getDataFromStore() {
+  try {
+    // getDocs(collection(db, 'posts'))
+    //   .then((snapshot) => {
+    //     return snapshot.docs.map((doc) => doc.data())
+    //   })
+    //   .then(function (data) {
+    //     console.log('From web', data)
+    //     if (data.length === 0) return
+    //     networkDataRecived = true
+    //     clearCards()
+    //     updateUI(data)
+    //   })
+    const res = await fetch('http://localhost:5000/')
+    const data = await res.json()
+
+    console.log('From web', data)
+    if (data.length === 0) return
+    networkDataRecived = true
+    clearCards()
+    updateUI(data)
+  } catch (error) {
+    console.log(error)
+  }
 }
-console.log('jah')
+
+getDataFromStore()
+
 if ('indexedDB' in window) {
   readAllData().then((data) => {
     if (!networkDataRecived) {

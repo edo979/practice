@@ -1,8 +1,10 @@
 import express from 'express'
+import cors from 'cors'
 import { db } from '../firebase/firebase-config.js'
 import { collection, getDocs } from 'firebase/firestore'
 
 const app = express()
+app.use(cors())
 
 app.get('/', async (req, res) => {
   try {
