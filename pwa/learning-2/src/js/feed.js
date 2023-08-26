@@ -72,7 +72,6 @@ function createCard(data) {
   sharedMomentsArea.appendChild(cardWrapper)
 }
 
-const url = 'https://httpbin.org/get'
 let networkDataRecived = false
 
 function updateUI(posts) {
@@ -83,17 +82,6 @@ function updateUI(posts) {
 
 async function getDataFromStore() {
   try {
-    // getDocs(collection(db, 'posts'))
-    //   .then((snapshot) => {
-    //     return snapshot.docs.map((doc) => doc.data())
-    //   })
-    //   .then(function (data) {
-    //     console.log('From web', data)
-    //     if (data.length === 0) return
-    //     networkDataRecived = true
-    //     clearCards()
-    //     updateUI(data)
-    //   })
     const res = await fetch('http://localhost:5000/')
     const data = await res.json()
 
