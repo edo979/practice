@@ -88,7 +88,9 @@ self.addEventListener('fetch', (event) => {
       caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
         fetch(event.request).then(async (res) => {
           // await trimCache(CACHE_DYNAMIC_NAME, 1)
-          cache.put(event.request, res.clone())
+          const cloneRes = res.clone()
+          const data = await cloneRes.json()
+          data.forEach((post) => writeData('posts', post))
           return res
         })
       )
