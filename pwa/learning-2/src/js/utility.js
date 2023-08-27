@@ -12,10 +12,10 @@ function writeData(st, data) {
   })
 }
 
-function readAllData() {
+function readAllData(st) {
   return dbPromise.then((db) => {
-    const tx = db.transaction('posts', 'readonly')
-    const store = tx.objectStore('posts')
+    const tx = db.transaction(st, 'readonly')
+    const store = tx.objectStore(st)
     return store.getAll()
   })
 }

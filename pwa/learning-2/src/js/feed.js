@@ -85,8 +85,9 @@ async function getDataFromStore() {
     const res = await fetch('http://localhost:5000/posts')
     const data = await res.json()
 
+    if (!res.ok) return
+
     console.log('From web', data)
-    if (data.length === 0) return
     networkDataRecived = true
     clearCards()
     updateUI(data)
@@ -98,7 +99,7 @@ async function getDataFromStore() {
 getDataFromStore()
 
 if ('indexedDB' in window) {
-  readAllData().then((data) => {
+  readAllData('posts').then((data) => {
     if (!networkDataRecived) {
       console.log('From Cache', data)
       updateUI(data)
