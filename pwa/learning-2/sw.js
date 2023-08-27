@@ -90,6 +90,8 @@ self.addEventListener('fetch', (event) => {
           // await trimCache(CACHE_DYNAMIC_NAME, 1)
           const cloneRes = res.clone()
           const data = await cloneRes.json()
+
+          await clearAllData('posts')
           data.forEach((post) => writeData('posts', post))
           return res
         })
