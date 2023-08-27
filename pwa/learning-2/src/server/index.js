@@ -6,7 +6,7 @@ import { collection, getDocs } from 'firebase/firestore'
 const app = express()
 app.use(cors())
 
-app.get('/', async (req, res) => {
+app.get('/posts', async (req, res) => {
   try {
     const snapshot = await getDocs(collection(db, 'posts'))
     const data = snapshot.docs.map((doc) => doc.data())

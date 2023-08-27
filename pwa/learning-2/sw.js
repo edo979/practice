@@ -1,7 +1,7 @@
 importScripts('/assets/js/idb.js')
 importScripts('./src/js/utility')
 
-const VERSION = 'v14'
+const VERSION = 'v15'
 const CACHE_STATIC_NAME = `static-${VERSION}`
 const CACHE_DYNAMIC_NAME = `dynamic-${VERSION}`
 const STATIC_FILES = [
@@ -80,21 +80,19 @@ self.addEventListener('activate', function (event) {
 //       })
 //   )
 // })
-let saveOne = false
-self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('/google.')) {
-    // event.respondWith(
-    //   caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
-    //     fetch(event.request).then(async (res) => {
-    //       // await trimCache(CACHE_DYNAMIC_NAME, 1)
-    //       cache.put(event.request, res.clone())
-    //       return res
-    //     })
-    //   )
-    // )
 
-    event.waitUntil(writeData())
-    return
+self.addEventListener('fetch', (event) => {
+  const url = 'http://localhost:5000/posts'
+  if (event.request.url.includes(url)) {
+    event.respondWith(
+      caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
+        fetch(event.request).then(async (res) => {
+          // await trimCache(CACHE_DYNAMIC_NAME, 1)
+          cache.put(event.request, res.clone())
+          return res
+        })
+      )
+    )
   } else if (STATIC_FILES.includes(event.request.url)) {
     event.respondWith(caches.match(event.request))
   } else {
