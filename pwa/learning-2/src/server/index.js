@@ -5,6 +5,8 @@ import { collection, getDocs } from 'firebase/firestore'
 
 const app = express()
 app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/posts', async (req, res) => {
   try {
@@ -15,6 +17,11 @@ app.get('/posts', async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+})
+
+app.post('/posts', async (req, res) => {
+  console.log(req.body)
+  res.send(JSON.stringify(req.body))
 })
 
 const PORT = process.env.PORT || 5000
