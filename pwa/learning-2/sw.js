@@ -125,3 +125,45 @@ self.addEventListener('fetch', (event) => {
     )
   }
 })
+
+self.addEventListener('sync', (event) => {
+  console.log('[Service Worker] Background syncing', event)
+
+  if (event.tag === 'sync-new-posts') {
+    console.log('[Service Worker] Syncing new post')
+    event.waitUntil(syncToOnlineDb())
+  }
+})
+
+async function syncToOnlineDb() {
+  const dbData = await readAllData('sync-posts')
+
+  dbData.forEach(async (data) => {
+    let dt = data
+
+    try {
+      const res = await fetch('http://localhost:5000/posts', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          //prettier-ignore
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          id: dt.id,
+          title: dt.title,
+          location: dt.location,
+          image:
+            'http://127.0.0.1:9199/v0/b/pwagram-practice.appspot.com/o/sf-boat.jpg?alt=media&token=0aacd8e0-976c-4c87-af2e-f570580f06fb',
+        }),
+      })
+
+      const data = await res.json()
+      console.log('After online', data)
+
+      if (res.ok) deleteItemFromIdb('sync-posts', data.id)
+    } catch (error) {
+      console.log('Error sending data to server', error)
+    }
+  })
+}

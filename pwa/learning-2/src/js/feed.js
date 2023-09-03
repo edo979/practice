@@ -133,7 +133,7 @@ async function sentData() {
     })
 
     const data = await res.json()
-    console.log(data)
+    console.log('From online sending data', data)
   } catch (error) {
     console.log(error)
   }
@@ -149,7 +149,7 @@ form.addEventListener('submit', (e) => {
 
   closeCreatePostModal()
 
-  if ('serviceWorker' in navigator && 'SyncManagerff' in window) {
+  if ('serviceWorker' in navigator && 'SyncManager' in window) {
     navigator.serviceWorker.ready.then((sw) => {
       const post = {
         id: new Date().toISOString(),
@@ -157,11 +157,11 @@ form.addEventListener('submit', (e) => {
         location: locationInput.value,
       }
       writeData('sync-posts', post)
-        .then(() => sw.sync.register('sync-new-post'))
+        .then(() => sw.sync.register('sync-new-posts'))
         .then(() => {
           const snackbarCotainer = document.querySelector('#confirmation-toast')
           const data = { message: 'Your Post was saved for syncing!' }
-          snackbarCotainer.MaterialSnackback.showSnackbar(data)
+          snackbarCotainer.MaterialSnackbar.showSnackbar(data)
         })
         .catch((e) => console.log(e))
     })
