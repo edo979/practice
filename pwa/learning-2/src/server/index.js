@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { db } from '../firebase/firebase-config.js'
-import { collection, getDocs } from 'firebase/firestore'
+import { addDoc, collection, getDocs } from 'firebase/firestore'
 
 const app = express()
 app.use(cors())
@@ -20,8 +20,20 @@ app.get('/posts', async (req, res) => {
 })
 
 app.post('/posts', async (req, res) => {
-  console.log(req.body)
-  res.send(JSON.stringify(req.body))
+  try {
+    const docRef = await addDoc(collection(db, 'posts'), {
+      id: req.body.id,
+      title: req.body.title,
+      location: req.body.location,
+      image: req.body.image,
+    })
+
+    res.status(200).send({ id: req.body.id })
+  } catch (error) {
+    res.status(500)
+  }
+
+  res.send()
 })
 
 const PORT = process.env.PORT || 5000

@@ -96,7 +96,6 @@ async function getDataFromStore() {
 
     console.log('From web', data)
     networkDataRecived = true
-    clearCards()
     updateUI(data)
   } catch (error) {
     console.log(error)
@@ -155,13 +154,19 @@ form.addEventListener('submit', (e) => {
         id: new Date().toISOString(),
         title: titleInput.value,
         location: locationInput.value,
+        image:
+          'http://127.0.0.1:9199/v0/b/pwagram-practice.appspot.com/o/sf-boat.jpg?alt=media&token=0aacd8e0-976c-4c87-af2e-f570580f06fb',
       }
+
       writeData('sync-posts', post)
         .then(() => sw.sync.register('sync-new-posts'))
         .then(() => {
           const snackbarCotainer = document.querySelector('#confirmation-toast')
           const data = { message: 'Your Post was saved for syncing!' }
           snackbarCotainer.MaterialSnackbar.showSnackbar(data)
+        })
+        .then(() => {
+          readAllData('sync-posts').then((data) => createCard(post))
         })
         .catch((e) => console.log(e))
     })
