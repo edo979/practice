@@ -96,6 +96,7 @@ async function getDataFromStore() {
 
     console.log('From web', data)
     networkDataRecived = true
+    clearCards()
     updateUI(data)
   } catch (error) {
     console.log(error)

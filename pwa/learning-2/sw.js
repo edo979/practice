@@ -83,7 +83,8 @@ self.addEventListener('activate', function (event) {
 
 self.addEventListener('fetch', (event) => {
   const url = 'http://localhost:5000/posts'
-  if (event.request.url.includes(url) && event.request.method === 'get') {
+
+  if (event.request.url.includes(url) && event.request.method === 'GET') {
     event.respondWith(
       caches.open(CACHE_DYNAMIC_NAME).then((cache) =>
         fetch(event.request).then(async (res) => {
