@@ -8,13 +8,16 @@ type CategoryPillsProps = {
   onSelect: (category: string) => void
 }
 
+const TRANSLATE_AMOUNT = 200
+
 export default function CategoryPills({
   categories,
   selectedCategory,
   onSelect,
 }: CategoryPillsProps) {
+  const [translate, setTranslate] = useState(0)
   const [isLeftVisible, setIsLeftVisible] = useState(false)
-  const [isRightVisible, setIsRightVisible] = useState(true)
+  const [isRightVisible, setIsRightVisible] = useState(false)
 
   return (
     <div className="overflow-x-hidden relative">
@@ -36,6 +39,13 @@ export default function CategoryPills({
             variant="ghost"
             size="icon"
             className="h-full aspect-square w-auto p-1.5"
+            onClick={() =>
+              setTranslate((translate) => {
+                const newTranslate = translate - TRANSLATE_AMOUNT
+                if (newTranslate <= 0) return 0
+                return newTranslate
+              })
+            }
           >
             <ChevronLeft />
           </Button>
