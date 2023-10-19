@@ -13,7 +13,7 @@ export default function PageHeader() {
           showFullWidthSearch ? 'hidden' : 'flex'
         }`}
       >
-        <Button variant={'default'} size={'icon'}>
+        <Button variant="ghost" size="icon">
           <Menu />
         </Button>
         <a href="/">
