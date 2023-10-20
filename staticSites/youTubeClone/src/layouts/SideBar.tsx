@@ -1,8 +1,22 @@
-import { Clapperboard, Home, Library, Repeat } from 'lucide-react'
-import { ElementType, ReactNode } from 'react'
-import { buttonStyles } from '../components/Button'
-import { twMerge } from 'tailwind-merge'
 import React from 'react'
+import { twMerge } from 'tailwind-merge'
+import {
+  ChevronDown,
+  ChevronUp,
+  Clapperboard,
+  Clock,
+  History,
+  Home,
+  Library,
+  LibraryIcon,
+  ListVideo,
+  LucideLibrary,
+  PlaySquare,
+  Repeat,
+} from 'lucide-react'
+import { ElementType, ReactNode, useState } from 'react'
+import Button, { buttonStyles } from '../components/Button'
+import { playlists, subscriptions } from '../data/sidebar'
 
 export default function SideBar() {
   return (
@@ -17,10 +31,57 @@ export default function SideBar() {
         />
         <SmallSidebarItem Icon={Library} title="Home" url="/library" />
       </aside>
-      <aside className="w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 flex">
-        <LargeSidebarSection>
-          <LargeSidebarItem isActive Icon={Home} title="Home" url="/" />
-          <LargeSidebarItem Icon={Home} title="Home" url="/" />
+
+      <aside className="w-56 hidden lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 lg:flex">
+        <LargeSidebarSection visibleItemCount={1}>
+          <LargeSidebarItem isActive IconOrImgUrl={Home} title="Home" url="/" />
+          <LargeSidebarItem
+            IconOrImgUrl={Clapperboard}
+            title="Subscription"
+            url="/subscription"
+          />
+        </LargeSidebarSection>
+        <hr />
+        <LargeSidebarSection visibleItemCount={5}>
+          <LargeSidebarItem
+            IconOrImgUrl={LibraryIcon}
+            title="Library"
+            url="/library"
+          />
+          <LargeSidebarItem
+            IconOrImgUrl={History}
+            title="History"
+            url="/history"
+          />
+          <LargeSidebarItem
+            IconOrImgUrl={PlaySquare}
+            title="Your Videos"
+            url="/your-videos"
+          />
+          <LargeSidebarItem
+            IconOrImgUrl={Clock}
+            title="Watch Later"
+            url="/playlist?list=WL"
+          />
+          {playlists.map((playlist) => (
+            <LargeSidebarItem
+              key={playlist.id}
+              IconOrImgUrl={ListVideo}
+              title={playlist.name}
+              url={`/playlist?list=${playlist.id}`}
+            />
+          ))}
+        </LargeSidebarSection>
+        <hr />
+        <LargeSidebarSection title="Subscription">
+          {subscriptions.map((subscription) => (
+            <LargeSidebarItem
+              key={subscription.id}
+              IconOrImgUrl={subscription.imgUrl}
+              title={subscription.channelName}
+              url={`/@${subscription.id}`}
+            />
+          ))}
         </LargeSidebarSection>
       </aside>
     </>
@@ -54,7 +115,10 @@ function SmallSidebarItem({ Icon, title, url }: SmallSidebarItemProps) {
   )
 }
 
-type LargeSidebarItemProps = SmallSidebarItemProps & {
+type LargeSidebarItemProps = {
+  IconOrImgUrl: ElementType | string
+  title: string
+  url: string
   isActive?: boolean
 }
 
@@ -63,13 +127,34 @@ function LargeSidebarSection({
   title,
   visibleItemCount: visibleItemCount = Number.POSITIVE_INFINITY,
 }: LargeSidebarSectionProps) {
+  const [isExpanded, setIsExpanded] = useState(false)
   const childrenArray = React.Children.toArray(children).flat()
-  const visibleChildren = childrenArray.slice(0, visibleItemCount)
+  const showExpandedButton = childrenArray.length > visibleItemCount
+  const visibleChildren = isExpanded
+    ? childrenArray
+    : childrenArray.slice(0, visibleItemCount)
+  const ButtonIcon = isExpanded ? ChevronUp : ChevronDown
 
-  return <div>{visibleChildren}</div>
+  return (
+    <div>
+      {title && <div className="ml-4 mt-2 text-lg mb-1">{title}</div>}
+      {visibleChildren}
+      {showExpandedButton && (
+        <Button
+          onClick={() => setIsExpanded((e) => !e)}
+          variant="ghost"
+          className="w-full flex items-center rounded-lg gap-4 p-3"
+        >
+          <ButtonIcon className="w-6 h-6" />
+          <div>{isExpanded ? 'Show Less' : 'Show More'}</div>
+        </Button>
+      )}
+    </div>
+  )
 }
+
 function LargeSidebarItem({
-  Icon,
+  IconOrImgUrl,
   title,
   url,
   isActive,
@@ -84,7 +169,12 @@ function LargeSidebarItem({
         }`
       )}
     >
-      <Icon className="w-6 h-6" />
+      {typeof IconOrImgUrl === 'string' ? (
+        <img src={IconOrImgUrl} className="w-6 h-6 rounded-full" />
+      ) : (
+        <IconOrImgUrl className="w-6 h-6" />
+      )}
+
       <div className="whitespace-nowrap overflow-hidden text-ellipsis">
         {title}
       </div>
