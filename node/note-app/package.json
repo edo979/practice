@@ -11,7 +11,9 @@
     "node",
     "express",
     "mongo",
+    "mongoose",
     "tdd",
+    "jest",
     "typescript"
   ],
   "author": "edo979",
@@ -27,6 +29,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3"
   }
 }

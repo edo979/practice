@@ -7,4 +7,10 @@ describe('Test crud operations with note', () => {
 
     expect(res.statusCode).toEqual(200)
   })
+
+  test('Should get notes', async () => {
+    const res = await request(app).get('/notes')
+
+    expect(res.body.notes).toBeDefined()
+  })
 })
