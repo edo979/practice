@@ -20,6 +20,17 @@ describe('Test crud operations with note', () => {
     expect(noteFromDb).toMatchObject(note)
   })
 
+  test('Should not to create note if is not passes validation', async () => {
+    await request(app).post('/notes').send({ body: 'test body' }).expect(404)
+
+    await request(app)
+      .post('/notes')
+      .send({ title: 'te', body: 'test body' })
+      .expect(404)
+
+    await request(app).post('/notes').send({ title: 'test' }).expect(404)
+  })
+
   test('Notes page should exist', async () => {
     const res = await request(app).get('/notes')
 
