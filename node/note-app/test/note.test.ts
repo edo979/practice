@@ -7,13 +7,11 @@ import Note from '../src/models/note'
 beforeEach(setupDatabase)
 afterAll(closeConnection)
 
-describe('Test crud operations with note', () => {
+describe('Tests for creating notes', () => {
   test('Should create a new note', async () => {
     const note = { title: 'Test title', body: 'Test body' }
 
     const res = await request(app).post('/notes').send(note).expect(201)
-
-    console.log(res.body)
 
     const noteFromDb = await Note.findById(res.body._id)
 
@@ -30,13 +28,9 @@ describe('Test crud operations with note', () => {
 
     await request(app).post('/notes').send({ title: 'test' }).expect(404)
   })
+})
 
-  test('Notes page should exist', async () => {
-    const res = await request(app).get('/notes')
-
-    expect(res.statusCode).toEqual(200)
-  })
-
+describe('Tests for fetching notes', () => {
   test('Should get notes', async () => {
     const res = await request(app).get('/notes')
     const notes = [
