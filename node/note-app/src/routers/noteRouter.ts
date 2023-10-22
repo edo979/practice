@@ -7,7 +7,7 @@ noteRouter.get('/notes', async (req, res) => {
   const notes = await Note.find()
 
   console.log(notes)
-  res.send(notes)
+  res.status(200).send({ notes })
 })
 
 export default noteRouter

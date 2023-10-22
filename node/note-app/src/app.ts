@@ -1,6 +1,6 @@
 import express from 'express'
 import noteRouter from './routers/noteRouter'
-require('./db/mongoose')
+import './db/mongoose'
 
 const app = express()
 app.use(express.json())
