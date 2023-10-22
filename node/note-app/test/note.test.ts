@@ -39,7 +39,17 @@ describe('Test crud operations with note', () => {
 
   test('Should get notes', async () => {
     const res = await request(app).get('/notes')
+    const notes = [
+      { title: 'First', body: 'First body' },
+      { title: 'Second', body: 'Second body' },
+    ]
+
+    await Note.insertMany(notes)
+
+    const notesFromDB = await Note.find()
 
     expect(res.body.notes).toBeDefined()
+    expect(notesFromDB[0]).toMatchObject(notes[0])
+    expect(notesFromDB[1]).toMatchObject(notes[1])
   })
 })
