@@ -1,5 +1,8 @@
 import request from 'supertest'
 import app from '../src/app'
+import { closeConnection } from '../src/db/mongoose'
+
+afterAll(closeConnection)
 
 describe('Test crud operations with note', () => {
   test('Notes page should exist', async () => {
