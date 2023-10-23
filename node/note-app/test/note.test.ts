@@ -115,5 +115,10 @@ describe('Test for updating notes', () => {
       .patch(`/notes/${firstTaskId}`)
       .send({ body: '' })
       .expect(400)
+
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send({ title: 'te' })
+      .expect(400)
   })
 })

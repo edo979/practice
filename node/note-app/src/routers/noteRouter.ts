@@ -41,8 +41,13 @@ noteRouter.patch('/notes/:id', async (req, res) => {
 
     updates.forEach((update) => (note[update] = req.body[update]))
 
-    await note.save()
-    res.send(note)
+    note
+      .validate()
+      .then(() => {
+        note.save()
+        res.send(note)
+      })
+      .catch(() => res.status(400).send({ error: 'Invalid update data!' }))
   } catch (error) {
     res.status(500).send()
   }
