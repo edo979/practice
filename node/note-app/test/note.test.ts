@@ -3,6 +3,7 @@ import app from '../src/app'
 import { closeConnection } from '../src/db/mongoose'
 import {
   createTestNotes,
+  firstTask,
   firstTaskId,
   secondTaskId,
   setupDatabase,
@@ -71,6 +72,22 @@ describe('Test for updating notes', () => {
 
     expect(updatedNote).toBeDefined()
     expect(updatedNote?.title).toBe(updateData.title)
+    expect(updatedNote?.body).toBe(updateData.body)
+  })
+
+  test('Should update only title of note', async () => {
+    const newUpdate = { title: 'New update title' }
+
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send(newUpdate)
+      .expect(200)
+
+    const updatedNote = await Note.findById(firstTaskId)
+
+    expect(updatedNote).toBeDefined()
+    expect(updatedNote?.title).toBe(newUpdate.title)
+    expect(updatedNote?.body).toBe(firstTask.body)
   })
 
   test('Should not update any other note', async () => {
@@ -85,6 +102,7 @@ describe('Test for updating notes', () => {
 
     expect(updatedNote).toBeDefined()
     expect(updatedNote?.title).not.toBe(updateData.title)
+    expect(updatedNote?.body).not.toBe(updateData.body)
   })
 
   test('Should not update note with wrong data', async () => {

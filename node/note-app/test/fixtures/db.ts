@@ -7,10 +7,17 @@ export const setupDatabase = async () => {
 
 export const firstTaskId = new mongoose.Types.ObjectId()
 export const secondTaskId = new mongoose.Types.ObjectId()
+export const firstTask = {
+  _id: firstTaskId,
+  title: 'First note',
+  body: 'First note body.',
+}
+export const secondTask = {
+  _id: secondTaskId,
+  title: 'Second note',
+  body: 'Second note body.',
+}
 
 export const createTestNotes = async () => {
-  await Note.insertMany([
-    { _id: firstTaskId, title: 'First note', body: 'First note body.' },
-    { _id: secondTaskId, title: 'Second note', body: 'Second note body.' },
-  ])
+  await Note.insertMany([firstTask, secondTask])
 }
