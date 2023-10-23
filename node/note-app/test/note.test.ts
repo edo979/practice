@@ -1,7 +1,12 @@
 import request from 'supertest'
 import app from '../src/app'
 import { closeConnection } from '../src/db/mongoose'
-import { setupDatabase } from './fixtures/db'
+import {
+  createTestNotes,
+  firstTaskId,
+  secondTaskId,
+  setupDatabase,
+} from './fixtures/db'
 import Note from '../src/models/note'
 
 beforeEach(setupDatabase)
@@ -45,5 +50,52 @@ describe('Tests for fetching notes', () => {
     expect(res.body.notes).toBeDefined()
     expect(notesFromDB[0]).toMatchObject(notes[0])
     expect(notesFromDB[1]).toMatchObject(notes[1])
+  })
+})
+
+describe('Test for updating notes', () => {
+  beforeEach(async () => {
+    await setupDatabase()
+    await createTestNotes()
+  })
+
+  test('Should update note', async () => {
+    const updateData = { title: 'Update title', body: 'Update body' }
+
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send(updateData)
+      .expect(200)
+
+    const updatedNote = await Note.findById(firstTaskId)
+
+    expect(updatedNote).toBeDefined()
+    expect(updatedNote?.title).toBe(updateData.title)
+  })
+
+  test('Should not update any other note', async () => {
+    const updateData = { title: 'Update title', body: 'Update body' }
+
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send(updateData)
+      .expect(200)
+
+    const updatedNote = await Note.findById(secondTaskId)
+
+    expect(updatedNote).toBeDefined()
+    expect(updatedNote?.title).not.toBe(updateData.title)
+  })
+
+  test('Should not update note with wrong data', async () => {
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send({ title: '' })
+      .expect(400)
+
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send({ body: '' })
+      .expect(400)
   })
 })
