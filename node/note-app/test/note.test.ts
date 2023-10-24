@@ -39,21 +39,21 @@ describe('Tests for creating notes', () => {
 describe('Tests for fetching notes', () => {
   beforeEach(createTestNotes)
 
-  // test('Should get notes', async () => {
-  //   const res = await request(app).get('/notes')
-  //   const notes = [
-  //     { title: 'First', body: 'First body' },
-  //     { title: 'Second', body: 'Second body' },
-  //   ]
+  test('Should get notes', async () => {
+    const res = await request(app).get('/notes')
 
-  //   await Note.insertMany(notes)
+    const notes = await Note.find()
 
-  //   const notesFromDB = await Note.find()
-
-  //   expect(res.body.notes).toBeDefined()
-  //   expect(notesFromDB[0]).toMatchObject(notes[0])
-  //   expect(notesFromDB[1]).toMatchObject(notes[1])
-  // })
+    expect(res.body.notes).toBeDefined()
+    expect(res.body.notes[0]).toMatchObject({
+      title: notes[0].title,
+      body: notes[0].body,
+    })
+    expect(res.body.notes[1]).toMatchObject({
+      title: notes[1].title,
+      body: notes[1].body,
+    })
+  })
 
   test('Should get note by id', async () => {
     const res = await request(app).get(`/notes/${secondTaskId}`).expect(200)

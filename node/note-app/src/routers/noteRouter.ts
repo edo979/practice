@@ -17,9 +17,13 @@ noteRouter.post('/notes', async (req, res) => {
 })
 
 noteRouter.get('/notes', async (req, res) => {
-  const notes = await Note.find()
+  try {
+    const notes = await Note.find()
 
-  res.status(200).send({ notes })
+    res.status(200).send({ notes })
+  } catch (error) {
+    res.status(500).send()
+  }
 })
 
 noteRouter.get('/notes/:id', async (req, res) => {
