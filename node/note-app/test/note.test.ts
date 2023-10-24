@@ -54,7 +54,7 @@ describe('Tests for fetching notes', () => {
   })
 })
 
-describe('Test for updating notes', () => {
+describe('Tests for updating notes', () => {
   beforeEach(async () => {
     await setupDatabase()
     await createTestNotes()
