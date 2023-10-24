@@ -28,12 +28,11 @@ noteRouter.get('/notes', async (req, res) => {
 
 noteRouter.get('/notes/:id', async (req, res) => {
   try {
-    const note = await Note.findById(req.params.id)
-    if (!note) return res.status(404).send()
+    const note = await Note.findOne({ _id: req.params.id })
 
     return res.status(200).send({ note })
   } catch (error) {
-    return res.status(500).send()
+    return res.status(404).send()
   }
 })
 

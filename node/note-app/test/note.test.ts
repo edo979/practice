@@ -68,7 +68,7 @@ describe('Tests for fetching notes', () => {
   })
 
   test("Should not get note if note doesn't exist", async () => {
-    const res = await request(app).get('/notes/1234').expect(500)
+    const res = await request(app).get('/notes/1234').expect(404)
 
     expect(res.body.note).toBeUndefined()
   })
