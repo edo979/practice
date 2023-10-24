@@ -66,6 +66,12 @@ describe('Tests for fetching notes', () => {
       body: secondNote?.body,
     })
   })
+
+  test("Should not get note if note doesn't exist", async () => {
+    const res = await request(app).get('/notes/1234').expect(500)
+
+    expect(res.body.note).toBeUndefined()
+  })
 })
 
 describe('Tests for updating notes', () => {
