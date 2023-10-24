@@ -122,3 +122,17 @@ describe('Tests for updating notes', () => {
       .expect(400)
   })
 })
+
+describe('Tests for deleting note by id', () => {
+  beforeEach(createTestNotes)
+
+  test('Should delete note', async () => {
+    await request(app).delete(`/notes/${firstTaskId}`).send().expect(200)
+
+    const firstNote = await Note.findByIdAndDelete(firstTaskId)
+    const secondNote = await Note.findByIdAndDelete(secondTaskId)
+
+    expect(firstNote).toBeNull()
+    expect(secondNote).toBeDefined()
+  })
+})
