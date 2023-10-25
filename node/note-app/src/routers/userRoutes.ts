@@ -3,9 +3,13 @@ import User from '../models/user'
 
 const userRouter = Router()
 
-userRouter.post('/users', (req, res) => {
+userRouter.post('/users', async (req, res) => {
   try {
-    throw new Error()
+    const user = new User(req.body)
+    const token = await user.generateAuthToken()
+
+    await user.save()
+    res.status(201).send({ token, user })
   } catch (error) {
     res.status(404).send()
   }
