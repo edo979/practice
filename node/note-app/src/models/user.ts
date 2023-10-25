@@ -10,54 +10,45 @@ interface IUser {
   generateAuthToken: () => Promise<string>
 }
 
-const userSchema = new Schema<IUser>(
-  {
-    username: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: [3, 'Username is to short!'],
-    },
-    age: {
-      type: Number,
-    },
-    email: {
-      type: String,
-      trim: true,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: [3, 'Password is to short!'],
-    },
-    tokens: [
-      {
-        token: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+const userSchema = new Schema<IUser>({
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: [3, 'Username is to short!'],
   },
-  {
-    methods: {
-      async generateAuthToken() {
-        const user = this
-        const token = jwt.sign({ _id: user._id.toString() }, 'jahjah')
-
-        user.tokens = user.tokens.concat({ token })
-        await user.save()
-
-        return token
+  age: {
+    type: Number,
+  },
+  email: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: [3, 'Password is to short!'],
+  },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
       },
     },
-  }
-)
+  ],
+})
 
-// userSchema.methods.generateAuthToken = async function () {
+userSchema.methods.generateAuthToken = async function () {
+  const user = this
+  const token = jwt.sign({ _id: user._id.toString() }, 'jahjah')
 
-// }
+  user.tokens = user.tokens.concat({ token })
+  await user.save()
+
+  return token
+}
 
 const User = model<IUser>('User', userSchema)
 
