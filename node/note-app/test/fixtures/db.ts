@@ -1,8 +1,10 @@
 import Note from '../../src/models/note'
 import mongoose from 'mongoose'
+import User from '../../src/models/user'
 
 export const setupDatabase = async () => {
   await Note.deleteMany()
+  await User.deleteMany()
 }
 
 export const firstTaskId = new mongoose.Types.ObjectId()

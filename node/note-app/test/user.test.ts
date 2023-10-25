@@ -1,7 +1,9 @@
 import request from 'supertest'
 import app from '../src/app'
 import { closeConnection } from '../src/db/mongoose'
+import { setupDatabase } from './fixtures/db'
 
+beforeEach(setupDatabase)
 afterAll(closeConnection)
 
 test('Should create a new user', async () => {
