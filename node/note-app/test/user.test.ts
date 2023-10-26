@@ -1,9 +1,8 @@
 import request from 'supertest'
 import app from '../src/app'
 import { closeConnection } from '../src/db/mongoose'
-import { setupDatabase } from './fixtures/db'
+import { setupDatabase, userOne, userOneId } from './fixtures/db'
 import User from '../src/models/user'
-import { response } from 'express'
 
 beforeEach(setupDatabase)
 afterAll(closeConnection)
@@ -31,4 +30,14 @@ test('Should create a new user', async () => {
     },
     token: user?.tokens[0].token,
   })
+})
+
+test('Should login user to the app', async () => {
+  const res = request(app)
+    .post('/notes/login')
+    .send({
+      email: userOne.email,
+      password: userOne.password,
+    })
+    .expect(200)
 })
