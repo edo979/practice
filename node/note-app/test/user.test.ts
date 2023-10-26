@@ -36,18 +36,30 @@ test('Should create a new user', async () => {
   })
 })
 
-test('Should login user to the app', async () => {
-  await createTestUsers()
+describe('Tests for login user to the app', () => {
+  beforeEach(createTestUsers)
 
-  const res = await request(app)
-    .post('/notes/login')
-    .send({
-      email: userOne.email,
-      password: userOne.password,
-    })
-    .expect(200)
+  test('Should login user to the app', async () => {
+    const res = await request(app)
+      .post('/notes/login')
+      .send({
+        email: userOne.email,
+        password: userOne.password,
+      })
+      .expect(200)
 
-  const user = await User.findById(userOneId)
+    const user = await User.findById(userOneId)
 
-  expect(res.body.token).toBe(user?.tokens[1].token)
+    expect(res.body.token).toBe(user?.tokens[1].token)
+  })
+
+  test('Should not login user with wrong credentials', async () => {
+    await request(app)
+      .post('/notes/login')
+      .send({
+        email: userOne.email,
+        password: '111111',
+      })
+      .expect(404)
+  })
 })
