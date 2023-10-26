@@ -61,5 +61,13 @@ describe('Tests for login user to the app', () => {
         password: '111111',
       })
       .expect(404)
+
+    await request(app)
+      .post('/notes/login')
+      .send({
+        email: 'nono@no.no',
+        password: 'jahjah',
+      })
+      .expect(404)
   })
 })
