@@ -19,6 +19,7 @@
   "author": "edo979",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.5",
     "@types/express": "^4.17.20",
     "@types/jest": "^29.5.6",
     "@types/jsonwebtoken": "^9.0.4",

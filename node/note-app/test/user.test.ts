@@ -31,7 +31,6 @@ test('Should create a new user', async () => {
       username: 'edi',
       email: 'jah@jah.com',
       age: 44,
-      password: 'jahjah',
     },
     token: user?.tokens[0].token,
   })

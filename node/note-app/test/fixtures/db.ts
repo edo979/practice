@@ -54,5 +54,6 @@ export const createTestNotes = async () => {
 }
 
 export const createTestUsers = async () => {
-  await User.insertMany([userOne, userTwo])
+  await new User(userOne).save()
+  await new User(userTwo).save()
 }
