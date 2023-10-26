@@ -1,7 +1,12 @@
 import request from 'supertest'
 import app from '../src/app'
 import { closeConnection } from '../src/db/mongoose'
-import { setupDatabase, userOne, userOneId } from './fixtures/db'
+import {
+  createTestUsers,
+  setupDatabase,
+  userOne,
+  userOneId,
+} from './fixtures/db'
 import User from '../src/models/user'
 
 beforeEach(setupDatabase)
@@ -33,11 +38,17 @@ test('Should create a new user', async () => {
 })
 
 test('Should login user to the app', async () => {
-  const res = request(app)
+  await createTestUsers()
+
+  const res = await request(app)
     .post('/notes/login')
     .send({
       email: userOne.email,
       password: userOne.password,
     })
     .expect(200)
+
+  const user = await User.findById(userOneId)
+
+  expect(res.body.token).toBe(user?.tokens[1].token)
 })

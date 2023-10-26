@@ -11,7 +11,8 @@ export const setupDatabase = async () => {
 export const userOneId = new mongoose.Types.ObjectId()
 export const userOne = {
   _id: userOneId,
-  name: 'Edi Seli',
+  username: 'Edi Seli',
+  age: 40,
   email: 'jah@jah.jah',
   password: 'jahjah',
   tokens: [
@@ -23,8 +24,9 @@ export const userOne = {
 
 export const userTwoId = new mongoose.Types.ObjectId()
 export const userTwo = {
-  _id: userOneId,
-  name: 'Seli Seli',
+  _id: userTwoId,
+  username: 'Seli Seli',
+  age: 44,
   email: 'seli@jah.jah',
   password: 'jahjah',
   tokens: [
@@ -49,4 +51,8 @@ export const secondTask = {
 
 export const createTestNotes = async () => {
   await Note.insertMany([firstTask, secondTask])
+}
+
+export const createTestUsers = async () => {
+  await User.insertMany([userOne, userTwo])
 }
