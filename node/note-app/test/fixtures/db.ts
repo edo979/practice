@@ -38,19 +38,28 @@ export const userTwo = {
 
 export const firstTaskId = new mongoose.Types.ObjectId()
 export const secondTaskId = new mongoose.Types.ObjectId()
+export const thirdTaskId = new mongoose.Types.ObjectId()
 export const firstTask = {
   _id: firstTaskId,
   title: 'First note',
   body: 'First note body.',
+  owner: userOneId,
 }
 export const secondTask = {
   _id: secondTaskId,
   title: 'Second note',
   body: 'Second note body.',
+  owner: userOneId,
+}
+export const thirdTask = {
+  _id: thirdTaskId,
+  title: 'Third note',
+  body: 'Third note body.',
+  owner: userTwoId,
 }
 
 export const createTestNotes = async () => {
-  await Note.insertMany([firstTask, secondTask])
+  await Note.insertMany([firstTask, secondTask, thirdTask])
 }
 
 export const createTestUsers = async () => {

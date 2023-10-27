@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import User, { UserDocument } from '../models/user'
 import jwt from 'jsonwebtoken'
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   user?: UserDocument
   token?: string
 }

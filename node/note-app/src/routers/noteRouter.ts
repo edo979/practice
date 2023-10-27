@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import Note from '../models/note'
-import auth from '../middleware/auth'
+import auth, { AuthRequest } from '../middleware/auth'
 
 const noteRouter = Router()
 
@@ -17,11 +17,11 @@ noteRouter.post('/notes', async (req, res) => {
   }
 })
 
-noteRouter.get('/notes', auth, async (req, res) => {
+noteRouter.get('/notes', auth, async (req: AuthRequest, res) => {
   try {
-    const notes = await Note.find()
+    await req.user?.populate('notes')
 
-    res.status(200).send({ notes })
+    res.send(req.user?.notes)
   } catch (error) {
     res.status(500).send()
   }

@@ -1,4 +1,4 @@
-import { Schema, model, Document, Model } from 'mongoose'
+import { Schema, model, Document, Model, ObjectId } from 'mongoose'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
@@ -8,6 +8,7 @@ export interface UserDocument extends Document {
   email: string
   password: string
   tokens: { token: string }[]
+  notes: ObjectId[]
   generateAuthToken: () => Promise<string>
 }
 

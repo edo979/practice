@@ -9,6 +9,7 @@ import {
   secondTaskId,
   setupDatabase,
   userOne,
+  userOneId,
 } from './fixtures/db'
 import Note from '../src/models/note'
 
@@ -50,16 +51,19 @@ describe('Tests for fetching notes', () => {
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .expect(200)
 
-    const notes = await Note.find()
+    const notes = await Note.find({ owner: userOneId })
 
-    expect(res.body.notes).toBeDefined()
-    expect(res.body.notes[0]).toMatchObject({
+    expect(res.body).toBeDefined()
+    expect(res.body.length).toBe(2)
+    expect(res.body[0]).toMatchObject({
       title: notes[0].title,
       body: notes[0].body,
+      owner: notes[0].owner.toString(),
     })
-    expect(res.body.notes[1]).toMatchObject({
+    expect(res.body[1]).toMatchObject({
       title: notes[1].title,
       body: notes[1].body,
+      owner: notes[1].owner.toString(),
     })
   })
 
