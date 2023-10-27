@@ -4,7 +4,7 @@ import auth from '../middleware/auth'
 
 const noteRouter = Router()
 
-noteRouter.post('/notes', auth, async (req, res) => {
+noteRouter.post('/notes', async (req, res) => {
   const { title, body } = req.body
 
   try {
@@ -17,7 +17,7 @@ noteRouter.post('/notes', auth, async (req, res) => {
   }
 })
 
-noteRouter.get('/notes', async (req, res) => {
+noteRouter.get('/notes', auth, async (req, res) => {
   try {
     const notes = await Note.find()
 

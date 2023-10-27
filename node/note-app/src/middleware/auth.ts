@@ -8,7 +8,7 @@ interface AuthRequest extends Request {
 }
 
 type DecodedToken = {
-  id: string
+  _id: string
 }
 
 const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
@@ -18,7 +18,7 @@ const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
 
     const token = authHeader.replace('Bearer ', '')
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken
-    const user = await User.findOne({ _id: decoded.id, 'tokens.token': token })
+    const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
     if (!user) throw new Error()
 
     req.user = user

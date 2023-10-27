@@ -3,10 +3,12 @@ import app from '../src/app'
 import { closeConnection } from '../src/db/mongoose'
 import {
   createTestNotes,
+  createTestUsers,
   firstTask,
   firstTaskId,
   secondTaskId,
   setupDatabase,
+  userOne,
 } from './fixtures/db'
 import Note from '../src/models/note'
 
@@ -37,10 +39,16 @@ describe('Tests for creating notes', () => {
 })
 
 describe('Tests for fetching notes', () => {
-  beforeEach(createTestNotes)
+  beforeEach(async () => {
+    await createTestNotes()
+    await createTestUsers()
+  })
 
   test('Should get notes', async () => {
-    const res = await request(app).get('/notes')
+    const res = await request(app)
+      .get('/notes')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(200)
 
     const notes = await Note.find()
 
