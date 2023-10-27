@@ -45,6 +45,12 @@ const userSchema = new Schema<UserDocument, UserModel>({
   ],
 })
 
+userSchema.virtual('notes', {
+  ref: 'Note',
+  localField: '_id',
+  foreignField: 'owner',
+})
+
 userSchema.methods.toJSON = function () {
   const userPublicData = this.toObject()
 

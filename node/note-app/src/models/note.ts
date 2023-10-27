@@ -1,11 +1,6 @@
-import { Schema, model } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 
-interface INote {
-  title: string
-  body: string
-}
-
-const noteSchema = new Schema<INote>({
+const noteSchema = new Schema({
   title: {
     type: String,
     trim: true,
@@ -13,8 +8,13 @@ const noteSchema = new Schema<INote>({
     minlength: [3, 'Title must be 3 or more characters long.'],
   },
   body: { type: String, trim: true, required: true },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
 })
 
-const Note = model<INote>('Note', noteSchema)
+const Note = model('Note', noteSchema)
 
 export default Note
