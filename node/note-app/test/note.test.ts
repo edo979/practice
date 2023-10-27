@@ -18,7 +18,7 @@ afterAll(closeConnection)
 
 describe('Tests for creating notes', () => {
   test('Should create a new note', async () => {
-    const note = { title: 'Test title', body: 'Test body' }
+    const note = { title: 'Test title', body: 'Test body', owner: userOneId }
 
     const res = await request(app).post('/notes').send(note).expect(201)
 

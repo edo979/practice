@@ -5,10 +5,10 @@ import auth, { AuthRequest } from '../middleware/auth'
 const noteRouter = Router()
 
 noteRouter.post('/notes', async (req, res) => {
-  const { title, body } = req.body
+  const { title, body, owner } = req.body
 
   try {
-    const note = new Note({ title, body })
+    const note = new Note({ title, body, owner })
     await note.save()
 
     res.status(201).send(note)
