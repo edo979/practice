@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import Note from '../models/note'
+import auth from '../middleware/auth'
 
 const noteRouter = Router()
 
-noteRouter.post('/notes', async (req, res) => {
+noteRouter.post('/notes', auth, async (req, res) => {
   const { title, body } = req.body
 
   try {

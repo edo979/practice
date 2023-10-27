@@ -2,7 +2,7 @@ import { Schema, model, Document, Model } from 'mongoose'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
-interface UserDocument extends Document {
+export interface UserDocument extends Document {
   username: string
   age?: number
   email: string
@@ -55,7 +55,7 @@ userSchema.methods.toJSON = function () {
 }
 
 userSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ _id: this._id.toString() }, process.env.JWT_SECRET!)
+  const token = jwt.sign({ id: this._id.toString() }, process.env.JWT_SECRET!)
 
   this.tokens = this.tokens.concat({ token })
   await this.save()
