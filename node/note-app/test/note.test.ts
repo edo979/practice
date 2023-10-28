@@ -8,6 +8,7 @@ import {
   firstTaskId,
   secondTaskId,
   setupDatabase,
+  thirdTaskId,
   userOne,
   userOneId,
 } from './fixtures/db'
@@ -92,7 +93,10 @@ describe('Tests for fetching notes', () => {
   })
 
   test('Should get note by id', async () => {
-    const res = await request(app).get(`/notes/${secondTaskId}`).expect(200)
+    const res = await request(app)
+      .get(`/notes/${secondTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(200)
 
     const secondNote = await Note.findById(secondTaskId)
 
@@ -104,9 +108,19 @@ describe('Tests for fetching notes', () => {
   })
 
   test("Should not get note if note doesn't exist", async () => {
-    const res = await request(app).get('/notes/1234').expect(404)
+    const res = await request(app)
+      .get('/notes/1234')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(404)
 
     expect(res.body.note).toBeUndefined()
+  })
+
+  test("Should not get note by id if doesn't belong to logged in user", async () => {
+    await request(app)
+      .get(`/notes/${thirdTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(404)
   })
 })
 

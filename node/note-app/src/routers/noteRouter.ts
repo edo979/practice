@@ -27,9 +27,14 @@ noteRouter.get('/notes', auth, async (req: AuthRequest, res) => {
   }
 })
 
-noteRouter.get('/notes/:id', async (req, res) => {
+noteRouter.get('/notes/:id', auth, async (req: AuthRequest, res) => {
   try {
-    const note = await Note.findOne({ _id: req.params.id })
+    const note = await Note.findOne({
+      _id: req.params.id,
+      owner: req.user?._id,
+    })
+
+    if (!note) throw new Error()
 
     return res.status(200).send({ note })
   } catch (error) {
