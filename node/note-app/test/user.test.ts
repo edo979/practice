@@ -38,6 +38,7 @@ test('Should create a new user', async () => {
     age: 44,
     tokens: [{ token: jwt }],
   })
+  expect(user?.password).not.toBe('jahjah')
 })
 
 describe('Tests for login user to the app', () => {
