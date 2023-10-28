@@ -9,6 +9,9 @@ import {
 } from './fixtures/db'
 import User from '../src/models/user'
 
+const getJWTfromCookie = (res: request.Response) =>
+  res.header['set-cookie'][0].split('; ')[0].split('=')[1]
+
 beforeEach(setupDatabase)
 afterAll(closeConnection)
 
@@ -21,18 +24,19 @@ test('Should create a new user', async () => {
       age: 44,
       password: 'jahjah',
     })
-    .expect(201)
+    .expect(302)
+  expect(res.header['set-cookie']).toBeDefined()
 
-  const user = await User.findById(res.body.user._id)
+  const user = await User.findOne({ username: 'edi', email: 'jah@jah.com' })
+  const jwt = getJWTfromCookie(res)
 
   expect(user).toBeDefined()
-  expect(res.body).toMatchObject({
-    user: {
-      username: 'edi',
-      email: 'jah@jah.com',
-      age: 44,
-    },
-    token: user?.tokens[0].token,
+  expect(jwt).toEqual(user?.tokens[0].token)
+  expect(user).toMatchObject({
+    username: 'edi',
+    email: 'jah@jah.com',
+    age: 44,
+    tokens: [{ token: jwt }],
   })
 })
 
@@ -51,9 +55,7 @@ describe('Tests for login user to the app', () => {
 
     const user = await User.findById(userOneId)
 
-    expect(res.header['set-cookie'][0].split('; ')[0].split('=')[1]).toEqual(
-      user?.tokens[0].token
-    )
+    expect(getJWTfromCookie(res)).toEqual(user?.tokens[1].token)
   })
 
   test('Should not login user with wrong credentials', async () => {
