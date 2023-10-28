@@ -13,14 +13,22 @@ import {
 } from './fixtures/db'
 import Note from '../src/models/note'
 
-beforeEach(setupDatabase)
+beforeEach(async () => {
+  await setupDatabase()
+  await createTestUsers()
+  await createTestNotes()
+})
 afterAll(closeConnection)
 
 describe('Tests for creating notes', () => {
   test('Should create a new note', async () => {
     const note = { title: 'Test title', body: 'Test body', owner: userOneId }
 
-    const res = await request(app).post('/notes').send(note).expect(201)
+    const res = await request(app)
+      .post('/notes')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .send(note)
+      .expect(201)
 
     const noteFromDb = await Note.findById(res.body._id)
 
@@ -28,23 +36,27 @@ describe('Tests for creating notes', () => {
   })
 
   test('Should not to create note if is not passes validation', async () => {
-    await request(app).post('/notes').send({ body: 'test body' }).expect(404)
+    await request(app)
+      .post('/notes')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .send({ body: 'test body' })
+      .expect(404)
 
     await request(app)
       .post('/notes')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send({ title: 'te', body: 'test body' })
       .expect(404)
 
-    await request(app).post('/notes').send({ title: 'test' }).expect(404)
+    await request(app)
+      .post('/notes')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .send({ title: 'test' })
+      .expect(404)
   })
 })
 
 describe('Tests for fetching notes', () => {
-  beforeEach(async () => {
-    await createTestNotes()
-    await createTestUsers()
-  })
-
   test('Should get notes', async () => {
     const res = await request(app)
       .get('/notes')
@@ -87,11 +99,6 @@ describe('Tests for fetching notes', () => {
 })
 
 describe('Tests for updating notes', () => {
-  beforeEach(async () => {
-    await setupDatabase()
-    await createTestNotes()
-  })
-
   test('Should update note', async () => {
     const updateData = { title: 'Update title', body: 'Update body' }
 
@@ -156,8 +163,6 @@ describe('Tests for updating notes', () => {
 })
 
 describe('Tests for deleting note by id', () => {
-  beforeEach(createTestNotes)
-
   test('Should delete note', async () => {
     await request(app).delete(`/notes/${firstTaskId}`).send().expect(200)
 

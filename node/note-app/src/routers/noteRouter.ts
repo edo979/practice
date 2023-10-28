@@ -4,11 +4,11 @@ import auth, { AuthRequest } from '../middleware/auth'
 
 const noteRouter = Router()
 
-noteRouter.post('/notes', async (req, res) => {
-  const { title, body, owner } = req.body
+noteRouter.post('/notes', auth, async (req: AuthRequest, res) => {
+  const { title, body } = req.body
 
   try {
-    const note = new Note({ title, body, owner })
+    const note = new Note({ title, body, owner: req.user?._id })
     await note.save()
 
     res.status(201).send(note)
