@@ -20,7 +20,13 @@ userRouter.post('/users/login', async (req, res) => {
     const user = await User.findByCredentials(req.body.email, req.body.password)
     const token = await user.generateAuthToken()
 
-    res.send({ user, token })
+    res.cookie('note_app_session', token, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: 'lax',
+    })
+
+    res.redirect('/')
   } catch (error) {
     res.status(404).send()
   }
