@@ -12,6 +12,7 @@ import {
   userOneId,
 } from './fixtures/db'
 import Note from '../src/models/note'
+import { AuthRequest } from '../src/middleware/auth'
 
 beforeEach(async () => {
   await setupDatabase()
@@ -33,6 +34,17 @@ describe('Tests for creating notes', () => {
     const noteFromDb = await Note.findById(res.body._id)
 
     expect(noteFromDb).toMatchObject(note)
+  })
+
+  test('Should refuse creates note if user is not logged in', async () => {
+    await request(app)
+      .post('/notes')
+      .send({ title: 'New title', body: 'New body' })
+      .expect(401)
+
+    const notes = await Note.find()
+
+    expect(notes).toHaveLength(3)
   })
 
   test('Should not to create note if is not passes validation', async () => {
