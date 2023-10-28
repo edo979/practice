@@ -39,28 +39,32 @@ test('Should create a new user', async () => {
 describe('Tests for login user to the app', () => {
   beforeEach(createTestUsers)
 
-  test('Should login user to the app', async () => {
+  test('Should login user by setting cookie', async () => {
     const res = await request(app)
-      .post('/notes/login')
+      .post('/users/login')
       .send({
         email: userOne.email,
         password: userOne.password,
       })
-      .expect(200)
+      .expect(302)
+    expect(res.header['set-cookie']).toBeDefined()
 
     const user = await User.findById(userOneId)
 
-    expect(res.body.token).toBe(user?.tokens[1].token)
+    expect(res.header['set-cookie'][0].split('; ')[0].split('=')[1]).toEqual(
+      user?.tokens[0].token
+    )
   })
 
   test('Should not login user with wrong credentials', async () => {
-    await request(app)
+    const res = await request(app)
       .post('/notes/login')
       .send({
         email: userOne.email,
         password: '111111',
       })
       .expect(404)
+    expect(res.header['set-cookie']).toBeUndefined()
 
     await request(app)
       .post('/notes/login')

@@ -26,7 +26,7 @@ userRouter.post('/users/login', async (req, res) => {
       sameSite: 'lax',
     })
 
-    res.redirect('/')
+    res.status(302).redirect('/')
   } catch (error) {
     res.status(404).send()
   }
