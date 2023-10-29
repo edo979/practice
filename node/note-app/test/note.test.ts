@@ -11,6 +11,8 @@ import {
   thirdTaskId,
   userOne,
   userOneId,
+  userTwo,
+  userTwoId,
 } from './fixtures/db'
 import Note from '../src/models/note'
 import { AuthRequest } from '../src/middleware/auth'
@@ -190,12 +192,28 @@ describe('Tests for updating notes', () => {
 
 describe('Tests for deleting note by id', () => {
   test('Should delete note', async () => {
-    await request(app).delete(`/notes/${firstTaskId}`).send().expect(200)
+    await request(app)
+      .delete(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(200)
 
-    const firstNote = await Note.findByIdAndDelete(firstTaskId)
-    const secondNote = await Note.findByIdAndDelete(secondTaskId)
+    const notes = await Note.find()
+    const deletedNote = await Note.findById(firstTaskId)
 
-    expect(firstNote).toBeNull()
-    expect(secondNote).toBeDefined()
+    expect(notes).toHaveLength(2)
+    expect(deletedNote).toBeFalsy()
+  })
+
+  test('Should not delete other user note', async () => {
+    await request(app)
+      .delete(`/notes/${thirdTaskId}`)
+      .set('Authorization', `Bearer ${userTwo.tokens[0].token}`)
+      .expect(200)
+
+    const notes = await Note.find()
+
+    expect(notes).toHaveLength(2)
+    expect(notes[0].owner).not.toBe(userTwoId)
+    expect(notes[1].owner).not.toBe(userTwoId)
   })
 })
