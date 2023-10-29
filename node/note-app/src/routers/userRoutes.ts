@@ -48,6 +48,21 @@ userRouter.post('/users/logout', auth, async (req: AuthRequest, res) => {
     res.status(500).send()
   }
 })
+
+userRouter.post('/users/logoutAll', auth, async (req: AuthRequest, res) => {
+  try {
+    if (!req.user) return res.status(401).send()
+
+    req.user.tokens = []
+    res.clearCookie(COOKIE_NAME)
+    await req.user.save()
+
+    res.send()
+  } catch (error) {
+    res.status(500).send()
+  }
+})
+
 // Warning modified response object!
 const saveToCookie = (res: Response, token: string) => {
   res.cookie(COOKIE_NAME, token, {
