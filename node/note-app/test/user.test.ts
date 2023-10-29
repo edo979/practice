@@ -95,7 +95,59 @@ describe('Tests for logout user', () => {
     expect(user?.tokens).toHaveLength(0)
   })
 
-  test('Should logut user from all devices', async () => {
+  test('Should delete token when user logout', async () => {
+    await request(app)
+      .post('/users/login')
+      .send({
+        email: userOne.email,
+        password: userOne.password,
+      })
+      .expect(302)
+
+    // Make small pause between calls
+    await new Promise((res) => {
+      setTimeout(res, 200)
+    })
+
+    await request(app)
+      .post('/users/login')
+      .send({
+        email: userOne.email,
+        password: userOne.password,
+      })
+      .expect(302)
+
+    const firstToken = userOne.tokens[0].token
+
+    const res = await request(app)
+      .post('/users/logout')
+      .set('Authorization', `Bearer ${firstToken}`)
+      .expect(200)
+    expect(res.header['set-cookie']).toBeDefined()
+
+    const user = await User.findById(userOneId)
+
+    expect(getJWTfromCookie(res)).toEqual('')
+    // one token created when create user in fixtures
+    expect(user?.tokens).toHaveLength(2)
+    expect(user?.tokens[0].token).not.toBe(firstToken)
+    expect(user?.tokens[1].token).not.toBe(firstToken)
+  })
+
+  test('Should not delete other user token when one user logout', async () => {
+    await request(app)
+      .post('/users/logout')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(200)
+
+    const users = await User.find()
+
+    // Token is created when user signup
+    expect(users[0].tokens).toHaveLength(0)
+    expect(users[1].tokens).toHaveLength(1)
+  })
+
+  test('Should logout user from all devices', async () => {
     const res = await request(app)
       .post('/users/logoutAll')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
