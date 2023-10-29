@@ -216,4 +216,23 @@ describe('Tests for deleting note by id', () => {
     expect(notes[0].owner).not.toBe(userTwoId)
     expect(notes[1].owner).not.toBe(userTwoId)
   })
+
+  test('Should not delete note thad does not exist', async () => {
+    await request(app)
+      .delete('/notes/123')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(404)
+
+    const notes = await Note.find()
+
+    expect(notes).toHaveLength(3)
+  })
+
+  test('Should not delete note for not logged in user', async () => {
+    await request(app).delete(`/notes/${thirdTaskId}`).expect(401)
+
+    const notes = await Note.find()
+
+    expect(notes).toHaveLength(3)
+  })
 })

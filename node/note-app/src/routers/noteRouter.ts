@@ -76,11 +76,11 @@ noteRouter.patch('/notes/:id', async (req, res) => {
 noteRouter.delete('/notes/:id', auth, async (req, res) => {
   try {
     const note = await Note.findByIdAndDelete(req.params.id)
-    if (!note) return res.status(404).send()
+    if (!note) throw new Error()
 
     res.status(200).send(note)
   } catch (error) {
-    res.status(500).send()
+    res.status(404).send()
   }
 })
 
