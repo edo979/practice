@@ -214,16 +214,16 @@ describe('Tests for updating notes', () => {
       .send({ title: 'New title' })
       .expect(404)
   })
+
+  test('Should not update note if user not logged in', async () => {
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .send({ title: 'New title' })
+      .expect(401)
+  })
 })
 
-test('Should not update note if user not logged in', async () => {
-  await request(app)
-    .patch(`/notes/${firstTaskId}`)
-    .send({ title: 'New title' })
-    .expect(401)
-})
-
-describe('Tests for deleting note by id', () => {
+describe('Tests for deleting note', () => {
   test('Should delete note', async () => {
     await request(app)
       .delete(`/notes/${firstTaskId}`)
@@ -250,7 +250,7 @@ describe('Tests for deleting note by id', () => {
     expect(notes[1].owner).not.toBe(userTwoId)
   })
 
-  test('Should not delete note thad does not exist', async () => {
+  test('Should not delete note that does not exist', async () => {
     await request(app)
       .delete('/notes/123')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
@@ -261,7 +261,7 @@ describe('Tests for deleting note by id', () => {
     expect(notes).toHaveLength(3)
   })
 
-  test('Should not delete note for not logged in user', async () => {
+  test('Should not delete note if user is not logged in', async () => {
     await request(app).delete(`/notes/${thirdTaskId}`).expect(401)
 
     const notes = await Note.find()
