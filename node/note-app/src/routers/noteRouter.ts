@@ -42,7 +42,7 @@ noteRouter.get('/notes/:id', auth, async (req: AuthRequest, res) => {
   }
 })
 
-noteRouter.patch('/notes/:id', auth, async (req, res) => {
+noteRouter.patch('/notes/:id', auth, async (req: AuthRequest, res) => {
   type UpdatesT = 'title' | 'body'
 
   const updates = Object.keys(req.body) as UpdatesT[]
@@ -55,7 +55,7 @@ noteRouter.patch('/notes/:id', auth, async (req, res) => {
     return res.status(400).send({ error: 'Invalid updates data' })
 
   try {
-    const note = await Note.findById(req.params.id)
+    const note = await Note.findOne({ _id: req.params.id, owner: req.user?.id })
 
     if (!note) return res.status(404).send({ error: 'Note is not found!' })
 
@@ -69,7 +69,7 @@ noteRouter.patch('/notes/:id', auth, async (req, res) => {
       res.status(400).send({ error: 'Invalid update data!' })
     }
   } catch (error) {
-    res.status(500).send()
+    res.status(404).send()
   }
 })
 

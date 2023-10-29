@@ -198,6 +198,29 @@ describe('Tests for updating notes', () => {
       .send({ title: 'te' })
       .expect(400)
   })
+
+  test('Should not update note if note does not exist', async () => {
+    await request(app)
+      .patch('/notes/notExist')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .send({ title: 'New note title' })
+      .expect(404)
+  })
+
+  test('Should not update note of another user', async () => {
+    await request(app)
+      .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userTwo.tokens[0].token}`)
+      .send({ title: 'New title' })
+      .expect(404)
+  })
+})
+
+test('Should not update note if user not logged in', async () => {
+  await request(app)
+    .patch(`/notes/${firstTaskId}`)
+    .send({ title: 'New title' })
+    .expect(401)
 })
 
 describe('Tests for deleting note by id', () => {
