@@ -15,7 +15,6 @@ import {
   userTwoId,
 } from './fixtures/db'
 import Note from '../src/models/note'
-import { AuthRequest } from '../src/middleware/auth'
 
 beforeEach(async () => {
   await setupDatabase()
