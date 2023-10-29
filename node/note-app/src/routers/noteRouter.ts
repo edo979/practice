@@ -42,7 +42,7 @@ noteRouter.get('/notes/:id', auth, async (req: AuthRequest, res) => {
   }
 })
 
-noteRouter.patch('/notes/:id', async (req, res) => {
+noteRouter.patch('/notes/:id', auth, async (req, res) => {
   type UpdatesT = 'title' | 'body'
 
   const updates = Object.keys(req.body) as UpdatesT[]

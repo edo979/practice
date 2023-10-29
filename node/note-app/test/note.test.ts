@@ -131,6 +131,7 @@ describe('Tests for updating notes', () => {
 
     await request(app)
       .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send(updateData)
       .expect(200)
 
@@ -146,6 +147,7 @@ describe('Tests for updating notes', () => {
 
     await request(app)
       .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send(newUpdate)
       .expect(200)
 
@@ -161,29 +163,38 @@ describe('Tests for updating notes', () => {
 
     await request(app)
       .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send(updateData)
       .expect(200)
 
-    const updatedNote = await Note.findById(secondTaskId)
+    const note1 = await Note.findById(secondTaskId)
+    const note2 = await Note.findById(thirdTaskId)
 
-    expect(updatedNote).toBeDefined()
-    expect(updatedNote?.title).not.toBe(updateData.title)
-    expect(updatedNote?.body).not.toBe(updateData.body)
+    expect(note1).toBeDefined()
+    expect(note1?.title).not.toBe(updateData.title)
+    expect(note1?.body).not.toBe(updateData.body)
+
+    expect(note2).toBeDefined()
+    expect(note2?.title).not.toBe(updateData.title)
+    expect(note2?.body).not.toBe(updateData.body)
   })
 
   test('Should not update note with wrong data', async () => {
     await request(app)
       .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send({ title: '' })
       .expect(400)
 
     await request(app)
       .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send({ body: '' })
       .expect(400)
 
     await request(app)
       .patch(`/notes/${firstTaskId}`)
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .send({ title: 'te' })
       .expect(400)
   })
