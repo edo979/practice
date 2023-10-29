@@ -89,8 +89,10 @@ describe('Tests for logout user', () => {
       .expect(200)
     expect(res.header['set-cookie']).toBeDefined()
 
-    //res.header['set-cookie'][0].split('; ')[0]
+    const user = await User.findById(userOneId)
+
     expect(getJWTfromCookie(res)).toEqual('')
+    expect(user?.tokens).toHaveLength(0)
   })
 
   test('Should logut user from all devices', async () => {
