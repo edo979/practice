@@ -78,3 +78,18 @@ describe('Tests for login user to the app', () => {
       .expect(404)
   })
 })
+
+describe('Tests for logout user', () => {
+  beforeEach(createTestUsers)
+
+  test('Should logout user', async () => {
+    const res = await request(app)
+      .post('/users/logout')
+      .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+      .expect(200)
+    expect(res.header['set-cookie']).toBeDefined()
+
+    //res.header['set-cookie'][0].split('; ')[0]
+    expect(getJWTfromCookie(res)).toEqual('')
+  })
+})

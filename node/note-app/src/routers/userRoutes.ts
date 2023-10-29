@@ -1,7 +1,9 @@
 import { Response, Router } from 'express'
 import User from '../models/user'
+import auth, { AuthRequest } from '../middleware/auth'
 
 const userRouter = Router()
+const COOKIE_NAME = 'note_app_session'
 
 userRouter.post('/users', async (req, res) => {
   try {
@@ -30,9 +32,25 @@ userRouter.post('/users/login', async (req, res) => {
   }
 })
 
+userRouter.post('/users/logout', auth, async (req: AuthRequest, res) => {
+  try {
+    if (!req.user) return res.status(401).send()
+
+    req.user.tokens = req.user?.tokens.filter(
+      (token) => token.token !== req.token
+    )
+
+    res.clearCookie(COOKIE_NAME)
+
+    await req.user.save()
+    res.send()
+  } catch (error) {
+    res.status(500).send()
+  }
+})
 // Warning modified response object!
 const saveToCookie = (res: Response, token: string) => {
-  res.cookie('note_app_session', token, {
+  res.cookie(COOKIE_NAME, token, {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
     sameSite: 'lax',
