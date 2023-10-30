@@ -52,7 +52,7 @@ describe('Tests for login user to the app', () => {
         password: userOne.password,
       })
       .expect(302)
-    expect(res.header['set-cookie']).toBeDefined()
+      .expect('set-cookie', /note_app_session/)
 
     const user = await User.findById(userOneId)
 
@@ -106,7 +106,7 @@ describe('Tests for logout user', () => {
 
     // Make small pause between calls
     await new Promise((res) => {
-      setTimeout(res, 200)
+      setTimeout(res, 500)
     })
 
     await request(app)
