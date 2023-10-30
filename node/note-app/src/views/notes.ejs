@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notes</title>
+  </head>
+  <body>
+    <h1>User Notes</h1>
+    <% if (notes && notes.length > 0) { %>
+    <ul>
+      <% notes.forEach(note => { %>
+      <li>
+        <dir>
+          <h2><%= note.title %></h2>
+          <p><%= note.body %></p>
+        </dir>
+      </li>
+      <% }); %>
+    </ul>
+    <% } else { %>
+    <p>No notes found.</p>
+    <% } %>
+  </body>
+</html>
