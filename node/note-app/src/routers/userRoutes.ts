@@ -32,7 +32,7 @@ userRouter.post('/users/login', async (req, res) => {
   }
 })
 
-userRouter.post('/users/logout', auth, async (req: AuthRequest, res) => {
+userRouter.get('/users/logout', auth, async (req: AuthRequest, res) => {
   try {
     if (!req.user) return res.status(401).send()
 
@@ -43,7 +43,7 @@ userRouter.post('/users/logout', auth, async (req: AuthRequest, res) => {
     res.clearCookie(COOKIE_NAME)
 
     await req.user.save()
-    res.send()
+    res.redirect('/')
   } catch (error) {
     res.status(500).send()
   }
