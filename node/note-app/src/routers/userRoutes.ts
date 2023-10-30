@@ -26,7 +26,7 @@ userRouter.post('/users/login', async (req, res) => {
 
     saveToCookie(res, token)
 
-    res.status(302).redirect('/')
+    res.redirect('/')
   } catch (error) {
     res.status(404).send()
   }
@@ -49,7 +49,7 @@ userRouter.get('/users/logout', auth, async (req: AuthRequest, res) => {
   }
 })
 
-userRouter.post('/users/logoutAll', auth, async (req: AuthRequest, res) => {
+userRouter.get('/users/logoutAll', auth, async (req: AuthRequest, res) => {
   try {
     if (!req.user) return res.status(401).send()
 

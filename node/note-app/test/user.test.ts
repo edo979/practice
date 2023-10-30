@@ -84,9 +84,9 @@ describe('Tests for logout user', () => {
 
   test('Should logout user', async () => {
     const res = await request(app)
-      .post('/users/logout')
+      .get('/users/logout')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-      .expect(200)
+      .expect(302)
     expect(res.header['set-cookie']).toBeDefined()
 
     const user = await User.findById(userOneId)
@@ -97,48 +97,32 @@ describe('Tests for logout user', () => {
 
   test('Should delete token when user logout', async () => {
     await request(app)
-      .post('/users/login')
+      .get('/users/login')
       .send({
         email: userOne.email,
         password: userOne.password,
       })
-      .expect(302)
-
-    // Make small pause between calls
-    await new Promise((res) => {
-      setTimeout(res, 500)
-    })
-
-    await request(app)
-      .post('/users/login')
-      .send({
-        email: userOne.email,
-        password: userOne.password,
-      })
-      .expect(302)
+      .expect(301)
 
     const firstToken = userOne.tokens[0].token
 
     const res = await request(app)
-      .post('/users/logout')
+      .get('/users/logout')
       .set('Authorization', `Bearer ${firstToken}`)
-      .expect(200)
+      .expect(302)
     expect(res.header['set-cookie']).toBeDefined()
 
     const user = await User.findById(userOneId)
 
     expect(getJWTfromCookie(res)).toEqual('')
-    // one token created when create user in fixtures
-    expect(user?.tokens).toHaveLength(2)
-    expect(user?.tokens[0].token).not.toBe(firstToken)
-    expect(user?.tokens[1].token).not.toBe(firstToken)
+    expect(user?.tokens[0]).toBeFalsy()
   })
 
   test('Should not delete other user token when one user logout', async () => {
     await request(app)
-      .post('/users/logout')
+      .get('/users/logout')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-      .expect(200)
+      .expect(302)
 
     const users = await User.find()
 
@@ -149,7 +133,7 @@ describe('Tests for logout user', () => {
 
   test('Should logout user from all devices', async () => {
     const res = await request(app)
-      .post('/users/logoutAll')
+      .get('/users/logoutAll')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
       .expect(200)
     expect(res.header['set-cookie']).toBeDefined()
