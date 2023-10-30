@@ -13,12 +13,23 @@ type DecodedToken = {
 
 const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
+    let token: string | undefined = undefined
     const authHeader = req.header('Authorization')
-    if (!authHeader) throw new Error()
+    const authCookie = req.cookies.note_app_session
 
-    const token = authHeader.replace('Bearer ', '')
+    if (authHeader) {
+      token = authHeader.replace('Bearer ', '')
+    } else {
+      token = authCookie
+    }
+
+    if (!token) throw new Error()
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken
-    const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
+    const user = await User.findOne({
+      _id: decoded._id,
+      'tokens.token': token,
+    })
     if (!user) throw new Error()
 
     req.user = user
