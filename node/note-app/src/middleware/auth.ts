@@ -13,16 +13,7 @@ type DecodedToken = {
 
 const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    let token: string | undefined = undefined
-    const authHeader = req.header('Authorization')
-    const authCookie = req.cookies.note_app_session
-
-    if (authHeader) {
-      token = authHeader.replace('Bearer ', '')
-    } else {
-      token = authCookie
-    }
-
+    const token = req.header('Authorization')?.replace('Bearer ', '')
     if (!token) throw new Error()
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken

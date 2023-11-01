@@ -24,8 +24,7 @@ test('Should create a new user', async () => {
       age: 44,
       password: 'jahjah',
     })
-    .expect(302)
-  expect(res.header['set-cookie']).toBeDefined()
+    .expect(201)
 
   const user = await User.findOne({ username: 'edi', email: 'jah@jah.com' })
   const jwt = getJWTfromCookie(res)
@@ -51,12 +50,15 @@ describe('Tests for login user to the app', () => {
         email: userOne.email,
         password: userOne.password,
       })
-      .expect(302)
-      .expect('set-cookie', /note_app_session/)
+      .expect(200)
 
     const user = await User.findById(userOneId)
 
     expect(getJWTfromCookie(res)).toEqual(user?.tokens[1].token)
+    expect(res.body).toMatchObject({
+      user: { email: userOne.email },
+      token: getJWTfromCookie(res),
+    })
   })
 
   test('Should not login user with wrong credentials', async () => {
@@ -86,7 +88,7 @@ describe('Tests for logout user', () => {
     const res = await request(app)
       .get('/users/logout')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-      .expect(302)
+      .expect(200)
     expect(res.header['set-cookie']).toBeDefined()
 
     const user = await User.findById(userOneId)
@@ -95,34 +97,11 @@ describe('Tests for logout user', () => {
     expect(user?.tokens).toHaveLength(0)
   })
 
-  test('Should delete token when user logout', async () => {
-    await request(app)
-      .get('/users/login')
-      .send({
-        email: userOne.email,
-        password: userOne.password,
-      })
-      .expect(301)
-
-    const firstToken = userOne.tokens[0].token
-
-    const res = await request(app)
-      .get('/users/logout')
-      .set('Authorization', `Bearer ${firstToken}`)
-      .expect(302)
-    expect(res.header['set-cookie']).toBeDefined()
-
-    const user = await User.findById(userOneId)
-
-    expect(getJWTfromCookie(res)).toEqual('')
-    expect(user?.tokens[0]).toBeFalsy()
-  })
-
   test('Should not delete other user token when one user logout', async () => {
     await request(app)
       .get('/users/logout')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-      .expect(302)
+      .expect(200)
 
     const users = await User.find()
 

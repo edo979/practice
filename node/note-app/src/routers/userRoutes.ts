@@ -13,7 +13,7 @@ userRouter.post('/users', async (req, res) => {
     saveToCookie(res, token)
 
     await user.save()
-    res.status(201).redirect('/')
+    res.status(201).send({ user, token })
   } catch (error) {
     res.status(404).send()
   }
@@ -26,7 +26,7 @@ userRouter.post('/users/login', async (req, res) => {
 
     saveToCookie(res, token)
 
-    res.redirect('/')
+    res.send({ user, token })
   } catch (error) {
     res.status(404).send()
   }
@@ -43,7 +43,7 @@ userRouter.get('/users/logout', auth, async (req: AuthRequest, res) => {
     res.clearCookie(COOKIE_NAME)
 
     await req.user.save()
-    res.redirect('/')
+    res.send()
   } catch (error) {
     res.status(500).send()
   }
