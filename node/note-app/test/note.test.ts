@@ -71,7 +71,7 @@ describe('Tests for creating notes', () => {
 })
 
 describe('Tests for fetching notes', () => {
-  test('Should get notes', async () => {
+  test('Should get user notes', async () => {
     const res = await request(app)
       .get('/notes')
       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
@@ -79,19 +79,18 @@ describe('Tests for fetching notes', () => {
 
     const notes = await Note.find({ owner: userOneId })
 
-    // expect(res.body).toBeDefined()
-    // expect(res.body.length).toBe(2)
-    // expect(res.body[0]).toMatchObject({
-    //   title: notes[0].title,
-    //   body: notes[0].body,
-    //   owner: notes[0].owner.toString(),
-    // })
-    // expect(res.body[1]).toMatchObject({
-    //   title: notes[1].title,
-    //   body: notes[1].body,
-    //   owner: notes[1].owner.toString(),
-    // })
-    expect(res.header['content-type']).toMatch(/html/)
+    expect(res.body).toBeDefined()
+    expect(res.body.length).toBe(2)
+    expect(res.body[0]).toMatchObject({
+      title: notes[0].title,
+      body: notes[0].body,
+      owner: notes[0].owner.toString(),
+    })
+    expect(res.body[1]).toMatchObject({
+      title: notes[1].title,
+      body: notes[1].body,
+      owner: notes[1].owner.toString(),
+    })
   })
 
   test('Should get note by id', async () => {

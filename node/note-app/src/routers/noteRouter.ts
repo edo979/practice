@@ -21,7 +21,7 @@ noteRouter.get('/notes', auth, async (req: AuthRequest, res) => {
   try {
     await req.user?.populate('notes')
 
-    res.render('notes', { notes: req.user?.notes })
+    res.status(200).send(req.user?.notes)
   } catch (error) {
     res.status(500).send()
   }
