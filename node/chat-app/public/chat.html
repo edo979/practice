@@ -7,6 +7,17 @@
   </head>
   <body>
     <h1>Chat!!!</h1>
+    <div id="messages"></div>
+    <form id="message-form">
+      <label for="message">Message:</label>
+      <input
+        type="text"
+        id="message"
+        name="message"
+        placeholder="Input message to send"
+      />
+      <button type="submit">Send</button>
+    </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
     <script src="/js/chat.js"></script>
   </body>
