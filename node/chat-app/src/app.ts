@@ -2,7 +2,7 @@ import { createServer } from 'http'
 import path from 'path'
 import express from 'express'
 import { Server } from 'socket.io'
-import { addUser, removeUser } from './utils/users'
+import { addUser, getUsers, removeUser } from './utils/users'
 
 const publicDirPath = path.join(__dirname, '../public')
 
@@ -24,6 +24,11 @@ io.on('connection', (socket) => {
     socket.broadcast
       .to(user.room)
       .emit('message', `${user.username} has joined!`)
+
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsers(user.room),
+    })
   })
 
   socket.on('disconnect', () => {
@@ -31,6 +36,10 @@ io.on('connection', (socket) => {
 
     if (user) {
       socket.to(user.room).emit('message', `${user.username} has left!`)
+      io.to(user.room).emit('roomData', {
+        room: user.room,
+        users: getUsers(user.room),
+      })
     }
   })
 

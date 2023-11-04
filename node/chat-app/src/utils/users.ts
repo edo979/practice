@@ -37,3 +37,6 @@ export const removeUser = (id: string) => {
 
   if (index !== -1) return users.splice(index, 1)[0]
 }
+
+export const getUsers = (room: string) =>
+  users.filter((user) => user.room === room)

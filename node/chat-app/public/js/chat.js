@@ -31,3 +31,14 @@ socket.on('message', (message) => {
   $newMsg.innerText = message
   $messages.insertAdjacentElement('beforeend', $newMsg)
 })
+
+socket.on('roomData', ({ room, users }) => {
+  const $sideBar = document.getElementById('sidebar')
+  let html = `<p>${room}</p>`
+
+  html += '<ul>'
+  users.forEach((user) => (html += `<li>${user.username}</li>`))
+  html += '</ul>'
+
+  $sideBar.innerHTML = html
+})
