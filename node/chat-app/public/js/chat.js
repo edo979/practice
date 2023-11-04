@@ -4,6 +4,16 @@ const $msgForm = document.getElementById('message-form')
 const $messages = document.getElementById('messages')
 const $message = $msgForm.querySelector('#message')
 
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+})
+
+socket.emit('join', { username, room }, (error) => {
+  if (error) {
+    alert(error)
+  }
+})
+
 $msgForm.addEventListener('submit', (e) => {
   e.preventDefault()
   const message = $message.value.trim()

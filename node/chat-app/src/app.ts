@@ -2,6 +2,7 @@ import { createServer } from 'http'
 import path from 'path'
 import express from 'express'
 import { Server } from 'socket.io'
+import { addUser } from './utils/users'
 
 const publicDirPath = path.join(__dirname, '../public')
 
@@ -13,6 +14,19 @@ app.use(express.static(publicDirPath))
 
 io.on('connection', (socket) => {
   console.log('New WebSocket connection')
+
+  socket.on('join', (options: { username: string; room: string }, cb) => {
+    const { error, user } = addUser({ id: socket.id, ...options })
+
+    if (!user) return cb('Server Error, try again!')
+    if (error) return cb(error)
+
+    socket.join(user.room)
+    socket.emit('message', `Welcome ${user.username}`)
+    socket.broadcast
+      .to(user.room)
+      .emit('message', `${user.username} has joined!`)
+  })
 
   socket.on('sendMessage', (message, cb) => {
     io.emit('message', message)
