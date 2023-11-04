@@ -8,6 +8,9 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 })
 
+// Templates
+const sidebarTemplate = document.getElementById('sidebar-template').innerHTML
+
 socket.emit('join', { username, room }, (error) => {
   if (error) {
     alert(error)
@@ -34,11 +37,5 @@ socket.on('message', (message) => {
 
 socket.on('roomData', ({ room, users }) => {
   const $sideBar = document.getElementById('sidebar')
-  let html = `<p>${room}</p>`
-
-  html += '<ul>'
-  users.forEach((user) => (html += `<li>${user.username}</li>`))
-  html += '</ul>'
-
-  $sideBar.innerHTML = html
+  $sideBar.innerHTML = Mustache.render(sidebarTemplate, { room, users })
 })
