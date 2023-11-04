@@ -22,7 +22,7 @@ $msgForm.addEventListener('submit', (e) => {
   socket.emit('sendMessage', message, (error) => {
     $message.value = ''
 
-    if (error) return console.log(error)
+    if (error) return alert(error)
   })
 })
 

@@ -40,3 +40,5 @@ export const removeUser = (id: string) => {
 
 export const getUsers = (room: string) =>
   users.filter((user) => user.room === room)
+
+export const getUser = (id: string) => users.find((user) => user.id === id)

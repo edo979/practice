@@ -2,7 +2,7 @@ import { createServer } from 'http'
 import path from 'path'
 import express from 'express'
 import { Server } from 'socket.io'
-import { addUser, getUsers, removeUser } from './utils/users'
+import { addUser, getUser, getUsers, removeUser } from './utils/users'
 
 const publicDirPath = path.join(__dirname, '../public')
 
@@ -44,7 +44,10 @@ io.on('connection', (socket) => {
   })
 
   socket.on('sendMessage', (message, cb) => {
-    io.emit('message', message)
+    const user = getUser(socket.id)
+
+    if (!user) return cb({ error: 'Server Error, cant find user!' })
+    io.to(user.room).emit('message', message)
 
     cb()
   })
