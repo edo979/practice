@@ -13,13 +13,11 @@ const io = new Server(httpServer)
 app.use(express.static(publicDirPath))
 
 io.on('connection', (socket) => {
-  console.log('New WebSocket connection')
-
   socket.on('join', (options: { username: string; room: string }, cb) => {
     const { error, user } = addUser({ id: socket.id, ...options })
 
-    if (!user) return cb('Server Error, try again!')
     if (error) return cb(error)
+    if (!user) return cb('Server Error, try again!')
 
     socket.join(user.room)
     socket.emit('message', `Welcome ${user.username}`)
@@ -32,7 +30,7 @@ io.on('connection', (socket) => {
     const user = removeUser(socket.id)
 
     if (user) {
-      io.to(user.room).emit('message', `${user.username} has left!`)
+      socket.to(user.room).emit('message', `${user.username} has left!`)
     }
   })
 

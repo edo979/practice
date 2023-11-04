@@ -11,6 +11,7 @@ const { username, room } = Qs.parse(location.search, {
 socket.emit('join', { username, room }, (error) => {
   if (error) {
     alert(error)
+    location.href = '/'
   }
 })
 
