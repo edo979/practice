@@ -10,6 +10,7 @@ const { username, room } = Qs.parse(location.search, {
 
 // Templates
 const sidebarTemplate = document.getElementById('sidebar-template').innerHTML
+const messageTemplate = document.getElementById('message-template').innerHTML
 
 socket.emit('join', { username, room }, (error) => {
   if (error) {
@@ -22,17 +23,18 @@ $msgForm.addEventListener('submit', (e) => {
   e.preventDefault()
   const message = $message.value.trim()
 
-  socket.emit('sendMessage', message, (error) => {
+  socket.emit('sendMessage', { message, username }, (error) => {
     $message.value = ''
 
     if (error) return alert(error)
   })
 })
 
-socket.on('message', (message) => {
-  const $newMsg = document.createElement('p')
-  $newMsg.innerText = message
-  $messages.insertAdjacentElement('beforeend', $newMsg)
+socket.on('message', ({ message, userSending }) => {
+  const msgClass = userSending === username ? 'alert-success' : 'alert-warning'
+  const html = Mustache.render(messageTemplate, { message, msgClass })
+
+  $messages.insertAdjacentHTML('beforeend', html)
 })
 
 socket.on('roomData', ({ room, users }) => {

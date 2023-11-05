@@ -43,11 +43,14 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('sendMessage', (message, cb) => {
+  socket.on('sendMessage', ({ message }, cb) => {
     const user = getUser(socket.id)
 
     if (!user) return cb({ error: 'Server Error, cant find user!' })
-    io.to(user.room).emit('message', message)
+    io.to(user.room).emit('message', {
+      message,
+      userSending: user.username,
+    })
 
     cb()
   })
