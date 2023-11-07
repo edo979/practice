@@ -20,10 +20,10 @@ io.on('connection', (socket) => {
     if (!user) return cb('Server Error, try again!')
 
     socket.join(user.room)
-    socket.emit('message', `Welcome ${user.username}`)
+    socket.emit('systemMsg', `Welcome ${user.username}`)
     socket.broadcast
       .to(user.room)
-      .emit('message', `${user.username} has joined!`)
+      .emit('systemMsg', `${user.username} has joined!`)
 
     io.to(user.room).emit('roomData', {
       room: user.room,
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     const user = removeUser(socket.id)
 
     if (user) {
-      socket.to(user.room).emit('message', `${user.username} has left!`)
+      socket.to(user.room).emit('systemMsg', `${user.username} has left!`)
       io.to(user.room).emit('roomData', {
         room: user.room,
         users: getUsers(user.room),
@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('sendMessage', ({ message }, cb) => {
+  socket.on('sendMessage', (message, cb) => {
     const user = getUser(socket.id)
 
     if (!user) return cb({ error: 'Server Error, cant find user!' })

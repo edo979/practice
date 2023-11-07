@@ -11,6 +11,9 @@ const { username, room } = Qs.parse(location.search, {
 // Templates
 const sidebarTemplate = document.getElementById('sidebar-template').innerHTML
 const messageTemplate = document.getElementById('message-template').innerHTML
+const sysMessageTemplate = document.getElementById(
+  'system-message-template'
+).innerHTML
 
 socket.emit('join', { username, room }, (error) => {
   if (error) {
@@ -23,7 +26,7 @@ $msgForm.addEventListener('submit', (e) => {
   e.preventDefault()
   const message = $message.value.trim()
 
-  socket.emit('sendMessage', { message, username }, (error) => {
+  socket.emit('sendMessage', message, ({ error }) => {
     $message.value = ''
 
     if (error) return alert(error)
@@ -32,8 +35,17 @@ $msgForm.addEventListener('submit', (e) => {
 
 socket.on('message', ({ message, userSending }) => {
   const msgClass = userSending === username ? 'alert-success' : 'alert-warning'
-  const html = Mustache.render(messageTemplate, { message, msgClass })
+  const html = Mustache.render(messageTemplate, {
+    message,
+    username: userSending,
+    msgClass,
+  })
 
+  $messages.insertAdjacentHTML('beforeend', html)
+})
+
+socket.on('systemMsg', (message) => {
+  const html = Mustache.render(sysMessageTemplate, { message })
   $messages.insertAdjacentHTML('beforeend', html)
 })
 
