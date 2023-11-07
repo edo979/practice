@@ -52,7 +52,7 @@ io.on('connection', (socket) => {
       userSending: user.username,
     })
 
-    cb()
+    cb({ error: null })
   })
 })
 

@@ -27,6 +27,7 @@ $msgForm.addEventListener('submit', (e) => {
   const message = $message.value.trim()
 
   socket.emit('sendMessage', message, ({ error }) => {
+    console.log('jah')
     $message.value = ''
 
     if (error) return alert(error)
