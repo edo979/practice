@@ -151,3 +151,9 @@ main {
 #message-container {
   overflow: auto;
 }
+#message-container,
+#messages {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
