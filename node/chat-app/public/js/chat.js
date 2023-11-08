@@ -73,9 +73,4 @@ function autoscroll() {
 
   if (containerH - newMsgHeight <= scrollOffset)
     $msgContainer.scrollTop = $msgContainer.scrollHeight
-
-  console.log('containerH', containerH)
-  console.log('scrolloffset', scrollOffset)
-  console.log('containerH - newMsgHeight', containerH - newMsgHeight)
-  console.log('newMsgMargin', newMsgMargin)
 }
