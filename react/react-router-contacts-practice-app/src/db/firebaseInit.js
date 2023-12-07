@@ -8,7 +8,10 @@ const db = getFirestore(app)
 export const getContacts = async () => {
   const contactsCol = collection(db, 'contacts')
   const contactSnapshot = await getDocs(contactsCol)
-  const contactList = contactSnapshot.docs.map((doc) => doc.data())
+  const contactList = contactSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }))
 
   return contactList
 }
