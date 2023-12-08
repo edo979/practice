@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getContacts } from '../db/firebaseInit'
 import Header from '../components/Header'
+import { Outlet } from 'react-router-dom'
 
 const Root = () => {
   const [contacts, setContacts] = useState([])
@@ -42,7 +43,9 @@ const Root = () => {
             </ul>
           ))}
         </div>
-        <div className="col-8"></div>
+        <div className="col-8">
+          <Outlet />
+        </div>
       </div>
     </div>
   )
