@@ -18,8 +18,19 @@ const Root = () => {
       <Header />
 
       <div className="row mt-2">
-        <div className="col">
-          <h1>Contacts:</h1>
+        <div className="col-4 bg-secondary text-body-emphasis">
+          <div className="d-flex gap-2">
+            <form className="flex-fill" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </form>
+            <button className="btn btn-primary">New</button>
+          </div>
+
           {contacts.map((contact) => (
             <ul key={contact.id}>
               <li>{contact.id}</li>
@@ -28,6 +39,7 @@ const Root = () => {
             </ul>
           ))}
         </div>
+        <div className="col-8"></div>
       </div>
     </div>
   )
