@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getContacts } from './db/firebaseInit'
 import { useEffect } from 'react'
+import Header from './components/Header'
 
 const App = () => {
   const [contacts, setContacts] = useState([])
@@ -14,7 +15,8 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <div className="container">
+      <Header />
       <h1>Contacts:</h1>
       {contacts.map((contact) => (
         <ul key={contact.id}>
