@@ -34,14 +34,13 @@ const Root = () => {
           </div>
 
           <hr className="my-4" />
-
-          {contacts.map((contact) => (
-            <ul key={contact.id}>
-              <li>{contact.id}</li>
-              <li>{contact.name}</li>
-              <li>{contact.phone}</li>
-            </ul>
-          ))}
+          <ul>
+            {contacts.map((contact) => (
+              <li key={contact.id}>
+                {contact.name} {contact.last}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="col-8">
           <Outlet />
