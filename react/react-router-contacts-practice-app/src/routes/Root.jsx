@@ -15,14 +15,15 @@ const Root = () => {
 
   return (
     <div className="container">
-      <Header />
-
-      <div className="row mt-2">
-        <div className="col-4 bg-secondary text-body-emphasis">
-          <div className="d-flex gap-2">
+      <div className="row">
+        <div
+          className="col-4 bg-primary-subtle text-body-emphasis"
+          style={{ minHeight: '100vh' }}
+        >
+          <div className="d-flex gap-2 mt-4">
             <form className="flex-fill" role="search">
               <input
-                className="form-control me-2"
+                className="form-control"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
@@ -30,6 +31,8 @@ const Root = () => {
             </form>
             <button className="btn btn-primary">New</button>
           </div>
+
+          <hr className="my-4" />
 
           {contacts.map((contact) => (
             <ul key={contact.id}>
