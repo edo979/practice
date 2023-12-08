@@ -10,7 +10,25 @@ const Contact = () => {
     favorite: true,
   }
 
-  return <div>Contact</div>
+  return (
+    <div className="d-flex gap-4 mt-4 px-lg-5">
+      <img className="rounded-4 img-fluid" src={contact.avatar} />
+      <div>
+        <h2>
+          {contact.first} {contact.last}
+        </h2>
+        <p className="fs-3 text-info">{contact.twitter}</p>
+        <p>{contact.notes}</p>
+
+        <div className="d-flex gap-2">
+          <button className="btn btn-light text-primary shadow-sm">Edit</button>
+          <button className="btn btn-light text-danger shadow-sm">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Contact
