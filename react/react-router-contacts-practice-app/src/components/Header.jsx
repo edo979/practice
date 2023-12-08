@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <header>
+    <header className="row">
       <div className="container">
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
