@@ -8,7 +8,7 @@ const UserNav = () => {
     <header className="row">
       <div className="d-flex justify-content-center">
         {userId ? (
-          <button className="btn btn-danger" onClick={signOut}>
+          <button className="btn btn-outline-primary" onClick={signOut}>
             Sign Out
           </button>
         ) : (

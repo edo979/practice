@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut as signFromFirebase,
+  signInWithEmailAndPassword,
 } from 'firebase/auth'
 import { auth } from '../db/firebaseInit'
 
@@ -43,8 +44,6 @@ export const UserContextProvider = ({ children }) => {
         email,
         password
       )
-
-      console.log(userCredential.user)
     } catch (error) {
       console.log(error.code || error.message)
     }

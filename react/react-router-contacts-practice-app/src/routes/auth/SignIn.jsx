@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../context/userContext.jsx'
 
 const SignIn = () => {
@@ -6,9 +7,12 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
   const { signIn } = useUserContext()
 
+  const navigate = useNavigate()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     signIn({ email, password })
+    navigate('/')
   }
 
   return (
