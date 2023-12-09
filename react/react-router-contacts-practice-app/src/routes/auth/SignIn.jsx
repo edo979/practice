@@ -1,13 +1,13 @@
 import { useUserContext } from '../../context/userContext.jsx'
 
-const Register = () => {
+const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { register } = useUserContext()
+  const { signIn } = useUserContext()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    register({ email, password })
+    signIn({ email, password })
   }
 
   return (
@@ -33,4 +33,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default SignIn

@@ -16,6 +16,7 @@ const Root = () => {
 
   return (
     <div className="container">
+      <Header />
       <div className="row">
         <div
           className="col-4 bg-primary-subtle text-body-emphasis"
