@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getContacts } from '../db/firebaseInit'
-import Header from '../components/Header'
+import UserNav from '../components/UserNav'
 import { Outlet } from 'react-router-dom'
 
 const Root = () => {
@@ -16,12 +16,14 @@ const Root = () => {
 
   return (
     <div className="container">
-      <Header />
       <div className="row">
         <div
-          className="col-4 bg-primary-subtle text-body-emphasis"
+          className="col-4 pt-4 bg-primary-subtle text-body-emphasis"
           style={{ minHeight: '100vh' }}
         >
+          <UserNav />
+
+          <hr className="my-4" />
           <div className="d-flex gap-2 mt-4">
             <form className="flex-fill" role="search">
               <input
