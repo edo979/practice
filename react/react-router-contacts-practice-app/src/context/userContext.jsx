@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signOut as signFromFirebase,
 } from 'firebase/auth'
 import { auth } from '../db/firebaseInit'
 
@@ -50,12 +51,17 @@ export const UserContextProvider = ({ children }) => {
   }
 
   const signOut = async () => {
-    console.log('not implemented')
+    try {
+      await signFromFirebase(auth)
+      setUser(null)
+    } catch (error) {
+      console.log('An Error')
+    }
   }
 
   return (
     <UserContext.Provider
-      value={{ userId: user.uid, register, signIn, signOut }}
+      value={{ userId: user?.uid, register, signIn, signOut }}
     >
       {children}
     </UserContext.Provider>
