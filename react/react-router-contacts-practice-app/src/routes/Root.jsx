@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
 import { getContacts } from '../db/firebaseInit'
 import UserNav from '../components/UserNav'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLoaderData } from 'react-router-dom'
+
+export async function loader() {
+  const contacts = await getContacts()
+  //const contacts = []
+
+  return { contacts }
+}
 
 const Root = () => {
-  const [contacts, setContacts] = useState([])
+  let { contacts } = useLoaderData()
 
-  useEffect(() => {
-    const getFromFirebase = async () => {
-      setContacts(await getContacts())
-    }
+  // useEffect(() => {
+  //   const getFromFirebase = async () => {
+  //     contacts = await getContacts()
+  //   }
 
-    getFromFirebase()
-  }, [])
+  //   getFromFirebase()
+  // }, [contacts])
 
   return (
     <div className="container">
