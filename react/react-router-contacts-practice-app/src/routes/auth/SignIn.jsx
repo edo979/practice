@@ -5,14 +5,14 @@ import { useUserContext } from '../../context/userContext.jsx'
 const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { signIn, userId } = useUserContext()
+  const { signIn } = useUserContext()
 
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await signIn({ email, password })
-    navigate(`/auth/${userId}`)
+    const userId = await signIn({ email, password })
+    if (userId) navigate(`/auth/${userId}`)
   }
 
   return (

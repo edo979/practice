@@ -39,7 +39,8 @@ export const UserContextProvider = ({ children }) => {
 
   const signIn = async ({ email, password }) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password)
+      const authUser = await signInWithEmailAndPassword(auth, email, password)
+      return authUser.user.uid
     } catch (error) {
       console.log(error.code || error.message)
     }

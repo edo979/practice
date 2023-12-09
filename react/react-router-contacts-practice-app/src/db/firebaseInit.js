@@ -15,7 +15,7 @@ export const getContacts = async (userId) => {
 
     console.log(contactsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
   } catch (error) {
-    console.log(error)
+    console.log(error.code, error.name, error.message)
   }
 
   return []

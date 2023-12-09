@@ -4,7 +4,6 @@ import UserNav from '../../components/UserNav'
 
 export async function loader({ params }) {
   const contacts = await getContacts(params.userId)
-
   return { contacts }
 }
 
