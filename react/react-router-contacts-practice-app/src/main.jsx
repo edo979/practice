@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './error-page'
 import Contact from './routes/Contact'
+import Register from './routes/auth/Register'
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [{ path: 'contacts/:contactId', element: <Contact /> }],
   },
+  { path: '/auth', element: <Register /> },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
