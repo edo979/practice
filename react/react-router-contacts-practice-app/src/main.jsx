@@ -1,23 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Root, { loader as rootLoader } from './routes/Root'
+import { UserContextProvider } from './context/userContext'
+import Root from './routes/Root'
 import ErrorPage from './error-page'
 import Contact from './routes/Contact'
 import SignIn from './routes/auth/SignIn'
 import Register from './routes/auth/Register'
-import { UserContextProvider } from './context/userContext'
+import Contacts, { loader as rootLoader } from './routes/auth/Contacts'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
-    loader: rootLoader,
     children: [{ path: 'contacts/:contactId', element: <Contact /> }],
   },
   { path: '/auth/register', element: <Register /> },
   { path: '/auth/signin', element: <SignIn /> },
+  { path: '/auth/:userId', element: <Contacts />, loader: rootLoader },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

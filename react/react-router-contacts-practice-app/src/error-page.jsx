@@ -8,7 +8,7 @@ export default function ErrorPage() {
     <div id="error-page" className="container">
       <div className="row">
         <div className="col">
-          <div class="alert alert-danger" role="alert">
+          <div className="alert alert-danger" role="alert">
             <h1>Oops!</h1>
             <p>Sorry, an unexpected error has occurred.</p>
             <p>

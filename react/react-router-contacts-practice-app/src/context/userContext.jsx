@@ -39,11 +39,7 @@ export const UserContextProvider = ({ children }) => {
 
   const signIn = async ({ email, password }) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      )
+      await signInWithEmailAndPassword(auth, email, password)
     } catch (error) {
       console.log(error.code || error.message)
     }
