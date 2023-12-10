@@ -45,10 +45,10 @@ export const createContact = async () => {
     const userDocSnap = await getDoc(userDocRef)
 
     if (userDocSnap.exists()) {
-      //console.log('User collection exist')
+      console.log('User collection exist')
       await addContact(userContactsRef, { first: 'Edi', last: 'Seli' })
     } else {
-      //console.log('User document not exist ')
+      console.log('User document not exist ')
       await setDoc(userDocRef, {})
       await addContact(userContactsRef, { first: 'Brand', last: 'New' })
     }
