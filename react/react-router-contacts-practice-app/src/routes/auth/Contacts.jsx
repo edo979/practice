@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData } from 'react-router-dom'
-import { getContacts } from '../../db/firebaseInit'
+import { createContact, getContacts } from '../../db/firebaseInit'
 import UserNav from '../../components/UserNav'
 
 export async function loader({ params }) {
@@ -29,7 +29,9 @@ const Contacts = () => {
                 aria-label="Search"
               />
             </form>
-            <button className="btn btn-primary">New</button>
+            <button className="btn btn-primary" onClick={createContact}>
+              New
+            </button>
           </div>
 
           <hr className="my-4" />
