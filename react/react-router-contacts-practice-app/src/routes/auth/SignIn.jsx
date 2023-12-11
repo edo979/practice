@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../context/userContext.jsx'
-import '../../assets/css/signin.css'
+import '../../assets/css/userForms.css'
 
 const SignIn = () => {
   const [email, setEmail] = useState('')
@@ -21,7 +21,7 @@ const SignIn = () => {
       className="d-flex align-items-center py-4 bg-body-tertiary"
       style={{ height: '100vh' }}
     >
-      <main className="form-signin w-100 m-auto">
+      <main className="formSignin w-100 m-auto">
         <form onSubmit={handleSubmit}>
           <div className="d-flex justify-content-between align-items-baseline">
             <h1 className="h3 mb-3 fw-normal">Please sign in, or...</h1>
