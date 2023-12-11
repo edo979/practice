@@ -1,6 +1,5 @@
 import { Outlet, Form, useLoaderData, redirect } from 'react-router-dom'
 import { auth, createContact, getContacts } from '../../db/firebaseInit'
-import UserNav from '../../components/UserNav'
 
 export async function loader() {
   await auth.authStateReady()
@@ -24,45 +23,52 @@ const Contacts = () => {
   return (
     <div className="container">
       <div className="row">
-        <div
-          className="col-4 pt-4 bg-primary-subtle text-body-emphasis"
+        <sidebar
+          className="col-4 py-4 d-flex flex-column justify-content-between bg-primary-subtle text-body-emphasis"
           style={{ minHeight: '100vh' }}
         >
-          <UserNav />
+          <div>
+            <div className="d-flex gap-2 mt-4">
+              <form className="flex-fill" role="search">
+                <input
+                  className="form-control"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+              </form>
+              <Form method="post">
+                <button className="btn btn-primary" type="submit">
+                  New
+                </button>
+              </Form>
+            </div>
 
-          <hr className="my-4" />
-          <div className="d-flex gap-2 mt-4">
-            <form className="flex-fill" role="search">
-              <input
-                className="form-control"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-            </form>
-            <Form method="post">
-              <button className="btn btn-primary" type="submit">
-                New
-              </button>
-            </Form>
+            <hr className="my-4" />
+
+            <ul>
+              {contacts ? (
+                contacts.map((contact) => (
+                  <li key={contact.id}>
+                    {contact.first} {contact.last}
+                  </li>
+                ))
+              ) : (
+                <p>No contacts yet.</p>
+              )}
+            </ul>
+
+            <hr className="my-4" />
           </div>
 
-          <hr className="my-4" />
-
-          <ul>
-            {contacts ? (
-              contacts.map((contact) => (
-                <li key={contact.id}>
-                  {contact.first} {contact.last}
-                </li>
-              ))
-            ) : (
-              <p>No contacts yet.</p>
-            )}
-          </ul>
-        </div>
+          <div className="d-flex justify-content-end">
+            <button className="btn btn-outline-secondary">Login Out</button>
+          </div>
+        </sidebar>
         <div className="col-8">
-          <Outlet />
+          <main>
+            <Outlet />
+          </main>
         </div>
       </div>
     </div>
