@@ -10,7 +10,6 @@ import Contacts, {
   loader as contactsLoader,
   action as contactsAction,
 } from './routes/auth/Contacts'
-import AuthIndexRoute from './routes/auth/AuthIndexRoute'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +20,7 @@ const router = createBrowserRouter([
   { path: '/register', element: <Register /> },
   { path: '/signin', element: <SignIn /> },
   {
+    //Protected route because loader below
     path: '/my_contacts',
     element: <Contacts />,
     loader: contactsLoader,
