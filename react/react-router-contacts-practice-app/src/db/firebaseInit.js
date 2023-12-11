@@ -3,6 +3,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   addDoc,
   collection,
@@ -15,18 +16,29 @@ const db = getFirestore(app)
 const appCollection = 'contactsApp'
 export const auth = getAuth(app)
 
-export const getContacts = async (userId) => {
-  // try {
-  //   const docRef = doc(db, 'contacts', userId)
-  //   const contactsColRef = collection(docRef, 'user_contacts')
-  //   const contactsSnap = await getDocs(contactsColRef)
+export const getContacts = async () => {
+  const currentUser = auth.currentUser
 
-  //   console.log(contactsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-  // } catch (error) {
-  //   console.log(error.code, error.name, error.message)
-  // }
+  console.log(currentUser)
+  if (!currentUser) return false
 
-  return []
+  try {
+    const userContactsRef = collection(
+      db,
+      appCollection,
+      currentUser.uid,
+      'contacts'
+    )
+    const contactsSnap = await getDocs(userContactsRef)
+    const contacts = contactsSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+
+    return contacts
+  } catch (error) {
+    return []
+  }
 }
 
 export const createContact = async () => {
@@ -46,14 +58,11 @@ export const createContact = async () => {
 
     if (userDocSnap.exists()) {
       console.log('User collection exist')
-      await addContact(userContactsRef, {
-        first: 'Edis',
-        last: 'Seli',
-      })
+      await addContact(userContactsRef)
     } else {
       console.log('User document not exist ')
       await setDoc(userDocRef, {})
-      await addContact(userContactsRef, { first: 'Brand', last: 'New' })
+      await addContact(userContactsRef)
     }
 
     return true
@@ -63,8 +72,13 @@ export const createContact = async () => {
   }
 }
 
-const addContact = async (userContactsRef, data) => {
+const addContact = async (userContactsRef) => {
   await addDoc(userContactsRef, {
-    ...data,
+    first: 'No',
+    last: 'Name',
+    avatar: 'https://placekitten.com/g/200/200',
+    twitter: '',
+    notes: '',
+    favorite: false,
   })
 }

@@ -1,10 +1,16 @@
-import { Outlet, useLoaderData } from 'react-router-dom'
+import { Outlet, Form, useLoaderData } from 'react-router-dom'
 import { createContact, getContacts } from '../../db/firebaseInit'
 import UserNav from '../../components/UserNav'
 
 export async function loader({ params }) {
-  const contacts = await getContacts(params.userId)
+  const contacts = await getContacts()
+
   return { contacts }
+}
+
+export async function action() {
+  const contact = await createContact()
+  return { contact }
 }
 
 const Contacts = () => {
@@ -29,18 +35,24 @@ const Contacts = () => {
                 aria-label="Search"
               />
             </form>
-            <button className="btn btn-primary" onClick={createContact}>
-              New
-            </button>
+            <Form>
+              <button className="btn btn-primary" type="submit">
+                New
+              </button>
+            </Form>
           </div>
 
           <hr className="my-4" />
           <ul>
-            {contacts.map((contact) => (
-              <li key={contact.id}>
-                {contact.name} {contact.last}
-              </li>
-            ))}
+            {contacts ? (
+              contacts.map((contact) => (
+                <li key={contact.id}>
+                  {contact.name} {contact.last}
+                </li>
+              ))
+            ) : (
+              <p>No contacts yet.</p>
+            )}
           </ul>
         </div>
         <div className="col-8">
