@@ -1,4 +1,5 @@
-import { Outlet, Form, useLoaderData } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Outlet, Form, useLoaderData, useNavigate } from 'react-router-dom'
 import { createContact, getContacts } from '../../db/firebaseInit'
 import UserNav from '../../components/UserNav'
 
@@ -15,6 +16,11 @@ export async function action() {
 
 const Contacts = () => {
   const { contacts } = useLoaderData()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!contacts) navigate('/')
+  }, [navigate])
 
   return (
     <div className="container">
@@ -43,6 +49,7 @@ const Contacts = () => {
           </div>
 
           <hr className="my-4" />
+
           <ul>
             {contacts ? (
               contacts.map((contact) => (
