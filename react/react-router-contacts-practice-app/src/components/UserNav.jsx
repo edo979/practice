@@ -8,12 +8,9 @@ const UserNav = () => {
     <header className="row">
       <div className="d-flex justify-content-center">
         {userId ? (
-          <div>
-            <button className="btn btn-outline-primary" onClick={signOut}>
-              Sign Out
-            </button>
-            <Link to="/auth/contacts">Go to Contacts</Link>
-          </div>
+          <button className="btn btn-outline-primary" onClick={signOut}>
+            Sign Out
+          </button>
         ) : (
           <div className="d-flex gap-2">
             <Link to="/auth/register">

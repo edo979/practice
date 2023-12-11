@@ -19,7 +19,6 @@ export const auth = getAuth(app)
 export const getContacts = async () => {
   const currentUser = auth.currentUser
 
-  console.log(currentUser)
   if (!currentUser) return false
 
   try {
