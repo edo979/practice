@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { UserContextProvider } from './context/userContext'
-import './db/firebaseInit'
 import Root from './routes/Root'
 import ErrorPage from './error-page'
 import SignIn from './routes/auth/SignIn'
@@ -11,6 +10,7 @@ import Contacts, {
   loader as contactsLoader,
   action as contactsAction,
 } from './routes/auth/Contacts'
+import AuthIndexRoute from './routes/auth/AuthIndexRoute'
 
 const router = createBrowserRouter([
   {
@@ -18,13 +18,28 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
   },
-  { path: '/auth/register', element: <Register /> },
-  { path: '/auth/signin', element: <SignIn /> },
+  { path: '/register', element: <Register /> },
+  { path: '/signin', element: <SignIn /> },
   {
-    path: '/auth/my_contacts',
-    element: <Contacts />,
-    loader: contactsLoader,
-    action: contactsAction,
+    path: '/auth',
+    children: [
+      {
+        index: true,
+        element: <AuthIndexRoute />,
+      },
+      {
+        path: 'my_contacts',
+        element: <Contacts />,
+        loader: contactsLoader,
+        action: contactsAction,
+        children: [
+          {
+            path: ':contactId',
+            element: <p>single contact</p>,
+          },
+        ],
+      },
+    ],
   },
 ])
 

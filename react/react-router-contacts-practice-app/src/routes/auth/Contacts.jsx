@@ -20,9 +20,9 @@ const Contacts = () => {
   const navigate = useNavigate()
   const { userId } = useUserContext()
 
-  useEffect(() => {
-    if (userId) navigate('.', { replace: true })
-  }, [userId])
+  // useEffect(() => {
+  //   if (userId) navigate('.', { replace: true })
+  // }, [userId])
 
   return (
     <div className="container">
