@@ -8,7 +8,10 @@ import ErrorPage from './error-page'
 import Contact from './routes/Contact'
 import SignIn from './routes/auth/SignIn'
 import Register from './routes/auth/Register'
-import Contacts, { loader as rootLoader } from './routes/auth/Contacts'
+import Contacts, {
+  loader as contactsLoader,
+  action as contactsAction,
+} from './routes/auth/Contacts'
 
 const router = createBrowserRouter([
   {
@@ -19,7 +22,12 @@ const router = createBrowserRouter([
   },
   { path: '/auth/register', element: <Register /> },
   { path: '/auth/signin', element: <SignIn /> },
-  { path: '/auth/contacts', element: <Contacts />, loader: rootLoader },
+  {
+    path: '/auth/contacts',
+    element: <Contacts />,
+    loader: contactsLoader,
+    action: contactsAction,
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

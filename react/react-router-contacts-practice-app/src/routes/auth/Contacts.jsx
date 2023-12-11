@@ -43,7 +43,7 @@ const Contacts = () => {
                 aria-label="Search"
               />
             </form>
-            <Form>
+            <Form method="post">
               <button className="btn btn-primary" type="submit">
                 New
               </button>
@@ -56,7 +56,7 @@ const Contacts = () => {
             {contacts ? (
               contacts.map((contact) => (
                 <li key={contact.id}>
-                  {contact.name} {contact.last}
+                  {contact.first} {contact.last}
                 </li>
               ))
             ) : (
