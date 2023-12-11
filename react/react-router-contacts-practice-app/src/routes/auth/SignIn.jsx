@@ -12,7 +12,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const userId = await signIn({ email, password })
-    if (userId) navigate(`/auth/my_contacts`)
+    if (userId) navigate(`/my_contacts`)
   }
 
   return (

@@ -17,7 +17,6 @@ const appCollection = 'contactsApp'
 export const auth = getAuth(app)
 
 export const getContacts = async () => {
-  await auth.authStateReady()
   const currentUser = auth.currentUser
 
   if (!currentUser) return false
@@ -42,7 +41,6 @@ export const getContacts = async () => {
 }
 
 export const createContact = async () => {
-  await auth.authStateReady()
   const currentUser = auth.currentUser
 
   if (!currentUser) return false

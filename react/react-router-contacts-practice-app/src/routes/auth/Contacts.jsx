@@ -1,8 +1,13 @@
-import { Outlet, Form, useLoaderData } from 'react-router-dom'
-import { createContact, getContacts } from '../../db/firebaseInit'
+import { Outlet, Form, useLoaderData, redirect } from 'react-router-dom'
+import { auth, createContact, getContacts } from '../../db/firebaseInit'
 import UserNav from '../../components/UserNav'
 
 export async function loader() {
+  await auth.authStateReady()
+  const userId = auth.currentUser?.uid
+
+  if (!userId) return redirect('/signin')
+
   const contacts = await getContacts()
 
   return { contacts }
