@@ -1,4 +1,3 @@
-import { Form } from 'react-router-dom'
 import Star from '../components/Star'
 
 const Contact = () => {
