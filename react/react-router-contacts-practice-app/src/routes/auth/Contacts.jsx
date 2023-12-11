@@ -21,7 +21,7 @@ const Contacts = () => {
   const { userId } = useUserContext()
 
   useEffect(() => {
-    if (userId) navigate('/auth/contacts', { replace: true })
+    if (userId) navigate('.', { replace: true })
   }, [userId])
 
   return (

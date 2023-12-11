@@ -5,7 +5,6 @@ import { UserContextProvider } from './context/userContext'
 import './db/firebaseInit'
 import Root from './routes/Root'
 import ErrorPage from './error-page'
-import Contact from './routes/Contact'
 import SignIn from './routes/auth/SignIn'
 import Register from './routes/auth/Register'
 import Contacts, {
@@ -18,12 +17,11 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
-    children: [{ path: 'contacts/:contactId', element: <Contact /> }],
   },
   { path: '/auth/register', element: <Register /> },
   { path: '/auth/signin', element: <SignIn /> },
   {
-    path: '/auth/contacts',
+    path: '/auth/my_contacts',
     element: <Contacts />,
     loader: contactsLoader,
     action: contactsAction,

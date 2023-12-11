@@ -5,7 +5,7 @@ const Root = () => {
     <div className="container">
       <div className="row">
         <div
-          className="col-4 pt-4 bg-primary-subtle text-body-emphasis"
+          className="pt-4 bg-primary-subtle text-body-emphasis"
           style={{ minHeight: '100vh' }}
         >
           <UserNav />
