@@ -21,23 +21,22 @@ const router = createBrowserRouter([
   { path: '/register', element: <Register /> },
   { path: '/signin', element: <SignIn /> },
   {
-    path: '/auth',
+    path: '/my_contacts',
+    element: <Contacts />,
+    loader: contactsLoader,
+    action: contactsAction,
     children: [
       {
         index: true,
-        element: <AuthIndexRoute />,
+        element: <p>Pick contact from left</p>,
       },
       {
-        path: 'my_contacts',
-        element: <Contacts />,
-        loader: contactsLoader,
-        action: contactsAction,
-        children: [
-          {
-            path: ':contactId',
-            element: <p>single contact</p>,
-          },
-        ],
+        path: ':contactIs',
+        element: <p>Single contacts</p>,
+      },
+      {
+        path: ':contactIs/edit',
+        element: <p>Updata single contac</p>,
       },
     ],
   },

@@ -16,12 +16,6 @@ const db = getFirestore(app)
 const appCollection = 'contactsApp'
 export const auth = getAuth(app)
 
-function delay(milliseconds = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, milliseconds)
-  })
-}
-
 export const getContacts = async () => {
   await auth.authStateReady()
   const currentUser = auth.currentUser

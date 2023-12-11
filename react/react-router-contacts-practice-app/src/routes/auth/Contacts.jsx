@@ -1,8 +1,6 @@
-import { useEffect } from 'react'
-import { Outlet, Form, useLoaderData, useNavigate } from 'react-router-dom'
+import { Outlet, Form, useLoaderData } from 'react-router-dom'
 import { createContact, getContacts } from '../../db/firebaseInit'
 import UserNav from '../../components/UserNav'
-import { useUserContext } from '../../context/userContext'
 
 export async function loader() {
   const contacts = await getContacts()
@@ -17,12 +15,6 @@ export async function action() {
 
 const Contacts = () => {
   const { contacts } = useLoaderData()
-  const navigate = useNavigate()
-  const { userId } = useUserContext()
-
-  // useEffect(() => {
-  //   if (userId) navigate('.', { replace: true })
-  // }, [userId])
 
   return (
     <div className="container">
