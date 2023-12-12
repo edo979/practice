@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { registerUser } from '../../db/user'
+import { registerUser } from '../../db/users'
 
 const Register = () => {
   const [email, setEmail] = useState('')

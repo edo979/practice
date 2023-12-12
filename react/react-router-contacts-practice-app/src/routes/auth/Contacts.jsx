@@ -5,15 +5,12 @@ import {
   redirect,
   useNavigate,
 } from 'react-router-dom'
-import { auth, createContact, getContacts } from '../../db/firebaseInit'
-import { logoutUser } from '../../db/user'
+import { createContact, getContacts } from '../../db/contacts'
+import { getCurrentUserId, logoutUser } from '../../db/users'
 
 export async function loader() {
-  await auth.authStateReady()
-  const userId = auth.currentUser?.uid
-
+  const userId = await getCurrentUserId()
   if (!userId) return redirect('/signin')
-
   const contacts = await getContacts()
 
   return { contacts }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { signInUser } from '../../db/user.js'
+import { signInUser } from '../../db/users.js'
 import '../../assets/css/userForms.css'
 
 const SignIn = () => {
