@@ -1,5 +1,12 @@
-import { Outlet, Form, useLoaderData, redirect } from 'react-router-dom'
+import {
+  Outlet,
+  Form,
+  useLoaderData,
+  redirect,
+  useNavigate,
+} from 'react-router-dom'
 import { auth, createContact, getContacts } from '../../db/firebaseInit'
+import { logoutUser } from '../../db/user'
 
 export async function loader() {
   await auth.authStateReady()
@@ -19,6 +26,12 @@ export async function action() {
 
 const Contacts = () => {
   const { contacts } = useLoaderData()
+  const navigate = useNavigate()
+
+  const logoutHandler = async () => {
+    await logoutUser()
+    navigate('/')
+  }
 
   return (
     <div className="container">
@@ -62,7 +75,12 @@ const Contacts = () => {
           </div>
 
           <div className="d-flex justify-content-end">
-            <button className="btn btn-outline-secondary">Login Out</button>
+            <button
+              className="btn btn-outline-secondary"
+              onClick={logoutHandler}
+            >
+              Login Out
+            </button>
           </div>
         </sidebar>
         <div className="col-8">
