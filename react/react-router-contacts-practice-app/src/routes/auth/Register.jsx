@@ -1,15 +1,19 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useUserContext } from '../../context/userContext.jsx'
+import { Link, useNavigate } from 'react-router-dom'
+import { registerUser } from '../../db/user'
 
 const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { register } = useUserContext()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    register({ email, password })
+    const newUser = await registerUser({ email, password })
+
+    if (newUser) navigate('/my_contacts')
+
+    // TODO: use action function instead
   }
 
   return (
