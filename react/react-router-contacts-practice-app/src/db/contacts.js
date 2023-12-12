@@ -1,10 +1,16 @@
 import { db, auth } from './firebaseInit'
-import { collection, getDocs, getDoc, setDoc } from 'firebase/firestore/lite'
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore/lite'
 
 const APPCOLLECTION = 'contactsApp'
 
 const getUserDocRef = (uid) => doc(db, APPCOLLECTION, uid)
-const getUserContactsRef = (uid) =>
+const getUserContactsColRef = (uid) =>
   collection(db, APPCOLLECTION, uid, 'contacts')
 
 export const getContacts = async () => {
@@ -13,7 +19,7 @@ export const getContacts = async () => {
   if (!currentUser) return false
 
   try {
-    const contactsSnap = await getDocs(getUserDocRef(currentUser.uid))
+    const contactsSnap = await getDocs(getUserContactsColRef(currentUser.uid))
     const contacts = contactsSnap.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -21,6 +27,7 @@ export const getContacts = async () => {
 
     return contacts
   } catch (error) {
+    //console.log(error)
     return []
   }
 }
@@ -31,7 +38,7 @@ export const createContact = async () => {
   if (!currentUser) return false
 
   try {
-    const userContactsRef = getUserContactsRef(currentUser.uid)
+    const userContactsRef = getUserContactsColRef(currentUser.uid)
     const userDocRef = getUserDocRef(currentUser.uid)
     const userDocSnap = await getDoc(userDocRef)
 
