@@ -5,6 +5,7 @@ import {
   getDocs,
   getDoc,
   setDoc,
+  addDoc,
 } from 'firebase/firestore/lite'
 
 const APPCOLLECTION = 'contactsApp'
@@ -28,7 +29,7 @@ export const getContacts = async () => {
     return contacts
   } catch (error) {
     //console.log(error)
-    return []
+    return false
   }
 }
 

@@ -57,7 +57,7 @@ const Contacts = () => {
             <hr className="my-4" />
 
             <ul>
-              {contacts ? (
+              {contacts.length > 0 ? (
                 contacts.map((contact) => (
                   <li key={contact.id}>
                     {contact.first} {contact.last}
