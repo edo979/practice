@@ -36,7 +36,7 @@ const Contacts = () => {
   return (
     <div className="container">
       <div className="row">
-        <sidebar
+        <div
           className="col-4 py-4 d-flex flex-column justify-content-between bg-primary-subtle text-body-emphasis"
           style={{ minHeight: '100vh' }}
         >
@@ -82,7 +82,7 @@ const Contacts = () => {
               Login Out
             </button>
           </div>
-        </sidebar>
+        </div>
         <div className="col-8">
           <main>
             <Outlet />
