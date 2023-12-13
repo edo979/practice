@@ -42,25 +42,25 @@ export const createContact = async () => {
     const userContactsRef = getUserContactsColRef(currentUser.uid)
     const userDocRef = getUserDocRef(currentUser.uid)
     const userDocSnap = await getDoc(userDocRef)
+    let contact = null
 
     if (userDocSnap.exists()) {
       console.log('User collection exist')
-      await addContact(userContactsRef)
+      contact = await addContact(userContactsRef)
     } else {
       console.log('User document not exist ')
       await setDoc(userDocRef, {})
-      await addContact(userContactsRef)
+      contact = await addContact(userContactsRef)
     }
-
-    return true
+    return contact
   } catch (error) {
     console.log(error, error.message, error.code)
-    return false
+    return null
   }
 }
 
 const addContact = async (userContactsRef) => {
-  await addDoc(userContactsRef, {
+  return await addDoc(userContactsRef, {
     first: 'No',
     last: 'Name',
     avatar: 'https://placekitten.com/g/200/200',

@@ -18,7 +18,9 @@ export async function loader() {
 
 export async function action() {
   const contact = await createContact()
-  return { contact }
+  if (contact) return redirect(`/my_contacts/${contact.id}/edit`)
+
+  return null // todo create error message
 }
 
 const Contacts = () => {
