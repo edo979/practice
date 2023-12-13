@@ -4,6 +4,7 @@ import {
   useLoaderData,
   redirect,
   useNavigate,
+  Link,
 } from 'react-router-dom'
 import { createContact, getContacts } from '../../db/contacts'
 import { getCurrentUserId, logoutUser } from '../../db/users'
@@ -62,7 +63,9 @@ const Contacts = () => {
               {contacts.length > 0 ? (
                 contacts.map((contact) => (
                   <li key={contact.id}>
-                    {contact.first} {contact.last}
+                    <Link to={`./${contact.id}`}>
+                      {contact.first} {contact.last}
+                    </Link>
                   </li>
                 ))
               ) : (

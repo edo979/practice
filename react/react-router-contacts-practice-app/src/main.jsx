@@ -2,15 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { UserContextProvider } from './context/userContext'
-import Root from './routes/Root'
 import ErrorPage from './error-page'
-import SignIn from './routes/auth/SignIn'
-import Register from './routes/auth/Register'
+import Root from './routes/Root'
+import SignIn from './routes/SignIn'
+import Register from './routes/Register'
 import Contacts, {
   loader as contactsLoader,
   action as contactsAction,
 } from './routes/auth/Contacts'
-import EditContact from './routes/EditContact'
+import EditContact from './routes/auth/EditContact'
 
 const router = createBrowserRouter([
   {
