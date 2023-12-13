@@ -1,5 +1,11 @@
 import Star from '../../components/Star'
 
+export async function loader({ params }) {
+  await new Promise((resolve) => setTimeout(() => resolve(), 1000))
+
+  return { contactId: params.contactId }
+}
+
 const Contact = () => {
   const contact = {
     first: 'Your',

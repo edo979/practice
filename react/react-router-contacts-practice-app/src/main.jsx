@@ -11,6 +11,7 @@ import Contacts, {
   action as contactsAction,
 } from './routes/auth/Contacts'
 import EditContact from './routes/auth/EditContact'
+import Contact, { loader as contactLoader } from './routes/auth/Contact'
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,8 @@ const router = createBrowserRouter([
       },
       {
         path: ':contactIs',
-        element: <p>Single contacts</p>,
+        element: <Contact />,
+        loader: contactLoader,
       },
       {
         path: ':contactId/edit',
