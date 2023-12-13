@@ -4,8 +4,9 @@ import {
   useLoaderData,
   redirect,
   useNavigate,
-  Link,
+  NavLink,
 } from 'react-router-dom'
+import classNames from 'classnames'
 import { createContact, getContacts } from '../../db/contacts'
 import { getCurrentUserId, logoutUser } from '../../db/users'
 
@@ -57,32 +58,44 @@ const Contacts = () => {
               </Form>
             </div>
 
-            <hr className="my-4" />
+            <hr className="my-4 border-primary" />
 
-            <ul>
+            <div className="list-group">
               {contacts.length > 0 ? (
                 contacts.map((contact) => (
-                  <li key={contact.id}>
-                    <Link to={`./${contact.id}`}>
-                      {contact.first} {contact.last}
-                    </Link>
-                  </li>
+                  <NavLink
+                    to={`./${contact.id}`}
+                    key={contact.id}
+                    className={({ isActive, isPending }) =>
+                      classNames(
+                        'list-group-item list-group-item-action',
+                        { active: isActive },
+                        {
+                          'list-group-item-secondary': isPending,
+                          'list-group-item-primary': !isPending,
+                        }
+                      )
+                    }
+                  >
+                    {contact.first} {contact.last}
+                  </NavLink>
                 ))
               ) : (
                 <p>No contacts yet.</p>
               )}
-            </ul>
-
-            <hr className="my-4" />
+            </div>
           </div>
 
-          <div className="d-flex justify-content-end">
-            <button
-              className="btn btn-outline-secondary"
-              onClick={logoutHandler}
-            >
-              Login Out
-            </button>
+          <div>
+            <hr className="my-4 border-secondary" />
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-outline-secondary"
+                onClick={logoutHandler}
+              >
+                Login Out
+              </button>
+            </div>
           </div>
         </div>
         <div className="col-8">
