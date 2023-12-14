@@ -13,7 +13,8 @@ import { getCurrentUserId, logoutUser } from '../../db/users'
 export async function loader() {
   const userId = await getCurrentUserId()
   if (!userId) return redirect('/signin')
-  const contacts = await getContacts()
+
+  const contacts = await getContacts(userId)
 
   return { contacts }
 }

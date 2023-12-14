@@ -14,13 +14,9 @@ const getUserDocRef = (uid) => doc(db, APPCOLLECTION, uid)
 const getUserContactsColRef = (uid) =>
   collection(db, APPCOLLECTION, uid, 'contacts')
 
-export const getContacts = async () => {
-  const currentUser = auth.currentUser
-
-  if (!currentUser) return false
-
+export const getContacts = async (uid) => {
   try {
-    const contactsSnap = await getDocs(getUserContactsColRef(currentUser.uid))
+    const contactsSnap = await getDocs(getUserContactsColRef(uid))
     const contacts = contactsSnap.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -33,13 +29,9 @@ export const getContacts = async () => {
   }
 }
 
-export const getSingleContact = async (docId) => {
-  const currentUser = auth.currentUser
-
-  if (!currentUser) return false
-
+export const getSingleContact = async (uid, docId) => {
   try {
-    const docRef = doc(db, APPCOLLECTION, currentUser.uid, 'contacts', docId)
+    const docRef = doc(db, APPCOLLECTION, uid, 'contacts', docId)
     const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) return { id: docSnap.id, ...docSnap.data() }
