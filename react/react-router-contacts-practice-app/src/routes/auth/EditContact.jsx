@@ -20,7 +20,7 @@ export async function action({ request, params }) {
   const contact = await editContact(userId, params.contactId, updates)
 
   if (!contact) return { error: 'Error with database server.' }
-  return { contact }
+  return redirect(`./../`)
 }
 
 const EditContact = () => {
