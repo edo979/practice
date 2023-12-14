@@ -42,14 +42,10 @@ export const getSingleContact = async (uid, docId) => {
   }
 }
 
-export const createContact = async () => {
-  const currentUser = auth.currentUser
-
-  if (!currentUser) return false
-
+export const createContact = async (uid) => {
   try {
-    const userContactsRef = getUserContactsColRef(currentUser.uid)
-    const userDocRef = getUserDocRef(currentUser.uid)
+    const userContactsRef = getUserContactsColRef(uid)
+    const userDocRef = getUserDocRef(uid)
     const userDocSnap = await getDoc(userDocRef)
     let contact = null
 

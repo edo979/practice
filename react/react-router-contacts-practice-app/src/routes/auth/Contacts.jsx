@@ -20,7 +20,10 @@ export async function loader() {
 }
 
 export async function action() {
-  const contact = await createContact()
+  const userId = await getCurrentUserId()
+  if (!userId) return redirect('/signin')
+
+  const contact = await createContact(userId)
   if (contact) return redirect(`/my_contacts/${contact.id}/edit`)
 
   return null // todo create error message
