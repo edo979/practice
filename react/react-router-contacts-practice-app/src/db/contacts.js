@@ -33,6 +33,23 @@ export const getContacts = async () => {
   }
 }
 
+export const getSingleContact = async (docId) => {
+  const currentUser = auth.currentUser
+
+  if (!currentUser) return false
+
+  try {
+    const docRef = doc(db, APPCOLLECTION, currentUser.uid, 'contacts', docId)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) return { id: docSnap.id, ...docSnap.data() }
+
+    return null
+  } catch (error) {
+    return null
+  }
+}
+
 export const createContact = async () => {
   const currentUser = auth.currentUser
 

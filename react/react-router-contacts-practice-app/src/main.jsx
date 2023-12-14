@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         element: <p>Pick contact from left</p>,
       },
       {
-        path: ':contactIs',
+        path: ':contactId',
         element: <Contact />,
         loader: contactLoader,
       },
