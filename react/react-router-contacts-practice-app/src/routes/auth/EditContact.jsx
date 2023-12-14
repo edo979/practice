@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
+import Toast from '../../components/Toast'
 
 export async function action({ request, params }) {
   const userId = await getCurrentUserId()
@@ -19,7 +20,12 @@ export async function action({ request, params }) {
   }
   const contact = await editContact(userId, params.contactId, updates)
 
-  if (!contact) return { error: 'Error with database server.' }
+  if (!contact)
+    return {
+      error:
+        'Error with database server. Contact is not updated. Please try again.',
+    }
+
   return redirect(`./../`)
 }
 
@@ -55,15 +61,7 @@ const EditContact = () => {
       <>
         {contact ? (
           <Form className="mx-sm-2 my-sm-5 m-5" method="post">
-            {actionData?.error && (
-              <div className="row mb-4">
-                <div className="col">
-                  <div className="alert alert-danger" role="alert">
-                    <b>{actionData.error}</b>
-                  </div>
-                </div>
-              </div>
-            )}
+            <Toast message={actionData?.error || undefined} />
 
             <div className="row mb-3">
               <label htmlFor="first" className="col-sm-2 col-form-label">

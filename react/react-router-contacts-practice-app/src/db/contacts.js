@@ -68,6 +68,7 @@ export const createContact = async (uid) => {
 
 export const editContact = async (uid, contactId, data) => {
   try {
+    //throw new Error()
     const contactRef = doc(db, APPCOLLECTION, uid, 'contacts', contactId)
     await updateDoc(contactRef, { ...data })
 
