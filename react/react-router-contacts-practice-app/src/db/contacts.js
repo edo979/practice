@@ -20,7 +20,8 @@ export const getContacts = async (uid) => {
     const contactsSnap = await getDocs(getUserContactsColRef(uid))
     const contacts = contactsSnap.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data(),
+      first: doc.get('first'),
+      last: doc.get('last'),
     }))
 
     return contacts

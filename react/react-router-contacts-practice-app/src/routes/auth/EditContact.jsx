@@ -1,4 +1,4 @@
-import { Form, redirect, useActionData } from 'react-router-dom'
+import { Form, redirect, useActionData, useLoaderData } from 'react-router-dom'
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 
@@ -14,8 +14,11 @@ export async function action({ request, params }) {
   return { contact }
 }
 
+export async function loader({ params }) {}
+
 const EditContact = () => {
   const actionData = useActionData()
+  const loaderData = useLoaderData()
 
   return (
     <Form className="mx-sm-2 my-sm-5 m-5" method="post">
