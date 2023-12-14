@@ -1,4 +1,4 @@
-import { redirect, useLoaderData } from 'react-router-dom'
+import { redirect, useLoaderData, Link } from 'react-router-dom'
 import Star from '../../components/Star'
 import { getSingleContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
@@ -31,7 +31,9 @@ const Contact = () => {
         <p>{contact.notes}</p>
 
         <div className="d-flex gap-2">
-          <button className="btn btn-light text-primary shadow-sm">Edit</button>
+          <Link to={`./edit`} className="btn btn-light text-primary shadow-sm">
+            Edit
+          </Link>
           <button className="btn btn-light text-danger shadow-sm">
             Delete
           </button>
