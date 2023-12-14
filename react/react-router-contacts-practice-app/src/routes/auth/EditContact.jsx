@@ -1,4 +1,11 @@
-import { Form, redirect, useActionData, useLoaderData } from 'react-router-dom'
+import {
+  Form,
+  Link,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from 'react-router-dom'
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 
@@ -11,98 +18,161 @@ export async function action({ request, params }) {
     if (entry[1] !== '') updates[entry[0]] = entry[1]
   }
   const contact = await editContact(userId, params.contactId, updates)
+
+  if (!contact) return { error: 'Error with database server.' }
   return { contact }
 }
 
-export async function loader({ params }) {}
-
 const EditContact = () => {
   const actionData = useActionData()
-  const loaderData = useLoaderData()
+  const { contact } = useLoaderData()
+  const navigation = useNavigation()
 
-  return (
-    <Form className="mx-sm-2 my-sm-5 m-5" method="post">
-      <div className="row mb-3">
-        <label htmlFor="first" className="col-sm-2 col-form-label">
-          Name
-        </label>
-        <div className="col-sm-5">
-          <input
-            type="text"
-            name="first"
-            id="first"
-            className="form-control"
-            placeholder="First"
-            maxLength={15}
-            minLength={2}
-          />
-        </div>
+  let content = null
 
-        <div className="col-sm-5 mt-3 mt-sm-0">
-          <input
-            type="text"
-            name="last"
-            id="last"
-            className="form-control"
-            placeholder="Last"
-            maxLength={15}
-            minLength={2}
-          />
+  if (navigation.state === 'loading') {
+    content = (
+      <div className="row">
+        <div className="col">
+          <div className="alert alert-info" role="alert">
+            Loading...
+          </div>
         </div>
       </div>
-
-      <div className="row mb-3">
-        <label htmlFor="twitter" className="col-sm-2 col-form-label">
-          Twitter
-        </label>
-        <div className="col-sm-10">
-          <input
-            type="text"
-            name="twitter"
-            id="twitter"
-            className="form-control"
-            placeholder="@jack"
-            maxLength={30}
-            minLength={2}
-          />
+    )
+  } else if (navigation.state === 'submitting') {
+    content = (
+      <div className="row">
+        <div className="col">
+          <div className="alert alert-info" role="alert">
+            Saving...
+          </div>
         </div>
       </div>
+    )
+  } else if (navigation.state === 'idle') {
+    content = (
+      <>
+        {contact ? (
+          <Form className="mx-sm-2 my-sm-5 m-5" method="post">
+            {actionData?.error && (
+              <div className="row mb-4">
+                <div className="col">
+                  <div className="alert alert-danger" role="alert">
+                    <b>{actionData.error}</b>
+                  </div>
+                </div>
+              </div>
+            )}
 
-      <div className="row mb-3">
-        <label htmlFor="avatar" className="col-sm-2 col-form-label">
-          Avatar URL
-        </label>
-        <div className="col-sm-10">
-          <input
-            type="text"
-            name="avatar"
-            id="avatar"
-            className="form-control"
-            placeholder="http://example.com/avatar.jpg"
-            maxLength={80}
-            minLength={2}
-          />
-        </div>
-      </div>
+            <div className="row mb-3">
+              <label htmlFor="first" className="col-sm-2 col-form-label">
+                Name
+              </label>
+              <div className="col-sm-5">
+                <input
+                  type="text"
+                  name="first"
+                  id="first"
+                  className="form-control"
+                  placeholder="First"
+                  maxLength={15}
+                  minLength={2}
+                  defaultValue={contact.first}
+                />
+              </div>
 
-      <div className="row mb-3">
-        <label
-          htmlFor="notes"
-          className="col-sm-2 col-form-label"
-          maxLength={250}
-        >
-          Notes
-        </label>
-        <div className="col-sm-10">
-          <textarea name="notes" id="notes" className="form-control" rows={5} />
-        </div>
-      </div>
+              <div className="col-sm-5 mt-3 mt-sm-0">
+                <input
+                  type="text"
+                  name="last"
+                  id="last"
+                  className="form-control"
+                  placeholder="Last"
+                  maxLength={15}
+                  minLength={2}
+                  defaultValue={contact.last}
+                />
+              </div>
+            </div>
 
-      <button className="btn btn-primary" type="submit">
-        Submit
-      </button>
-    </Form>
-  )
+            <div className="row mb-3">
+              <label htmlFor="twitter" className="col-sm-2 col-form-label">
+                Twitter
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  name="twitter"
+                  id="twitter"
+                  className="form-control"
+                  placeholder="@jack"
+                  maxLength={30}
+                  minLength={2}
+                  defaultValue={contact.twitter}
+                />
+              </div>
+            </div>
+
+            <div className="row mb-3">
+              <label htmlFor="avatar" className="col-sm-2 col-form-label">
+                Avatar URL
+              </label>
+              <div className="col-sm-10">
+                <input
+                  type="text"
+                  name="avatar"
+                  id="avatar"
+                  className="form-control"
+                  placeholder="http://example.com/avatar.jpg"
+                  maxLength={80}
+                  minLength={2}
+                  defaultValue={contact.avatar}
+                />
+              </div>
+            </div>
+
+            <div className="row mb-3">
+              <label
+                htmlFor="notes"
+                className="col-sm-2 col-form-label"
+                maxLength={250}
+              >
+                Notes
+              </label>
+              <div className="col-sm-10">
+                <textarea
+                  name="notes"
+                  id="notes"
+                  className="form-control"
+                  rows={5}
+                  defaultValue={contact.notes}
+                  placeholder="Add some notes..."
+                />
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-end gap-2">
+              <Link to={-1} className="btn btn-secondary" type="button">
+                Cancel
+              </Link>
+              <button
+                className="btn btn-primary"
+                type="submit"
+                disabled={navigation.state !== 'idle'}
+              >
+                Submit
+              </button>
+            </div>
+          </Form>
+        ) : (
+          <div>Error loading contacts.</div>
+        )}
+      </>
+    )
+  }
+
+  return content
 }
 
 export default EditContact

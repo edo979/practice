@@ -1,4 +1,4 @@
-import { db, auth } from './firebaseInit'
+import { db } from './firebaseInit'
 import {
   collection,
   doc,
@@ -69,9 +69,9 @@ export const createContact = async (uid) => {
 export const editContact = async (uid, contactId, data) => {
   try {
     const contactRef = doc(db, APPCOLLECTION, uid, 'contacts', contactId)
-    const contact = await updateDoc(contactRef, { ...data })
+    await updateDoc(contactRef, { ...data })
 
-    return contact
+    return true
   } catch (error) {
     return false
   }
