@@ -6,16 +6,16 @@ export async function action({ request, params }) {
   const userId = await getCurrentUserId()
   if (!userId) return redirect('/signin')
 
-  const formData = await request.formData()
-  const updates = Object.fromEntries(formData)
-  console.log(updates)
+  const updates = {}
+  for (const entry of await request.formData()) {
+    if (entry[1] !== '') updates[entry[0]] = entry[1]
+  }
   const contact = await editContact(userId, params.contactId, updates)
   return { contact }
 }
 
 const EditContact = () => {
   const actionData = useActionData()
-  console.log(actionData)
 
   return (
     <Form className="mx-sm-2 my-sm-5 m-5" method="post">
@@ -30,6 +30,8 @@ const EditContact = () => {
             id="first"
             className="form-control"
             placeholder="First"
+            maxLength={15}
+            minLength={2}
           />
         </div>
 
@@ -40,6 +42,8 @@ const EditContact = () => {
             id="last"
             className="form-control"
             placeholder="Last"
+            maxLength={15}
+            minLength={2}
           />
         </div>
       </div>
@@ -55,6 +59,8 @@ const EditContact = () => {
             id="twitter"
             className="form-control"
             placeholder="@jack"
+            maxLength={30}
+            minLength={2}
           />
         </div>
       </div>
@@ -70,12 +76,18 @@ const EditContact = () => {
             id="avatar"
             className="form-control"
             placeholder="http://example.com/avatar.jpg"
+            maxLength={80}
+            minLength={2}
           />
         </div>
       </div>
 
       <div className="row mb-3">
-        <label htmlFor="notes" className="col-sm-2 col-form-label">
+        <label
+          htmlFor="notes"
+          className="col-sm-2 col-form-label"
+          maxLength={250}
+        >
           Notes
         </label>
         <div className="col-sm-10">
