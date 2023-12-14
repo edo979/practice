@@ -10,7 +10,7 @@ import Contacts, {
   loader as contactsLoader,
   action as contactsAction,
 } from './routes/auth/Contacts'
-import EditContact from './routes/auth/EditContact'
+import EditContact, { action as editAction } from './routes/auth/EditContact'
 import Contact, { loader as contactLoader } from './routes/auth/Contact'
 
 const router = createBrowserRouter([
@@ -40,6 +40,7 @@ const router = createBrowserRouter([
       {
         path: ':contactId/edit',
         element: <EditContact />,
+        action: editAction,
       },
     ],
   },

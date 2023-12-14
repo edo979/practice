@@ -1,8 +1,24 @@
-import { Form } from 'react-router-dom'
+import { Form, redirect, useActionData } from 'react-router-dom'
+import { editContact } from '../../db/contacts'
+import { getCurrentUserId } from '../../db/users'
+
+export async function action({ request, params }) {
+  const userId = await getCurrentUserId()
+  if (!userId) return redirect('/signin')
+
+  const formData = await request.formData()
+  const updates = Object.fromEntries(formData)
+  console.log(updates)
+  const contact = await editContact(userId, params.contactId, updates)
+  return { contact }
+}
 
 const EditContact = () => {
+  const actionData = useActionData()
+  console.log(actionData)
+
   return (
-    <Form className="mx-sm-2 my-sm-5 m-5">
+    <Form className="mx-sm-2 my-sm-5 m-5" method="post">
       <div className="row mb-3">
         <label htmlFor="first" className="col-sm-2 col-form-label">
           Name
@@ -20,10 +36,10 @@ const EditContact = () => {
         <div className="col-sm-5 mt-3 mt-sm-0">
           <input
             type="text"
-            name="second"
-            id="second"
+            name="last"
+            id="last"
             className="form-control"
-            placeholder="Second"
+            placeholder="Last"
           />
         </div>
       </div>
@@ -66,6 +82,10 @@ const EditContact = () => {
           <textarea name="notes" id="notes" className="form-control" rows={5} />
         </div>
       </div>
+
+      <button className="btn btn-primary" type="submit">
+        Submit
+      </button>
     </Form>
   )
 }

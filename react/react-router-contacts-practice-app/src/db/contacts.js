@@ -6,6 +6,7 @@ import {
   getDoc,
   setDoc,
   addDoc,
+  updateDoc,
 } from 'firebase/firestore/lite'
 
 const APPCOLLECTION = 'contactsApp'
@@ -61,6 +62,17 @@ export const createContact = async (uid) => {
   } catch (error) {
     console.log(error, error.message, error.code)
     return null
+  }
+}
+
+export const editContact = async (uid, contactId, data) => {
+  try {
+    const contactRef = doc(db, APPCOLLECTION, uid, 'contacts', contactId)
+    const contact = await updateDoc(contactRef, { ...data })
+
+    return contact
+  } catch (error) {
+    return false
   }
 }
 
