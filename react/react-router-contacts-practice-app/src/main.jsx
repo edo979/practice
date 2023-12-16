@@ -13,6 +13,7 @@ import Contacts, {
 import EditContact, { action as editAction } from './routes/auth/EditContact'
 import Contact, { loader as contactLoader } from './routes/auth/Contact'
 import { action as destroyAction } from './routes/auth/DeleteContact'
+import ContactsIndexRoute from './routes/auth/ContactsIndexRoute'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <p>Pick contact from left</p>,
+        element: <ContactsIndexRoute />,
       },
       {
         path: ':contactId',
