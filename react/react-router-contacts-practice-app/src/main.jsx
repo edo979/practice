@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { UserContextProvider } from './context/userContext'
-import ErrorPage from './error-page'
+import ErrorPage from './components/ErrorPage'
 import Root from './routes/Root'
 import SignIn from './routes/SignIn'
 import Register from './routes/Register'
@@ -18,7 +18,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: <ErrorPage />,
   },
   { path: '/register', element: <Register /> },
   { path: '/signin', element: <SignIn /> },
@@ -28,6 +27,7 @@ const router = createBrowserRouter([
     element: <Contacts />,
     loader: contactsLoader,
     action: contactsAction,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -43,10 +43,12 @@ const router = createBrowserRouter([
         element: <EditContact />,
         loader: contactLoader,
         action: editAction,
+        errorElement: <ErrorPage errorTitle="Contact edit error!" />,
       },
       {
         path: ':contactId/destroy',
         action: destroyAction,
+        errorElement: <ErrorPage errorTitle="Contact delete error!" />,
       },
     ],
   },

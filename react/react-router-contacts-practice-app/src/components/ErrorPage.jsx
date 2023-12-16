@@ -1,6 +1,6 @@
 import { useRouteError } from 'react-router-dom'
 
-export default function ErrorPage() {
+export default function ErrorPage({ errorTitle }) {
   const error = useRouteError()
   //console.error(error)
 
@@ -9,14 +9,21 @@ export default function ErrorPage() {
       <div className="row">
         <div className="col">
           <div className="alert alert-danger" role="alert">
-            <h1>Oops!</h1>
+            <h1>{errorTitle}</h1>
+            <hr className="border-danger border-2" />
             <p>Sorry, an unexpected error has occurred.</p>
-            <p>
-              <i>{error.statusText || error.message}</i>
+            <p className="fs-5">
+              <b>
+                <i>{error.statusText || error.message}</i>
+              </b>
             </p>
           </div>
         </div>
       </div>
     </div>
   )
+}
+
+ErrorPage.defaultProps = {
+  errorTitle: 'Oooops an Error!',
 }

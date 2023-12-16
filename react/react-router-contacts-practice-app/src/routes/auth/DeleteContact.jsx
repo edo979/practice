@@ -6,7 +6,8 @@ export async function action({ params }) {
   const userId = await getCurrentUserId()
   if (!userId) return redirect('/signin')
 
-  await deleteContact(userId, params.contactId)
+  const isDeleted = await deleteContact(userId, params.contactId)
+  if (!isDeleted) throw new Error('Error while deleting contact!')
 
   return redirect('/my_contacts')
 }
