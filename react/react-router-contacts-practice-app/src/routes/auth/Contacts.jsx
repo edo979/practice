@@ -65,7 +65,7 @@ const Contacts = () => {
             <hr className="my-4 border-primary" />
 
             <div className="list-group">
-              {contacts.length > 0 ? (
+              {contacts?.length > 0 ? (
                 contacts.map((contact) => (
                   <NavLink
                     to={`./${contact.id}`}

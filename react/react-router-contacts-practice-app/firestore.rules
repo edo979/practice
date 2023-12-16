@@ -1,15 +1,42 @@
 rules_version = '2';
-
-service cloud.firestore {
+service cloud.firestore {  
   match /databases/{database}/documents {
-
+  	function isValidString(value, min, max) {
+  		return value is string && value.size() > min && value.size() <= max;
+  	}
+  
     match /{document=**} {
-      allow read: if true;
+    	allow write, read: if false;
     }
-
-    // Deny write access to all documents
-    match /{document=**} {
-      allow write: if false;
+    
+    match /contactsApp/{userId} {
+    	allow read, create: if request.auth != null
+      						&& request.auth.uid == userId;
+                  
+      match /contacts/{contact} {
+      	function isFieldsValid() {
+        	let fields = request.resource.data.keys().toSet();
+          let valid = fields.difference(['first', 'last', 'avatar', 'twitter', 'notes', 'favorite'].toSet());
+          
+          return valid.size() == 0
+        }
+        
+        function isFieldsDataValid() {
+        	let data = request.resource.data;
+          
+        	return isValidString(data.first, 1, 10)
+                	&& isValidString(data.last, 1, 10);
+        }
+        
+        allow read: if request.auth != null
+                    && request.auth.uid == userId;
+        allow create, update: if request.auth != null
+                    && request.auth.uid == userId
+                    && isFieldsValid()
+                    && isFieldsDataValid();
+        allow delete: if request.auth != null
+                    && request.auth.uid == userId
+      }
     }
   }
 }
