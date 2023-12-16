@@ -7,6 +7,7 @@ const ContactsIndexRoute = () => {
           On left side you can: search, add and pick contact. After picking
           contact you can edit or delete contact.
         </p>
+        <p className="fs-3">👈</p>
       </div>
     </div>
   )

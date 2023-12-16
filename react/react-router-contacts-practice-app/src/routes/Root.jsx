@@ -21,7 +21,7 @@ const Root = () => {
             className="btn btn-primary btn-lg"
             type="button"
           >
-            Go To Contacts
+            👉 Go To Contacts
           </Link>
         </div>
       </div>
@@ -36,13 +36,7 @@ const Root = () => {
               easy. Wan't delete contact it is not problem, simple click button
               for deleting contact.
             </p>
-            <Link
-              to="/my_contacts"
-              className="btn btn-outline-light"
-              type="button"
-            >
-              Example button
-            </Link>
+            <p className="text-center fs-4">👩👨👵👴🤴👳‍♂️</p>
           </div>
         </div>
         <div className="col-md-6">
@@ -54,13 +48,7 @@ const Root = () => {
               create new contact with all data you want then store it in
               database for later viewing. Easy find contact with search bar.
             </p>
-            <Link
-              to="/my_contacts"
-              className="btn btn-outline-secondary"
-              type="button"
-            >
-              Example button
-            </Link>
+            <p className="text-center fs-3">✏ 📝 🗃</p>
           </div>
         </div>
       </div>
