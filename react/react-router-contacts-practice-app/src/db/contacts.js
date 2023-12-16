@@ -30,7 +30,7 @@ export const getContacts = async (uid) => {
     return contacts
   } catch (error) {
     //console.log(error)
-    return false
+    return null
   }
 }
 
@@ -67,6 +67,17 @@ export const createContact = async (uid) => {
     console.log(error, error.message, error.code)
     return null
   }
+
+  async function addContact(userContactsRef) {
+    return await addDoc(userContactsRef, {
+      first: 'No',
+      last: 'Name',
+      avatar: 'https://placekitten.com/g/200/200',
+      twitter: '',
+      notes: '',
+      favorite: false,
+    })
+  }
 }
 
 export const editContact = async (uid, contactId, data) => {
@@ -79,17 +90,6 @@ export const editContact = async (uid, contactId, data) => {
   } catch (error) {
     return false
   }
-}
-
-const addContact = async (userContactsRef) => {
-  return await addDoc(userContactsRef, {
-    first: 'No',
-    last: 'Name',
-    avatar: 'https://placekitten.com/g/200/200',
-    twitter: '',
-    notes: '',
-    favorite: false,
-  })
 }
 
 export const deleteContact = async (uid, contactId) => {
