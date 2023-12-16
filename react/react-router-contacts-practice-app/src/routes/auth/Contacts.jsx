@@ -24,9 +24,9 @@ export async function action() {
   if (!userId) return redirect('/signin')
 
   const contact = await createContact(userId)
-  if (contact) return redirect(`/my_contacts/${contact.id}/edit`)
+  if (!contact) throw new Error('Create contact error!')
 
-  return null // todo create error message
+  return redirect(`/my_contacts/${contact.id}/edit`)
 }
 
 const Contacts = () => {

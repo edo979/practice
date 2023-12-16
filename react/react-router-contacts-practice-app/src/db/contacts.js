@@ -29,7 +29,6 @@ export const getContacts = async (uid) => {
 
     return contacts
   } catch (error) {
-    //console.log(error)
     return null
   }
 }
@@ -81,7 +80,6 @@ export const createContact = async (uid) => {
 }
 
 export const editContact = async (uid, contactId, data) => {
-  return false
   try {
     const contactRef = doc(db, APPCOLLECTION, uid, 'contacts', contactId)
     await updateDoc(contactRef, { ...data })

@@ -1,8 +1,8 @@
-import { useRouteError } from 'react-router-dom'
+import { Link, useNavigate, useRouteError } from 'react-router-dom'
 
 export default function ErrorPage({ errorTitle }) {
   const error = useRouteError()
-  //console.error(error)
+  const navigate = useNavigate()
 
   return (
     <div id="error-page" className="container">
@@ -17,6 +17,12 @@ export default function ErrorPage({ errorTitle }) {
                 <i>{error.statusText || error.message}</i>
               </b>
             </p>
+            <hr className="border-danger border-2" />
+            <div className="d-flex justify-content-end">
+              <Link to={-1} className="btn btn-danger">
+                Back
+              </Link>
+            </div>
           </div>
         </div>
       </div>
