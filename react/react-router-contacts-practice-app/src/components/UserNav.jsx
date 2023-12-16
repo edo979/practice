@@ -14,9 +14,9 @@ const UserNav = () => {
 
   return (
     <header className="row">
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-end">
         {userId ? (
-          <button className="btn btn-outline-primary" onClick={signOutHandler}>
+          <button className="btn btn-dark" onClick={signOutHandler}>
             Sign Out
           </button>
         ) : (
