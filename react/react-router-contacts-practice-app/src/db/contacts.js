@@ -7,6 +7,7 @@ import {
   setDoc,
   addDoc,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore/lite'
 
 const APPCOLLECTION = 'contactsApp'
@@ -14,6 +15,8 @@ const APPCOLLECTION = 'contactsApp'
 const getUserDocRef = (uid) => doc(db, APPCOLLECTION, uid)
 const getUserContactsColRef = (uid) =>
   collection(db, APPCOLLECTION, uid, 'contacts')
+const getContactRef = (uid, contactId) =>
+  `${APPCOLLECTION}/${uid}/contacts/${contactId}`
 
 export const getContacts = async (uid) => {
   try {
@@ -87,4 +90,13 @@ const addContact = async (userContactsRef) => {
     notes: '',
     favorite: false,
   })
+}
+
+export const deleteContact = async (uid, contactId) => {
+  try {
+    await deleteDoc(doc(db, getContactRef(uid, contactId)))
+    return true
+  } catch (error) {
+    return false
+  }
 }

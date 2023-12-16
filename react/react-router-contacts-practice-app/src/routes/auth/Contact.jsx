@@ -1,4 +1,4 @@
-import { redirect, useLoaderData, Link } from 'react-router-dom'
+import { redirect, useLoaderData, Link, Form } from 'react-router-dom'
 import Star from '../../components/Star'
 import { getSingleContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
@@ -34,9 +34,14 @@ const Contact = () => {
           <Link to={`./edit`} className="btn btn-light text-primary shadow-sm">
             Edit
           </Link>
-          <button className="btn btn-light text-danger shadow-sm">
-            Delete
-          </button>
+          <Form method="post" action="destroy">
+            <button
+              type="submit"
+              className="btn btn-light text-danger shadow-sm"
+            >
+              Delete
+            </button>
+          </Form>
         </div>
       </div>
     </div>
