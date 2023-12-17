@@ -9,7 +9,8 @@ import {
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 import { useState } from 'react'
-import { resizeImage } from '../../db/storage'
+import { resizeImage, uploadImageToStorage } from '../../db/storage'
+import { EditAvatar } from '../../components/EditAvatar'
 
 export async function action({ request, params }) {
   const userId = await getCurrentUserId()
@@ -21,7 +22,11 @@ export async function action({ request, params }) {
       // Upload image to storage
       // get link then sent data to update contact
       if (entry[0] === 'image') {
-        updates.avatar = 'https://picsum.photos/200'
+        console.log(entry[1])
+        //const resizedImage = await resizeImage(entry[1])
+        const imageURL = await uploadImageToStorage(entry[1])
+        console.log(imageURL)
+        //updates.avatar = 'https://picsum.photos/200'
         continue
       }
       updates[entry[0]] = entry[1]
@@ -78,7 +83,11 @@ const EditContact = () => {
     content = (
       <>
         {contact ? (
-          <Form className="mx-sm-2 my-sm-5 m-5" method="post">
+          <Form
+            className="mx-sm-2 my-sm-5 m-5"
+            method="post"
+            encType="multipart/form-data"
+          >
             <div className="row mb-3">
               <label htmlFor="first" className="col-sm-2 col-form-label">
                 Name
@@ -145,16 +154,19 @@ const EditContact = () => {
             </div>
 
             {resizedImage && (
-              <div className="row mb-3">
-                <div className="col-sm-10 offset-sm-2">
-                  <img
-                    src={resizedImage}
-                    alt="image"
-                    className="img-thumbnail"
-                    style={{ height: 'auto' }}
-                  />
+              <>
+                <div className="row mb-3">
+                  <div className="col-sm-10 offset-sm-2">
+                    <img
+                      src={resizedImage}
+                      alt="image"
+                      className="img-thumbnail"
+                      style={{ height: 'auto' }}
+                    />
+                  </div>
                 </div>
-              </div>
+                <EditAvatar img={resizedImage} />
+              </>
             )}
 
             <div className="row mb-3">

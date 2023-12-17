@@ -1,3 +1,6 @@
+import { ref, uploadBytes } from 'firebase/storage'
+import { storage } from './firebaseInit'
+
 export const resizeImage = (file, cb) => {
   const reader = new FileReader()
 
@@ -43,4 +46,15 @@ export const dataURLtoFile = (dataURL, filename) => {
   }
 
   return new File([u8arr], filename, { type: mime })
+}
+
+export const uploadImageToStorage = async (file) => {
+  const storageRef = ref(storage, `contactsApp/${Date.now()}`)
+
+  try {
+    const snapshot = uploadBytes(storageRef, file)
+    console.log(snapshot)
+  } catch (error) {
+    console.log(error)
+  }
 }
