@@ -9,6 +9,7 @@ import {
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 import { useState } from 'react'
+import { resizeImage } from '../../db/storage'
 
 export async function action({ request, params }) {
   const userId = await getCurrentUserId()
@@ -16,8 +17,17 @@ export async function action({ request, params }) {
 
   const updates = {}
   for (const entry of await request.formData()) {
-    if (entry[1] !== '') updates[entry[0]] = entry[1]
+    if (entry[1] !== '') {
+      // Upload image to storage
+      // get link then sent data to update contact
+      if (entry[0] === 'image') {
+        updates.avatar = 'https://picsum.photos/200'
+        continue
+      }
+      updates[entry[0]] = entry[1]
+    }
   }
+
   const contact = await editContact(userId, params.contactId, updates)
 
   if (!contact)
@@ -32,12 +42,14 @@ const EditContact = () => {
   const actionData = useActionData()
   const { contact } = useLoaderData()
   const navigation = useNavigation()
-  const [thumb, setThumb] = useState()
+  const [resizedImage, setResizedImage] = useState(null)
 
-  const handleThumb = (e) => {
-    console.log(e.target.files[0])
-    console.log('url', URL.createObjectURL(e.target.files[0]))
-    setThumb({ img: URL.createObjectURL(e.target.files[0]) })
+  const handleThumb = (event) => {
+    const file = event.target.files[0]
+
+    if (!file) return
+
+    resizeImage(file, setResizedImage)
   }
 
   let content = null
@@ -132,14 +144,14 @@ const EditContact = () => {
               </div>
             </div>
 
-            {thumb?.img && (
+            {resizedImage && (
               <div className="row mb-3">
                 <div className="col-sm-10 offset-sm-2">
                   <img
-                    src={thumb.img}
+                    src={resizedImage}
                     alt="image"
                     className="img-thumbnail"
-                    style={{ height: '150px' }}
+                    style={{ height: 'auto' }}
                   />
                 </div>
               </div>
