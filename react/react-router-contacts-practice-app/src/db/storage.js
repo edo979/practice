@@ -54,7 +54,7 @@ export const uploadImageToStorage = async (file) => {
   try {
     const image = dataURLtoFile(file, 'jah')
     const snapshot = await uploadBytes(storageRef, image)
-    console.log(snapshot.metadata.name)
+    console.log(snapshot.metadata)
   } catch (error) {
     console.log(error)
   }

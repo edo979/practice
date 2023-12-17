@@ -23,11 +23,10 @@ export async function action({ request, params }) {
       // Upload image to storage
       // get link then sent data to update contact
       if (entry[0] === 'image') {
-        //const resizedImage = await resizeImage(entry[1])
         try {
           const imageURL = await uploadImageToStorage(entry[1])
         } catch (error) {
-          console.log(error)
+          throw new Error('Error with image storage!')
         }
 
         //updates.avatar = 'https://picsum.photos/200'
@@ -60,6 +59,7 @@ const EditContact = () => {
   const notes = useRef(null)
 
   const handleSubmit = (e) => {
+    e.preventDefault()
     let formData = new FormData()
     formData.set('first', first.current.value)
     formData.set('last', last.current.value)
@@ -70,7 +70,7 @@ const EditContact = () => {
       formData.set('image', resizedImage)
     }
 
-    submit(formData, { method: 'POST', encType: 'multipart/form-data' })
+    submit(formData, { method: 'post', encType: 'multipart/form-data' })
   }
 
   let content = null
