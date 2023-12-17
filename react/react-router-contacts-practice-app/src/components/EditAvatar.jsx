@@ -1,20 +1,24 @@
 import { useRef, useState } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 
-export const EditAvatar = ({ img }) => {
+export const EditAvatar = ({ img, setImg }) => {
   const [scale, setScale] = useState(1)
   const editor = useRef(null)
 
-  const onClickSave = async () => {}
+  const onClickSave = async () => {
+    const canvas = editor.current.getImage().toDataURL('image/jpeg')
+
+    setImg(canvas)
+  }
 
   return (
-    <>
+    <div onClick={onClickSave}>
       <AvatarEditor
         ref={editor}
         image={img}
         width={200}
         height={200}
-        border={50}
+        border={0}
         color={[255, 255, 255, 0.6]} // RGBA
         scale={scale}
         rotate={0}
@@ -35,6 +39,6 @@ export const EditAvatar = ({ img }) => {
           value={scale}
         />
       </div>
-    </>
+    </div>
   )
 }

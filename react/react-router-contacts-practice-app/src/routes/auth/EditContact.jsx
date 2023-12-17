@@ -5,10 +5,11 @@ import {
   useActionData,
   useLoaderData,
   useNavigation,
+  useSubmit,
 } from 'react-router-dom'
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { resizeImage, uploadImageToStorage } from '../../db/storage'
 import { EditAvatar } from '../../components/EditAvatar'
 
@@ -22,10 +23,13 @@ export async function action({ request, params }) {
       // Upload image to storage
       // get link then sent data to update contact
       if (entry[0] === 'image') {
-        console.log(entry[1])
         //const resizedImage = await resizeImage(entry[1])
-        const imageURL = await uploadImageToStorage(entry[1])
-        console.log(imageURL)
+        try {
+          const imageURL = await uploadImageToStorage(entry[1])
+        } catch (error) {
+          console.log(error)
+        }
+
         //updates.avatar = 'https://picsum.photos/200'
         continue
       }
@@ -47,14 +51,23 @@ const EditContact = () => {
   const actionData = useActionData()
   const { contact } = useLoaderData()
   const navigation = useNavigation()
+  const [selectedImage, setSelectedImage] = useState(null)
   const [resizedImage, setResizedImage] = useState(null)
+  const submit = useSubmit()
+  const first = useRef(null)
+  const last = useRef(null)
+  const twitter = useRef(null)
+  const notes = useRef(null)
 
-  const handleThumb = (event) => {
-    const file = event.target.files[0]
+  const handleSubmit = (e) => {
+    let formData = new FormData()
+    formData.set('first', first.current.value)
+    formData.set('last', last.current.value)
+    formData.set('twitter', twitter.current.value)
+    formData.set('notes', notes.current.value)
+    formData.set('image', resizedImage)
 
-    if (!file) return
-
-    resizeImage(file, setResizedImage)
+    submit(formData, { method: 'POST', encType: 'multipart/form-data' })
   }
 
   let content = null
@@ -83,17 +96,14 @@ const EditContact = () => {
     content = (
       <>
         {contact ? (
-          <Form
-            className="mx-sm-2 my-sm-5 m-5"
-            method="post"
-            encType="multipart/form-data"
-          >
+          <Form className="mx-sm-2 my-sm-5 m-5" onSubmit={handleSubmit}>
             <div className="row mb-3">
               <label htmlFor="first" className="col-sm-2 col-form-label">
                 Name
               </label>
               <div className="col-sm-5">
                 <input
+                  ref={first}
                   type="text"
                   name="first"
                   id="first"
@@ -107,6 +117,7 @@ const EditContact = () => {
 
               <div className="col-sm-5 mt-3 mt-sm-0">
                 <input
+                  ref={last}
                   type="text"
                   name="last"
                   id="last"
@@ -125,6 +136,7 @@ const EditContact = () => {
               </label>
               <div className="col-sm-10">
                 <input
+                  ref={twitter}
                   type="text"
                   name="twitter"
                   id="twitter"
@@ -148,25 +160,15 @@ const EditContact = () => {
                   id="image"
                   className="form-control"
                   accept="image/*"
-                  onChange={handleThumb}
+                  onChange={(e) => {
+                    setSelectedImage(e.target.files[0])
+                  }}
                 />
               </div>
             </div>
 
-            {resizedImage && (
-              <>
-                <div className="row mb-3">
-                  <div className="col-sm-10 offset-sm-2">
-                    <img
-                      src={resizedImage}
-                      alt="image"
-                      className="img-thumbnail"
-                      style={{ height: 'auto' }}
-                    />
-                  </div>
-                </div>
-                <EditAvatar img={resizedImage} />
-              </>
+            {selectedImage && (
+              <EditAvatar img={selectedImage} setImg={setResizedImage} />
             )}
 
             <div className="row mb-3">
@@ -179,6 +181,7 @@ const EditContact = () => {
               </label>
               <div className="col-sm-10">
                 <textarea
+                  ref={notes}
                   name="notes"
                   id="notes"
                   className="form-control"
