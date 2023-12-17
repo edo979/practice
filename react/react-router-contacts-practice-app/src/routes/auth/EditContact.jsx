@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
-import Toast from '../../components/Toast'
+import { useState } from 'react'
 
 export async function action({ request, params }) {
   const userId = await getCurrentUserId()
@@ -32,6 +32,13 @@ const EditContact = () => {
   const actionData = useActionData()
   const { contact } = useLoaderData()
   const navigation = useNavigation()
+  const [thumb, setThumb] = useState()
+
+  const handleThumb = (e) => {
+    console.log(e.target.files[0])
+    console.log('url', URL.createObjectURL(e.target.files[0]))
+    setThumb({ img: URL.createObjectURL(e.target.files[0]) })
+  }
 
   let content = null
 
@@ -110,22 +117,33 @@ const EditContact = () => {
             </div>
 
             <div className="row mb-3">
-              <label htmlFor="avatar" className="col-sm-2 col-form-label">
-                Avatar URL
+              <label htmlFor="image" className="col-sm-2 col-form-label">
+                Image
               </label>
               <div className="col-sm-10">
                 <input
-                  type="text"
-                  name="avatar"
-                  id="avatar"
+                  type="file"
+                  name="image"
+                  id="image"
                   className="form-control"
-                  placeholder="http://example.com/avatar.jpg"
-                  maxLength={80}
-                  minLength={2}
-                  defaultValue={contact.avatar}
+                  accept="image/*"
+                  onChange={handleThumb}
                 />
               </div>
             </div>
+
+            {thumb?.img && (
+              <div className="row mb-3">
+                <div className="col-sm-10 offset-sm-2">
+                  <img
+                    src={thumb.img}
+                    alt="image"
+                    className="img-thumbnail"
+                    style={{ height: '150px' }}
+                  />
+                </div>
+              </div>
+            )}
 
             <div className="row mb-3">
               <label
