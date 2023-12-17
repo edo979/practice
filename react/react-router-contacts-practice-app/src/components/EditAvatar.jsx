@@ -12,33 +12,35 @@ export const EditAvatar = ({ img, setImg }) => {
   }
 
   return (
-    <div onClick={onClickSave}>
+    <div className="form-control" onClick={onClickSave}>
+      {img && (
+        <div className="mb-4">
+          <label htmlFor="customRange1" className="form-label">
+            Edit image
+          </label>
+          <input
+            type="range"
+            className="form-range"
+            id="customRange1"
+            min="1"
+            max="2"
+            step="0.05"
+            onChange={(e) => setScale(parseFloat(e.target.value))}
+            value={scale}
+          />
+        </div>
+      )}
+
       <AvatarEditor
         ref={editor}
         image={img}
         width={200}
         height={200}
-        border={0}
+        border={25}
         color={[255, 255, 255, 0.6]} // RGBA
         scale={scale}
         rotate={0}
       />
-
-      <div>
-        <label htmlFor="customRange1" className="form-label">
-          Edit image
-        </label>
-        <input
-          type="range"
-          className="form-range"
-          id="customRange1"
-          min="1"
-          max="2"
-          step="0.05"
-          onChange={(e) => setScale(parseFloat(e.target.value))}
-          value={scale}
-        />
-      </div>
     </div>
   )
 }

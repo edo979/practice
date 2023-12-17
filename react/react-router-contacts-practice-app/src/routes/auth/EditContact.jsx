@@ -65,7 +65,10 @@ const EditContact = () => {
     formData.set('last', last.current.value)
     formData.set('twitter', twitter.current.value)
     formData.set('notes', notes.current.value)
-    formData.set('image', resizedImage)
+
+    if (resizeImage) {
+      formData.set('image', resizedImage)
+    }
 
     submit(formData, { method: 'POST', encType: 'multipart/form-data' })
   }
@@ -168,7 +171,11 @@ const EditContact = () => {
             </div>
 
             {selectedImage && (
-              <EditAvatar img={selectedImage} setImg={setResizedImage} />
+              <div className="row mb-3">
+                <div className="col-sm-10 offset-sm-2">
+                  <EditAvatar img={selectedImage} setImg={setResizedImage} />
+                </div>
+              </div>
             )}
 
             <div className="row mb-3">
