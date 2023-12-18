@@ -38,7 +38,7 @@ export const EditAvatar = ({ img, setImg }) => {
         image={img}
         width={200}
         height={200}
-        border={50}
+        border={30}
         color={[255, 255, 255, 0.6]} // RGBA
         scale={scale}
         rotate={0}

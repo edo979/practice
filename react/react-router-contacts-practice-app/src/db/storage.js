@@ -16,9 +16,9 @@ const dataURLtoFile = (dataURL, filename) => {
 }
 
 export const uploadImageToStorage = async (file) => {
-  const storageRef = ref(storage, `contactsApp/${Date.now()}`)
-
   try {
+    const storageRef = ref(storage, `contactsApp/${Date.now()}`)
+
     const image = dataURLtoFile(file, 'avatarImage')
     const snapshot = await uploadBytes(storageRef, image)
     const url = await getDownloadURL(snapshot.ref)

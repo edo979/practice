@@ -18,21 +18,21 @@ export async function action({ request, params }) {
   if (!userId) return redirect('/signin')
 
   const updates = {}
+  const imageUploadError = false
+
+  // Mutate updates object
   for (const entry of await request.formData()) {
     if (entry[1] !== '') {
-      // Upload image to storage
-      // get link then sent data to update contact
       if (entry[0] === 'image') {
-        try {
-          const imageURL = await uploadImageToStorage(entry[1])
+        // Upload image to storage
+        // get link then sent data to update contact
+        const imageURL = await uploadImageToStorage(entry[1])
 
-          if (imageURL) {
-            updates.avatar = imageURL
-          } else {
-            updates.avatar = 'https://picsum.photos/200'
-          }
-        } catch (error) {
-          //throw new Error('Error with image storage!')
+        if (imageURL) {
+          updates.avatar = imageURL
+        } else {
+          updates.avatar = 'https://picsum.photos/200'
+          imageUploadError = true
         }
 
         continue
@@ -40,13 +40,15 @@ export async function action({ request, params }) {
 
       updates[entry[0]] = entry[1]
     }
-  }
+  } // end for
 
   const contact = await editContact(userId, params.contactId, updates)
 
-  if (!contact)
+  if (!contact || imageUploadError)
     throw new Error(
-      'Error with database server. Contact is not updated. Please try again.'
+      `Error with database server. Contact is not updated. Please try again.
+      ${imageUploadError && 'Error saving image to server.'}
+      `
     )
 
   return redirect(`./../`)
