@@ -71,7 +71,7 @@ export const createContact = async (uid) => {
     return await addDoc(userContactsRef, {
       first: 'No',
       last: 'Name',
-      avatar: 'https://placekitten.com/g/200/200',
+      avatar: 'https://picsum.photos/200',
       twitter: '',
       notes: '',
       favorite: false,
