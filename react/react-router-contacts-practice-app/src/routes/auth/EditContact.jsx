@@ -26,7 +26,7 @@ export async function action({ request, params }) {
       if (entry[0] === 'image') {
         // Upload image to storage
         // get link then sent data to update contact
-        const imageURL = await uploadImageToStorage(entry[1])
+        const imageURL = await uploadImageToStorage(entry[1], params.contactId)
 
         if (imageURL) {
           updates.avatar = imageURL
