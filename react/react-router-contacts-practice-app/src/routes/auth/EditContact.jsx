@@ -165,11 +165,17 @@ const EditContact = () => {
                 Image
               </label>
               <div className="col-sm-10">
+                {selectedImage ? (
+                  <EditAvatar img={selectedImage} setImg={setResizedImage} />
+                ) : (
+                  <img src={contact.avatar} className="img-thumbnail" />
+                )}
+
                 <input
                   type="file"
                   name="image"
                   id="image"
-                  className="form-control"
+                  className="form-control mt-2"
                   accept="image/*"
                   onChange={(e) => {
                     setSelectedImage(e.target.files[0])
@@ -177,16 +183,6 @@ const EditContact = () => {
                 />
               </div>
             </div>
-
-            {selectedImage && (
-              <div className="row mb-3">
-                <div className="col-sm-10 offset-sm-2">
-                  <EditAvatar img={selectedImage} setImg={setResizedImage} />
-                </div>
-              </div>
-            )}
-
-            {/* {resizedImage && <img src={resizedImage} />} */}
 
             <div className="row mb-3">
               <label
