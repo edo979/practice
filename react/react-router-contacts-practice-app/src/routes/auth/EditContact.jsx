@@ -35,7 +35,6 @@ export async function action({ request, params }) {
           //throw new Error('Error with image storage!')
         }
 
-        //updates.avatar = 'https://picsum.photos/200'
         continue
       }
 
