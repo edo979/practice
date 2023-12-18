@@ -10,7 +10,7 @@ import {
 import { editContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 import { useRef, useState } from 'react'
-import { resizeImage, uploadImageToStorage } from '../../db/storage'
+import { uploadImageToStorage } from '../../db/storage'
 import { EditAvatar } from '../../components/EditAvatar'
 
 export async function action({ request, params }) {
@@ -25,13 +25,20 @@ export async function action({ request, params }) {
       if (entry[0] === 'image') {
         try {
           const imageURL = await uploadImageToStorage(entry[1])
+
+          if (imageURL) {
+            updates.avatar = imageURL
+          } else {
+            updates.avatar = 'https://picsum.photos/200'
+          }
         } catch (error) {
-          throw new Error('Error with image storage!')
+          //throw new Error('Error with image storage!')
         }
 
         //updates.avatar = 'https://picsum.photos/200'
         continue
       }
+
       updates[entry[0]] = entry[1]
     }
   }
@@ -66,7 +73,7 @@ const EditContact = () => {
     formData.set('twitter', twitter.current.value)
     formData.set('notes', notes.current.value)
 
-    if (resizeImage) {
+    if (resizedImage) {
       formData.set('image', resizedImage)
     }
 
@@ -177,6 +184,8 @@ const EditContact = () => {
                 </div>
               </div>
             )}
+
+            {/* {resizedImage && <img src={resizedImage} />} */}
 
             <div className="row mb-3">
               <label

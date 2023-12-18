@@ -1,40 +1,7 @@
-import { ref, uploadBytes } from 'firebase/storage'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from './firebaseInit'
 
-export const resizeImage = (file, cb) => {
-  const reader = new FileReader()
-
-  reader.onload = (e) => {
-    const img = new Image()
-    const maxSize = 200
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-
-      const newWidth =
-        img.width > img.height ? maxSize : (img.width / img.height) * maxSize
-      const newHeight =
-        img.height > img.width ? maxSize : (img.height / img.width) * maxSize
-
-      canvas.width = newWidth
-      canvas.height = newHeight
-
-      ctx.drawImage(img, 0, 0, newWidth, newHeight)
-
-      // Convert the canvas content to a data URL
-      const resizedDataURL = canvas.toDataURL('image/jpeg')
-
-      cb(resizedDataURL)
-    }
-
-    img.src = e.target.result
-  }
-
-  reader.readAsDataURL(file)
-}
-
-export const dataURLtoFile = (dataURL, filename) => {
+const dataURLtoFile = (dataURL, filename) => {
   const arr = dataURL.split(',')
   const mime = arr[0].match(/:(.*?);/)[1]
   const bstr = atob(arr[1])
@@ -52,10 +19,13 @@ export const uploadImageToStorage = async (file) => {
   const storageRef = ref(storage, `contactsApp/${Date.now()}`)
 
   try {
-    const image = dataURLtoFile(file, 'jah')
+    const image = dataURLtoFile(file, 'avatarImage')
     const snapshot = await uploadBytes(storageRef, image)
-    console.log(snapshot.metadata)
+    const url = await getDownloadURL(snapshot.ref)
+
+    return url
   } catch (error) {
-    console.log(error)
+    //console.log(error)
+    return false
   }
 }
