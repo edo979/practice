@@ -7,16 +7,27 @@ import {
   NavLink,
 } from 'react-router-dom'
 import classNames from 'classnames'
-import { createContact, getContacts } from '../../db/contacts'
+import {
+  createContact,
+  getContacts,
+  getFilteredContacts,
+} from '../../db/contacts'
 import { getCurrentUserId, logoutUser } from '../../db/users'
 
-export async function loader() {
+export async function loader({ request }) {
   const userId = await getCurrentUserId()
   if (!userId) return redirect('/signin')
 
-  const contacts = await getContacts(userId)
+  const url = new URL(request.url)
+  const q = url.searchParams.get('q')?.toLowerCase()
 
-  return { contacts }
+  if (q) {
+    const contacts = await getFilteredContacts(userId, q)
+    return { contacts }
+  } else {
+    const contacts = await getContacts(userId)
+    return { contacts }
+  }
 }
 
 export async function action() {
@@ -47,14 +58,16 @@ const Contacts = () => {
         >
           <div>
             <div className="d-flex gap-2 mt-4">
-              <form className="flex-fill" role="search">
+              <Form className="flex-fill" role="search">
                 <input
+                  id="q"
+                  name="q"
                   className="form-control"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
                 />
-              </form>
+              </Form>
               <Form method="post">
                 <button className="btn btn-primary" type="submit">
                   New

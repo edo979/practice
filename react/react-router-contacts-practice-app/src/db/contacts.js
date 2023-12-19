@@ -8,6 +8,9 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
+  or,
 } from 'firebase/firestore/lite'
 import { deleteImageFromStorage } from './storage'
 
@@ -43,6 +46,30 @@ export const getSingleContact = async (uid, docId) => {
 
     return null
   } catch (error) {
+    return null
+  }
+}
+
+export const getFilteredContacts = async (uid, searchFor) => {
+  try {
+    console.log(searchFor)
+    const q = query(
+      getUserContactsColRef(uid),
+      where('first', '>=', searchFor),
+      where('first', '<=', searchFor + '\uf8ff')
+    )
+
+    const querySnapshot = await getDocs(q)
+    console.log(querySnapshot)
+    const contacts = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      first: doc.get('first'),
+      last: doc.get('last'),
+    }))
+
+    return contacts
+  } catch (error) {
+    console.log(error)
     return null
   }
 }
