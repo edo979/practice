@@ -38,6 +38,10 @@ const Contact = () => {
             <button
               type="submit"
               className="btn btn-light text-danger shadow-sm"
+              onClick={(e) => {
+                if (confirm('Delete contact, are you shure?')) return
+                e.preventDefault()
+              }}
             >
               Delete
             </button>
