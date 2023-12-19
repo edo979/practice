@@ -18,7 +18,7 @@ export async function action({ request, params }) {
   if (!userId) return redirect('/signin')
 
   const updates = {}
-  const imageUploadError = false
+  let imageUploadError = false
 
   // Mutate updates object
   for (const entry of await request.formData()) {

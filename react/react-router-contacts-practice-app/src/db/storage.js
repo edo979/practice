@@ -6,6 +6,8 @@ import {
 } from 'firebase/storage'
 import { storage } from './firebaseInit'
 
+const getImageRef = (contactId) => ref(storage, `contactsApp/${contactId}`)
+
 const dataURLtoFile = (dataURL, filename) => {
   const arr = dataURL.split(',')
   const mime = arr[0].match(/:(.*?);/)[1]
@@ -21,12 +23,11 @@ const dataURLtoFile = (dataURL, filename) => {
 }
 
 export const uploadImageToStorage = async (file, contactId) => {
-  const storageRef = ref(storage, `contactsApp/${contactId}`)
+  const imageRef = getImageRef(contactId)
 
   // Try to delete old image
   try {
-    await getDownloadURL(storageRef)
-    await deleteImageFromStorage(storageRef)
+    await deleteImageFromStorage(imageRef)
   } catch (error) {
     // no image in storage don't delete it
   }
@@ -34,7 +35,7 @@ export const uploadImageToStorage = async (file, contactId) => {
   // Save image to storage
   try {
     const image = dataURLtoFile(file, 'avatarImage')
-    const snapshot = await uploadBytes(storageRef, image)
+    const snapshot = await uploadBytes(imageRef, image)
     const url = await getDownloadURL(snapshot.ref)
 
     return url
@@ -44,7 +45,7 @@ export const uploadImageToStorage = async (file, contactId) => {
   }
 }
 
-const deleteImageFromStorage = async (imageRef) => {
-  await deleteObject(imageRef)
+export const deleteImageFromStorage = async (contactId) => {
+  await deleteObject(getImageRef(contactId))
   return true
 }

@@ -9,6 +9,7 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore/lite'
+import { deleteImageFromStorage } from './storage'
 
 const APPCOLLECTION = 'contactsApp'
 
@@ -92,6 +93,7 @@ export const editContact = async (uid, contactId, data) => {
 
 export const deleteContact = async (uid, contactId) => {
   try {
+    await deleteImageFromStorage(contactId)
     await deleteDoc(doc(db, getContactRef(uid, contactId)))
     return true
   } catch (error) {
