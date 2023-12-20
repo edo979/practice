@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Outlet,
   Form,
@@ -18,16 +19,16 @@ export async function loader({ request }) {
   const userId = await getCurrentUserId()
   if (!userId) return redirect('/signin')
 
-  const url = new URL(request.url)
-  const q = url.searchParams.get('q')?.toLowerCase()
+  // const url = new URL(request.url)
+  // const q = url.searchParams.get('q')?.toLowerCase()
 
-  if (q) {
-    const contacts = await getFilteredContacts(userId, q)
-    return { contacts }
-  } else {
-    const contacts = await getContacts(userId)
-    return { contacts }
-  }
+  // if (q) {
+  //   const contacts = await getFilteredContacts(userId, q)
+  //   return { contacts }
+  // } else {
+  // }
+  const contacts = await getContacts(userId)
+  return { contacts }
 }
 
 export async function action() {
@@ -43,10 +44,30 @@ export async function action() {
 const Contacts = () => {
   const { contacts } = useLoaderData()
   const navigate = useNavigate()
+  const [searchFor, setSearchFor] = useState()
+  const [contactsToShow, setContactsToShow] = useState(contacts)
 
   const logoutHandler = async () => {
     await logoutUser()
     navigate('/')
+  }
+
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase()
+    setSearchFor(query)
+
+    if (query === '') {
+      setContactsToShow(contacts)
+      return
+    }
+
+    const newContacts = contacts.filter(
+      (contact) =>
+        contact.first.toLowerCase().includes(query) ||
+        contact.last.toLowerCase().includes(query)
+    )
+
+    setContactsToShow(newContacts)
   }
 
   return (
@@ -58,7 +79,11 @@ const Contacts = () => {
         >
           <div>
             <div className="d-flex gap-2 mt-4">
-              <Form className="flex-fill" role="search">
+              <form
+                className="flex-fill"
+                role="search"
+                onSubmit={(e) => e.preventDefault()}
+              >
                 <input
                   id="q"
                   name="q"
@@ -66,8 +91,10 @@ const Contacts = () => {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  value={searchFor}
+                  onChange={handleSearch}
                 />
-              </Form>
+              </form>
               <Form method="post">
                 <button className="btn btn-primary" type="submit">
                   New
@@ -78,8 +105,8 @@ const Contacts = () => {
             <hr className="my-4 border-primary" />
 
             <div className="list-group">
-              {contacts?.length > 0 ? (
-                contacts.map((contact) => (
+              {contactsToShow?.length > 0 ? (
+                contactsToShow.map((contact) => (
                   <NavLink
                     to={`./${contact.id}`}
                     key={contact.id}
