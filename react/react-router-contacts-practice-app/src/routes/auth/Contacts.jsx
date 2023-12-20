@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Outlet,
   Form,
@@ -8,11 +8,7 @@ import {
   NavLink,
 } from 'react-router-dom'
 import classNames from 'classnames'
-import {
-  createContact,
-  getContacts,
-  getFilteredContacts,
-} from '../../db/contacts'
+import { createContact, getContacts } from '../../db/contacts'
 import { getCurrentUserId, logoutUser } from '../../db/users'
 
 export async function loader({ request }) {
@@ -44,30 +40,27 @@ export async function action() {
 const Contacts = () => {
   const { contacts } = useLoaderData()
   const navigate = useNavigate()
-  const [searchFor, setSearchFor] = useState()
-  const [contactsToShow, setContactsToShow] = useState(contacts)
+  const [searchFor, setSearchFor] = useState('')
+  const [contactsToShow, setContactsToShow] = useState([])
 
-  const logoutHandler = async () => {
-    await logoutUser()
-    navigate('/')
-  }
-
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase()
-    setSearchFor(query)
-
-    if (query === '') {
+  useEffect(() => {
+    if (!searchFor) {
       setContactsToShow(contacts)
       return
     }
 
     const newContacts = contacts.filter(
       (contact) =>
-        contact.first.toLowerCase().includes(query) ||
-        contact.last.toLowerCase().includes(query)
+        contact.first.toLowerCase().includes(searchFor) ||
+        contact.last.toLowerCase().includes(searchFor)
     )
 
     setContactsToShow(newContacts)
+  }, [contacts, searchFor])
+
+  const logoutHandler = async () => {
+    await logoutUser()
+    navigate('/')
   }
 
   return (
@@ -92,7 +85,7 @@ const Contacts = () => {
                   placeholder="Search"
                   aria-label="Search"
                   value={searchFor}
-                  onChange={handleSearch}
+                  onChange={(e) => setSearchFor(e.target.value.toLowerCase())}
                 />
               </form>
               <Form method="post">
@@ -125,7 +118,7 @@ const Contacts = () => {
                   </NavLink>
                 ))
               ) : (
-                <p>No contacts yet.</p>
+                <p>No contacts to show.</p>
               )}
             </div>
           </div>
