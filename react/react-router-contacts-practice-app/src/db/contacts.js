@@ -29,6 +29,7 @@ export const getContacts = async (uid) => {
       id: doc.id,
       first: doc.get('first'),
       last: doc.get('last'),
+      favorite: doc.get('favorite'),
     }))
 
     return contacts
