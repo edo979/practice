@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ErrorPage from './components/ErrorPage'
 import Root, { loader as rootLoader } from './routes/Root'
-import SignIn from './routes/SignIn'
+import SignIn, { action as signInAction } from './routes/SignIn'
 import Register from './routes/Register'
 import Contacts, {
   loader as contactsLoader,
@@ -24,7 +24,12 @@ const router = createBrowserRouter([
     loader: rootLoader,
   },
   { path: '/register', element: <Register /> },
-  { path: '/signin', element: <SignIn /> },
+  {
+    path: '/signin',
+    element: <SignIn />,
+    action: signInAction,
+    errorElement: <ErrorPage errorTitle="Sign In error!" />,
+  },
   {
     //Protected route because loader below
     path: '/my_contacts',

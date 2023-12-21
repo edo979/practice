@@ -1,22 +1,41 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Form, Link, useActionData, useNavigate } from 'react-router-dom'
 import { signInUser } from '../db/users.js'
 import '../assets/css/userForms.css'
 
+export async function action({ request }) {
+  const formData = await request.formData()
+  const email = formData.get('email')
+  const password = formData.get('password')
+  let error = undefined
+  console.log(email, password)
+  try {
+    const userId = await signInUser({ email, password })
+    if (userId) return navigate('/my_contacts')
+
+    error = 'Wrong credentials!'
+  } catch (e) {
+    error = 'Error processing data!'
+  }
+
+  return { email, password, error }
+}
+
 const SignIn = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const actionData = useActionData()
+  console.log(actionData)
+  // const [email, setEmail] = useState('')
+  // const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const userId = await signInUser({ email, password })
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   const userId = await signInUser({ email, password })
 
-    if (userId) navigate('/my_contacts')
+  //   if (userId) navigate('/my_contacts')
 
-    // TODO login with action function instead
-  }
+  //   // TODO login with action function instead
+  // }
 
   return (
     <div
@@ -24,7 +43,10 @@ const SignIn = () => {
       style={{ height: '100vh' }}
     >
       <main className="form-signin w-100 m-auto">
-        <form onSubmit={handleSubmit}>
+        <Form method="post">
+          {actionData?.error && (
+            <div className="alert alert-danger">{actionData.error}</div>
+          )}
           <div className="d-flex justify-content-between align-items-baseline">
             <h1 className="h3 mb-3 fw-normal">Please sign in, or...</h1>
             <Link to="/register">
@@ -40,8 +62,8 @@ const SignIn = () => {
               id="email"
               className="form-control"
               placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              defaultValue={actionData?.email}
+              //onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="email">Email address</label>
           </div>
@@ -53,8 +75,8 @@ const SignIn = () => {
               id="password"
               className="form-control"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              defaultValue={actionData?.password}
+              //onChange={(e) => setPassword(e.target.value)}
             />
             <label htmlFor="password">Password</label>
           </div>
@@ -62,7 +84,7 @@ const SignIn = () => {
           <button type="submit" className="btn btn-primary w-100 py-2">
             Sign In
           </button>
-        </form>
+        </Form>
       </main>
     </div>
   )
