@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ErrorPage from './components/ErrorPage'
-import Root from './routes/Root'
+import Root, { loader as rootLoader } from './routes/Root'
 import SignIn from './routes/SignIn'
 import Register from './routes/Register'
 import Contacts, {
@@ -21,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    loader: rootLoader,
   },
   { path: '/register', element: <Register /> },
   { path: '/signin', element: <SignIn /> },

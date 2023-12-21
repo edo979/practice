@@ -2,8 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../db/firebaseInit'
 
-const UserNav = () => {
-  const { userId } = useUserContext()
+const UserNav = ({ userId }) => {
   const navigate = useNavigate()
 
   const signOutHandler = async () => {

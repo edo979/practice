@@ -1,11 +1,20 @@
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import UserNav from '../components/UserNav'
+import { getCurrentUserId } from '../db/users'
+
+export async function loader() {
+  const userId = await getCurrentUserId()
+
+  return { userId }
+}
 
 const Root = () => {
+  const { userId } = useLoaderData()
+
   return (
     <main className="container py-4">
       <header className="pb-3 mb-5 border-bottom">
-        <UserNav />
+        <UserNav userId={userId} />
       </header>
 
       <div className="p-5 mb-5 bg-body-tertiary rounded-3">
