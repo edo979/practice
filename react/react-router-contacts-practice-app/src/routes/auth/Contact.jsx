@@ -28,11 +28,12 @@ export async function action({ request, params }) {
   const isUpdated = await editContact(userId, params.contactId, { favorite })
 
   if (!isUpdated) throw new Error('Error when try add to favorite!')
+
+  return null
 }
 
 const Contact = () => {
   const { contact } = useLoaderData()
-  const fetcher = useFetcher()
 
   return (
     <div className="d-flex gap-4 mt-4 px-lg-5">
@@ -40,8 +41,9 @@ const Contact = () => {
       <div>
         <div className="d-flex gap-1 align-items-start ">
           <h2>
-            {contact.first} {contact.last}{' '}
+            {contact.first} {contact.last}
           </h2>
+          <Favorite contact={contact} />
         </div>
         <p className="fs-3 text-info">{contact.twitter}</p>
         <p>{contact.notes}</p>
@@ -70,4 +72,20 @@ const Contact = () => {
 
 export default Contact
 
-function Favorite({ contact }) {}
+function Favorite({ contact }) {
+  const fetcher = useFetcher()
+  const favorite = contact.favorite
+
+  return (
+    <fetcher.Form method="post">
+      <button
+        name="favorite"
+        value={favorite ? 'false' : 'true'}
+        aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+        className="btn btn-ghost"
+      >
+        {favorite ? '❤' : '🤍'}
+      </button>
+    </fetcher.Form>
+  )
+}
