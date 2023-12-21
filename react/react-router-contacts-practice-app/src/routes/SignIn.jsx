@@ -7,7 +7,6 @@ export async function action({ request }) {
   const email = formData.get('email')
   const password = formData.get('password')
   let error = undefined
-  console.log(email, password)
 
   const userId = await signInUser({ email, password })
   if (userId) return redirect('/my_contacts')

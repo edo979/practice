@@ -9,9 +9,12 @@ const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const auth = getAuth(app)
 export const storage = getStorage(app)
-if (location.hostname === 'localhost') {
-  // Point to the Storage emulator running on localhost.
-  connectStorageEmulator(storage, '127.0.0.1', 9199)
+
+if (import.meta.env.DEV) {
+  if (location.hostname === 'localhost') {
+    // Point to the Storage emulator running on localhost.
+    connectStorageEmulator(storage, '127.0.0.1', 9199)
+  }
+  connectAuthEmulator(auth, 'http://127.0.0.1:9099')
+  connectFirestoreEmulator(db, '127.0.0.1', 8080)
 }
-connectAuthEmulator(auth, 'http://127.0.0.1:9099')
-connectFirestoreEmulator(db, '127.0.0.1', 8080)
