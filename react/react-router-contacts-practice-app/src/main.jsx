@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { UserContextProvider } from './context/userContext'
 import ErrorPage from './components/ErrorPage'
 import Root from './routes/Root'
 import SignIn from './routes/SignIn'
@@ -61,8 +60,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <UserContextProvider>
-      <RouterProvider router={router} />
-    </UserContextProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 )

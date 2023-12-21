@@ -5,7 +5,6 @@ import {
   Form,
   useFetcher,
 } from 'react-router-dom'
-import Star from '../../components/Star'
 import { editContact, getSingleContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 

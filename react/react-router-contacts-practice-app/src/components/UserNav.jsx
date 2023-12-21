@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useUserContext } from '../context/userContext'
 import { signOut } from 'firebase/auth'
 import { auth } from '../db/firebaseInit'
 
