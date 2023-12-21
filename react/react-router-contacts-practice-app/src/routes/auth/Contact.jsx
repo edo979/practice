@@ -1,6 +1,12 @@
-import { redirect, useLoaderData, Link, Form } from 'react-router-dom'
+import {
+  redirect,
+  useLoaderData,
+  Link,
+  Form,
+  useFetcher,
+} from 'react-router-dom'
 import Star from '../../components/Star'
-import { getSingleContact } from '../../db/contacts'
+import { editContact, getSingleContact } from '../../db/contacts'
 import { getCurrentUserId } from '../../db/users'
 
 export async function loader({ params }) {
@@ -12,8 +18,21 @@ export async function loader({ params }) {
   return { contact }
 }
 
+export async function action({ request, params }) {
+  const userId = await getCurrentUserId()
+  if (!userId) return redirect('/signin')
+
+  const formData = await request.formData()
+  const favorite = formData.get('favorite') === 'true'
+
+  const isUpdated = await editContact(userId, params.contactId, { favorite })
+
+  if (!isUpdated) throw new Error('Error when try add to favorite!')
+}
+
 const Contact = () => {
   const { contact } = useLoaderData()
+  const fetcher = useFetcher()
 
   return (
     <div className="d-flex gap-4 mt-4 px-lg-5">
@@ -23,9 +42,6 @@ const Contact = () => {
           <h2>
             {contact.first} {contact.last}{' '}
           </h2>
-          <button className="btn btn-ghost">
-            <Star fill={contact.favorite} />
-          </button>
         </div>
         <p className="fs-3 text-info">{contact.twitter}</p>
         <p>{contact.notes}</p>
@@ -53,3 +69,5 @@ const Contact = () => {
 }
 
 export default Contact
+
+function Favorite({ contact }) {}
