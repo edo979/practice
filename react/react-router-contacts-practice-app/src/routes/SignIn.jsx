@@ -1,4 +1,4 @@
-import { Form, Link, useActionData, useNavigate } from 'react-router-dom'
+import { Form, Link, redirect, useActionData } from 'react-router-dom'
 import { signInUser } from '../db/users.js'
 import '../assets/css/userForms.css'
 
@@ -8,34 +8,17 @@ export async function action({ request }) {
   const password = formData.get('password')
   let error = undefined
   console.log(email, password)
-  try {
-    const userId = await signInUser({ email, password })
-    if (userId) return navigate('/my_contacts')
 
-    error = 'Wrong credentials!'
-  } catch (e) {
-    error = 'Error processing data!'
-  }
+  const userId = await signInUser({ email, password })
+  if (userId) return redirect('/my_contacts')
+
+  error = 'Submitting form error. Please try again.'
 
   return { email, password, error }
 }
 
 const SignIn = () => {
   const actionData = useActionData()
-  console.log(actionData)
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-
-  const navigate = useNavigate()
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   const userId = await signInUser({ email, password })
-
-  //   if (userId) navigate('/my_contacts')
-
-  //   // TODO login with action function instead
-  // }
 
   return (
     <div
@@ -45,7 +28,11 @@ const SignIn = () => {
       <main className="form-signin w-100 m-auto">
         <Form method="post">
           {actionData?.error && (
-            <div className="alert alert-danger">{actionData.error}</div>
+            <div className="alert alert-danger" role="error">
+              <h4 className="alert-heading">Form error!</h4>
+              <hr className="border-danger" />
+              <p>{actionData.error}</p>
+            </div>
           )}
           <div className="d-flex justify-content-between align-items-baseline">
             <h1 className="h3 mb-3 fw-normal">Please sign in, or...</h1>
@@ -63,7 +50,6 @@ const SignIn = () => {
               className="form-control"
               placeholder="name@example.com"
               defaultValue={actionData?.email}
-              //onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="email">Email address</label>
           </div>
@@ -75,8 +61,6 @@ const SignIn = () => {
               id="password"
               className="form-control"
               placeholder="Password"
-              defaultValue={actionData?.password}
-              //onChange={(e) => setPassword(e.target.value)}
             />
             <label htmlFor="password">Password</label>
           </div>
