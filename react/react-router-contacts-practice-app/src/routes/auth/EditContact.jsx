@@ -2,7 +2,6 @@ import {
   Form,
   Link,
   redirect,
-  useActionData,
   useLoaderData,
   useNavigation,
   useSubmit,
@@ -55,7 +54,6 @@ export async function action({ request, params }) {
 }
 
 const EditContact = () => {
-  const actionData = useActionData()
   const { contact } = useLoaderData()
   const navigation = useNavigation()
   const [selectedImage, setSelectedImage] = useState(null)
