@@ -28,7 +28,6 @@ const router = createBrowserRouter([
     path: '/signin',
     element: <SignIn />,
     action: signInAction,
-    errorElement: <ErrorPage errorTitle="Sign In error!" />,
   },
   {
     //Protected route because loader below
