@@ -14,7 +14,6 @@ export const registerUser = async ({ email, password }) => {
     )
 
     if (userCredential) return true
-    throw new Error('Error on register user!')
   } catch (error) {
     // console.log(error.code || error.message)
     return false
@@ -27,6 +26,7 @@ export const signInUser = async ({ email, password }) => {
     return authUser.user.uid
   } catch (error) {
     //console.log(error.code || error.message)
+    console.clear()
     return false
   }
 }

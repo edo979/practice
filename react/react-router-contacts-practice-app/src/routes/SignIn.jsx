@@ -33,6 +33,7 @@ const SignIn = () => {
               <p>{actionData.error}</p>
             </div>
           )}
+
           <div className="d-flex justify-content-between align-items-baseline">
             <h1 className="h3 mb-3 fw-normal">Please sign in, or...</h1>
             <Link to="/register">
@@ -46,6 +47,7 @@ const SignIn = () => {
               type="email"
               name="email"
               id="email"
+              required
               className="form-control"
               placeholder="name@example.com"
               defaultValue={actionData?.email}
@@ -58,6 +60,7 @@ const SignIn = () => {
               type="password"
               name="password"
               id="password"
+              required
               className="form-control"
               placeholder="Password"
             />

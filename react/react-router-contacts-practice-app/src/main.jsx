@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ErrorPage from './components/ErrorPage'
 import Root, { loader as rootLoader } from './routes/Root'
 import SignIn, { action as signInAction } from './routes/SignIn'
-import Register from './routes/Register'
+import Register, { action as registerUserAction } from './routes/Register'
 import Contacts, {
   loader as contactsLoader,
   action as contactsAction,
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     element: <Root />,
     loader: rootLoader,
   },
-  { path: '/register', element: <Register /> },
+  { path: '/register', element: <Register />, action: registerUserAction },
   {
     path: '/signin',
     element: <SignIn />,
