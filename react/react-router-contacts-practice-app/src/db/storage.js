@@ -25,10 +25,6 @@ const dataURLtoFile = (dataURL, filename) => {
 export const uploadImageToStorage = async (file, contactId) => {
   const imageRef = getImageRef(contactId)
 
-  // Try to delete old image if is any
-  await deleteImageFromStorage(imageRef)
-
-  // Save image to storage
   try {
     const image = dataURLtoFile(file, 'avatarImage')
     const snapshot = await uploadBytes(imageRef, image)
@@ -36,13 +32,16 @@ export const uploadImageToStorage = async (file, contactId) => {
 
     return url
   } catch (error) {
+    console.log(error)
     return false
   }
 }
 
 export const deleteImageFromStorage = async (contactId) => {
+  const imageRef = getImageRef(contactId)
+
   try {
-    await deleteObject(getImageRef(contactId))
+    await deleteObject(imageRef)
     return true
   } catch (error) {
     return false
