@@ -41,6 +41,7 @@ export async function action({ request, params }) {
       updates[entry[0]] = entry[1]
     }
   } // end for
+  console.log(updates)
 
   const contact = await editContact(userId, params.contactId, updates)
 
@@ -64,6 +65,12 @@ const EditContact = () => {
   const last = useRef(null)
   const twitter = useRef(null)
   const notes = useRef(null)
+
+  const handleSaveText = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.getContent()
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -205,7 +212,7 @@ const EditContact = () => {
             </div>
 
             <div className="row mb-3">
-              <TextEditor />
+              <TextEditor text={contact.notes} />
             </div>
 
             <div className="d-flex justify-content-end gap-2">

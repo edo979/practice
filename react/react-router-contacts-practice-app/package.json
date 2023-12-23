@@ -20,6 +20,8 @@
     "react-avatar-editor": "^13.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
+    "slate": "^0.101.5",
+    "slate-react": "^0.101.5",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
