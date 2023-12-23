@@ -60,7 +60,6 @@ const EditContact = () => {
   const navigation = useNavigation()
   const [selectedImage, setSelectedImage] = useState(null)
   const [resizedImage, setResizedImage] = useState(null)
-  const [textEditorContent, setTextEditorContent] = useState('')
   const submit = useSubmit()
   const first = useRef(null)
   const last = useRef(null)
@@ -73,7 +72,6 @@ const EditContact = () => {
     formData.set('first', first.current.value)
     formData.set('last', last.current.value)
     formData.set('twitter', twitter.current.value)
-    //formData.set('notes', notes.current.value)
     formData.set('notes', editorRef.current.getContent())
 
     if (resizedImage) {
@@ -196,11 +194,7 @@ const EditContact = () => {
               </label>
 
               <div className="col-sm-10">
-                <TextEditor
-                  text={contact.notes}
-                  handleSaveContent={setTextEditorContent}
-                  editorRef={editorRef}
-                />
+                <TextEditor text={contact.notes} editorRef={editorRef} />
               </div>
             </div>
 

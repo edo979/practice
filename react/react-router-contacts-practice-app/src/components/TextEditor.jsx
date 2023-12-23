@@ -1,11 +1,7 @@
 import { Editor } from '@tinymce/tinymce-react'
 import { editorAPIkey } from '../../secret'
 
-const TextEditor = ({ text, handleSaveContent, editorRef }) => {
-  const handleSave = () => {
-    handleSaveContent(editorRef.current.getContent())
-  }
-
+const TextEditor = ({ text, editorRef }) => {
   return (
     <Editor
       textareaName="notes"
