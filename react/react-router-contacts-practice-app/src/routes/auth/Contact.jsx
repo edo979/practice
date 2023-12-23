@@ -35,7 +35,7 @@ const Contact = () => {
   const { contact } = useLoaderData()
 
   return (
-    <div className="d-flex gap-4 mt-4 px-lg-5">
+    <div className="d-flex align-items-start gap-4 mt-4 px-lg-5">
       <img className="rounded-4 img-fluid" src={contact.avatar} />
       <div>
         <div className="d-flex gap-1 align-items-start ">
@@ -45,7 +45,7 @@ const Contact = () => {
           <Favorite contact={contact} />
         </div>
         <p className="fs-3 text-info">{contact.twitter}</p>
-        <p>{contact.notes}</p>
+        <div dangerouslySetInnerHTML={{ __html: contact.notes }}></div>
 
         <div className="d-flex gap-2">
           <Link to={`./edit`} className="btn btn-light text-primary shadow-sm">

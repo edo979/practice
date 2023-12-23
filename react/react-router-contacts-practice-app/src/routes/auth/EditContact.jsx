@@ -65,7 +65,7 @@ const EditContact = () => {
   const first = useRef(null)
   const last = useRef(null)
   const twitter = useRef(null)
-  const notes = useRef(null)
+  const editorRef = useRef(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -74,8 +74,7 @@ const EditContact = () => {
     formData.set('last', last.current.value)
     formData.set('twitter', twitter.current.value)
     //formData.set('notes', notes.current.value)
-    formData.set('notes', textEditorContent)
-    console.log(textEditorContent)
+    formData.set('notes', editorRef.current.getContent())
 
     if (resizedImage) {
       formData.set('image', resizedImage)
@@ -195,24 +194,14 @@ const EditContact = () => {
               >
                 Notes
               </label>
+
               <div className="col-sm-10">
-                <textarea
-                  ref={notes}
-                  //name="notes"
-                  id="notes"
-                  className="form-control"
-                  rows={5}
-                  defaultValue={contact.notes}
-                  placeholder="Add some notes..."
+                <TextEditor
+                  text={contact.notes}
+                  handleSaveContent={setTextEditorContent}
+                  editorRef={editorRef}
                 />
               </div>
-            </div>
-
-            <div className="row mb-3">
-              <TextEditor
-                text={contact.notes}
-                handleSaveContent={setTextEditorContent}
-              />
             </div>
 
             <div className="d-flex justify-content-end gap-2">

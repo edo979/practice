@@ -23,9 +23,13 @@ service cloud.firestore {
         
         function isFieldsDataValid() {
         	let data = request.resource.data;
+
+          // if(data.first in request.resource.data 
+          //   && isValidString(data.first, 1, 10)) 
           
         	return isValidString(data.first, 1, 10)
-                	&& isValidString(data.last, 1, 10);
+                	&& isValidString(data.last, 1, 10)
+                  && data.favorite is bool
         }
         
         allow read: if request.auth != null
