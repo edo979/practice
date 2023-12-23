@@ -11,6 +11,7 @@ import { getCurrentUserId } from '../../db/users'
 import { useRef, useState } from 'react'
 import { uploadImageToStorage } from '../../db/storage'
 import { EditAvatar } from '../../components/EditAvatar'
+import TextEditor from '../../components/TextEditor'
 
 export async function action({ request, params }) {
   const userId = await getCurrentUserId()
@@ -193,7 +194,7 @@ const EditContact = () => {
               <div className="col-sm-10">
                 <textarea
                   ref={notes}
-                  name="notes"
+                  //name="notes"
                   id="notes"
                   className="form-control"
                   rows={5}
@@ -201,6 +202,10 @@ const EditContact = () => {
                   placeholder="Add some notes..."
                 />
               </div>
+            </div>
+
+            <div className="row mb-3">
+              <TextEditor />
             </div>
 
             <div className="d-flex justify-content-end gap-2">
