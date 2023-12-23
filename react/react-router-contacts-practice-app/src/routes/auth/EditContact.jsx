@@ -60,17 +60,12 @@ const EditContact = () => {
   const navigation = useNavigation()
   const [selectedImage, setSelectedImage] = useState(null)
   const [resizedImage, setResizedImage] = useState(null)
+  const [textEditorContent, setTextEditorContent] = useState('')
   const submit = useSubmit()
   const first = useRef(null)
   const last = useRef(null)
   const twitter = useRef(null)
   const notes = useRef(null)
-
-  const handleSaveText = () => {
-    if (editorRef.current) {
-      const content = editorRef.current.getContent()
-    }
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -78,7 +73,9 @@ const EditContact = () => {
     formData.set('first', first.current.value)
     formData.set('last', last.current.value)
     formData.set('twitter', twitter.current.value)
-    formData.set('notes', notes.current.value)
+    //formData.set('notes', notes.current.value)
+    formData.set('notes', textEditorContent)
+    console.log(textEditorContent)
 
     if (resizedImage) {
       formData.set('image', resizedImage)
@@ -212,7 +209,10 @@ const EditContact = () => {
             </div>
 
             <div className="row mb-3">
-              <TextEditor text={contact.notes} />
+              <TextEditor
+                text={contact.notes}
+                handleSaveContent={setTextEditorContent}
+              />
             </div>
 
             <div className="d-flex justify-content-end gap-2">

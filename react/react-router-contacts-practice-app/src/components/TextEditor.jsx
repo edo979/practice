@@ -2,13 +2,11 @@ import { useRef, useState } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { editorAPIkey } from '../../secret'
 
-const TextEditor = ({ text, handleSaveNotes }) => {
+const TextEditor = ({ text, handleSaveContent }) => {
   const editorRef = useRef(null)
-  const [content, setContent] = useState(text)
 
   const handleSave = () => {
-    const text = editorRef.current.save()
-    console.log(text)
+    handleSaveContent(editorRef.current.getContent())
   }
 
   return (
@@ -16,9 +14,8 @@ const TextEditor = ({ text, handleSaveNotes }) => {
       <Editor
         textareaName="notes"
         apiKey={editorAPIkey}
-        initialValue={'init'}
+        initialValue={text}
         onInit={(evt, editor) => (editorRef.current = editor)}
-        value=""
         init={{
           height: 500,
           menubar: false,
