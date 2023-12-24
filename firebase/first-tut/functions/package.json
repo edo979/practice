@@ -3,15 +3,15 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "dev": "npm run build && firebase emulators:start --inspect-functions --project demo-test --only functions",
-    "serve": "npm run build && firebase emulators:start --project demo-test --only functions",
-    "shell": "npm run build && firebase functions:shell --project demo-test",
+    "dev": "npm run build && firebase emulators:start --inspect-functions",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell --project demo-project",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "main": "lib/index.js",
   "dependencies": {
