@@ -5,10 +5,13 @@ const App = () => {
     const functions = getFunctions()
     const addProduct = httpsCallable(functions, 'addProduct')
 
+    const productData = {
+      name: 'third product',
+      description: 'Second Description',
+    }
     try {
       const result = await addProduct({
-        name: 'First product',
-        description: 'First Description',
+        data: productData,
       })
       const data = result.data
       console.log(data)
