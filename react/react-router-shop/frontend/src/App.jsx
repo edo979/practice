@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const handleSet = async () => {
+    const functions = getFunctions()
+    const addProduct = httpsCallable(functions, 'addProduct')
+
+    try {
+      const result = await addProduct({
+        name: 'First product',
+        description: 'First Description',
+      })
+      const data = result.data
+      console.log(data)
+    } catch (error) {
+      console.log(
+        'code',
+        error.code,
+        ' | message',
+        error.message,
+        '| details',
+        error.details
+      )
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count} and it rise
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <button onClick={handleSet}>Set</button>
+    </div>
   )
 }
 
