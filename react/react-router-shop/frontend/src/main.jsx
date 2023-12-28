@@ -6,13 +6,14 @@ import './db/init.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root, { loader as rootPageLoader } from './routes/root.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
+import MainLayout from './layouts/MainLayout.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
-    loader: rootPageLoader,
+    element: <MainLayout />,
     errorElement: <ErrorPage />,
+    children: [{ index: true, element: <Root />, loader: rootPageLoader }],
   },
 ])
 
