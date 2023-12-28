@@ -24,7 +24,7 @@ exports.getProducts = functions.https.onCall(async (req) => {
   try {
     const snapshot = await db.collection(PRODUCTS).get()
     if (snapshot.empty)
-      throw new functions.https.HttpsError('not-found', 'No products')
+      throw new functions.https.HttpsError('not-found', 'No products!')
 
     return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
   } catch (error) {

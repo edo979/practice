@@ -9,6 +9,7 @@ export const getProducts = async () => {
     const products = res.data
     return products
   } catch (error) {
+    //console.log('code', error.code, 'msg', error.message)
     throw new Error(error.message)
   }
 }

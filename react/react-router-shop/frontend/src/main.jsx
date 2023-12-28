@@ -1,16 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './db/init.js'
-import App from './App.jsx'
+
 // Router
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root, { loader as rootPageLoader } from './routes/root.jsx'
+import ErrorPage from './components/ErrorPage.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     loader: rootPageLoader,
+    errorElement: <ErrorPage />,
   },
 ])
 
