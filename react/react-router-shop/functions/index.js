@@ -14,11 +14,7 @@ exports.addProduct = functions.https.onCall(async (req) => {
     return { message: 'Product added successfully!' }
   } catch (error) {
     console.log(error)
-    throw new functions.https.HttpsError(
-      'internal',
-      'Error getting products',
-      'Details'
-    )
+    throw new functions.https.HttpsError('internal', 'Error getting products')
   }
 })
 
