@@ -7,13 +7,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root, { loader as rootPageLoader } from './routes/root.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
+import Product, { loader as productLoader } from './routes/Product.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
     errorElement: <ErrorPage />,
-    children: [{ index: true, element: <Root />, loader: rootPageLoader }],
+    children: [
+      { index: true, element: <Root />, loader: rootPageLoader },
+      { path: 'product/:id', element: <Product />, loader: productLoader },
+    ],
   },
 ])
 
