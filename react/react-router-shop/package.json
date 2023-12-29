@@ -2,9 +2,11 @@
   "name": "react-router-shop",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./frontend/src/main.jsx",
+  "type": "module",
   "scripts": {
-    "emulators": "firebase emulators:start --import=./emulatorsData --export-on-exit"
+    "emulators": "firebase emulators:start --import=./emulatorsData --export-on-exit",
+    "seed": "node frontend/sampleData/seeder.js"
   },
   "keywords": [
     "webapp",
