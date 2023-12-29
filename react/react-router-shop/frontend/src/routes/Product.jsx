@@ -1,7 +1,8 @@
 import { useLoaderData } from 'react-router-dom'
+import { getProduct } from '../db/products'
 
 export async function loader({ params }) {
-  const product = { id: params.id }
+  const product = await getProduct(params.id)
   console.log(product)
 
   return { product }
@@ -10,7 +11,7 @@ export async function loader({ params }) {
 const Product = () => {
   const { product } = useLoaderData()
 
-  return <div>{product.id}</div>
+  return <div>{product.name}</div>
 }
 
 export default Product

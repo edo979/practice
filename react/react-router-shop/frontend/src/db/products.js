@@ -14,6 +14,18 @@ export const getProducts = async () => {
   }
 }
 
+export const getProduct = async (id) => {
+  const functions = getFunctions()
+  const getProductFunction = httpsCallable(functions, 'getProduct')
+
+  try {
+    const res = await getProductFunction({ data: { id } })
+    return res.data
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
 export const saveProduct = async () => {
   const functions = getFunctions()
   const addProduct = httpsCallable(functions, 'addProduct')

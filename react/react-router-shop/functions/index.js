@@ -31,3 +31,21 @@ exports.getProducts = functions.https.onCall(async (req) => {
     throw new functions.https.HttpsError('internal', 'Server error!')
   }
 })
+
+exports.getProduct = functions.https.onCall(async (req) => {
+  const db = admin.firestore()
+
+  try {
+    const doc = await db.collection(PRODUCTS).doc(req.data.id).get()
+
+    if (!doc.exists)
+      throw new functions.https.HttpsError(
+        'not-found',
+        'Requested document not found!'
+      )
+
+    return { id: doc.id, ...doc.data() }
+  } catch (error) {
+    throw new functions.https.HttpsError('internal', 'Server Error!')
+  }
+})
