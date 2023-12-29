@@ -1,3 +1,4 @@
+import Rating from '../components/Rating'
 import { getProducts } from '../db/products'
 import { Link, useLoaderData } from 'react-router-dom'
 
@@ -28,8 +29,24 @@ const Root = () => {
             </Link>
             <div className="card-body">
               <Link to={`/product/${product._id}`} className="text-reset">
-                <h5 className="card-title">{product.name}</h5>
+                <h2
+                  className="card-title fs-4"
+                  style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                  title={product.name}
+                >
+                  {product.name}
+                </h2>
               </Link>
+              <div className="mt-4 card-text text-primary">
+                <Rating value={product.rating} text={product.numReviews} />
+              </div>
+              <p className="card-text fs-2 text-secondary">
+                <b>{product.price}$</b>
+              </p>
             </div>
           </div>
         </div>
