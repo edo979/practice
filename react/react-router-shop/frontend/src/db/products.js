@@ -2,10 +2,10 @@ import { getFunctions, httpsCallable } from 'firebase/functions'
 
 export const getProducts = async () => {
   const functions = getFunctions()
-  const getProducts = httpsCallable(functions, 'getProducts')
+  const getProductsFunction = httpsCallable(functions, 'getProducts')
 
   try {
-    const res = await getProducts()
+    const res = await getProductsFunction()
     const products = res.data
     return products
   } catch (error) {
@@ -26,16 +26,16 @@ export const getProduct = async (id) => {
   }
 }
 
-export const saveProduct = async () => {
+export const addProduct = async () => {
   const functions = getFunctions()
-  const addProduct = httpsCallable(functions, 'addProduct')
+  const addProductFunction = httpsCallable(functions, 'addProduct')
 
   const productData = {
     name: 'second product',
     description: 'Second Description',
   }
   try {
-    const result = await addProduct({
+    const result = await addProductFunction({
       data: productData,
     })
     const data = result.data
