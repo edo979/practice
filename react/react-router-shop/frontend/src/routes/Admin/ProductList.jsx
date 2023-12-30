@@ -6,9 +6,12 @@ export async function action({ request }) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
 
-  const res = await addProduct({ data })
-
-  return updates
+  try {
+    await addProduct(data)
+    console.log('redirect')
+  } catch (error) {
+    console.log(error.details)
+  }
 }
 
 const ProductList = () => {

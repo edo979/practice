@@ -8,7 +8,7 @@ admin.initializeApp()
 exports.addProduct = functions.https.onCall(async (req) => {
   const db = admin.firestore()
   const error = {}
-
+  console.log(req.data)
   // Validation
   error.name = validateString(req.data.name, 5)
   error.brand = validateString(req.data.brand, 3)
@@ -25,18 +25,18 @@ exports.addProduct = functions.https.onCall(async (req) => {
     )
 
   // Saving to DB
-  try {
-    await db.collection(PRODUCTS).add({
-      name: req.data.name,
-      description: req.data.description,
-    })
-    return { message: 'Product added successfully!' }
-  } catch (error) {
-    throw new functions.https.HttpsError(
-      'internal',
-      'Error adding products to database!'
-    )
-  }
+  // try {
+  //   await db.collection(PRODUCTS).add({
+  //     name: req.data.name,
+  //     description: req.data.description,
+  //   })
+  //   return { message: 'Product added successfully!' }
+  // } catch (error) {
+  //   throw new functions.https.HttpsError(
+  //     'internal',
+  //     'Error adding products to database!'
+  //   )
+  // }
 })
 
 exports.getProducts = functions.https.onCall(async (req) => {

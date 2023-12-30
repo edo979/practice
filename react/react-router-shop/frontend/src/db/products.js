@@ -26,28 +26,9 @@ export const getProduct = async (id) => {
   }
 }
 
-export const addProduct = async () => {
+export const addProduct = async (data) => {
   const functions = getFunctions()
   const addProductFunction = httpsCallable(functions, 'addProduct')
 
-  const productData = {
-    name: 'second product',
-    description: 'Second Description',
-  }
-  try {
-    const result = await addProductFunction({
-      data: productData,
-    })
-    const data = result.data
-    console.log(data)
-  } catch (error) {
-    console.log(
-      'code',
-      error.code,
-      ' | message',
-      error.message,
-      '| details',
-      error.details
-    )
-  }
+  return await addProductFunction({ data })
 }
