@@ -4,7 +4,7 @@ import './db/init.js'
 
 // Router
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Root, { loader as rootPageLoader } from './routes/root.jsx'
+import Root, { loader as productsLoader } from './routes/root.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import Product, { loader as productLoader } from './routes/Product.jsx'
@@ -18,13 +18,19 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Root />, loader: rootPageLoader },
+      { index: true, element: <Root />, loader: productsLoader },
       { path: 'product/:id', element: <Product />, loader: productLoader },
       {
         path: 'admin',
         element: <AdminRoute />,
         errorElement: <ErrorPage />,
-        children: [{ path: 'productlist', element: <ProductList /> }],
+        children: [
+          {
+            path: 'productlist',
+            element: <ProductList />,
+            loader: productsLoader,
+          },
+        ],
       },
     ],
   },
