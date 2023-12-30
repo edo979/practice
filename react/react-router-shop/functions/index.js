@@ -8,7 +8,7 @@ admin.initializeApp()
 exports.addProduct = functions.https.onCall(async (req) => {
   const db = admin.firestore()
   const error = {}
-  console.log(req.data)
+  //throw new functions.https.HttpsError('internal', 'Server Error!')
   // Validation
   error.name = validateString(req.data.name, 5)
   error.brand = validateString(req.data.brand, 3)
@@ -34,7 +34,7 @@ exports.addProduct = functions.https.onCall(async (req) => {
   // } catch (error) {
   //   throw new functions.https.HttpsError(
   //     'internal',
-  //     'Error adding products to database!'
+  //     'Server Error!'
   //   )
   // }
 })

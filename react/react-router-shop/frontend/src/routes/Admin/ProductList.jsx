@@ -1,22 +1,29 @@
-import { Form, useActionData, useLoaderData } from 'react-router-dom'
+import { Form, redirect, useActionData, useLoaderData } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { addProduct } from '../../db/products'
 
 export async function action({ request }) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
+  const error = {}
 
   try {
     await addProduct(data)
-    console.log('redirect')
+    return null
   } catch (error) {
-    console.log(error.details)
+    if (error.code.toLowerCase().includes('internal')) {
+      error.formError = error.message
+      return error
+    }
+    error.errors = error.details
+    return error
   }
 }
 
 const ProductList = () => {
   const { products } = useLoaderData()
   const errors = useActionData()
+  console.log(errors)
 
   return (
     <>
@@ -90,6 +97,11 @@ const ProductList = () => {
             </div>
 
             <div className="modal-body">
+              {errors?.formError && (
+                <div className="alert alert-danger" role="alert">
+                  ❌ {errors.formError}
+                </div>
+              )}
               <Form method="post">
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
