@@ -29,9 +29,9 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Link
-              </a>
+              <NavLink to="admin/productlist" className="nav-link">
+                Product List
+              </NavLink>
             </li>
           </ul>
         </div>

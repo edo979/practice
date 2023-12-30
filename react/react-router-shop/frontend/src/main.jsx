@@ -8,6 +8,9 @@ import Root, { loader as rootPageLoader } from './routes/root.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import Product, { loader as productLoader } from './routes/Product.jsx'
+import PrivateRoute from './components/PrivateRoute.jsx'
+import AdminRoute from './components/AdminRoute.jsx'
+import ProductList from './routes/Admin/ProductList.jsx'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +20,12 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Root />, loader: rootPageLoader },
       { path: 'product/:id', element: <Product />, loader: productLoader },
+      {
+        path: 'admin',
+        element: <AdminRoute />,
+        errorElement: <ErrorPage />,
+        children: [{ path: 'productlist', element: <ProductList /> }],
+      },
     ],
   },
 ])
