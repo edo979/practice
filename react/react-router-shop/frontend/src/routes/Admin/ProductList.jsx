@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom'
+import { Form, useLoaderData } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 
 const ProductList = () => {
@@ -12,7 +12,13 @@ const ProductList = () => {
         </div>
 
         <div className="col text-end">
-          <button className="btn btn-primary">Add Product</button>
+          <button
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addProductModal"
+          >
+            Add Product
+          </button>
         </div>
       </div>
 
@@ -45,6 +51,116 @@ const ProductList = () => {
           ))}
         </tbody>
       </table>
+
+      <div
+        className="modal fade"
+        id="addProductModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="addProductModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2 className="modal-title fs-5" id="addProductModalLabel">
+                Add Product
+              </h2>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div className="modal-body">
+              <Form method="post">
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">
+                    Name
+                  </label>
+                  <input type="text" className="form-control" id="name" />
+                </div>
+
+                <div className="d-flex gap-1 gap-md-4">
+                  <div className="mb-3 w-100">
+                    <label htmlFor="brand" className="form-label">
+                      Brand
+                    </label>
+                    <input type="text" className="form-control" id="brand" />
+                  </div>
+
+                  <div className="mb-3 w-100">
+                    <label htmlFor="category" className="form-label">
+                      Category
+                    </label>
+                    <input type="text" className="form-control" id="category" />
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="description" className="form-label">
+                    Description
+                  </label>
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    id="description"
+                    rows={3}
+                  />
+                </div>
+
+                <div className="d-flex gap-1 gap-md-4">
+                  <div className="mb-3 w-100">
+                    <label htmlFor="in-stock" className="form-label">
+                      In Stock
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="in-stock"
+                    />
+                  </div>
+
+                  <div className="mb-3 w-100">
+                    <label htmlFor="price" className="form-label">
+                      Price
+                    </label>
+                    <div className="input-group">
+                      <span className="input-group-text" id="basic-addon1">
+                        $
+                      </span>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="price"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <input type="submit" id="submit-form" className="d-none" />
+              </Form>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
