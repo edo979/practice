@@ -1,8 +1,19 @@
-import { Form, useLoaderData } from 'react-router-dom'
+import { Form, useActionData, useLoaderData } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import { addProduct } from '../../db/products'
+
+export async function action({ request }) {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+
+  const res = await addProduct({ data })
+
+  return updates
+}
 
 const ProductList = () => {
   const { products } = useLoaderData()
+  const errors = useActionData()
 
   return (
     <>
@@ -81,7 +92,12 @@ const ProductList = () => {
                   <label htmlFor="name" className="form-label">
                     Name
                   </label>
-                  <input type="text" className="form-control" id="name" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                  />
                 </div>
 
                 <div className="d-flex gap-1 gap-md-4">
@@ -89,14 +105,24 @@ const ProductList = () => {
                     <label htmlFor="brand" className="form-label">
                       Brand
                     </label>
-                    <input type="text" className="form-control" id="brand" />
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="brand"
+                      name="brand"
+                    />
                   </div>
 
                   <div className="mb-3 w-100">
                     <label htmlFor="category" className="form-label">
                       Category
                     </label>
-                    <input type="text" className="form-control" id="category" />
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="category"
+                      name="category"
+                    />
                   </div>
                 </div>
 
@@ -108,6 +134,7 @@ const ProductList = () => {
                     type="text"
                     className="form-control"
                     id="description"
+                    name="description"
                     rows={3}
                   />
                 </div>
@@ -121,6 +148,7 @@ const ProductList = () => {
                       type="number"
                       className="form-control"
                       id="in-stock"
+                      name="inStock"
                     />
                   </div>
 
@@ -136,13 +164,14 @@ const ProductList = () => {
                         type="number"
                         className="form-control"
                         id="price"
+                        name="price"
                         aria-describedby="basic-addon1"
                       />
                     </div>
                   </div>
                 </div>
 
-                <input type="submit" id="submit-form" className="d-none" />
+                <input type="submit" id="submit-form-btn" className="d-none" />
               </Form>
             </div>
 
@@ -154,9 +183,13 @@ const ProductList = () => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
+              <label
+                className="btn btn-primary"
+                htmlFor="submit-form-btn"
+                tabIndex="0"
+              >
                 Save changes
-              </button>
+              </label>
             </div>
           </div>
         </div>
