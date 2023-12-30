@@ -4,10 +4,10 @@ import Rating from '../components/Rating'
 
 export async function loader({ params }) {
   const product = await getProduct(params.id)
-  console.log(product)
 
   return { product }
 }
+import { FaArrowLeft } from 'react-icons/fa'
 
 const Product = () => {
   const { product } = useLoaderData()
@@ -15,10 +15,11 @@ const Product = () => {
   return (
     <>
       <Link to={'..'} className="btn btn-primary">
-        Basck
+        <FaArrowLeft /> Back
       </Link>
+      <hr className="my-4" />
 
-      <div className="row mt-5">
+      <div className="row">
         <div className="col col-md-10 col-xl-8 offset-xl-2">
           <h1>{product.name}</h1>
           <p className="fs-1">
