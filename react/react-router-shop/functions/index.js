@@ -7,21 +7,21 @@ admin.initializeApp()
 
 exports.addProduct = functions.https.onCall(async (req) => {
   const db = admin.firestore()
-  const error = {}
+  const errors = {}
   //throw new functions.https.HttpsError('internal', 'Server Error!')
   // Validation
-  error.name = validateString(req.data.name, 5)
-  error.brand = validateString(req.data.brand, 3)
-  error.category = validateString(req.data.category, 3)
-  error.description = validateString(req.data.description, 10, 150)
-  error.inStock = typeof req.data.inStock === 'number' ? null : 'Wrong data!'
-  error.price = typeof req.data.price === 'number' ? null : 'Wrong data!'
+  errors.name = validateString(req.data.name, 5)
+  errors.brand = validateString(req.data.brand, 3)
+  errors.category = validateString(req.data.category, 3)
+  errors.description = validateString(req.data.description, 10, 150)
+  errors.inStock = typeof req.data.inStock === 'number' ? null : 'Wrong data!'
+  errors.price = typeof req.data.price === 'number' ? null : 'Wrong data!'
 
-  if (Object.values(error).some(Boolean))
+  if (Object.values(errors).some(Boolean))
     throw new functions.https.HttpsError(
       'invalid-argument',
       'Form submitted wrong',
-      error
+      errors
     )
 
   // Saving to DB
