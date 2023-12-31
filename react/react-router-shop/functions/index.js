@@ -1,6 +1,6 @@
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
-const { validateString } = require('./utilities/validator')
+const { validateString, validateNumber } = require('./utilities/validator')
 const PRODUCTS = 'products'
 
 admin.initializeApp()
@@ -8,14 +8,24 @@ admin.initializeApp()
 exports.addProduct = functions.https.onCall(async (req) => {
   const db = admin.firestore()
   const errors = {}
+  const productData = {
+    name: req.data.name.trim(),
+    brand: req.data.brand.trim(),
+    category: req.data.category.trim(),
+    description: req.data.description.trim(),
+    inStock: req.data.inStock,
+    price: req.data.price,
+  }
+
   //throw new functions.https.HttpsError('internal', 'Server Error!')
   // Validation
-  errors.name = validateString(req.data.name, 5)
-  errors.brand = validateString(req.data.brand, 3)
-  errors.category = validateString(req.data.category, 3)
-  errors.description = validateString(req.data.description, 10, 150)
-  errors.inStock = typeof req.data.inStock === 'number' ? null : 'Wrong data!'
-  errors.price = typeof req.data.price === 'number' ? null : 'Wrong data!'
+
+  errors.name = validateString(productData.name, 5)
+  errors.brand = validateString(productData.brand, 3)
+  errors.category = validateString(productData.category, 3)
+  errors.description = validateString(productData.description, 10, 150)
+  errors.inStock = validateNumber(productData.inStock)
+  errors.price = validateNumber(productData.price, 'float')
 
   if (Object.values(errors).some(Boolean))
     throw new functions.https.HttpsError(

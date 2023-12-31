@@ -178,6 +178,8 @@ const AddProduct = () => {
                 }
                 id="price"
                 name="price"
+                placeholder="9.99"
+                step="0.01"
               />
               {errors?.fieldsError?.price && (
                 <p id="price-field-error" className="invalid-feedback">
