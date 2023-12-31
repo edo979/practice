@@ -34,19 +34,13 @@ exports.addProduct = functions.https.onCall(async (req) => {
       errors
     )
 
-  // Saving to DB
-  // try {
-  //   await db.collection(PRODUCTS).add({
-  //     name: req.data.name,
-  //     description: req.data.description,
-  //   })
-  //   return { message: 'Product added successfully!' }
-  // } catch (error) {
-  //   throw new functions.https.HttpsError(
-  //     'internal',
-  //     'Server Error!'
-  //   )
-  // }
+  //Saving to DB
+  try {
+    await db.collection(PRODUCTS).add(productData)
+    return { message: 'Product added successfully!' }
+  } catch (error) {
+    throw new functions.https.HttpsError('internal', 'Server Error!')
+  }
 })
 
 exports.getProducts = functions.https.onCall(async (req) => {
