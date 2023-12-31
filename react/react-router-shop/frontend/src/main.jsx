@@ -10,9 +10,10 @@ import MainLayout from './layouts/MainLayout.jsx'
 import Product, { loader as productLoader } from './routes/Product.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
-import ProductList, {
+import ProductList from './routes/Admin/ProductList.jsx'
+import AddProduct, {
   action as addProductAction,
-} from './routes/Admin/ProductList.jsx'
+} from './routes/Admin/AddProduct.jsx'
 
 const router = createBrowserRouter([
   {
@@ -23,14 +24,18 @@ const router = createBrowserRouter([
       { index: true, element: <Root />, loader: productsLoader },
       { path: 'product/:id', element: <Product />, loader: productLoader },
       {
-        path: 'admin',
+        path: '',
         element: <AdminRoute />,
         errorElement: <ErrorPage />,
         children: [
           {
-            path: 'productlist',
+            path: 'admin/productlist',
             element: <ProductList />,
             loader: productsLoader,
+          },
+          {
+            path: 'admin/productlist/add',
+            element: <AddProduct />,
             action: addProductAction,
           },
         ],
