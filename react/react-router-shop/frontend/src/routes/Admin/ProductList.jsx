@@ -161,10 +161,18 @@ function AddProductForm({ errors }) {
             </label>
             <input
               type="text"
-              className="form-control"
+              className={classNames('form-control', {
+                'is-invalid': errors?.brand,
+              })}
+              aria-describedby={errors?.brand ? 'brand-field-error' : undefined}
               id="brand"
               name="brand"
             />
+            {errors?.brand && (
+              <p id="brand-field-error" className="invalid-feedback">
+                {errors.brand}
+              </p>
+            )}
           </div>
 
           <div className="mb-3 w-100">
@@ -173,10 +181,20 @@ function AddProductForm({ errors }) {
             </label>
             <input
               type="text"
-              className="form-control"
+              className={classNames('form-control', {
+                'is-invalid': errors?.category,
+              })}
+              aria-describedby={
+                errors?.category ? 'category-field-error' : undefined
+              }
               id="category"
               name="category"
             />
+            {errors?.category && (
+              <p id="category-field-error" className="invalid-feedback">
+                {errors.category}
+              </p>
+            )}
           </div>
         </div>
 
@@ -186,11 +204,21 @@ function AddProductForm({ errors }) {
           </label>
           <textarea
             type="text"
-            className="form-control"
+            className={classNames('form-control', {
+              'is-invalid': errors?.description,
+            })}
+            aria-describedby={
+              errors?.description ? 'description-field-error' : undefined
+            }
             id="description"
             name="description"
             rows={3}
           />
+          {errors?.description && (
+            <p id="description-field-error" className="invalid-feedback">
+              {errors.description}
+            </p>
+          )}
         </div>
 
         <div className="d-flex gap-1 gap-md-4">
@@ -200,10 +228,20 @@ function AddProductForm({ errors }) {
             </label>
             <input
               type="number"
-              className="form-control"
+              className={classNames('form-control', {
+                'is-invalid': errors?.inStock,
+              })}
+              aria-describedby={
+                errors?.inStock ? 'in-stock-field-error' : undefined
+              }
               id="in-stock"
               name="inStock"
             />
+            {errors?.inStock && (
+              <p id="in-stock-field-error" className="invalid-feedback">
+                {errors.inStock}
+              </p>
+            )}
           </div>
 
           <div className="mb-3 w-100">
@@ -216,11 +254,20 @@ function AddProductForm({ errors }) {
               </span>
               <input
                 type="number"
-                className="form-control"
+                className={classNames('form-control', {
+                  'is-invalid': errors?.price,
+                })}
+                aria-describedby={
+                  errors?.price ? 'price-field-error' : undefined
+                }
                 id="price"
                 name="price"
-                aria-describedby="basic-addon1"
               />
+              {errors?.price && (
+                <p id="price-field-error" className="invalid-feedback">
+                  {errors.price}
+                </p>
+              )}
             </div>
           </div>
         </div>
