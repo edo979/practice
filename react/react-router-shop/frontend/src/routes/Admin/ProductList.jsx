@@ -13,7 +13,7 @@ const ProductList = () => {
 
         <div className="col text-end">
           <Link to={'./add'} className="btn btn-primary">
-            Add Product
+            <b>+</b> Add Product
           </Link>
         </div>
       </div>
