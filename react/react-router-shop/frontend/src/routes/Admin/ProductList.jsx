@@ -1,4 +1,10 @@
-import { Form, redirect, useActionData, useLoaderData } from 'react-router-dom'
+import {
+  Form,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from 'react-router-dom'
 import classNames from 'classnames'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { addProduct } from '../../db/products'
@@ -24,6 +30,7 @@ export async function action({ request }) {
 const ProductList = () => {
   const { products } = useLoaderData()
   const errors = useActionData()
+  const navigation = useNavigation()
 
   return (
     <>
@@ -110,9 +117,21 @@ const ProductList = () => {
               </button>
               <label
                 className="btn btn-primary"
-                htmlFor="submit-form-btn"
+                htmlFor={
+                  navigation.state === 'idle' ? 'submit-form-btn' : undefined
+                }
                 tabIndex="0"
               >
+                {navigation.state === 'submitting' && (
+                  <>
+                    <div
+                      className="me-2 spinner-border spinner-border-sm"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </>
+                )}
                 Save changes
               </label>
             </div>
@@ -124,7 +143,6 @@ const ProductList = () => {
 }
 
 function AddProductForm({ errors }) {
-  console.log(errors)
   return (
     <>
       {errors?.formError && (
