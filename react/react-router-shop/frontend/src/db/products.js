@@ -30,5 +30,5 @@ export const addProduct = async (data) => {
   const functions = getFunctions()
   const addProductFunction = httpsCallable(functions, 'addProduct')
 
-  return await addProductFunction({ data })
+  return await addProductFunction(data)
 }

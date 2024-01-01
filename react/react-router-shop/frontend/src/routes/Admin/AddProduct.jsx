@@ -7,13 +7,24 @@ import {
   useNavigation,
 } from 'react-router-dom'
 import { addProduct } from '../../db/products'
+import { storage } from '../../db/init'
+import { ref, uploadBytes } from 'firebase/storage'
 
 export async function action({ request }) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
   const errors = {}
+  console.log(data)
+  console.log(data.file)
+  const file = data.file
+
+  //Save image to storage
+  const productImageRef = ref(storage, `proShop/${file.name}`)
+
+  return null
 
   try {
+    delete data.file
     await addProduct(data)
     return redirect('/admin/productlist')
   } catch (error) {
@@ -50,7 +61,7 @@ const AddProduct = () => {
           </div>
         </div>
       ) : (
-        <Form method="post">
+        <Form method="post" encType="multipart/form-data">
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Name
@@ -199,6 +210,10 @@ const AddProduct = () => {
                 )}
               </div>
             </div>
+          </div>
+
+          <div className="mb-3">
+            <input type="file" name="file" id="file" />
           </div>
 
           <div className="d-flex">

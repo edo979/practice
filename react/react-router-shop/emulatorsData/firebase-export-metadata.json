@@ -4,5 +4,9 @@
     "version": "1.18.2",
     "path": "firestore_export",
     "metadata_file": "firestore_export/firestore_export.overall_export_metadata"
+  },
+  "storage": {
+    "version": "13.0.2",
+    "path": "storage_export"
   }
 }
