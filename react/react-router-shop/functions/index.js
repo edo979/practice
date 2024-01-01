@@ -1,4 +1,4 @@
-const { initializeApp } = require('firebase-admin/app')
+const admin = require('firebase-admin')
 const { getStorage } = require('firebase-admin/storage')
 const { onCall, HttpsError } = require('firebase-functions/v2/https')
 const { onObjectFinalized } = require('firebase-functions/v2/storage')
@@ -10,49 +10,41 @@ const { validateString, validateNumber } = require('./utilities/validator')
 // Firestore collection name
 const PRODUCTS = 'products'
 
-initializeApp()
+admin.initializeApp()
 
-exports.addProduct = onCall(async (request) => {
+exports.addProduct = onCall(async (req) => {
   const db = admin.firestore()
   const errors = {}
-  // const productData = {
-  //   name: req.data.name.trim(),
-  //   brand: req.data.brand.trim(),
-  //   category: req.data.category.trim(),
-  //   description: req.data.description.trim(),
-  //   inStock: req.data.inStock,
-  //   price: req.data.price,
-  // }
+  const productData = {
+    name: req.data.name.trim(),
+    brand: req.data.brand.trim(),
+    category: req.data.category.trim(),
+    description: req.data.description.trim(),
+    inStock: req.data.inStock,
+    price: req.data.price,
+  }
 
-  console.log(request.data)
+  // // throw new HttpsError('internal', 'Server Error!')
+  // // Validation
 
-  // console.log(data.file)
-  // console.log(data.file.name)
+  errors.name = validateString(productData.name, 5)
+  errors.brand = validateString(productData.brand, 3)
+  errors.category = validateString(productData.category, 3)
+  errors.description = validateString(productData.description, 10, 150)
+  errors.inStock = validateNumber(productData.inStock)
+  errors.price = validateNumber(productData.price, 'float')
 
-  //throw new HttpsError('internal', 'Server Error!')
-  // Validation
+  if (Object.values(errors).some(Boolean))
+    throw new HttpsError('invalid-argument', 'Form submitted wrong', errors)
 
-  // errors.name = validateString(productData.name, 5)
-  // errors.brand = validateString(productData.brand, 3)
-  // errors.category = validateString(productData.category, 3)
-  // errors.description = validateString(productData.description, 10, 150)
-  // errors.inStock = validateNumber(productData.inStock)
-  // errors.price = validateNumber(productData.price, 'float')
+  //Saving to DB
+  try {
+    const product = await db.collection(PRODUCTS).add(productData)
 
-  // if (Object.values(errors).some(Boolean))
-  //   throw new HttpsError(
-  //     'invalid-argument',
-  //     'Form submitted wrong',
-  //     errors
-  //   )
-
-  // //Saving to DB
-  // try {
-  //   await db.collection(PRODUCTS).add(productData)
-  //   return { message: 'Product added successfully!' }
-  // } catch (error) {
-  //   throw new HttpsError('internal', 'Server Error!')
-  // }
+    return { id: product.id }
+  } catch (error) {
+    throw new HttpsError('internal', 'Server Error!')
+  }
 })
 
 exports.getProducts = onCall(async (req) => {
@@ -85,27 +77,23 @@ exports.getProduct = onCall(async (req) => {
 
 // triggers
 exports.generateThumbnail = onObjectFinalized({ cpu: 2 }, async (event) => {
-  const fileBucket = event.data.bucket // Storage bucket containing the file.
-  const filePath = event.data.name // File path in the bucket.
-  const contentType = event.data.contentType // File content type.
+  const fileBucket = event.data.bucket
+  const filePath = event.data.name
+  const contentType = event.data.contentType
 
-  // Exit if this is triggered on a file that is not an image.
   if (!contentType.startsWith('image/')) {
     return logger.log('This is not an image.')
   }
-  // Exit if the image is already a thumbnail.
+
   const fileName = path.basename(filePath)
   if (fileName.startsWith('thumb_')) {
     return logger.log('Already a Thumbnail.')
   }
 
-  // Download file into memory from bucket.
   const bucket = getStorage().bucket(fileBucket)
   const downloadResponse = await bucket.file(filePath).download()
   const imageBuffer = downloadResponse[0]
-  logger.log('Image downloaded!')
 
-  // Generate a thumbnail using sharp.
   const thumbnailBuffer = await sharp(imageBuffer)
     .resize({
       width: 200,
@@ -113,16 +101,13 @@ exports.generateThumbnail = onObjectFinalized({ cpu: 2 }, async (event) => {
       withoutEnlargement: true,
     })
     .toBuffer()
-  logger.log('Thumbnail created')
 
-  // Prefix 'thumb_' to file name.
   const thumbFileName = `thumb_${fileName}`
-  //const thumbFilePath = path.join(path.dirname(filePath), thumbFileName)
 
-  // Upload the thumbnail.
   const metadata = { contentType: contentType }
   await bucket.file(`proShop/${thumbFileName}`).save(thumbnailBuffer, {
     metadata: metadata,
   })
+
   return logger.log('Thumbnail uploaded!')
 })

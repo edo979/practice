@@ -13,20 +13,21 @@ import { ref, uploadBytes } from 'firebase/storage'
 export async function action({ request }) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
+  // remove image object because image is uploaded vi storage
+  delete data.image
+  const image = formData.get('image')
+  const fileExtension = image.name.split('.').pop()
   const errors = {}
-  console.log(data)
-  console.log(data.file)
-  const file = data.file
-
-  //Save image to storage
-  const productImageRef = ref(storage, `proShop/${file.name}`)
-  await uploadBytes(productImageRef, data.file)
-
-  return null
 
   try {
-    delete data.file
-    await addProduct(data)
+    // Save to firestore
+    const res = await addProduct(data)
+    const imageNameForStorage = `${res.data.id}.${fileExtension}`
+
+    // Save image to storage
+    const productImageRef = ref(storage, `proShop/${imageNameForStorage}`)
+    await uploadBytes(productImageRef, image)
+
     return redirect('/admin/productlist')
   } catch (error) {
     if (error.code.toLowerCase().includes('internal')) {
@@ -41,7 +42,6 @@ export async function action({ request }) {
 const AddProduct = () => {
   const errors = useActionData()
   const navigation = useNavigation()
-  console.log(errors)
 
   return (
     <>
@@ -214,7 +214,7 @@ const AddProduct = () => {
           </div>
 
           <div className="mb-3">
-            <input type="file" name="file" id="file" />
+            <input type="file" name="image" id="image" />
           </div>
 
           <div className="d-flex">
