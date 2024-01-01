@@ -20,6 +20,7 @@ export async function action({ request }) {
 
   //Save image to storage
   const productImageRef = ref(storage, `proShop/${file.name}`)
+  await uploadBytes(productImageRef, data.file)
 
   return null
 
