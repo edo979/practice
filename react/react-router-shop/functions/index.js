@@ -1,14 +1,16 @@
 const admin = require('firebase-admin')
-const { getStorage } = require('firebase-admin/storage')
+const { getStorage, getDownloadURL } = require('firebase-admin/storage')
 const { onCall, HttpsError } = require('firebase-functions/v2/https')
 const { onObjectFinalized } = require('firebase-functions/v2/storage')
 const { logger } = require('firebase-functions/v2')
 const sharp = require('sharp')
 const path = require('path')
 const { validateString, validateNumber } = require('./utilities/validator')
+const { getFirestore } = require('firebase-admin/firestore')
 
 // Firestore collection name
 const PRODUCTS = 'products'
+const STORAGE_COLLECTION = 'proShop'
 
 admin.initializeApp()
 
@@ -27,15 +29,15 @@ exports.addProduct = onCall(async (req) => {
   // // throw new HttpsError('internal', 'Server Error!')
   // // Validation
 
-  errors.name = validateString(productData.name, 5)
-  errors.brand = validateString(productData.brand, 3)
-  errors.category = validateString(productData.category, 3)
-  errors.description = validateString(productData.description, 10, 150)
-  errors.inStock = validateNumber(productData.inStock)
-  errors.price = validateNumber(productData.price, 'float')
+  // errors.name = validateString(productData.name, 5)
+  // errors.brand = validateString(productData.brand, 3)
+  // errors.category = validateString(productData.category, 3)
+  // errors.description = validateString(productData.description, 10, 150)
+  // errors.inStock = validateNumber(productData.inStock)
+  // errors.price = validateNumber(productData.price, 'float')
 
-  if (Object.values(errors).some(Boolean))
-    throw new HttpsError('invalid-argument', 'Form submitted wrong', errors)
+  // if (Object.values(errors).some(Boolean))
+  //   throw new HttpsError('invalid-argument', 'Form submitted wrong', errors)
 
   //Saving to DB
   try {
@@ -75,20 +77,15 @@ exports.getProduct = onCall(async (req) => {
   }
 })
 
-// triggers
+// Triggers
 exports.generateThumbnail = onObjectFinalized({ cpu: 2 }, async (event) => {
   const fileBucket = event.data.bucket
   const filePath = event.data.name
   const contentType = event.data.contentType
-
-  if (!contentType.startsWith('image/')) {
-    return logger.log('This is not an image.')
-  }
-
   const fileName = path.basename(filePath)
-  if (fileName.startsWith('thumb_')) {
-    return logger.log('Already a Thumbnail.')
-  }
+
+  if (!contentType.startsWith('image/')) return null
+  if (fileName.startsWith('thumb_')) return null
 
   const bucket = getStorage().bucket(fileBucket)
   const downloadResponse = await bucket.file(filePath).download()
@@ -105,9 +102,23 @@ exports.generateThumbnail = onObjectFinalized({ cpu: 2 }, async (event) => {
   const thumbFileName = `thumb_${fileName}`
 
   const metadata = { contentType: contentType }
-  await bucket.file(`proShop/${thumbFileName}`).save(thumbnailBuffer, {
+  const thumbRef = bucket.file(`${STORAGE_COLLECTION}/${thumbFileName}`)
+  await thumbRef.save(thumbnailBuffer, {
     metadata: metadata,
   })
 
-  return logger.log('Thumbnail uploaded!')
+  logger.log('Thumbnail uploaded!')
+
+  // save link of image and thumbnail to firestore
+  try {
+    // fileName is the id of product set when image saved to storage
+    const productRef = getFirestore()
+      .collection(PRODUCTS)
+      .doc(path.parse(fileName).name)
+
+    await productRef.update({ thumb: await getDownloadURL(thumbRef) })
+    return logger.log('Thumbnail link saved to firestore!')
+  } catch (error) {
+    throw new HttpsError('aborted', 'Error saving thumbnail link to db!')
+  }
 })
