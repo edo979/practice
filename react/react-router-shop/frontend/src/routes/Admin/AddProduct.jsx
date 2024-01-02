@@ -13,7 +13,7 @@ import { ref, uploadBytes } from 'firebase/storage'
 export async function action({ request }) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
-  // remove image object because image is uploaded vi storage
+  // remove image object because image is uploaded via storage
   delete data.image
   const image = formData.get('image')
   const fileExtension = image.name.split('.').pop()
@@ -22,9 +22,9 @@ export async function action({ request }) {
   try {
     // Save to firestore
     const res = await addProduct(data)
-    const imageNameForStorage = `${res.data.id}.${fileExtension}`
 
     // Save image to storage
+    const imageNameForStorage = `${res.data.id}.${fileExtension}`
     const productImageRef = ref(storage, `proShop/${imageNameForStorage}`)
     await uploadBytes(productImageRef, image)
 
