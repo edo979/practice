@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import classNames from 'classnames'
 
 const ProductList = () => {
   const { products } = useLoaderData()
@@ -38,7 +39,9 @@ const ProductList = () => {
               <td>{product.category}</td>
               <td>{product.brand}</td>
               <td>
-                <FaEdit />{' '}
+                <Link className="text-reset" to={`${product.id}/edit`}>
+                  <FaEdit />
+                </Link>{' '}
                 <span className="ms-2">
                   <FaTrash />
                 </span>
