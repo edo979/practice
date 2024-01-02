@@ -32,3 +32,10 @@ export const addProduct = async (data) => {
 
   return await addProductFunction(data)
 }
+
+export const editProduct = async (data) => {
+  const functions = getFunctions()
+  const editProductFunction = httpsCallable(functions, 'editProduct')
+
+  return await editProductFunction(data)
+}

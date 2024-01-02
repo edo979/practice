@@ -5,7 +5,7 @@ const { onObjectFinalized } = require('firebase-functions/v2/storage')
 const { logger } = require('firebase-functions/v2')
 const sharp = require('sharp')
 const path = require('path')
-const { validateString, validateNumber } = require('./utilities/validator')
+const { validateProductData } = require('./utilities/validator')
 
 // Firestore collection name
 const PRODUCTS = 'products'
@@ -15,27 +15,7 @@ admin.initializeApp()
 
 exports.addProduct = onCall(async (req) => {
   const db = admin.firestore()
-  const errors = {}
-  const productData = {
-    name: req.data.name.trim(),
-    brand: req.data.brand.trim(),
-    category: req.data.category.trim(),
-    description: req.data.description.trim(),
-    inStock: req.data.inStock,
-    price: req.data.price,
-    numReviews: 0,
-    rating: 0,
-  }
-
-  // // throw new HttpsError('internal', 'Server Error!')
-  // // Validation
-
-  errors.name = validateString(productData.name, 5)
-  errors.brand = validateString(productData.brand, 3)
-  errors.category = validateString(productData.category, 3)
-  errors.description = validateString(productData.description, 10, 150)
-  errors.inStock = validateNumber(productData.inStock)
-  errors.price = validateNumber(productData.price, 'float')
+  const { errors, productData } = validateProductData(req)
 
   if (Object.values(errors).some(Boolean))
     throw new HttpsError('invalid-argument', 'Form submitted wrong', errors)
@@ -73,6 +53,23 @@ exports.getProduct = onCall(async (req) => {
       throw new HttpsError('not-found', 'Requested document not found!')
 
     return { id: doc.id, ...doc.data() }
+  } catch (error) {
+    throw new HttpsError('internal', 'Server Error!')
+  }
+})
+
+exports.editProduct = onCall(async (req) => {
+  const db = admin.firestore()
+  const { productData, errors } = validateProductData(req)
+
+  if (Object.values(errors).some(Boolean))
+    throw new HttpsError('invalid-argument', 'Form submitted wrong', errors)
+
+  try {
+    const res = await db
+      .collection(PRODUCTS)
+      .doc(req.data.id)
+      .update(productData)
   } catch (error) {
     throw new HttpsError('internal', 'Server Error!')
   }

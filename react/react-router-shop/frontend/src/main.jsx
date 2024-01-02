@@ -14,7 +14,9 @@ import ProductList from './routes/Admin/ProductList.jsx'
 import AddProduct, {
   action as addProductAction,
 } from './routes/Admin/AddProduct.jsx'
-import EditProduct from './routes/Admin/EditProduct.jsx'
+import EditProduct, {
+  action as editProductAction,
+} from './routes/Admin/EditProduct.jsx'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,7 @@ const router = createBrowserRouter([
             path: 'admin/productlist/:id/edit',
             element: <EditProduct />,
             loader: productLoader,
+            action: editProductAction,
           },
         ],
       },

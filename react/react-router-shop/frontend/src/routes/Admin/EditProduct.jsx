@@ -1,9 +1,36 @@
-import { Form, useLoaderData } from 'react-router-dom'
+import {
+  Form,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from 'react-router-dom'
 import classNames from 'classnames'
+import { editProduct } from '../../db/products'
+
+export async function action({ request, params }) {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+  data.id = params.id
+  const errors = {}
+
+  try {
+    await editProduct(data)
+    return redirect('..')
+  } catch (error) {
+    if (error.code.toLowerCase().includes('internal')) {
+      errors.formError = error.message
+      return errors
+    }
+    errors.fieldsError = error.details
+    return errors
+  }
+}
 
 const EditProduct = () => {
   const { product } = useLoaderData()
-  const errors = undefined
+  const errors = useActionData()
+  const navigation = useNavigation()
 
   return (
     <Form method="post" encType="multipart/form-data">
@@ -164,7 +191,11 @@ const EditProduct = () => {
       </div>
 
       <div className="d-flex">
-        <button className="btn btn-primary ms-auto">
+        <button
+          type="submit"
+          className="btn btn-primary ms-auto"
+          disabled={navigation.state === 'submitting'}
+        >
           {navigation.state === 'submitting' && (
             <div
               className="me-2 spinner-border spinner-border-sm"
@@ -173,7 +204,7 @@ const EditProduct = () => {
               <span className="visually-hidden">Loading...</span>
             </div>
           )}
-          Add Product
+          Update Product
         </button>
       </div>
     </Form>
