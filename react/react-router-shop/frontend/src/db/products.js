@@ -19,7 +19,7 @@ export const getProduct = async (id) => {
   const getProductFunction = httpsCallable(functions, 'getProduct')
 
   try {
-    const res = await getProductFunction({ data: { id } })
+    const res = await getProductFunction({ id })
     return res.data
   } catch (error) {
     throw new Error(error.message)

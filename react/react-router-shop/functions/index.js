@@ -6,7 +6,6 @@ const { logger } = require('firebase-functions/v2')
 const sharp = require('sharp')
 const path = require('path')
 const { validateString, validateNumber } = require('./utilities/validator')
-const { getFirestore } = require('firebase-admin/firestore')
 
 // Firestore collection name
 const PRODUCTS = 'products'
@@ -24,6 +23,8 @@ exports.addProduct = onCall(async (req) => {
     description: req.data.description.trim(),
     inStock: req.data.inStock,
     price: req.data.price,
+    numReviews: 0,
+    rating: 0,
   }
 
   // // throw new HttpsError('internal', 'Server Error!')
@@ -115,7 +116,8 @@ exports.generateThumbnailAndLinks = onObjectFinalized(
     // save link of image and thumbnail to firestore
     try {
       // fileName is the id of product set when image saved to storage
-      const productRef = getFirestore()
+      const productRef = admin
+        .firestore()
         .collection(PRODUCTS)
         .doc(path.parse(fileName).name)
 
