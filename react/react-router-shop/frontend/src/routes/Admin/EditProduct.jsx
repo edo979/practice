@@ -1,5 +1,6 @@
 import {
   Form,
+  Link,
   redirect,
   useActionData,
   useLoaderData,
@@ -7,6 +8,7 @@ import {
 } from 'react-router-dom'
 import classNames from 'classnames'
 import { editProduct } from '../../db/products'
+import { FaArrowLeft, FaCheck } from 'react-icons/fa'
 
 export async function action({ request, params }) {
   const formData = await request.formData()
@@ -16,7 +18,7 @@ export async function action({ request, params }) {
 
   try {
     await editProduct(data)
-    return redirect('..')
+    return redirect(`/admin/productlist`)
   } catch (error) {
     if (error.code.toLowerCase().includes('internal')) {
       errors.formError = error.message
@@ -190,10 +192,13 @@ const EditProduct = () => {
         <input type="file" name="image" id="image" />
       </div>
 
-      <div className="d-flex">
+      <div className="d-flex justify-content-end gap-3">
+        <Link to={`/admin/productlist`} className="btn btn-secondary">
+          <FaArrowLeft /> Cancel
+        </Link>
         <button
           type="submit"
-          className="btn btn-primary ms-auto"
+          className="btn btn-primary"
           disabled={navigation.state === 'submitting'}
         >
           {navigation.state === 'submitting' && (
@@ -204,7 +209,7 @@ const EditProduct = () => {
               <span className="visually-hidden">Loading...</span>
             </div>
           )}
-          Update Product
+          <FaCheck /> Update Product
         </button>
       </div>
     </Form>
