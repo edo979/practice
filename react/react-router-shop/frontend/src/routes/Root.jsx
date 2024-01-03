@@ -30,12 +30,7 @@ const Root = () => {
             <div className="card-body">
               <Link to={`/product/${product.id}`} className="text-reset">
                 <h2
-                  className="card-title fs-4"
-                  style={{
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
+                  className="card-title fs-4 text-overflow"
                   title={product.name}
                 >
                   {product.name}

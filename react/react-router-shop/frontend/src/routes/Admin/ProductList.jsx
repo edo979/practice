@@ -19,41 +19,49 @@ const ProductList = () => {
         </div>
       </div>
 
-      <table className="table table-primary table-striped table-responsive">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>NAME</th>
-            <th>PRICE</th>
-            <th>CATEGORY</th>
-            <th>BRAND</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>{product.price}$</td>
-              <td>{product.category}</td>
-              <td>{product.brand}</td>
-              <td>
-                <div className="d-flex">
-                  <Link className="text-reset" to={`${product.id}/edit`}>
-                    <FaEdit />
-                  </Link>{' '}
-                  <Form action={`${product.id}/delete`} method="post">
-                    <button className="">
-                      <FaTrash />
-                    </button>
-                  </Form>
-                </div>
-              </td>
+      <div className="table-responsive-md">
+        <table className="table table-primary table-striped ">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th>CATEGORY</th>
+              <th>BRAND</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td
+                  className="text-overflow"
+                  style={{ maxWidth: '100px' }}
+                  title={product.id}
+                >
+                  {product.id}
+                </td>
+                <td>{product.name}</td>
+                <td>{product.price}$</td>
+                <td>{product.category}</td>
+                <td>{product.brand}</td>
+                <td>
+                  <div className="d-flex">
+                    <Link className="text-reset" to={`${product.id}/edit`}>
+                      <FaEdit />
+                    </Link>{' '}
+                    <Form action={`${product.id}/delete`} method="post">
+                      <button className="btn btn-toolbar">
+                        <FaTrash />
+                      </button>
+                    </Form>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   )
 }
