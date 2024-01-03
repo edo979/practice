@@ -1,8 +1,7 @@
 import { Form, Link, useLoaderData } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
-import classNames from 'classnames'
 
-const ProductList = () => {
+const ProductsList = () => {
   const { products } = useLoaderData()
 
   return (
@@ -66,4 +65,4 @@ const ProductList = () => {
   )
 }
 
-export default ProductList
+export default ProductsList

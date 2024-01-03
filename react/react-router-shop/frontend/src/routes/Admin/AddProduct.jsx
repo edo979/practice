@@ -28,7 +28,7 @@ export async function action({ request }) {
     const productImageRef = ref(storage, `proShop/${imageNameForStorage}`)
     await uploadBytes(productImageRef, image)
 
-    return redirect('/admin/productlist')
+    return redirect('/admin/productslist')
   } catch (error) {
     if (error.code.toLowerCase().includes('internal')) {
       errors.formError = error.message
