@@ -70,6 +70,7 @@ exports.editProduct = onCall(async (req) => {
       .collection(PRODUCTS)
       .doc(req.data.id)
       .update(productData)
+    return { message: 'Product updated!' }
   } catch (error) {
     throw new HttpsError('internal', 'Server Error!')
   }
