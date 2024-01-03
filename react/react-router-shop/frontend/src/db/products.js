@@ -39,3 +39,10 @@ export const editProduct = async (data) => {
 
   return await editProductFunction(data)
 }
+
+export const deleteProduct = async (id) => {
+  const functions = getFunctions()
+  const deleteProductFunction = httpsCallable(functions, 'deleteProduct')
+
+  return await deleteProductFunction({ id })
+}

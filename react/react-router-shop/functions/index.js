@@ -75,6 +75,17 @@ exports.editProduct = onCall(async (req) => {
   }
 })
 
+exports.deleteProduct = onCall(async (req) => {
+  const db = admin.firestore()
+
+  try {
+    db.collection(PRODUCTS).doc(req.data.id).delete()
+    return { message: 'Product deleted!' }
+  } catch (error) {
+    throw new HttpsError('not-found', 'Resource can not be found!')
+  }
+})
+
 // Triggers
 exports.generateThumbnailAndLinks = onObjectFinalized(
   { cpu: 2 },

@@ -17,6 +17,7 @@ import AddProduct, {
 import EditProduct, {
   action as editProductAction,
 } from './routes/Admin/EditProduct.jsx'
+import { action as deleteAction } from './routes/Admin/DeleteProduct'
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             element: <EditProduct />,
             loader: productLoader,
             action: editProductAction,
+          },
+          {
+            path: 'admin/productlist/:id/delete',
+            action: deleteAction,
           },
         ],
       },

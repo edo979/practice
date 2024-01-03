@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from 'react-router-dom'
+import { Form, Link, useLoaderData } from 'react-router-dom'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import classNames from 'classnames'
 
@@ -39,12 +39,16 @@ const ProductList = () => {
               <td>{product.category}</td>
               <td>{product.brand}</td>
               <td>
-                <Link className="text-reset" to={`${product.id}/edit`}>
-                  <FaEdit />
-                </Link>{' '}
-                <span className="ms-2">
-                  <FaTrash />
-                </span>
+                <div className="d-flex">
+                  <Link className="text-reset" to={`${product.id}/edit`}>
+                    <FaEdit />
+                  </Link>{' '}
+                  <Form action={`${product.id}/delete`} method="post">
+                    <button className="">
+                      <FaTrash />
+                    </button>
+                  </Form>
+                </div>
               </td>
             </tr>
           ))}
