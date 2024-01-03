@@ -152,19 +152,19 @@ const AddProduct = () => {
             <input
               type="number"
               className={classNames('form-control', {
-                'is-invalid': errors?.fieldsError?.inStock,
+                'is-invalid': errors?.fieldsError?.countInStock,
               })}
               aria-describedby={
-                errors?.fieldsError?.inStock
+                errors?.fieldsError?.countInStock
                   ? 'in-stock-field-error'
                   : undefined
               }
               id="in-stock"
-              name="inStock"
+              name="countInStock"
             />
-            {errors?.fieldsError?.inStock && (
+            {errors?.fieldsError?.countInStock && (
               <p id="in-stock-field-error" className="invalid-feedback">
-                {errors.fieldsError.inStock}
+                {errors.fieldsError.countInStock}
               </p>
             )}
           </div>

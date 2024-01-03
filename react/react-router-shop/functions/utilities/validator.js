@@ -20,7 +20,7 @@ exports.validateProductData = (req) => {
     brand: req.data.brand.trim(),
     category: req.data.category.trim(),
     description: req.data.description.trim(),
-    inStock: req.data.inStock,
+    countInStock: req.data.countInStock,
     price: req.data.price,
     numReviews: 0,
     rating: 0,
@@ -30,7 +30,7 @@ exports.validateProductData = (req) => {
   errors.brand = validateString(productData.brand, 3)
   errors.category = validateString(productData.category, 3)
   errors.description = validateString(productData.description, 10, 150)
-  errors.inStock = validateNumber(productData.inStock)
+  errors.countInStock = validateNumber(productData.countInStock)
   errors.price = validateNumber(productData.price, 'float')
 
   return { errors, productData }

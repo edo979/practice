@@ -18,7 +18,7 @@ export async function action({ request, params }) {
 
   try {
     await editProduct(data)
-    return redirect(`/admin/productlist`)
+    return redirect(`/admin/productslist`)
   } catch (error) {
     if (error.code.toLowerCase().includes('internal')) {
       errors.formError = error.message
@@ -141,18 +141,20 @@ const EditProduct = () => {
           <input
             type="number"
             className={classNames('form-control', {
-              'is-invalid': errors?.fieldsError?.inStock,
+              'is-invalid': errors?.fieldsError?.countInStock,
             })}
             aria-describedby={
-              errors?.fieldsError?.inStock ? 'in-stock-field-error' : undefined
+              errors?.fieldsError?.countInStock
+                ? 'in-stock-field-error'
+                : undefined
             }
-            defaultValue={product && product.inStock}
+            defaultValue={product && product.countInStock}
             id="in-stock"
-            name="inStock"
+            name="countInStock"
           />
-          {errors?.fieldsError?.inStock && (
+          {errors?.fieldsError?.countInStock && (
             <p id="in-stock-field-error" className="invalid-feedback">
-              {errors.fieldsError.inStock}
+              {errors.fieldsError.countInStock}
             </p>
           )}
         </div>
