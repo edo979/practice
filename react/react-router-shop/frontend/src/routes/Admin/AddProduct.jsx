@@ -7,8 +7,7 @@ import {
   useNavigation,
 } from 'react-router-dom'
 import { addProduct } from '../../db/products'
-import { storage } from '../../db/init'
-import { ref, uploadBytes } from 'firebase/storage'
+import { uploadImg } from '../../db/storage'
 import { FaCheck } from 'react-icons/fa'
 
 export async function action({ request }) {
@@ -17,17 +16,14 @@ export async function action({ request }) {
   // remove image object because image is uploaded via storage
   delete data.image
   const image = formData.get('image')
-  const fileExtension = image.name.split('.').pop()
   const errors = {}
 
   try {
     // Save to firestore
     const res = await addProduct(data)
 
-    // Save image to storage
-    const imageNameForStorage = `${res.data.id}.${fileExtension}`
-    const productImageRef = ref(storage, `proShop/${imageNameForStorage}`)
-    await uploadBytes(productImageRef, image)
+    // // Save image to storage
+    await uploadImg({ image, imageName: res.data.id })
 
     return redirect('/admin/productslist')
   } catch (error) {
