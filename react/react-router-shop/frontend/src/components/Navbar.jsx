@@ -29,8 +29,8 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="admin/productlist" className="nav-link">
-                Product List
+              <NavLink to="admin" className="nav-link">
+                Admin
               </NavLink>
             </li>
           </ul>

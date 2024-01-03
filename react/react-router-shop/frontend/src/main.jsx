@@ -29,31 +29,39 @@ const router = createBrowserRouter([
       { index: true, element: <Root />, loader: productsLoader },
       { path: 'product/:id', element: <Product />, loader: productLoader },
       {
-        path: '',
+        path: 'admin',
         element: <AdminRoute />,
         errorElement: <ErrorPage />,
         children: [
           {
-            path: 'admin/productlist',
-            element: <ProductList />,
-            loader: productsLoader,
+            index: true,
+            element: <h1>Welcome Admin</h1>,
+          },
+          // Products:
+          {
+            path: 'productlist',
             children: [
+              {
+                index: true,
+                element: <ProductList />,
+                loader: productsLoader,
+              },
+              {
+                path: 'add',
+                element: <AddProduct />,
+                action: addProductAction,
+              },
+              {
+                path: ':id/edit',
+                element: <EditProduct />,
+                loader: productLoader,
+                action: editProductAction,
+              },
               {
                 path: ':id/delete',
                 action: deleteAction,
               },
             ],
-          },
-          {
-            path: 'admin/productlist/add',
-            element: <AddProduct />,
-            action: addProductAction,
-          },
-          {
-            path: 'admin/productlist/:id/edit',
-            element: <EditProduct />,
-            loader: productLoader,
-            action: editProductAction,
           },
         ],
       },
