@@ -6,9 +6,11 @@ const MainLayout = () => {
   return (
     <>
       <header className="container">
-        <Navbar />
+        <div className="row">
+          <Navbar />
+        </div>
       </header>
-      <main className="container py-5">
+      <main className="container">
         <Outlet />
       </main>
       <Footer />
