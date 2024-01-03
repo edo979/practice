@@ -14,7 +14,7 @@ const Product = () => {
 
   return (
     <>
-      <Link to={'..'} className="btn btn-primary">
+      <Link to={'..'} className="mt-5 btn btn-primary">
         <FaArrowLeft /> Back
       </Link>
       <hr className="my-4" />

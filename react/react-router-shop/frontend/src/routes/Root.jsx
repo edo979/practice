@@ -11,7 +11,7 @@ const Root = () => {
   const { products } = useLoaderData()
 
   return (
-    <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-lg-4">
+    <div className="mt-5 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-lg-4">
       {products.map((product) => (
         <div className="col" key={product.id}>
           <div className="card h-100">

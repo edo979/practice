@@ -5,7 +5,7 @@ const AdminRoute = () => {
     <div className="row">
       <nav className="col-md-2 col-xl-1 pt-0 pt-md-4 nav nav-pills flex-row flex-md-column bg-dark">
         <NavLink
-          to={`/admin/productlist`}
+          to={`/admin/productslist`}
           className="text-md-center nav-link text-light"
         >
           Products

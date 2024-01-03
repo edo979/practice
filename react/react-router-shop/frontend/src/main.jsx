@@ -18,6 +18,7 @@ import EditProduct, {
   action as editProductAction,
 } from './routes/Admin/EditProduct.jsx'
 import { action as deleteAction } from './routes/Admin/DeleteProduct'
+import AdminRoot from './routes/Admin/AdminRoot.jsx'
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <h1>Welcome Admin</h1>,
+            element: <AdminRoot />,
           },
           // Products:
           {
