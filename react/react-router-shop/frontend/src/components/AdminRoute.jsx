@@ -4,8 +4,8 @@ const AdminRoute = () => {
   const navigation = useNavigation()
 
   return (
-    <div className="row">
-      <nav className="col-md-2 col-xl-1 pt-0 pt-md-4 nav nav-pills flex-row flex-md-column bg-dark">
+    <div className="row h-100 align-content-start align-content-md-stretch">
+      <nav className="col-md-2 col-xxl-1 pt-0 pt-md-4 nav nav-pills flex-row flex-md-column bg-dark">
         <NavLink
           to={`/admin/productslist`}
           className="text-md-center nav-link text-light"
@@ -26,7 +26,7 @@ const AdminRoute = () => {
         </NavLink>
       </nav>
 
-      <div className="col-md-10 col-xl-11 pt-4">
+      <div className="col-md-10 col-xxl-11 pt-4">
         {navigation.state === 'loading' ? (
           <div className="d-flex">
             <div
