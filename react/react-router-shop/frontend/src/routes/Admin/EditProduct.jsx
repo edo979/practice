@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import classNames from 'classnames'
 import { editProduct } from '../../db/products'
-import { FaArrowLeft, FaCheck } from 'react-icons/fa'
+import { FaCheck } from 'react-icons/fa'
 
 export async function action({ request, params }) {
   const formData = await request.formData()
@@ -193,8 +193,8 @@ const EditProduct = () => {
       </div>
 
       <div className="d-flex justify-content-end gap-3">
-        <Link to={`/admin/productlist`} className="btn btn-secondary">
-          <FaArrowLeft /> Cancel
+        <Link to={`..`} className="btn btn-secondary">
+          <b>X</b> Cancel
         </Link>
         <button
           type="submit"

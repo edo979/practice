@@ -9,6 +9,7 @@ import {
 import { addProduct } from '../../db/products'
 import { storage } from '../../db/init'
 import { ref, uploadBytes } from 'firebase/storage'
+import { FaCheck } from 'react-icons/fa'
 
 export async function action({ request }) {
   const formData = await request.formData()
@@ -217,8 +218,11 @@ const AddProduct = () => {
             <input type="file" name="image" id="image" />
           </div>
 
-          <div className="d-flex">
-            <button className="btn btn-primary ms-auto">
+          <div className="d-flex justify-content-end gap-3">
+            <Link to={'..'} className="btn btn-secondary">
+              <b>X</b> Cancel
+            </Link>
+            <button className="btn btn-primary">
               {navigation.state === 'submitting' && (
                 <div
                   className="me-2 spinner-border spinner-border-sm"
@@ -227,7 +231,7 @@ const AddProduct = () => {
                   <span className="visually-hidden">Loading...</span>
                 </div>
               )}
-              Add Product
+              <FaCheck /> Add Product
             </button>
           </div>
         </Form>
