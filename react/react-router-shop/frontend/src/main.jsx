@@ -37,29 +37,35 @@ const router = createBrowserRouter([
             index: true,
             element: <AdminRoot />,
           },
-          // Products:
           {
-            path: 'productslist',
+            path: '',
+            errorElement: <ErrorPage />,
             children: [
+              // Products:
               {
-                index: true,
-                element: <ProductsList />,
-                loader: productsLoader,
-              },
-              {
-                path: 'add',
-                element: <AddProduct />,
-                action: addProductAction,
-              },
-              {
-                path: ':id/edit',
-                element: <EditProduct />,
-                loader: productLoader,
-                action: editProductAction,
-              },
-              {
-                path: ':id/delete',
-                action: deleteAction,
+                path: 'productslist',
+                children: [
+                  {
+                    index: true,
+                    element: <ProductsList />,
+                    loader: productsLoader,
+                  },
+                  {
+                    path: 'add',
+                    element: <AddProduct />,
+                    action: addProductAction,
+                  },
+                  {
+                    path: ':id/edit',
+                    element: <EditProduct />,
+                    loader: productLoader,
+                    action: editProductAction,
+                  },
+                  {
+                    path: ':id/delete',
+                    action: deleteAction,
+                  },
+                ],
               },
             ],
           },
