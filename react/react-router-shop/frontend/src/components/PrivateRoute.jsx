@@ -1,5 +1,11 @@
-import { NavLink, Outlet, redirect } from 'react-router-dom'
-import { getUser } from '../db/auth'
+import {
+  NavLink,
+  Outlet,
+  redirect,
+  useNavigate,
+  useNavigation,
+} from 'react-router-dom'
+import { getUser, logoutUser } from '../db/auth'
 
 export async function loader() {
   const user = await getUser()
@@ -16,6 +22,9 @@ export async function loader() {
 }
 
 const PrivateRoute = () => {
+  const navigation = useNavigation()
+  const navigate = useNavigate()
+
   return (
     <div className="row h-100 align-content-start align-content-md-stretch">
       <nav className="col-md-2 col-xxl-1 pt-0 pt-md-4 nav nav-pills flex-row flex-md-column bg-dark">
@@ -31,6 +40,16 @@ const PrivateRoute = () => {
         >
           Address
         </NavLink>
+        <hr className="border-light d-none d-md-block" />
+        <button
+          className="btn btn-danger ms-auto mx-md-auto"
+          onClick={() => {
+            logoutUser()
+            navigate('/')
+          }}
+        >
+          Log Out
+        </button>
       </nav>
 
       <div className="col-md-10 col-xxl-11 pt-4">
