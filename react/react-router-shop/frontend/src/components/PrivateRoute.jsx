@@ -3,10 +3,12 @@ import { getUser } from '../db/auth'
 
 export async function loader() {
   const user = await getUser()
-  console.log(user)
 
-  if (!user) return redirect('/signin')
-  return null
+  if (user) {
+    return user.role === 'admin' ? redirect('/admin') : redirect('/me')
+  }
+
+  return redirect('/signin')
 }
 
 const PrivateRoute = () => {
