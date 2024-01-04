@@ -19,6 +19,7 @@ import EditProduct, {
 } from './routes/Admin/EditProduct.jsx'
 import { action as deleteAction } from './routes/Admin/DeleteProduct'
 import AdminRoot from './routes/Admin/AdminRoot.jsx'
+import SignUp from './routes/SignUp.jsx'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Root />, loader: productsLoader },
+      { path: 'signin', element: <SignUp /> },
+      { path: 'signup', element: <SignUp /> },
       { path: 'product/:id', element: <Product />, loader: productLoader },
       {
         path: 'admin',

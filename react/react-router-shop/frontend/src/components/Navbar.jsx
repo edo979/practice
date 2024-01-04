@@ -33,6 +33,16 @@ const Navbar = () => {
                 Admin
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink to="signup" className="nav-link">
+                Sign Up
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="signin" className="nav-link">
+                Sign In
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>
