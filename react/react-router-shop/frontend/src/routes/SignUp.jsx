@@ -11,17 +11,11 @@ export async function action({ request }) {
     email: formData.get('email'),
     password: formData.get('password'),
   }
-  const errors = {}
 
-  try {
-    await registerUser(data)
-    return redirect('/me')
-  } catch (error) {
-    if (error.message.includes('email-already-in-use'))
-      return { formError: 'Email already in use!' }
-  }
+  const { user, error } = await registerUser(data)
 
-  return { formError: 'Form submitted wrong!' }
+  if (user) return redirect('/me')
+  return { formError: error }
 }
 
 const SignUp = () => {

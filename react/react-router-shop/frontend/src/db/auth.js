@@ -6,8 +6,16 @@ import {
 } from 'firebase/auth'
 import { auth } from './init'
 
-export const registerUser = async ({ email, password }) =>
-  await createUserWithEmailAndPassword(auth, email, password)
+export const registerUser = async ({ email, password }) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password)
+    return { user: true }
+  } catch (error) {
+    if (error.message.includes('email-already-in-use'))
+      return { error: 'Email already in use!' }
+    return { error: 'Form submitted wrong!' }
+  }
+}
 
 export const signInUser = async ({ email, password }) => {
   try {

@@ -9,7 +9,7 @@ export async function loader() {
     const isAdmin = idTokenResult.claims.role === 'admin'
 
     if (isAdmin) return redirect('/admin')
-    return redirect('/me')
+    return null
   }
 
   return redirect('/signin')

@@ -9,7 +9,6 @@ const Navbar = () => {
     () =>
       setUserObserver(async (user) => {
         if (user) {
-          console.log(user)
           const idTokenResult = await user.getIdTokenResult()
           const isAdmin = idTokenResult.claims.role === 'admin'
 
