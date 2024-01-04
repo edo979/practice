@@ -19,7 +19,7 @@ import EditProduct, {
 } from './routes/Admin/EditProduct.jsx'
 import { action as deleteAction } from './routes/Admin/DeleteProduct'
 import AdminRoot from './routes/Admin/AdminRoot.jsx'
-import SignUp from './routes/SignUp.jsx'
+import SignUp, { action as signupAction } from './routes/SignUp.jsx'
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Root />, loader: productsLoader },
       { path: 'signin', element: <SignUp /> },
-      { path: 'signup', element: <SignUp /> },
+      { path: 'signup', element: <SignUp />, action: signupAction },
       { path: 'product/:id', element: <Product />, loader: productLoader },
       {
         path: 'admin',

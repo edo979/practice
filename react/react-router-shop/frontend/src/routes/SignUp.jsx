@@ -1,4 +1,23 @@
+import { Form, redirect, useActionData } from 'react-router-dom'
+import { registerUser } from '../db/auth'
+
+export async function action({ request }) {
+  const formData = await request.formData()
+  const data = {
+    email: formData.get('email'),
+    password: formData.get('password'),
+  }
+
+  const isRegistered = await registerUser(data)
+
+  if (isRegistered) return redirect('/')
+
+  return { formError: 'Form submitted wrong!' }
+}
+
 const SignUp = () => {
+  const errors = useActionData()
+
   return (
     <div className="row align-items-center g-xl-5 h-100">
       <div className="col-lg-7 text-center text-lg-start">
@@ -12,12 +31,16 @@ const SignUp = () => {
         </p>
       </div>
       <div className="col-md-10 mx-auto col-lg-5">
-        <form className="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <Form
+          method="post"
+          className="p-4 p-md-5 border rounded-3 bg-body-tertiary"
+        >
           <div className="form-floating mb-3">
             <input
               type="email"
               className="form-control"
               id="floatingInput"
+              name="email"
               placeholder="name@example.com"
             />
             <label htmlFor="floatingInput">Email address</label>
@@ -27,6 +50,7 @@ const SignUp = () => {
               type="password"
               className="form-control"
               id="floatingPassword"
+              name="password"
               placeholder="Password"
             />
             <label htmlFor="floatingPassword">Password</label>
@@ -36,10 +60,10 @@ const SignUp = () => {
             Sign up
           </button>
           <hr className="my-4" />
-          <small className="text-body-secondary">
-            By clicking Sign up, you agree to the terms of use.
-          </small>
-        </form>
+          {errors?.formError && (
+            <small className="text-body-secondary">{errors.formError}</small>
+          )}
+        </Form>
       </div>
     </div>
   )
