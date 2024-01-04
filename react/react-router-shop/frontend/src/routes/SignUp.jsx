@@ -3,14 +3,23 @@ import { registerUser } from '../db/auth'
 
 export async function action({ request }) {
   const formData = await request.formData()
+
+  if (formData.get('password') !== formData.get('password1'))
+    return { formError: "Passwords don't match!" }
+
   const data = {
     email: formData.get('email'),
     password: formData.get('password'),
   }
+  const errors = {}
 
-  const isRegistered = await registerUser(data)
-
-  if (isRegistered) return redirect('/me')
+  try {
+    await registerUser(data)
+    return redirect('/me')
+  } catch (error) {
+    if (error.message.includes('email-already-in-use'))
+      return { formError: 'Email already in use!' }
+  }
 
   return { formError: 'Form submitted wrong!' }
 }
@@ -42,6 +51,7 @@ const SignUp = () => {
               id="floatingInput"
               name="email"
               placeholder="name@example.com"
+              required
             />
             <label htmlFor="floatingInput">Email address</label>
           </div>
@@ -52,8 +62,22 @@ const SignUp = () => {
               id="floatingPassword"
               name="password"
               placeholder="Password"
+              required
+              min="6"
             />
             <label htmlFor="floatingPassword">Password</label>
+          </div>
+          <div className="form-floating mb-3">
+            <input
+              type="password"
+              className="form-control"
+              id="floatingPassword1"
+              name="password1"
+              placeholder="Password"
+              required
+              min="6"
+            />
+            <label htmlFor="floatingPassword1">Confirm Password</label>
           </div>
 
           <button className="w-100 btn btn-lg btn-primary" type="submit">
@@ -61,7 +85,9 @@ const SignUp = () => {
           </button>
           <hr className="my-4" />
           {errors?.formError && (
-            <small className="text-body-secondary">{errors.formError}</small>
+            <p className="m-0 text-danger text-center">
+              <small>{errors.formError}</small>
+            </p>
           )}
         </Form>
       </div>
