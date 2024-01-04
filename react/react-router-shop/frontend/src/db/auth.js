@@ -29,17 +29,5 @@ export const signInUser = async ({ email, password }) => {
 
 export const getUser = async () => {
   await auth.authStateReady()
-  const user = auth.currentUser
-
-  if (user) {
-    const idTokenResult = await user.getIdTokenResult()
-    const customClaims = idTokenResult.claims
-
-    return {
-      uid: user.uid,
-      role: customClaims.role === 'admin' ? 'admin' : 'user',
-    }
-  }
-
-  return null
+  return auth.currentUser
 }

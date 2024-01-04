@@ -9,7 +9,7 @@ import Root, { loader as productsLoader } from './routes/root.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import Product, { loader as productLoader } from './routes/Product.jsx'
-import AdminRoute from './components/AdminRoute.jsx'
+import AdminRoot from './routes/Admin/AdminRoot.jsx'
 import ProductsList from './routes/Admin/ProductsList.jsx'
 import AddProduct, {
   action as addProductAction,
@@ -18,9 +18,9 @@ import EditProduct, {
   action as editProductAction,
 } from './routes/Admin/EditProduct.jsx'
 import { action as deleteAction } from './routes/Admin/DeleteProduct'
-import AdminRoot from './routes/Admin/AdminRoot.jsx'
 import SignUp, { action as signupAction } from './routes/SignUp.jsx'
 import SignIn, { action as signinAction } from './routes/SignIn.jsx'
+import AdminRoute, { loader as adminLoader } from './components/AdminRoute.jsx'
 import PrivateRoute, {
   loader as userLoader,
 } from './components/PrivateRoute.jsx'
@@ -40,6 +40,7 @@ const router = createBrowserRouter([
       {
         path: 'admin',
         element: <AdminRoute />,
+        loader: adminLoader,
         errorElement: <ErrorPage />,
         children: [
           {

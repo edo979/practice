@@ -1,4 +1,18 @@
-import { NavLink, Outlet, useNavigation } from 'react-router-dom'
+import { NavLink, Outlet, redirect, useNavigation } from 'react-router-dom'
+import { getUser } from '../db/auth'
+
+export async function loader() {
+  const user = await getUser()
+
+  if (user) {
+    const idTokenResult = await user.getIdTokenResult()
+    const isAdmin = idTokenResult.claims.role === 'admin'
+
+    if (isAdmin) return null
+  }
+
+  return redirect('/signin')
+}
 
 const AdminRoute = () => {
   const navigation = useNavigation()
