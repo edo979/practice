@@ -10,7 +10,7 @@ export async function action({ request }) {
 
   const isRegistered = await registerUser(data)
 
-  if (isRegistered) return redirect('/')
+  if (isRegistered) return redirect('/me')
 
   return { formError: 'Form submitted wrong!' }
 }

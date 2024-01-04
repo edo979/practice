@@ -10,3 +10,8 @@ export const registerUser = async ({ email, password }) => {
     return false
   }
 }
+
+export const getUser = async () => {
+  await auth.authStateReady()
+  return auth.currentUser
+}

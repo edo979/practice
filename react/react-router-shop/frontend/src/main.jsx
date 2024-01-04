@@ -20,6 +20,10 @@ import EditProduct, {
 import { action as deleteAction } from './routes/Admin/DeleteProduct'
 import AdminRoot from './routes/Admin/AdminRoot.jsx'
 import SignUp, { action as signupAction } from './routes/SignUp.jsx'
+import PrivateRoute, {
+  loader as userLoader,
+} from './components/PrivateRoute.jsx'
+import UserProfile from './routes/User/UserProfile.jsx'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +35,7 @@ const router = createBrowserRouter([
       { path: 'signin', element: <SignUp /> },
       { path: 'signup', element: <SignUp />, action: signupAction },
       { path: 'product/:id', element: <Product />, loader: productLoader },
+      // Admin
       {
         path: 'admin',
         element: <AdminRoute />,
@@ -72,6 +77,20 @@ const router = createBrowserRouter([
               },
             ],
           },
+        ],
+      },
+      // User
+      {
+        path: 'me',
+        element: <PrivateRoute />,
+        loader: userLoader,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <UserProfile />,
+          },
+          //{errorElement: <ErrorPage />, children [{}]}
         ],
       },
     ],
