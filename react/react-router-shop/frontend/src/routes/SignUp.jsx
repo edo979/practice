@@ -25,12 +25,18 @@ const SignUp = () => {
     <div className="row align-items-center g-xl-5 h-100">
       <div className="col-lg-7 text-center text-lg-start">
         <h1 className="display-4 fw-bold lh-1 text-body-emphasis mb-3">
-          Vertically centered hero sign-up form
+          Welcome new user, please <i>register</i>.
         </h1>
         <p className="col-lg-10 fs-4">
-          Below is an example form built entirely with Bootstrap’s form
-          controls. Each required form group has a validation state that can be
-          triggered by attempting to submit the form without completing it.
+          Welcome to proShop app, here you can create new account. Please enter
+          data we ask and you will be redirect to your's profile page.
+        </p>
+        <hr />
+        <p>
+          You have account, please login:{' '}
+          <a href="/signin" className="btn btn-success">
+            Login
+          </a>
         </p>
       </div>
       <div className="col-md-10 mx-auto col-lg-5">

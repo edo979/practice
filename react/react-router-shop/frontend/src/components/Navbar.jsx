@@ -64,18 +64,29 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ) : (
-              <>
-                <li className="nav-item">
-                  <NavLink to="signup" className="nav-link">
-                    Sign Up
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="signin" className="nav-link">
-                    Sign In
-                  </NavLink>
-                </li>
-              </>
+              <div className="dropdown">
+                <button
+                  className="btn btn-primary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Get In
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="signup" className="dropdown-item">
+                      Register
+                    </Link>
+                  </li>
+                  <hr />
+                  <li>
+                    <Link to="signin" className="dropdown-item">
+                      Sign In
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             )}
           </ul>
         </div>

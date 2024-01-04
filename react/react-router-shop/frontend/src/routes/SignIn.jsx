@@ -21,12 +21,19 @@ const SignIn = () => {
     <div className="row align-items-center g-xl-5 h-100">
       <div className="col-lg-7 text-center text-lg-start">
         <h1 className="display-4 fw-bold lh-1 text-body-emphasis mb-3">
-          Vertically centered hero sign-up form
+          Welcome please <i>login</i>.
         </h1>
         <p className="col-lg-10 fs-4">
-          Below is an example form built entirely with Bootstrap’s form
-          controls. Each required form group has a validation state that can be
-          triggered by attempting to submit the form without completing it.
+          Welcome back user. Please input your data to login in our application.
+          After you successfully log in you will be redirected to your's profile
+          page.
+        </p>
+        <hr />
+        <p>
+          No account yet, please register and create one:{' '}
+          <a href="/signup" className="btn btn-success">
+            Register
+          </a>
         </p>
       </div>
       <div className="col-md-10 mx-auto col-lg-5">
