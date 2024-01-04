@@ -4,9 +4,15 @@ import { getUser } from '../db/auth'
 export async function loader() {
   const user = await getUser()
 
-  if (!user) return redirect('/signin')
+  if (user) {
+    const idTokenResult = await user.getIdTokenResult()
+    const isAdmin = idTokenResult.claims.role === 'admin'
 
-  return null
+    if (isAdmin) return redirect('/admin')
+    return redirect('/me')
+  }
+
+  return redirect('/signin')
 }
 
 const PrivateRoute = () => {

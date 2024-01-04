@@ -1,6 +1,8 @@
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from 'firebase/auth'
 import { auth } from './init'
 
@@ -31,3 +33,10 @@ export const getUser = async () => {
   await auth.authStateReady()
   return auth.currentUser
 }
+
+export const logoutUser = async () => {
+  await auth.authStateReady()
+  await signOut(auth)
+}
+
+export const setUserObserver = (fn) => onAuthStateChanged(auth, fn)

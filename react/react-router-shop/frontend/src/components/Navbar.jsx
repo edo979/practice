@@ -1,6 +1,30 @@
+import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { setUserObserver } from '../db/auth'
 
 const Navbar = () => {
+  const [user, setUser] = useState(null)
+
+  useEffect(
+    () =>
+      setUserObserver(async (user) => {
+        if (user) {
+          console.log(user)
+          const idTokenResult = await user.getIdTokenResult()
+          const isAdmin = idTokenResult.claims.role === 'admin'
+
+          if (isAdmin) {
+            setUser('admin')
+          } else {
+            setUser('user')
+          }
+        } else {
+          setUser(null)
+        }
+      }),
+    []
+  )
+
   return (
     <nav
       className="navbar navbar-expand-md bg-dark border-bottom border-body p-2 py-sm-3 "
@@ -28,21 +52,32 @@ const Navbar = () => {
                 Home
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink to="admin" className="nav-link">
-                Admin
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="signup" className="nav-link">
-                Sign Up
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="signin" className="nav-link">
-                Sign In
-              </NavLink>
-            </li>
+            {user === 'admin' ? (
+              <li className="nav-item">
+                <NavLink to="admin" className="nav-link">
+                  Admin
+                </NavLink>
+              </li>
+            ) : user === 'user' ? (
+              <li className="nav-item">
+                <NavLink to="me" className="nav-link">
+                  Profile
+                </NavLink>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink to="signup" className="nav-link">
+                    Sign Up
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="signin" className="nav-link">
+                    Sign In
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
