@@ -8,11 +8,10 @@ export async function action({ request }) {
     password: formData.get('password'),
   }
 
-  const user = await signInUser(data)
+  const { user, error } = await signInUser(data)
 
   if (user) return redirect('/me')
-
-  return { formError: 'Form submitted wrong!' }
+  return { formError: error }
 }
 
 const SignIn = () => {
@@ -61,7 +60,9 @@ const SignIn = () => {
           </button>
           <hr className="my-4" />
           {errors?.formError && (
-            <small className="text-body-secondary">{errors.formError}</small>
+            <p className="m-0 text-danger text-center">
+              <small>{errors.formError}</small>
+            </p>
           )}
         </Form>
       </div>

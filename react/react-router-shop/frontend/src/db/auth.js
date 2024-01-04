@@ -11,14 +11,13 @@ export const registerUser = async ({ email, password }) =>
 
 export const signInUser = async ({ email, password }) => {
   try {
-    const user = await signInWithEmailAndPassword(auth, email, password)
-
-    if (user) return true
-    return false
+    await signInWithEmailAndPassword(auth, email, password)
+    return { user: true }
   } catch (error) {
-    console.log(error)
-    // TODO menage errors
-    return false
+    if (error.message.includes('user-not-found'))
+      return { error: "User with that email doesn't exists!" }
+
+    return { error: 'Form submitted wrong!' }
   }
 }
 
