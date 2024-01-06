@@ -28,6 +28,9 @@ const PrivateRoute = () => {
   return (
     <div className="row h-100 align-content-start align-content-md-stretch">
       <nav className="col-md-2 col-xxl-1 pt-0 pt-md-4 nav nav-pills flex-row flex-md-column bg-dark">
+        <NavLink to={`/me/cart`} className="text-md-center nav-link text-light">
+          Cart
+        </NavLink>
         <NavLink
           to={`/admin/productslist`}
           className="text-md-center nav-link text-light"

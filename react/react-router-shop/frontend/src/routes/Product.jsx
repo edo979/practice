@@ -1,6 +1,7 @@
-import { Link, useLoaderData } from 'react-router-dom'
+import { Form, Link, useLoaderData } from 'react-router-dom'
 import { getProduct } from '../db/products'
 import Rating from '../components/Rating'
+import { useFetcher } from 'react-router-dom'
 
 export async function loader({ params }) {
   const product = await getProduct(params.id)
@@ -11,6 +12,7 @@ import { FaArrowLeft } from 'react-icons/fa'
 
 const Product = () => {
   const { product } = useLoaderData()
+  const fetcher = useFetcher()
 
   return (
     <>
@@ -35,7 +37,10 @@ const Product = () => {
         </div>
 
         <div className="col col-md-2 text-center">
-          <button className="btn btn-primary">Add to Chart</button>
+          <fetcher.Form method="post" action="/me/cart">
+            <input type="hidden" name="productId" value={product.id} />
+            <button className="btn btn-primary">Add to Chart</button>
+          </fetcher.Form>
         </div>
       </div>
     </>

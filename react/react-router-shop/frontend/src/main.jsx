@@ -25,6 +25,10 @@ import PrivateRoute, {
   loader as userLoader,
 } from './components/PrivateRoute.jsx'
 import UserProfile from './routes/User/UserProfile.jsx'
+import Cart, {
+  action as cartAction,
+  loader as cartLoader,
+} from './routes/Cart.jsx'
 
 const router = createBrowserRouter([
   {
@@ -91,6 +95,12 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <UserProfile />,
+          },
+          {
+            path: 'cart',
+            element: <Cart />,
+            action: cartAction,
+            loader: cartLoader,
           },
           //{errorElement: <ErrorPage />, children [{}]}
         ],

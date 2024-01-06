@@ -58,11 +58,18 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ) : user === 'user' ? (
-              <li className="nav-item">
-                <NavLink to="me" className="nav-link">
-                  Profile
-                </NavLink>
-              </li>
+              <>
+                <li className="nav-item">
+                  <NavLink to="me" end className="nav-link">
+                    Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="me/cart" className="nav-link align-items-lg-end">
+                    Cart
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <div className="dropdown">
                 <button
