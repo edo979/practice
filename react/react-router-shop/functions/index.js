@@ -104,6 +104,25 @@ exports.addCartItem = onCall(async (req) => {
   }
 })
 
+exports.getCartItems = onCall(async (req) => {
+  const db = admin.firestore()
+  const uid = req.auth.uid
+
+  try {
+    const snapshot = await db.collection(`users/${uid}/cart`).get()
+    if (snapshot.empty) throw new HttpsError('not-found', 'Cart is empty!')
+    return snapshot.docs.map((doc) => doc.data())
+  } catch (error) {
+    throw new HttpsError('internal', 'Server error!')
+  }
+})
+
+exports.delCartItem = onCall(async (req) => {
+  const db = admin.firestore()
+  const uid = req.auth.uid
+  const productId = req.data.productId
+})
+
 // Triggers
 exports.generateThumbnailAndLinks = onObjectFinalized(
   { cpu: 2 },

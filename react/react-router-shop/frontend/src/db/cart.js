@@ -6,3 +6,10 @@ export const addCartItem = async (data) => {
 
   return await addCartItemFunction(data)
 }
+
+export const getCartItems = async () => {
+  const functions = getFunctions()
+  const getCartItemsFunction = httpsCallable(functions, 'getCartItems')
+
+  return await getCartItemsFunction()
+}

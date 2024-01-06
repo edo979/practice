@@ -72,7 +72,12 @@ const Navbar = () => {
                     <div>
                       <span>Cart</span> |{' '}
                       {cartFetcher.data?.items ? (
-                        <span>{cartFetcher.data.items.length}</span>
+                        <span>
+                          {cartFetcher.data?.items?.reduce(
+                            (acc, curr) => acc + curr.quantity,
+                            0
+                          )}
+                        </span>
                       ) : (
                         <span>0</span>
                       )}
