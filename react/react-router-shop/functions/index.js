@@ -12,8 +12,9 @@ const sharp = require('sharp')
 const PRODUCTS = 'products'
 const STORAGE_COLLECTION = 'proShop'
 
-admin.initializeApp()
+admin.initializeApp() // TODO: add user authorization
 
+// PRODUCTS
 exports.addProduct = onCall(async (req) => {
   const db = admin.firestore()
   const { errors, productData } = validateProductData(req)
@@ -85,6 +86,21 @@ exports.deleteProduct = onCall(async (req) => {
     return { message: 'Product deleted!' }
   } catch (error) {
     throw new HttpsError('not-found', 'Resource can not be found!')
+  }
+})
+
+// CART ITEMS
+exports.addCartItem = onCall(async (req) => {
+  const db = admin.firestore()
+  const productId = req.data.productId
+  const quantity = req.data.quantity
+  const data = {}
+  data[`${productId}`] = quantity
+
+  try {
+    await db.collection('carts').doc(req.auth.uid).set(data)
+  } catch (error) {
+    console.log(error)
   }
 })
 

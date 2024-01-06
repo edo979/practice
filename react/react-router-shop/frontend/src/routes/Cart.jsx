@@ -1,8 +1,15 @@
 import { useLoaderData } from 'react-router-dom'
+import { addCartItem } from '../db/cart'
 
 export async function action({ request }) {
   const productId = (await request.formData()).get('productId')
-  console.log(productId)
+  const data = { productId, quantity: 3 }
+
+  try {
+    await addCartItem(data)
+  } catch (error) {
+    console.log(error)
+  }
 
   return null
 }
