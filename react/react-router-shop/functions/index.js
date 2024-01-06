@@ -1,11 +1,12 @@
+const path = require('path')
 const admin = require('firebase-admin')
+const functions = require('firebase-functions')
+const { logger } = require('firebase-functions/v2')
 const { getStorage, getDownloadURL } = require('firebase-admin/storage')
 const { onCall, HttpsError } = require('firebase-functions/v2/https')
 const { onObjectFinalized } = require('firebase-functions/v2/storage')
-const { logger } = require('firebase-functions/v2')
-const sharp = require('sharp')
-const path = require('path')
 const { validateProductData } = require('./utilities/validator')
+const sharp = require('sharp')
 
 // Firestore collection name
 const PRODUCTS = 'products'
@@ -140,3 +141,7 @@ exports.generateThumbnailAndLinks = onObjectFinalized(
     }
   }
 )
+
+// exports.createUserCart = functions.auth.user().onCreate(async (user) => {
+//   await admin.firestore().collection('users').add({ uid: user.uid })
+// })
