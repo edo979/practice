@@ -15,7 +15,7 @@ export async function action({ request }) {
 }
 
 export async function loader() {
-  const items = null
+  const items = [{ productId: 'jah', quantity: 3 }]
   return { items }
 }
 

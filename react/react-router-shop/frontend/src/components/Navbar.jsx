@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useFetcher } from 'react-router-dom'
 import { setUserObserver } from '../db/auth'
 
 const Navbar = () => {
   const [user, setUser] = useState(null)
+  const cartFetcher = useFetcher()
 
-  useEffect(
-    () =>
-      setUserObserver(async (user) => {
-        if (user) {
-          const idTokenResult = await user.getIdTokenResult()
-          const isAdmin = idTokenResult.claims.role === 'admin'
+  useEffect(() => {
+    setUserObserver(async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult()
+        const isAdmin = idTokenResult.claims.role === 'admin'
 
-          if (isAdmin) {
-            setUser('admin')
-          } else {
-            setUser('user')
-          }
+        if (isAdmin) {
+          setUser('admin')
         } else {
-          setUser(null)
+          setUser('user')
         }
-      }),
-    []
-  )
+      } else {
+        setUser(null)
+      }
+    })
+
+    if (cartFetcher.state === 'idle' && !cartFetcher.data) {
+      cartFetcher.load('/me/cart')
+    }
+  }, [cartFetcher])
 
   return (
     <nav
@@ -66,7 +69,14 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink to="me/cart" className="nav-link align-items-lg-end">
-                    Cart
+                    <div>
+                      <span>Cart</span> |{' '}
+                      {cartFetcher.data?.items ? (
+                        <span>{cartFetcher.data.items.length}</span>
+                      ) : (
+                        <span>0</span>
+                      )}
+                    </div>
                   </NavLink>
                 </li>
               </>
