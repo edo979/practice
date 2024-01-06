@@ -92,13 +92,13 @@ exports.deleteProduct = onCall(async (req) => {
 // CART ITEMS
 exports.addCartItem = onCall(async (req) => {
   const db = admin.firestore()
+  const uid = req.auth.uid
+  // TODO: validate user
   const productId = req.data.productId
   const quantity = req.data.quantity
-  const data = {}
-  data[`${productId}`] = quantity
 
   try {
-    await db.collection('carts').doc(req.auth.uid).set(data)
+    await db.collection(`users/${uid}/cart`).add({ productId, quantity })
   } catch (error) {
     console.log(error)
   }
@@ -157,7 +157,3 @@ exports.generateThumbnailAndLinks = onObjectFinalized(
     }
   }
 )
-
-// exports.createUserCart = functions.auth.user().onCreate(async (user) => {
-//   await admin.firestore().collection('users').add({ uid: user.uid })
-// })
