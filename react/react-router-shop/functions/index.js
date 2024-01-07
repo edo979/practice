@@ -1,5 +1,6 @@
 const path = require('path')
 const admin = require('firebase-admin')
+const { FieldValue } = require('firebase-admin/firestore')
 const { logger } = require('firebase-functions/v2')
 const { getStorage, getDownloadURL } = require('firebase-admin/storage')
 const { onCall, HttpsError } = require('firebase-functions/v2/https')
@@ -94,12 +95,31 @@ exports.addCartItem = onCall(async (req) => {
   const uid = req.auth.uid
   // TODO: validate user
   const productId = req.data.productId
-  const quantity = req.data.quantity
+  const quantity = parseInt(req.data.quantity)
+  const cartCollection = `users/${uid}/cart`
+
+  if (isNaN(quantity))
+    throw new HttpsError('invalid-argument', 'Quantity is not integer!')
 
   try {
-    await db.collection(`users/${uid}/cart`).add({ productId, quantity })
+    const cartItemSnap = await db
+      .collection(cartCollection)
+      .where('productId', '==', productId)
+      .get()
+    if (cartItemSnap.empty) {
+      await db.collection(cartCollection).add({ productId, quantity })
+      return { msg: 'ok' }
+    }
+
+    const cartItemDocRef = cartItemSnap.docs[0].ref
+    await cartItemDocRef.update({
+      quantity: FieldValue.increment(quantity),
+    })
+
+    return { msg: 'ok' }
   } catch (error) {
     console.log(error)
+    throw new HttpsError('internal', 'Error adding cart item')
   }
 })
 

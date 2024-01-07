@@ -121,10 +121,12 @@ const Cart = () => {
                 <p className="lead">
                   <i>Cart costs: </i>
                   <b>
-                    {items.reduce(
-                      (acc, curr) => curr.quantity * curr.price + acc,
-                      0
-                    )}
+                    {items
+                      .reduce(
+                        (acc, curr) => curr.quantity * curr.price + acc,
+                        0
+                      )
+                      .toFixed(2)}
                   </b>
                   $
                 </p>
