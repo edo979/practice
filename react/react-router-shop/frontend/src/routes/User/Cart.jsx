@@ -4,8 +4,10 @@ import { getUser } from '../../db/auth'
 import ErrorContent from '../../components/ErrorContent'
 
 export async function action({ request }) {
-  const productId = (await request.formData()).get('productId')
-  const data = { productId, quantity: 3 }
+  const formData = await request.formData()
+  const productId = formData.get('productId')
+  const quantity = formData.get('quantity')
+  const data = { productId, quantity }
 
   try {
     await addCartItem(data)
@@ -21,12 +23,10 @@ export async function loader() {
   // because of that i handled error in this way
   try {
     // Just wait until auth initialize
-    const user = await getUser()
+    await getUser()
 
     const res = await getCartItems()
     const items = res.data
-
-    console.log(items)
 
     return { items }
   } catch (error) {

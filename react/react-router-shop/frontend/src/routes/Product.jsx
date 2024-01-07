@@ -22,7 +22,7 @@ const Product = () => {
       <hr className="my-4" />
 
       <div className="row">
-        <div className="col col-md-10 col-xl-8 offset-xl-2">
+        <div className="col-12 col-md-9 col-xl-8 offset-xl-2">
           <h1>{product.name}</h1>
           <p className="fs-1">
             <b>{product.price}$</b>
@@ -36,10 +36,27 @@ const Product = () => {
           <h2 className="mt-3">Reviews</h2>
         </div>
 
-        <div className="col col-md-2 text-center">
+        <div className="col col-md-3 col-xl-2">
           <fetcher.Form method="post" action="/me/cart">
             <input type="hidden" name="productId" value={product.id} />
-            <button className="btn btn-primary">Add to Chart</button>
+            <div className="input-group">
+              <div className="input-group-text" title="quantity">
+                Qty:
+              </div>
+              <input
+                type="number"
+                className="form-control"
+                id="quantity"
+                defaultValue="1"
+                name="quantity"
+              />
+            </div>
+
+            <div className="d-grid g-2">
+              <button className="mt-2 btn btn-primary d-block">
+                Add to Chart
+              </button>
+            </div>
           </fetcher.Form>
         </div>
       </div>
