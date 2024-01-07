@@ -1,6 +1,5 @@
 const path = require('path')
 const admin = require('firebase-admin')
-const functions = require('firebase-functions')
 const { logger } = require('firebase-functions/v2')
 const { getStorage, getDownloadURL } = require('firebase-admin/storage')
 const { onCall, HttpsError } = require('firebase-functions/v2/https')
@@ -109,10 +108,15 @@ exports.getCartItems = onCall(async (req) => {
   const uid = req.auth.uid
 
   try {
-    const snapshot = await db.collection(`users/${uid}/cart`).get()
-    if (snapshot.empty) throw new HttpsError('not-found', 'Cart is empty!')
+    const cartItemsSnapshot = await db.collection(`users/${uid}/cart`).get()
+    if (cartItemsSnapshot.empty)
+      throw new HttpsError('not-found', 'Cart is empty!')
 
-    const cartItems = snapshot.docs.map((doc) => doc.data())
+    const cartItems = cartItemsSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }))
+
     const productRefs = cartItems.map((item) =>
       db.collection(PRODUCTS).doc(item.productId)
     )
@@ -120,11 +124,14 @@ exports.getCartItems = onCall(async (req) => {
 
     const products = productSnapshots.map((docSnapshot) => {
       if (docSnapshot.exists) {
-        const id = docSnapshot.id
-        const quantity =
-          cartItems.find((item) => item.productId === id).quantity ?? 0
+        const productId = docSnapshot.id
+        const cartItem = cartItems.find((item) => item.productId === productId)
 
-        return { ...docSnapshot.data(), id, quantity }
+        return {
+          ...docSnapshot.data(),
+          id: cartItem.id,
+          quantity: cartItem.quantity,
+        }
       }
     })
 
@@ -135,10 +142,14 @@ exports.getCartItems = onCall(async (req) => {
   }
 })
 
-exports.delCartItem = onCall(async (req) => {
+exports.deleteCartItem = onCall(async (req) => {
   const db = admin.firestore()
   const uid = req.auth.uid
-  const productId = req.data.productId
+  const id = req.data.cartItemId
+  if (!req.auth || !req.auth.uid)
+    throw new HttpsError('permission-denied', 'You not allowed to do that.')
+
+  await db.collection(`users/${uid}/cart`).doc(id).delete()
 })
 
 // Triggers

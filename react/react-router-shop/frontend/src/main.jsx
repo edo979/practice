@@ -28,7 +28,8 @@ import UserProfile from './routes/User/UserProfile.jsx'
 import Cart, {
   action as cartAction,
   loader as cartLoader,
-} from './routes/Cart.jsx'
+} from './routes/User/Cart.jsx'
+import { action as deleteCartItemAction } from './routes/User/CartDeleteItem.jsx'
 
 const router = createBrowserRouter([
   {
@@ -96,7 +97,6 @@ const router = createBrowserRouter([
             element: <UserProfile />,
           },
           {
-            path: '',
             errorElement: <ErrorPage />,
             children: [
               {
@@ -104,6 +104,12 @@ const router = createBrowserRouter([
                 element: <Cart />,
                 action: cartAction,
                 loader: cartLoader,
+                children: [
+                  {
+                    path: 'items/delete',
+                    action: deleteCartItemAction,
+                  },
+                ],
               },
             ],
           },

@@ -1,8 +1,7 @@
-import { useLoaderData } from 'react-router-dom'
-import { addCartItem, getCartItems } from '../db/cart'
-import { getUser } from '../db/auth'
-import ErrorPage from '../components/ErrorPage'
-import ErrorContent from '../components/ErrorContent'
+import { Form, useLoaderData } from 'react-router-dom'
+import { addCartItem, getCartItems } from '../../db/cart'
+import { getUser } from '../../db/auth'
+import ErrorContent from '../../components/ErrorContent'
 
 export async function action({ request }) {
   const productId = (await request.formData()).get('productId')
@@ -26,6 +25,7 @@ export async function loader() {
 
     const res = await getCartItems()
     const items = res.data
+
     console.log(items)
 
     return { items }
@@ -49,12 +49,9 @@ const Cart = () => {
           <div className="row">
             <div className="col-8">
               <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-2">
-                {items.map((item, i) => (
-                  <div className="col">
-                    <div
-                      className="card h-100 position-relative"
-                      key={item.id + '' + i}
-                    >
+                {items.map((item) => (
+                  <div className="col" key={item.id}>
+                    <div className="card h-100 position-relative">
                       <img
                         className="card-img-top"
                         src={item.image}
@@ -77,23 +74,32 @@ const Cart = () => {
                           quantity: {item.quantity}
                         </small>
                       </div>
-                      <button
-                        className="btn btn-sm btn-danger shadow border-1 border-light position-absolute top-0 end-0"
-                        title="Remove from cart"
-                      >
-                        X
-                      </button>
+                      <Form method="post" action="/me/cart/items/delete">
+                        <input
+                          type="hidden"
+                          name="cartItemId"
+                          value={item.id}
+                        />
+                        <button
+                          className="btn btn-sm btn-danger shadow border-1 border-light position-absolute top-0 end-0"
+                          title="Remove from cart"
+                          type="submit"
+                        >
+                          X
+                        </button>
+                      </Form>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+
             <div className="col-4">
               <h2>Cart details</h2>
               <ol className="list-group list-group-numbered">
-                {items.map((item, i) => (
+                {items.map((item) => (
                   <li
-                    key={item.id + '' + i}
+                    key={item.id}
                     className="list-group-item d-flex justify-content-between align-items-start"
                   >
                     <div className="ms-2 me-auto">

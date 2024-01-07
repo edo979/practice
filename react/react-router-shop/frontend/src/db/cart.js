@@ -13,3 +13,10 @@ export const getCartItems = async () => {
 
   return await getCartItemsFunction()
 }
+
+export const deleteCartItem = async (id) => {
+  const functions = getFunctions()
+  const deleteCartItemFunction = httpsCallable(functions, 'deleteCartItem')
+
+  return await deleteCartItemFunction(id)
+}
