@@ -18,10 +18,12 @@ export async function action({ request }) {
 }
 
 export async function loader() {
+  // this loader is used in navigation for shoving total chart item
+  // because of that i handled error in this way
   try {
     // Just wait until auth initialize
     const user = await getUser()
-    throw new Error('Jah it is an error!')
+
     const res = await getCartItems()
     const items = res.data
     console.log(items)

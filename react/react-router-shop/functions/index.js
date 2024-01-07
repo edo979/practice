@@ -111,8 +111,26 @@ exports.getCartItems = onCall(async (req) => {
   try {
     const snapshot = await db.collection(`users/${uid}/cart`).get()
     if (snapshot.empty) throw new HttpsError('not-found', 'Cart is empty!')
-    return snapshot.docs.map((doc) => doc.data())
+
+    const cartItems = snapshot.docs.map((doc) => doc.data())
+    const productRefs = cartItems.map((item) =>
+      db.collection(PRODUCTS).doc(item.productId)
+    )
+    const productSnapshots = await db.getAll(...productRefs)
+
+    const products = productSnapshots.map((docSnapshot) => {
+      if (docSnapshot.exists) {
+        const id = docSnapshot.id
+        const quantity =
+          cartItems.find((item) => item.productId === id).quantity ?? 0
+
+        return { ...docSnapshot.data(), id, quantity }
+      }
+    })
+
+    return products
   } catch (error) {
+    //console.log(error)
     throw new HttpsError('internal', 'Server error!')
   }
 })
