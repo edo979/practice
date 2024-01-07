@@ -48,12 +48,12 @@ const Cart = () => {
           </div>
           <div className="row">
             <div className="col-8">
-              <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+              <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-2">
                 {items.map((item, i) => (
                   <div className="col">
                     <div
                       className="card h-100 position-relative"
-                      key={item.id + i}
+                      key={item.id + '' + i}
                     >
                       <img
                         className="card-img-top"
@@ -93,7 +93,7 @@ const Cart = () => {
               <ol className="list-group list-group-numbered">
                 {items.map((item, i) => (
                   <li
-                    key={item.id + i}
+                    key={item.id + '' + i}
                     className="list-group-item d-flex justify-content-between align-items-start"
                   >
                     <div className="ms-2 me-auto">
