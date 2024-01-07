@@ -66,7 +66,7 @@ const Cart = () => {
                         }}
                       />
                       <div className="card-body">
-                        <h2 className="card-title fs-5">{item.name}</h2>
+                        <h3 className="card-title h5">{item.name}</h3>
                         <p className="card-text">
                           <i>$</i>
                           {item.price}
@@ -88,7 +88,52 @@ const Cart = () => {
                 ))}
               </div>
             </div>
-            <div className="col-4">cart list</div>
+            <div className="col-4">
+              <h2>Cart details</h2>
+              <ol className="list-group list-group-numbered">
+                {items.map((item, i) => (
+                  <li
+                    key={item.id + i}
+                    className="list-group-item d-flex justify-content-between align-items-start"
+                  >
+                    <div className="ms-2 me-auto">
+                      <div className="fw-bold">{item.name}</div>
+                      <i>$</i>
+                      {(
+                        parseFloat(item.price) * parseInt(item.quantity)
+                      ).toFixed(2)}
+                    </div>
+                    <span className="badge bg-primary rounded-pill">
+                      {item.quantity}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="p-2 my-4 p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2">
+                <h2 className="mt-4">Total</h2>
+                <p className="lead">
+                  <i>Cart costs: </i>
+                  <b>
+                    {items.reduce(
+                      (acc, curr) => curr.quantity * curr.price + acc,
+                      0
+                    )}
+                  </b>
+                  $
+                </p>
+              </div>
+              <div className="d-flex mb-2">
+                <button className="ms-auto btn btn-primary btn-lg">
+                  Continue
+                </button>
+              </div>
+              <small className="text-secondary">
+                After clicking you'r browser will be redirected to shipping
+                page.
+              </small>
+              <hr />
+            </div>
           </div>
         </div>
       )}
