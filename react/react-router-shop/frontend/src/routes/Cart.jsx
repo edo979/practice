@@ -50,14 +50,38 @@ const Cart = () => {
             <div className="col-8">
               <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">
                 {items.map((item, i) => (
-                  <div className="card" key={i}>
-                    <img className="card-img-top" src="" alt="" />
-                    <div className="card-body">
-                      <h2 className="card-title fs-5">Title</h2>
-                      <p className="card-text">card text</p>
-                      <p className="card-text">
-                        <small className="text-body-secondary">price</small>
-                      </p>
+                  <div className="col">
+                    <div className="card h-100" key={item.id + i}>
+                      <img
+                        className="card-img-top"
+                        src={item.image}
+                        alt={item.name}
+                        style={{
+                          maxHeight: '100px',
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                        }}
+                      />
+                      <div className="card-body">
+                        <h2 className="card-title fs-5">{item.name}</h2>
+                        <p className="card-text">
+                          <i>$</i>
+                          {item.price}
+                        </p>
+                      </div>
+                      <div className="card-footer">
+                        <div className="d-flex justify-content-between align-items-baseline">
+                          <small className="text-body-secondary">
+                            quantity: {item.quantity}
+                          </small>
+                          <button
+                            className="btn btn-sm btn-dark"
+                            title="Remove from cart"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
