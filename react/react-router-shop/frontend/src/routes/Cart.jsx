@@ -51,7 +51,10 @@ const Cart = () => {
               <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4">
                 {items.map((item, i) => (
                   <div className="col">
-                    <div className="card h-100" key={item.id + i}>
+                    <div
+                      className="card h-100 position-relative"
+                      key={item.id + i}
+                    >
                       <img
                         className="card-img-top"
                         src={item.image}
@@ -70,18 +73,16 @@ const Cart = () => {
                         </p>
                       </div>
                       <div className="card-footer">
-                        <div className="d-flex justify-content-between align-items-baseline">
-                          <small className="text-body-secondary">
-                            quantity: {item.quantity}
-                          </small>
-                          <button
-                            className="btn btn-sm btn-dark"
-                            title="Remove from cart"
-                          >
-                            X
-                          </button>
-                        </div>
+                        <small className="text-body-secondary">
+                          quantity: {item.quantity}
+                        </small>
                       </div>
+                      <button
+                        className="btn btn-sm btn-danger shadow border-1 border-light position-absolute top-0 end-0"
+                        title="Remove from cart"
+                      >
+                        X
+                      </button>
                     </div>
                   </div>
                 ))}
