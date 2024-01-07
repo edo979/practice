@@ -52,7 +52,6 @@ const router = createBrowserRouter([
             element: <AdminRoot />,
           },
           {
-            path: '',
             errorElement: <ErrorPage />,
             children: [
               // Products:
@@ -97,12 +96,17 @@ const router = createBrowserRouter([
             element: <UserProfile />,
           },
           {
-            path: 'cart',
-            element: <Cart />,
-            action: cartAction,
-            loader: cartLoader,
+            path: '',
+            errorElement: <ErrorPage />,
+            children: [
+              {
+                path: 'cart',
+                element: <Cart />,
+                action: cartAction,
+                loader: cartLoader,
+              },
+            ],
           },
-          //{errorElement: <ErrorPage />, children [{}]}
         ],
       },
     ],
