@@ -127,7 +127,11 @@ const router = createBrowserRouter([
                 path: 'new',
                 element: <CheckoutLayout />,
                 children: [
-                  { index: true, element: <CheckoutForm /> },
+                  {
+                    index: true,
+                    element: <CheckoutForm />,
+                    loader: cartLoader,
+                  },
                   { path: 'checkout', element: <CheckOut /> },
                 ],
               },

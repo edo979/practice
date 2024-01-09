@@ -1,6 +1,8 @@
-import { Form } from 'react-router-dom'
+import { Form, useLoaderData } from 'react-router-dom'
+import { totalItemsPrice } from '../../utilities/cart'
 
 const CheckoutForm = () => {
+  const { items, error } = useLoaderData()
   return (
     <>
       <div className="py-5 text-center">
@@ -17,17 +19,33 @@ const CheckoutForm = () => {
         <div className="col-md-6 col-lg-5 order-md-last">
           <h2 className="h4 d-flex justify-content-between align-items-center mb-3">
             <span className="text-primary">Your cart</span>
-            <span className="badge bg-primary rounded-pill">3</span>
+            <span className="badge bg-primary rounded-pill">
+              {items.reduce((acc, curr) => curr.quantity + acc, 0)}
+            </span>
           </h2>
 
           <ul className="list-group mb-3">
-            <li className="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h3 className="my-0 h6">Product name</h3>
-                <small className="text-body-secondary">Brief description</small>
-              </div>
-              <span className="text-body-secondary">$12</span>
-            </li>
+            {items.map((item) => (
+              <li className="list-group-item text-truncate lh-sm" key={item.id}>
+                <h3 className="my-0 h6">{item.name}</h3>
+                <small className="d-block">
+                  <i> Brand: {item.brand}</i>
+                </small>
+                <small className="text-body-secondary" title={item.description}>
+                  {item.description}
+                </small>
+                <hr />
+                <div className="d-flex justify-content-between">
+                  <p>
+                    <b>Total: </b>
+                    <i>
+                      {item.quantity} * ${item.price}
+                    </i>{' '}
+                    = $<b>{totalItemsPrice(item.price, item.quantity)}</b>
+                  </p>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="col-md-6 col-lg-7">
