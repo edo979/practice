@@ -57,8 +57,81 @@ const CheckoutForm = () => {
                   className="form-control"
                 />
               </div>
-              <div className="col-12"></div>
+              <div className="col-12">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-12">
+                <label htmlFor="address" className="form-label">
+                  Address
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-12">
+                <label htmlFor="address2" className="form-label">
+                  Address 2 (Optional)
+                </label>
+                <input
+                  type="text"
+                  name="address2"
+                  id="address2"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-md-5">
+                <label htmlFor="country" className="form-label">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  name="country"
+                  id="country"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-md-4">
+                <label htmlFor="state" className="form-label">
+                  State
+                </label>
+                <input
+                  type="text"
+                  name="state"
+                  id="state"
+                  className="form-control"
+                />
+              </div>
+              <div className="col-md-3">
+                <label htmlFor="zip" className="form-label">
+                  Zip
+                </label>
+                <input
+                  type="text"
+                  name="zip"
+                  id="zip"
+                  className="form-control"
+                />
+              </div>
             </div>
+            <hr className="my-4" />
+            <h2 className="h4 mb-3">Payment</h2>
+            <p>PayPal</p>
+            <hr className="my-4" />
+
+            <button className="w-100 btn btn-primary btn-lg" type="submit">
+              Continue to checkout
+            </button>
           </Form>
         </div>
       </div>
