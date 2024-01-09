@@ -32,13 +32,13 @@ const PrivateRoute = () => {
           Cart
         </NavLink>
         <NavLink
-          to={`/admin/productslist`}
+          to={`/me/orders`}
           className="text-md-center nav-link text-light"
         >
           Orders
         </NavLink>
         <NavLink
-          to={'/admin/userslist'}
+          to={'/me/address'}
           className="text-md-center nav-link text-light"
         >
           Address

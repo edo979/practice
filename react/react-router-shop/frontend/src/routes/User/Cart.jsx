@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from 'react-router-dom'
+import { Form, Link, useLoaderData } from 'react-router-dom'
 import { addCartItem, getCartItems } from '../../db/cart'
 import { getUser } from '../../db/auth'
 import ErrorContent from '../../components/ErrorContent'
@@ -132,9 +132,12 @@ const Cart = () => {
                 </p>
               </div>
               <div className="d-flex mb-2">
-                <button className="ms-auto btn btn-primary btn-lg">
+                <Link
+                  to="../address"
+                  className="ms-auto btn btn-primary btn-lg"
+                >
                   Continue
-                </button>
+                </Link>
               </div>
               <small className="text-secondary">
                 After clicking you'r browser will be redirected to shipping
