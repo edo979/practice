@@ -133,15 +133,15 @@ const Cart = () => {
               </div>
               <div className="d-flex mb-2">
                 <Link
-                  to="../address"
+                  to="../orders/new"
                   className="ms-auto btn btn-primary btn-lg"
                 >
                   Continue
                 </Link>
               </div>
               <small className="text-secondary">
-                After clicking you'r browser will be redirected to shipping
-                page.
+                After clicking you'r browser will be redirected to cart check
+                out page.
               </small>
               <hr />
             </div>
