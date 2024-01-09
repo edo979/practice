@@ -32,9 +32,9 @@ import Cart, {
 import { action as deleteCartItemAction } from './routes/User/CartDeleteItem.jsx'
 import Orders from './routes/User/Orders.jsx'
 import OrdersLayout from './layouts/OrdersLayout.jsx'
-import Shipping from './routes/User/Shipping.jsx'
-import CartCheckOut from './routes/User/CartCheckOut.jsx'
+import CheckoutForm from './routes/User/CheckoutForm.jsx'
 import CheckOut from './routes/User/CheckOut.jsx'
+import CheckoutLayout from './layouts/CheckoutLayout.jsx'
 
 const router = createBrowserRouter([
   {
@@ -125,9 +125,9 @@ const router = createBrowserRouter([
               { index: true, element: <Orders /> },
               {
                 path: 'new',
+                element: <CheckoutLayout />,
                 children: [
-                  { index: true, element: <CartCheckOut /> },
-                  { path: 'shipping', element: <Shipping /> },
+                  { index: true, element: <CheckoutForm /> },
                   { path: 'checkout', element: <CheckOut /> },
                 ],
               },
