@@ -4,6 +4,7 @@ const CheckoutForm = () => {
   return (
     <>
       <div className="py-5 text-center">
+        <div className="d-block mx-auto mb-4 fs-2">🛒</div>
         <h1>Checkout form</h1>
         <p className="lead">
           Below is your chart items, please checkout once more before confirm
@@ -12,8 +13,8 @@ const CheckoutForm = () => {
         </p>
       </div>
 
-      <div className="row g-5">
-        <div className="col-md-5 col-lg-4 order-md-last">
+      <div className="row g-5 g-md-2 g-lg-5">
+        <div className="col-md-6 col-lg-5 order-md-last">
           <h2 className="h4 d-flex justify-content-between align-items-center mb-3">
             <span className="text-primary">Your cart</span>
             <span className="badge bg-primary rounded-pill">3</span>
@@ -29,7 +30,7 @@ const CheckoutForm = () => {
             </li>
           </ul>
         </div>
-        <div className="col-md-7 col-lg-8">
+        <div className="col-md-6 col-lg-7">
           <h2 className="h4 mb-3">Billing address</h2>
 
           <Form method="post">
