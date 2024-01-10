@@ -175,7 +175,7 @@ exports.deleteCartItem = onCall(async (req) => {
 exports.createOrder = onCall(async (req) => {
   const db = admin.firestore()
   const uid = req.auth.uid
-  const data = {
+  const paymentData = {
     firstName: req.data.firstName,
     lastName: req.data.lastName,
     email: req.data.email,
@@ -187,8 +187,31 @@ exports.createOrder = onCall(async (req) => {
     payment: 'payPal', // Hard coded!
   }
 
+  // Get items from cart
+  let items = []
   try {
-    await db.collection(`users/${uid}/orders`).add(data)
+    const snap = await db.collection(`users/${uid}/cart`).get()
+
+    if (snap.empty) throw new HttpsError('not-found', 'User cart is empty!')
+
+    snap.forEach((doc) => items.push(doc.data()))
+  } catch (error) {
+    throw new HttpsError('internal')
+  }
+
+  try {
+    const newOrderRef = db.collection(`users/${uid}/orders`).doc()
+    const batch = db.batch()
+
+    items.forEach((item) => {
+      const itemRef = newOrderRef.collection('items').doc()
+      batch.set(itemRef, item)
+    })
+
+    batch.set(newOrderRef, paymentData)
+
+    await batch.commit()
+
     return { message: 'order added' }
   } catch (error) {
     throw new HttpsError('internal')
