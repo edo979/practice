@@ -6,3 +6,10 @@ export const createOrder = async (data) => {
 
   return await createOrder(data)
 }
+
+export const getOrder = async (id) => {
+  const functions = getFunctions()
+  const getOrder = httpsCallable(functions, 'getOrder')
+
+  return await getOrder({ id })
+}

@@ -35,7 +35,7 @@ import OrdersLayout from './layouts/OrdersLayout.jsx'
 import CheckoutForm, {
   action as createOrderAction,
 } from './routes/User/CheckoutForm.jsx'
-import CheckOut from './routes/User/CheckOut.jsx'
+import CheckOut, { loader as orderLoader } from './routes/User/CheckOut.jsx'
 import CheckoutLayout from './layouts/CheckoutLayout.jsx'
 
 const router = createBrowserRouter([
@@ -135,7 +135,11 @@ const router = createBrowserRouter([
                     loader: cartLoader,
                     action: createOrderAction,
                   },
-                  { path: 'checkout', element: <CheckOut /> },
+                  {
+                    path: ':orderId/checkout',
+                    element: <CheckOut />,
+                    loader: orderLoader,
+                  },
                 ],
               },
             ],

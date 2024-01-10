@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from 'react-router-dom'
+import { Form, redirect, useLoaderData } from 'react-router-dom'
 import { totalItemsPrice } from '../../utilities/cart'
 import { createOrder } from '../../db/order'
 
@@ -7,7 +7,8 @@ export async function action({ request }) {
   const data = Object.fromEntries(formData)
 
   try {
-    await createOrder(data)
+    const res = await createOrder(data)
+    return redirect(`/me/orders/new/${res.data.id}/checkout`)
   } catch (error) {
     console.log(error)
   }

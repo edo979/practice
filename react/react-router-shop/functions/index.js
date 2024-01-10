@@ -211,7 +211,7 @@ exports.createOrder = onCall(async (req) => {
 
     await batch.commit()
 
-    return { message: 'order added' }
+    return { id: newOrderRef.id }
   } catch (error) {
     throw new HttpsError('internal')
   }
