@@ -106,6 +106,7 @@ exports.addCartItem = onCall(async (req) => {
       .collection(cartCollection)
       .where('productId', '==', productId)
       .get()
+
     if (cartItemSnap.empty) {
       await db.collection(cartCollection).add({ productId, quantity })
       return { msg: 'ok' }
@@ -118,7 +119,6 @@ exports.addCartItem = onCall(async (req) => {
 
     return { msg: 'ok' }
   } catch (error) {
-    console.log(error)
     throw new HttpsError('internal', 'Error adding cart item')
   }
 })
@@ -128,39 +128,43 @@ exports.getCartItems = onCall(async (req) => {
   const uid = req.auth.uid
 
   try {
-    const cartItemsSnapshot = await db.collection(`users/${uid}/cart`).get()
-    if (cartItemsSnapshot.empty)
-      throw new HttpsError('not-found', 'Cart is empty!')
-
-    const cartItems = cartItemsSnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }))
-
-    const productRefs = cartItems.map((item) =>
-      db.collection(PRODUCTS).doc(item.productId)
-    )
-    const productSnapshots = await db.getAll(...productRefs)
-
-    const products = productSnapshots.map((docSnapshot) => {
-      if (docSnapshot.exists) {
-        const productId = docSnapshot.id
-        const cartItem = cartItems.find((item) => item.productId === productId)
-
-        return {
-          ...docSnapshot.data(),
-          id: cartItem.id,
-          quantity: cartItem.quantity,
-        }
-      }
-    })
-
+    const products = await privateGetCartItems(db, uid)
     return products
   } catch (error) {
-    //console.log(error)
     throw new HttpsError('internal', 'Server error!')
   }
 })
+
+const privateGetCartItems = async (db, uid) => {
+  const cartItemsSnapshot = await db.collection(`users/${uid}/cart`).get()
+  if (cartItemsSnapshot.empty)
+    throw new HttpsError('not-found', 'Cart is empty!')
+
+  const cartItems = cartItemsSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }))
+
+  const productRefs = cartItems.map((item) =>
+    db.collection(PRODUCTS).doc(item.productId)
+  )
+  const productSnapshots = await db.getAll(...productRefs)
+
+  const products = productSnapshots.map((docSnapshot) => {
+    if (docSnapshot.exists) {
+      const productId = docSnapshot.id
+      const cartItem = cartItems.find((item) => item.productId === productId)
+
+      return {
+        ...docSnapshot.data(),
+        id: cartItem.id,
+        quantity: cartItem.quantity,
+      }
+    }
+  })
+
+  return products
+}
 
 exports.deleteCartItem = onCall(async (req) => {
   const db = admin.firestore()
