@@ -191,18 +191,6 @@ exports.createOrder = onCall(async (req) => {
     payment: 'payPal', // Hard coded!
   }
 
-  // Get items from cart
-  // let items = []
-  // try {
-  //   const snap = await db.collection(`users/${uid}/cart`).get()
-
-  //   if (snap.empty) throw new HttpsError('not-found', 'User cart is empty!')
-
-  //   snap.forEach((doc) => items.push(doc.data()))
-  // } catch (error) {
-  //   throw new HttpsError('internal')
-  // }
-
   try {
     const newOrderRef = db.collection(`users/${uid}/orders`).doc()
     const batch = db.batch()
