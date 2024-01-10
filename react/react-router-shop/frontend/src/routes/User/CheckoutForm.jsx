@@ -1,5 +1,19 @@
 import { Form, useLoaderData } from 'react-router-dom'
 import { totalItemsPrice } from '../../utilities/cart'
+import { createOrder } from '../../db/order'
+
+export async function action({ request }) {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+
+  try {
+    await createOrder(data)
+  } catch (error) {
+    console.log(error)
+  }
+
+  return null
+}
 
 const CheckoutForm = () => {
   const { items, error } = useLoaderData()
@@ -48,6 +62,7 @@ const CheckoutForm = () => {
             ))}
           </ul>
         </div>
+
         <div className="col-md-6 col-lg-7">
           <h2 className="h4 mb-3">Billing address</h2>
 
@@ -62,6 +77,7 @@ const CheckoutForm = () => {
                   name="firstName"
                   id="firstName"
                   className="form-control"
+                  required
                 />
               </div>
               <div className="col-sm-6">
@@ -73,6 +89,7 @@ const CheckoutForm = () => {
                   name="lastName"
                   id="lastName"
                   className="form-control"
+                  required
                 />
               </div>
               <div className="col-12">
@@ -84,6 +101,7 @@ const CheckoutForm = () => {
                   name="email"
                   id="email"
                   className="form-control"
+                  required
                 />
               </div>
               <div className="col-12">
@@ -95,6 +113,7 @@ const CheckoutForm = () => {
                   name="address"
                   id="address"
                   className="form-control"
+                  required
                 />
               </div>
               <div className="col-12">
@@ -117,6 +136,7 @@ const CheckoutForm = () => {
                   name="country"
                   id="country"
                   className="form-control"
+                  required
                 />
               </div>
               <div className="col-md-4">
@@ -128,6 +148,7 @@ const CheckoutForm = () => {
                   name="state"
                   id="state"
                   className="form-control"
+                  required
                 />
               </div>
               <div className="col-md-3">
@@ -139,6 +160,7 @@ const CheckoutForm = () => {
                   name="zip"
                   id="zip"
                   className="form-control"
+                  required
                 />
               </div>
             </div>

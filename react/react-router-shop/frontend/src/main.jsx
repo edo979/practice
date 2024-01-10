@@ -32,7 +32,9 @@ import Cart, {
 import { action as deleteCartItemAction } from './routes/User/CartDeleteItem.jsx'
 import Orders from './routes/User/Orders.jsx'
 import OrdersLayout from './layouts/OrdersLayout.jsx'
-import CheckoutForm from './routes/User/CheckoutForm.jsx'
+import CheckoutForm, {
+  action as createOrderAction,
+} from './routes/User/CheckoutForm.jsx'
 import CheckOut from './routes/User/CheckOut.jsx'
 import CheckoutLayout from './layouts/CheckoutLayout.jsx'
 
@@ -131,6 +133,7 @@ const router = createBrowserRouter([
                     index: true,
                     element: <CheckoutForm />,
                     loader: cartLoader,
+                    action: createOrderAction,
                   },
                   { path: 'checkout', element: <CheckOut /> },
                 ],

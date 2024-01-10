@@ -172,6 +172,29 @@ exports.deleteCartItem = onCall(async (req) => {
   await db.collection(`users/${uid}/cart`).doc(id).delete()
 })
 
+exports.createOrder = onCall(async (req) => {
+  const db = admin.firestore()
+  const uid = req.auth.uid
+  const data = {
+    firstName: req.data.firstName,
+    lastName: req.data.lastName,
+    email: req.data.email,
+    address: req.data.address,
+    address2: req.data.address2,
+    country: req.data.country,
+    state: req.data.state,
+    zip: req.data.zip,
+    payment: 'payPal', // Hard coded!
+  }
+
+  try {
+    await db.collection(`users/${uid}/orders`).add(data)
+    return { message: 'order added' }
+  } catch (error) {
+    throw new HttpsError('internal')
+  }
+})
+
 // Triggers
 exports.generateThumbnailAndLinks = onObjectFinalized(
   { cpu: 2 },
