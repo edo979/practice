@@ -1,17 +1,21 @@
 import { useLoaderData } from 'react-router-dom'
 import { getOrder } from '../../db/order'
+import { getUser } from '../../db/auth'
 
 export async function loader({ params }) {
   const { orderId } = params
-  //const order = getOrder(orderId)
+  throw new Error('jah')
+  await getUser()
+  const res = await getOrder(orderId)
+  const order = res.data
 
-  return { orderId }
+  return order
 }
 
 const CheckOut = () => {
-  const { orderId } = useLoaderData()
+  const order = useLoaderData()
 
-  return <div>CheckOut {orderId}</div>
+  return <div>CheckOut {order.id}</div>
 }
 
 export default CheckOut

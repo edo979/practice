@@ -217,6 +217,20 @@ exports.createOrder = onCall(async (req) => {
   }
 })
 
+exports.getOrder = onCall(async (req) => {
+  const db = admin.firestore()
+  const uid = req.auth.uid
+  const orderId = req.data.id
+
+  try {
+    const order = await db.collection(`users/${uid}/orders`).doc(orderId).get()
+    if (!order.exists) throw new HttpsError('not-found')
+    return { id: order.id, ...order.data() }
+  } catch (error) {
+    throw new HttpsError('internal')
+  }
+})
+
 // Triggers
 exports.generateThumbnailAndLinks = onObjectFinalized(
   { cpu: 2 },
