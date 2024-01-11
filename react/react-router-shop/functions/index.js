@@ -223,10 +223,21 @@ exports.getOrder = onCall(async (req) => {
   const orderId = req.data.id
 
   try {
-    const order = await db.collection(`users/${uid}/orders`).doc(orderId).get()
+    const orderRef = db.collection(`users/${uid}/orders`).doc(orderId)
+
+    const order = await orderRef.get()
     if (!order.exists) throw new HttpsError('not-found')
-    return { id: order.id, ...order.data() }
+
+    const orderItemsSnap = await orderRef.collection('items').get()
+    let items = []
+
+    return {
+      id: order.id,
+      ...order.data(),
+      items: orderItemsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+    }
   } catch (error) {
+    console.log(error)
     throw new HttpsError('internal')
   }
 })

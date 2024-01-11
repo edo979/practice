@@ -3,6 +3,7 @@ import { totalItemsPrice } from '../../utilities/cart'
 import { createOrder } from '../../db/order'
 
 export async function action({ request }) {
+  // TODO validate data on server, create errors object here
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
 

@@ -9,6 +9,7 @@ export async function loader({ params }) {
   const res = await getOrder(orderId)
   const order = res.data
 
+  console.log(order)
   return order
 }
 
