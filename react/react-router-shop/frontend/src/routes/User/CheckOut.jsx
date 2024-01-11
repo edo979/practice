@@ -4,7 +4,7 @@ import { getUser } from '../../db/auth'
 
 export async function loader({ params }) {
   const { orderId } = params
-  throw new Error('jah')
+
   await getUser()
   const res = await getOrder(orderId)
   const order = res.data

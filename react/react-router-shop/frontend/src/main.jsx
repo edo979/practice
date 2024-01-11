@@ -97,15 +97,14 @@ const router = createBrowserRouter([
         path: 'me',
         element: <PrivateRoute />,
         loader: userLoader,
-        errorElement: <ErrorPage />,
         children: [
-          {
-            index: true,
-            element: <UserProfile />,
-          },
           {
             errorElement: <ErrorPage />,
             children: [
+              {
+                index: true,
+                element: <UserProfile />,
+              },
               {
                 path: 'cart',
                 element: <Cart />,
@@ -118,27 +117,32 @@ const router = createBrowserRouter([
                   },
                 ],
               },
-            ],
-          },
-          {
-            path: 'orders',
-            element: <OrdersLayout />,
-            children: [
-              { index: true, element: <Orders /> },
               {
-                path: 'new',
-                element: <CheckoutLayout />,
+                path: 'orders',
+                element: <OrdersLayout />,
                 children: [
+                  { index: true, element: <Orders /> },
                   {
-                    index: true,
-                    element: <CheckoutForm />,
-                    loader: cartLoader,
-                    action: createOrderAction,
-                  },
-                  {
-                    path: ':orderId/checkout',
-                    element: <CheckOut />,
-                    loader: orderLoader,
+                    path: 'new',
+                    element: <CheckoutLayout />,
+                    children: [
+                      {
+                        errorElement: <ErrorPage />,
+                        children: [
+                          {
+                            index: true,
+                            element: <CheckoutForm />,
+                            loader: cartLoader,
+                            action: createOrderAction,
+                          },
+                          {
+                            path: ':orderId/checkout',
+                            element: <CheckOut />,
+                            loader: orderLoader,
+                          },
+                        ],
+                      },
+                    ],
                   },
                 ],
               },
