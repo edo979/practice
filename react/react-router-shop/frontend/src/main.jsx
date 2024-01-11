@@ -37,6 +37,7 @@ import CheckoutForm, {
 } from './routes/User/CheckoutForm.jsx'
 import CheckOut, { loader as orderLoader } from './routes/User/CheckOut.jsx'
 import CheckoutLayout from './layouts/CheckoutLayout.jsx'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 const router = createBrowserRouter([
   {
@@ -156,6 +157,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <PayPalScriptProvider deferLoading={true}>
+      <RouterProvider router={router} />
+    </PayPalScriptProvider>
   </React.StrictMode>
 )
