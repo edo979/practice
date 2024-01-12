@@ -1,6 +1,9 @@
+import { useEffect } from 'react'
 import { Form, redirect, useLoaderData } from 'react-router-dom'
-import { totalItemsPrice } from '../../utilities/cart'
+import { totalCartPrice, totalItemsPrice } from '../../utilities/cart'
 import { createOrder } from '../../db/order'
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
+import { payPalSecret } from '../../../../secrets'
 
 export async function action({ request }) {
   // TODO validate data on server, create errors object here
@@ -19,6 +22,60 @@ export async function action({ request }) {
 
 const CheckoutForm = () => {
   const { items, error } = useLoaderData()
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
+
+  useEffect(() => {
+    async function loadPaypalScript() {
+      paypalDispatch({
+        type: 'resetOptions',
+        value: {
+          'client-id': payPalSecret,
+          currency: 'USD',
+        },
+      })
+      paypalDispatch({ type: 'setLoadingStatus', value: 'pending' })
+    }
+
+    if (!window.paypal) loadPaypalScript()
+  }, [])
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: 30,
+              currency_code: 'USD',
+            },
+          },
+        ],
+      })
+      .then((orderId) => {
+        return orderId
+      })
+  }
+  const onApprove = async (data, actions) => {
+    try {
+      const details = await actions.order.capture()
+      await payOrder({ orderId: order.id, details })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onApproveTest = async () => {
+    await payOrder({
+      orderId: order.id,
+      details: {
+        id: 'from test',
+        status: 'from test',
+        update_time: Date.now(),
+        payer: { email_address: 'from test' },
+      },
+    })
+  }
+
   return (
     <>
       <div className="py-5 text-center">
@@ -50,19 +107,33 @@ const CheckoutForm = () => {
                 <small className="text-body-secondary" title={item.description}>
                   {item.description}
                 </small>
-                <hr />
-                <div className="d-flex justify-content-between">
-                  <p>
-                    <b>Total: </b>
-                    <i>
-                      {item.quantity} * ${item.price}
-                    </i>{' '}
-                    = $<b>{totalItemsPrice(item.price, item.quantity)}</b>
-                  </p>
-                </div>
+
+                <p className="text-end mt-2">
+                  <b>Total: </b>
+                  <i>
+                    {item.quantity} * ${item.price}
+                  </i>{' '}
+                  = $<b>{totalItemsPrice(item.price, item.quantity)}</b>
+                </p>
               </li>
             ))}
+            <li className="list-group-item active py-3">
+              <p className="text-end fs-4 m-0">
+                <b>Total: </b>
+                {totalCartPrice(items)} $
+              </p>
+            </li>
           </ul>
+          <hr />
+          {isPending ? <div>PayPal Loading...</div> : null}
+
+          <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
+          {import.meta.env.DEV && (
+            <button className="btn btn-danger" onClick={onApproveTest}>
+              Test Payment
+            </button>
+          )}
+          <hr />
         </div>
 
         <div className="col-md-6 col-lg-7">
