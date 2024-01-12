@@ -1,10 +1,12 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLoaderData } from 'react-router-dom'
 import CheckOutNav from '../components/CheckOutNav'
 
 const CheckoutLayout = () => {
+  const order = useLoaderData()
+
   return (
     <>
-      <CheckOutNav />
+      <CheckOutNav orderId={order?.id} />
       <Outlet />
     </>
   )

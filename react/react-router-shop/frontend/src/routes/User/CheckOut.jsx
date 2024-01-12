@@ -9,11 +9,12 @@ import { totalCartPrice, totalItemsPrice } from '../../utilities/cart'
 export async function loader({ params }) {
   const { orderId } = params
 
+  if (!orderId) return null
+
   await getUser()
   const res = await getOrder(orderId)
   const order = res.data
 
-  console.log(order)
   return order
 }
 
