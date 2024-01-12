@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { Form, redirect, useLoaderData } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { redirect, useFetcher, useLoaderData } from 'react-router-dom'
 import { totalCartPrice, totalItemsPrice } from '../../utilities/cart'
 import { createOrder } from '../../db/order'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
@@ -9,10 +9,11 @@ export async function action({ request }) {
   // TODO validate data on server, create errors object here
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
+  console.log(data)
 
   try {
-    const res = await createOrder(data)
-    return redirect(`/me/orders/new/${res.data.id}/checkout`)
+    //const res = await createOrder(data)
+    //return redirect('/me/orders')
   } catch (error) {
     console.log(error)
   }
@@ -23,6 +24,8 @@ export async function action({ request }) {
 const CheckoutForm = () => {
   const { items, error } = useLoaderData()
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
+  const fetcher = useFetcher()
+  const addressFormRef = useRef(null)
 
   useEffect(() => {
     async function loadPaypalScript() {
@@ -66,14 +69,18 @@ const CheckoutForm = () => {
 
   const onApproveTest = async () => {
     await payOrder({
-      orderId: order.id,
-      details: {
-        id: 'from test',
-        status: 'from test',
-        update_time: Date.now(),
-        payer: { email_address: 'from test' },
-      },
+      id: 'from test',
+      status: 'from test',
+      update_time: Date.now(),
+      email_address: 'from test',
     })
+  }
+
+  const payOrder = async () => {
+    const formData = new FormData(addressFormRef.current)
+    const data = Object.fromEntries(formData)
+
+    console.log(data)
   }
 
   return (
@@ -139,7 +146,7 @@ const CheckoutForm = () => {
         <div className="col-md-6 col-lg-7">
           <h2 className="h4 mb-3">Billing address</h2>
 
-          <Form method="post">
+          <fetcher.Form ref={addressFormRef}>
             <div className="row g-3">
               <div className="col-sm-6">
                 <label htmlFor="firstName" className="form-label">
@@ -241,11 +248,7 @@ const CheckoutForm = () => {
             <h2 className="h4 mb-3">Payment</h2>
             <p>PayPal</p>
             <hr className="my-4" />
-
-            <button className="w-100 btn btn-primary btn-lg" type="submit">
-              Continue to checkout
-            </button>
-          </Form>
+          </fetcher.Form>
         </div>
       </div>
     </>
