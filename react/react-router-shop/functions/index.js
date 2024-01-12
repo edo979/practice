@@ -246,8 +246,28 @@ exports.getOrder = onCall(async (req) => {
 
 exports.payOrder = onCall(async (req) => {
   const { orderId, details } = req.data
+  const db = admin.firestore()
+  const uid = req.auth.uid
 
-  console.log(orderId, details)
+  if (!uid) throw new HttpsError('permission-denied')
+
+  //update order
+  try {
+    const orderRef = db.collection(`users/${uid}/orders`).doc(orderId)
+    const res = await orderRef.update({
+      isPayed: true,
+      paidAt: Date.now(),
+      paymentResults: {
+        id: details.id,
+        status: details.status,
+        update_time: details.update_time,
+        email_address: details.payer.email_address,
+      },
+    })
+  } catch (error) {
+    console.log(error)
+    throw new HttpsError('internal')
+  }
 })
 
 // Triggers

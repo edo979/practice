@@ -77,7 +77,15 @@ const CheckOut = () => {
   }
 
   const onApproveTest = async () => {
-    await payOrder({ orderId: order.id, details: { payer: {} } })
+    await payOrder({
+      orderId: order.id,
+      details: {
+        id: 'from test',
+        status: 'from test',
+        update_time: Date.now(),
+        payer: { email_address: 'from test' },
+      },
+    })
   }
 
   return (
