@@ -189,6 +189,9 @@ exports.createOrder = onCall(async (req) => {
     state: req.data.state,
     zip: req.data.zip,
     payment: 'payPal', // Hard coded!
+    isPayed: false,
+    isDelivered: false,
+    isShipped: false,
   }
 
   try {
@@ -229,7 +232,6 @@ exports.getOrder = onCall(async (req) => {
     if (!order.exists) throw new HttpsError('not-found')
 
     const orderItemsSnap = await orderRef.collection('items').get()
-    let items = []
 
     return {
       id: order.id,
@@ -240,6 +242,12 @@ exports.getOrder = onCall(async (req) => {
     console.log(error)
     throw new HttpsError('internal')
   }
+})
+
+exports.payOrder = onCall(async (req) => {
+  const { orderId, details } = req.data
+
+  console.log(orderId, details)
 })
 
 // Triggers

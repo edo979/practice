@@ -13,3 +13,10 @@ export const getOrder = async (id) => {
 
   return await getOrderFunction({ id })
 }
+
+export const payOrder = async (data) => {
+  const functions = getFunctions()
+  const payOrderFunction = httpsCallable(functions, 'payOrder')
+
+  return await payOrderFunction(data)
+}

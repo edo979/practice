@@ -1,5 +1,5 @@
 import { useLoaderData } from 'react-router-dom'
-import { getOrder } from '../../db/order'
+import { getOrder, payOrder } from '../../db/order'
 import { getUser } from '../../db/auth'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { useEffect } from 'react'
@@ -47,11 +47,38 @@ const CheckOut = () => {
           },
         ],
       })
-      .then((orderID) => {
-        return orderID
+      .then((orderId) => {
+        return orderId
       })
   }
-  const onApprove = async () => {}
+  const onApprove = async (data, actions) => {
+    try {
+      const details = await actions.order.capture()
+      // cal function for pay order
+      await payOrder({ orderId: order.id, details })
+      // details: {
+      //         id: '8BM58601XS6334248',
+      //         intent: 'CAPTURE',
+      //         status: 'COMPLETED',
+      //         purchase_units: [ [Object] ],
+      //         payer: {
+      //           name: [Object],
+      //           email_address: 'sb-zx8mf26701849@personal.example.com',
+      //           payer_id: 'MYV8JA7U7HJQA',
+      //           address: [Object]
+      //         },
+      //         create_time: '2024-01-12T11:13:32Z',
+      //         update_time: '2024-01-12T11:14:00Z',
+      //         links: [ [Object] ]
+      //       }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onApproveTest = async () => {
+    await payOrder({ orderId: order.id, details: { payer: {} } })
+  }
 
   return (
     <div>
@@ -60,6 +87,11 @@ const CheckOut = () => {
       {isPending ? <div>PayPal Loading...</div> : null}
 
       <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
+      {import.meta.env.DEV && (
+        <button className="btn btn-danger" onClick={onApproveTest}>
+          Test Payment
+        </button>
+      )}
     </div>
   )
 }
