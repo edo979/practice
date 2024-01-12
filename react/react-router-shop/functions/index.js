@@ -251,10 +251,9 @@ exports.payOrder = onCall(async (req) => {
 
   if (!uid) throw new HttpsError('permission-denied')
 
-  //update order
   try {
     const orderRef = db.collection(`users/${uid}/orders`).doc(orderId)
-    const res = await orderRef.update({
+    await orderRef.update({
       isPayed: true,
       paidAt: Date.now(),
       paymentResults: {
@@ -264,6 +263,7 @@ exports.payOrder = onCall(async (req) => {
         email_address: details.payer.email_address,
       },
     })
+    return { message: 'ok' }
   } catch (error) {
     console.log(error)
     throw new HttpsError('internal')

@@ -54,23 +54,7 @@ const CheckOut = () => {
   const onApprove = async (data, actions) => {
     try {
       const details = await actions.order.capture()
-      // cal function for pay order
       await payOrder({ orderId: order.id, details })
-      // details: {
-      //         id: '8BM58601XS6334248',
-      //         intent: 'CAPTURE',
-      //         status: 'COMPLETED',
-      //         purchase_units: [ [Object] ],
-      //         payer: {
-      //           name: [Object],
-      //           email_address: 'sb-zx8mf26701849@personal.example.com',
-      //           payer_id: 'MYV8JA7U7HJQA',
-      //           address: [Object]
-      //         },
-      //         create_time: '2024-01-12T11:13:32Z',
-      //         update_time: '2024-01-12T11:14:00Z',
-      //         links: [ [Object] ]
-      //       }
     } catch (error) {
       console.log(error)
     }
