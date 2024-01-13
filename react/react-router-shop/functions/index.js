@@ -256,6 +256,22 @@ exports.getOrder = onCall(async (req) => {
   }
 })
 
+exports.getOrders = onCall(async (req) => {
+  const db = admin.firestore()
+  const uid = req.auth.uid
+
+  if (!uid) throw new HttpsError('permission-denied', 'Access denied!')
+
+  try {
+    const ordersSnap = await db.collection(`users/${uid}/orders`).get()
+    if (ordersSnap.empty) return []
+
+    return ordersSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+  } catch (error) {
+    throw new HttpsError('internal')
+  }
+})
+
 // Triggers
 exports.generateThumbnailAndLinks = onObjectFinalized(
   { cpu: 2 },

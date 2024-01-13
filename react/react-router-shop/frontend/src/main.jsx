@@ -30,7 +30,7 @@ import Cart, {
   loader as cartLoader,
 } from './routes/User/Cart.jsx'
 import { action as deleteCartItemAction } from './routes/User/CartDeleteItem.jsx'
-import Orders from './routes/User/Orders.jsx'
+import Orders, { loader as orderLoader } from './routes/User/Orders.jsx'
 import CheckoutForm, {
   action as createOrderAction,
 } from './routes/User/CheckoutForm.jsx'
@@ -118,7 +118,7 @@ const router = createBrowserRouter([
               {
                 path: 'orders',
                 children: [
-                  { index: true, element: <Orders /> },
+                  { index: true, element: <Orders />, loader: orderLoader },
                   {
                     path: 'new',
                     element: <CheckoutForm />,

@@ -7,6 +7,12 @@ export const createOrder = async (data) => {
   return await createOrderFunction(data)
 }
 
+export const getOrders = async () => {
+  const functions = getFunctions()
+  const getOrdersFunction = httpsCallable(functions, 'getOrders')
+  return await getOrdersFunction()
+}
+
 export const getOrder = async (id) => {
   const functions = getFunctions()
   const getOrderFunction = httpsCallable(functions, 'getOrder')
