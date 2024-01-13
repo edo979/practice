@@ -129,16 +129,17 @@ exports.getCartItems = onCall(async (req) => {
 
   try {
     const products = await privateGetCartItems(db, uid)
+    if (products === null) return []
     return products
   } catch (error) {
+    console.log(error)
     throw new HttpsError('internal', 'Server error!')
   }
 })
 
 const privateGetCartItems = async (db, uid) => {
   const cartItemsSnapshot = await db.collection(`users/${uid}/cart`).get()
-  if (cartItemsSnapshot.empty)
-    throw new HttpsError('not-found', 'Cart is empty!')
+  if (cartItemsSnapshot.empty) return null
 
   const cartItems = cartItemsSnapshot.docs.map((doc) => ({
     ...doc.data(),
@@ -217,8 +218,13 @@ exports.createOrder = onCall(async (req) => {
     })
 
     batch.set(newOrderRef, paymentData)
-
     await batch.commit()
+
+    // Empty cart
+    cartItems.forEach(
+      async (item) =>
+        await db.collection(`users/${uid}/cart`).doc(item.id).delete()
+    )
 
     return { id: newOrderRef.id }
   } catch (error) {

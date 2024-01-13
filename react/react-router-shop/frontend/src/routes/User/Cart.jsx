@@ -49,48 +49,52 @@ const Cart = () => {
           <div className="row">
             <div className="col-8">
               <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-2">
-                {items.map((item) => (
-                  <div className="col" key={item.id}>
-                    <div className="card h-100 position-relative">
-                      <img
-                        className="card-img-top"
-                        src={item.image}
-                        alt={item.name}
-                        style={{
-                          maxHeight: '100px',
-                          objectFit: 'cover',
-                          objectPosition: 'center',
-                        }}
-                      />
-                      <div className="card-body">
-                        <h3 className="card-title h5">{item.name}</h3>
-                        <p className="card-text">
-                          <i>$</i>
-                          {item.price}
-                        </p>
-                      </div>
-                      <div className="card-footer">
-                        <small className="text-body-secondary">
-                          quantity: {item.quantity}
-                        </small>
-                      </div>
-                      <Form method="post" action="/me/cart/items/delete">
-                        <input
-                          type="hidden"
-                          name="cartItemId"
-                          value={item.id}
+                {items.length === 0 ? (
+                  <p className="lead">Cart is empty.</p>
+                ) : (
+                  items.map((item) => (
+                    <div className="col" key={item.id}>
+                      <div className="card h-100 position-relative">
+                        <img
+                          className="card-img-top"
+                          src={item.image}
+                          alt={item.name}
+                          style={{
+                            maxHeight: '100px',
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                          }}
                         />
-                        <button
-                          className="btn btn-sm btn-danger shadow border-1 border-light position-absolute top-0 end-0"
-                          title="Remove from cart"
-                          type="submit"
-                        >
-                          X
-                        </button>
-                      </Form>
+                        <div className="card-body">
+                          <h3 className="card-title h5">{item.name}</h3>
+                          <p className="card-text">
+                            <i>$</i>
+                            {item.price}
+                          </p>
+                        </div>
+                        <div className="card-footer">
+                          <small className="text-body-secondary">
+                            quantity: {item.quantity}
+                          </small>
+                        </div>
+                        <Form method="post" action="/me/cart/items/delete">
+                          <input
+                            type="hidden"
+                            name="cartItemId"
+                            value={item.id}
+                          />
+                          <button
+                            className="btn btn-sm btn-danger shadow border-1 border-light position-absolute top-0 end-0"
+                            title="Remove from cart"
+                            type="submit"
+                          >
+                            X
+                          </button>
+                        </Form>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
