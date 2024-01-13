@@ -256,32 +256,6 @@ exports.getOrder = onCall(async (req) => {
   }
 })
 
-exports.payOrder = onCall(async (req) => {
-  const { orderId, details } = req.data
-  const db = admin.firestore()
-  const uid = req.auth.uid
-
-  if (!uid) throw new HttpsError('permission-denied')
-
-  try {
-    const orderRef = db.collection(`users/${uid}/orders`).doc(orderId)
-    await orderRef.update({
-      isPayed: true,
-      paidAt: Date.now(),
-      paymentResults: {
-        id: details.id,
-        status: details.status,
-        update_time: details.update_time,
-        email_address: details.payer.email_address,
-      },
-    })
-    return { message: 'ok' }
-  } catch (error) {
-    console.log(error)
-    throw new HttpsError('internal')
-  }
-})
-
 // Triggers
 exports.generateThumbnailAndLinks = onObjectFinalized(
   { cpu: 2 },
