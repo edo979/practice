@@ -36,6 +36,7 @@ export async function loader() {
 
 const Cart = () => {
   const { items, error } = useLoaderData()
+  const isCartEmpty = items.length === 0
 
   return (
     <>
@@ -49,7 +50,7 @@ const Cart = () => {
           <div className="row">
             <div className="col-8">
               <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-2">
-                {items.length === 0 ? (
+                {isCartEmpty ? (
                   <p className="lead">Cart is empty.</p>
                 ) : (
                   items.map((item) => (
@@ -135,19 +136,24 @@ const Cart = () => {
                   $
                 </p>
               </div>
-              <div className="d-flex mb-2">
-                <Link
-                  to="../orders/new"
-                  className="ms-auto btn btn-primary btn-lg"
-                >
-                  Continue
-                </Link>
-              </div>
-              <small className="text-secondary">
-                After clicking you'r browser will be redirected to cart check
-                out page.
-              </small>
-              <hr />
+              {isCartEmpty === false && (
+                <>
+                  <div className="d-flex mb-2">
+                    <Link
+                      to="../orders/new"
+                      className="ms-auto btn btn-primary btn-lg"
+                      aria-disabled
+                    >
+                      Continue
+                    </Link>
+                  </div>
+                  <small className="text-secondary">
+                    After clicking you'r browser will be redirected to cart
+                    check out page.
+                  </small>
+                  <hr />
+                </>
+              )}
             </div>
           </div>
         </div>

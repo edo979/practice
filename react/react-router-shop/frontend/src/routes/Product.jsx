@@ -13,6 +13,7 @@ import { FaArrowLeft } from 'react-icons/fa'
 const Product = () => {
   const { product } = useLoaderData()
   const fetcher = useFetcher()
+  const isFetcherSubmitting = fetcher.state === 'submitting'
 
   return (
     <>
@@ -53,7 +54,21 @@ const Product = () => {
             </div>
 
             <div className="d-grid g-2">
-              <button className="mt-2 btn btn-primary d-block">
+              <button
+                className="mt-2 btn btn-primary d-block"
+                disabled={isFetcherSubmitting}
+              >
+                {isFetcherSubmitting && (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden" role="status">
+                      Loading...
+                    </span>
+                  </>
+                )}
                 Add to Chart
               </button>
             </div>

@@ -31,12 +31,9 @@ import Cart, {
 } from './routes/User/Cart.jsx'
 import { action as deleteCartItemAction } from './routes/User/CartDeleteItem.jsx'
 import Orders from './routes/User/Orders.jsx'
-import OrdersLayout from './layouts/OrdersLayout.jsx'
 import CheckoutForm, {
   action as createOrderAction,
 } from './routes/User/CheckoutForm.jsx'
-import CheckOut, { loader as orderLoader } from './routes/User/CheckOut.jsx'
-import CheckoutLayout from './layouts/CheckoutLayout.jsx'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 const router = createBrowserRouter([
