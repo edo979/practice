@@ -192,6 +192,12 @@ exports.createOrder = onCall(async (req) => {
     isPayed: false,
     isDelivered: false,
     isShipped: false,
+    paymentResults: {
+      id: req.data.paymentId,
+      status: req.data.status,
+      update_time: req.data.update_time,
+      email: req.data.payerEmail,
+    },
   }
 
   try {

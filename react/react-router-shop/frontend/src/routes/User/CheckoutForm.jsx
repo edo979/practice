@@ -1,28 +1,32 @@
 import { useEffect, useRef } from 'react'
-import { redirect, useFetcher, useLoaderData } from 'react-router-dom'
+import {
+  redirect,
+  useActionData,
+  useFetcher,
+  useLoaderData,
+} from 'react-router-dom'
 import { totalCartPrice, totalItemsPrice } from '../../utilities/cart'
 import { createOrder } from '../../db/order'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { payPalSecret } from '../../../../secrets'
 
 export async function action({ request }) {
-  // TODO validate data on server, create errors object here
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
-  console.log(data)
+  const errors = { formError: 'Error submitting form!' }
 
   try {
-    //const res = await createOrder(data)
-    //return redirect('/me/orders')
+    const res = await createOrder(data)
+    return redirect('/me/orders')
   } catch (error) {
     console.log(error)
+    return errors
   }
-
-  return null
 }
 
 const CheckoutForm = () => {
   const { items, error } = useLoaderData()
+  const errors = useActionData()
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
   const fetcher = useFetcher()
   const addressFormRef = useRef(null)
@@ -61,7 +65,7 @@ const CheckoutForm = () => {
   const onApprove = async (data, actions) => {
     try {
       const details = await actions.order.capture()
-      await payOrder({ orderId: order.id, details })
+      await payOrder(details)
     } catch (error) {
       console.log(error)
     }
@@ -72,15 +76,18 @@ const CheckoutForm = () => {
       id: 'from test',
       status: 'from test',
       update_time: Date.now(),
-      email_address: 'from test',
+      payer: { email_address: 'from test' },
     })
   }
 
-  const payOrder = async () => {
+  const payOrder = async (data) => {
     const formData = new FormData(addressFormRef.current)
-    const data = Object.fromEntries(formData)
+    formData.append('paymentId', data.id)
+    formData.append('status', data.status)
+    formData.append('update_time', data.update_time)
+    formData.append('payerEmail', data.payer.email_address)
 
-    console.log(data)
+    fetcher.submit(formData, { method: 'post' })
   }
 
   return (
@@ -93,6 +100,7 @@ const CheckoutForm = () => {
           paying. Please fill information about you'r address where we're send
           your items.
         </p>
+        {errors && <p>{errors.formError}</p>}
       </div>
 
       <div className="row g-5 g-md-2 g-lg-5">
