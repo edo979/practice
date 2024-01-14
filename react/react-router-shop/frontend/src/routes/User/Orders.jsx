@@ -1,7 +1,6 @@
 import { Link, useLoaderData, Form } from 'react-router-dom'
 import { getOrders } from '../../db/order'
 import { getUser } from '../../db/auth'
-import { FaEdit, FaTrash } from 'react-icons/fa'
 
 export async function loader() {
   await getUser()
@@ -9,7 +8,7 @@ export async function loader() {
   try {
     const res = await getOrders()
     const orders = res.data
-    console.log(orders)
+
     return orders
   } catch (error) {
     console.log(error)

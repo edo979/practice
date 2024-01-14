@@ -30,11 +30,12 @@ import Cart, {
   loader as cartLoader,
 } from './routes/User/Cart.jsx'
 import { action as deleteCartItemAction } from './routes/User/CartDeleteItem.jsx'
-import Orders, { loader as orderLoader } from './routes/User/Orders.jsx'
+import Orders, { loader as ordersLoader } from './routes/User/Orders.jsx'
 import CheckoutForm, {
   action as createOrderAction,
 } from './routes/User/CheckoutForm.jsx'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+import Order, { loader as orderLoader } from './routes/User/Order.jsx'
 
 const router = createBrowserRouter([
   {
@@ -118,12 +119,17 @@ const router = createBrowserRouter([
               {
                 path: 'orders',
                 children: [
-                  { index: true, element: <Orders />, loader: orderLoader },
+                  { index: true, element: <Orders />, loader: ordersLoader },
                   {
                     path: 'new',
                     element: <CheckoutForm />,
                     loader: cartLoader,
                     action: createOrderAction,
+                  },
+                  {
+                    path: ':orderId',
+                    element: <Order />,
+                    loader: orderLoader,
                   },
                 ],
               },

@@ -251,7 +251,6 @@ exports.getOrder = onCall(async (req) => {
       items: orderItemsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
     }
   } catch (error) {
-    console.log(error)
     throw new HttpsError('internal')
   }
 })
