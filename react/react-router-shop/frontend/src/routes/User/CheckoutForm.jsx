@@ -103,7 +103,7 @@ const CheckoutForm = () => {
         <h1>Checkout form</h1>
         <p className="lead">
           Below is your chart items, please checkout once more before confirm
-          paying. Please fill information about you'r address where we're send
+          paying. Please fill information about you'r address where we'll send
           your items.
         </p>
         {errors && <p>{errors.formError}</p>}
