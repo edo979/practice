@@ -216,9 +216,18 @@ const CheckoutForm = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.email,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.email ? 'name-field-error' : undefined
+                  }
                 />
+                {errors?.fieldsError?.email && (
+                  <p id="email-field-error" className="invalid-feedback">
+                    {errors.fieldsError.email}
+                  </p>
+                )}
               </div>
               <div className="col-12">
                 <label htmlFor="address" className="form-label">
@@ -228,9 +237,20 @@ const CheckoutForm = () => {
                   type="text"
                   name="address"
                   id="address"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.address,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.address
+                      ? 'name-field-error'
+                      : undefined
+                  }
                 />
+                {errors?.fieldsError?.address && (
+                  <p id="address-field-error" className="invalid-feedback">
+                    {errors.fieldsError.address}
+                  </p>
+                )}
               </div>
               <div className="col-12">
                 <label htmlFor="address2" className="form-label">
@@ -240,8 +260,20 @@ const CheckoutForm = () => {
                   type="text"
                   name="address2"
                   id="address2"
-                  className="form-control"
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.address2,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.address2
+                      ? 'name-field-error'
+                      : undefined
+                  }
                 />
+                {errors?.fieldsError?.address2 && (
+                  <p id="address2-field-error" className="invalid-feedback">
+                    {errors.fieldsError.address2}
+                  </p>
+                )}
               </div>
               <div className="col-md-5">
                 <label htmlFor="country" className="form-label">
@@ -251,9 +283,20 @@ const CheckoutForm = () => {
                   type="text"
                   name="country"
                   id="country"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.country,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.country
+                      ? 'name-field-error'
+                      : undefined
+                  }
                 />
+                {errors?.fieldsError?.country && (
+                  <p id="country-field-error" className="invalid-feedback">
+                    {errors.fieldsError.country}
+                  </p>
+                )}
               </div>
               <div className="col-md-4">
                 <label htmlFor="state" className="form-label">
@@ -263,9 +306,18 @@ const CheckoutForm = () => {
                   type="text"
                   name="state"
                   id="state"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.state,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.state ? 'name-field-error' : undefined
+                  }
                 />
+                {errors?.fieldsError?.state && (
+                  <p id="state-field-error" className="invalid-feedback">
+                    {errors.fieldsError.state}
+                  </p>
+                )}
               </div>
               <div className="col-md-3">
                 <label htmlFor="zip" className="form-label">
@@ -275,9 +327,18 @@ const CheckoutForm = () => {
                   type="text"
                   name="zip"
                   id="zip"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.zip,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.zip ? 'name-field-error' : undefined
+                  }
                 />
+                {errors?.fieldsError?.zip && (
+                  <p id="zip-field-error" className="invalid-feedback">
+                    {errors.fieldsError.zip}
+                  </p>
+                )}
               </div>
             </div>
             <hr className="my-4" />
