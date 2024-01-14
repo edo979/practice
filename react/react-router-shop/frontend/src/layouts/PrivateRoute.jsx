@@ -37,12 +37,6 @@ const PrivateRoute = () => {
         >
           Orders
         </NavLink>
-        <NavLink
-          to={'/me/address'}
-          className="text-md-center nav-link text-light"
-        >
-          Address
-        </NavLink>
         <hr className="border-light d-none d-md-block" />
         <button
           className="btn btn-danger ms-auto mx-md-auto"
