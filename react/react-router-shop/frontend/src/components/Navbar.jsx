@@ -69,18 +69,15 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <NavLink to="me/cart" className="nav-link align-items-lg-end">
-                    <div>
-                      <span>Cart</span> |{' '}
-                      {cartFetcher.data?.items ? (
-                        <span>
-                          {cartFetcher.data?.items?.reduce(
+                    <div className="position-relative">
+                      <span>Cart</span>
+                      <small className="ms-1 badge rounded-pill bg-primary">
+                        {cartFetcher.data?.items &&
+                          cartFetcher.data?.items?.reduce(
                             (acc, curr) => acc + curr.quantity,
                             0
                           )}
-                        </span>
-                      ) : (
-                        <span>0</span>
-                      )}
+                      </small>
                     </div>
                   </NavLink>
                 </li>
