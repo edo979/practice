@@ -190,7 +190,7 @@ exports.createOrder = onCall(async (req) => {
     state: req.data.state,
     zip: req.data.zip,
     payment: 'payPal', // Hard coded!
-    isPayed: false,
+    isPayed: true,
     isDelivered: false,
     isShipped: false,
     paymentResults: {

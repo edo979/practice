@@ -31,7 +31,7 @@ const Orders = () => {
       <div className="table-responsive-md">
         <table className="table table-primary table-striped ">
           <thead>
-            <tr>
+            <tr className="text-center">
               <th>ID</th>
               <th>PAYED</th>
               <th>SHIPPED</th>
@@ -40,7 +40,7 @@ const Orders = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {orders.map((order) => (
               <tr key={order.id}>
                 <td
@@ -55,16 +55,7 @@ const Orders = () => {
                 <td>{order.isDelivered ? '✔' : '❌'}</td>
                 <td>{order.price}$</td>
                 <td>
-                  <div className="d-flex">
-                    <Link className="text-reset" to={`${order.id}/edit`}>
-                      <FaEdit />
-                    </Link>{' '}
-                    <Form action={`${order.id}/delete`} method="post">
-                      <button className="btn btn-toolbar">
-                        <FaTrash />
-                      </button>
-                    </Form>
-                  </div>
+                  <Link to={order.id}>Details</Link>
                 </td>
               </tr>
             ))}
