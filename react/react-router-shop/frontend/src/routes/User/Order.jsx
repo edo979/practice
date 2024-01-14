@@ -82,7 +82,10 @@ const Order = () => {
           <p className="lead">Cart details:</p>
           <ol className="list-group list-group-numbered">
             {order.items.map((item) => (
-              <li className="list-group-item d-flex justify-content-between align-items-start">
+              <li
+                key={item.name}
+                className="list-group-item d-flex justify-content-between align-items-start"
+              >
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">{item.name}</div>
                   <small className="d-block">
