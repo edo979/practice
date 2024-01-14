@@ -35,3 +35,39 @@ exports.validateProductData = (req) => {
 
   return { errors, productData }
 }
+
+exports.validateOrderData = (req) => {
+  const errors = {}
+  const orderData = {
+    firstName: req.data.firstName.trim(),
+    lastName: req.data.lastName.trim(),
+    email: req.data.email.trim(),
+    address: req.data.address.trim(),
+    address2: req.data.address2.trim(),
+    country: req.data.country.trim(),
+    state: req.data.state.trim(),
+    zip: req.data.zip.trim(),
+    payment: 'payPal', // Hard coded!
+    isPayed: true,
+    isDelivered: false,
+    isShipped: false,
+    paymentResults: {
+      id: req.data.paymentId,
+      status: req.data.status,
+      update_time: req.data.update_time,
+      email: req.data.payerEmail,
+    },
+  }
+
+  errors.firstName = validateString(orderData.firstName)
+  errors.lastName = validateString(orderData.lastName)
+  errors.email = validateString(orderData.email)
+  errors.address = validateString(orderData.address)
+  errors.address2 =
+    orderData.address2 !== '' ? validateString(orderData.address2) : null
+  errors.country = validateString(orderData.country)
+  errors.state = validateString(orderData.state)
+  errors.zip = validateString(orderData.firstName)
+
+  return { errors, orderData }
+}

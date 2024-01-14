@@ -9,6 +9,7 @@ import { totalCartPrice, totalItemsPrice } from '../../utilities/cart'
 import { createOrder } from '../../db/order'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
 import { payPalSecret } from '../../../../secrets'
+import classNames from 'classnames'
 
 export async function action({ request }) {
   const formData = await request.formData()
@@ -16,20 +17,25 @@ export async function action({ request }) {
   const errors = { formError: 'Error submitting form!' }
 
   try {
-    const res = await createOrder(data)
+    await createOrder(data)
     return redirect('/me/orders')
   } catch (error) {
-    console.log(error)
+    if (error.code.toLowerCase().includes('internal')) {
+      errors.formError = error.message
+      return errors
+    }
+
+    errors.fieldsError = error.details
     return errors
   }
 }
 
 const CheckoutForm = () => {
-  const { items, error } = useLoaderData()
-  const errors = useActionData()
+  const { items } = useLoaderData()
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
   const fetcher = useFetcher()
   const addressFormRef = useRef(null)
+  let errors = fetcher.data
 
   useEffect(() => {
     async function loadPaypalScript() {
@@ -164,9 +170,20 @@ const CheckoutForm = () => {
                   type="text"
                   name="firstName"
                   id="firstName"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.firstName,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.firstName
+                      ? 'name-field-error'
+                      : undefined
+                  }
                 />
+                {errors?.fieldsError?.firstName && (
+                  <p id="firstName-field-error" className="invalid-feedback">
+                    {errors.fieldsError.firstName}
+                  </p>
+                )}
               </div>
               <div className="col-sm-6">
                 <label htmlFor="lastName" className="form-label">
@@ -176,9 +193,20 @@ const CheckoutForm = () => {
                   type="text"
                   name="lastName"
                   id="lastName"
-                  className="form-control"
-                  required
+                  className={classNames('form-control', {
+                    'is-invalid': errors?.fieldsError?.lastName,
+                  })}
+                  aria-describedby={
+                    errors?.fieldsError?.lastName
+                      ? 'name-field-error'
+                      : undefined
+                  }
                 />
+                {errors?.fieldsError?.lastName && (
+                  <p id="lastName-field-error" className="invalid-feedback">
+                    {errors.fieldsError.lastName}
+                  </p>
+                )}
               </div>
               <div className="col-12">
                 <label htmlFor="email" className="form-label">

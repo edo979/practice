@@ -5,7 +5,10 @@ const { logger } = require('firebase-functions/v2')
 const { getStorage, getDownloadURL } = require('firebase-admin/storage')
 const { onCall, HttpsError } = require('firebase-functions/v2/https')
 const { onObjectFinalized } = require('firebase-functions/v2/storage')
-const { validateProductData } = require('./utilities/validator')
+const {
+  validateProductData,
+  validateOrderData,
+} = require('./utilities/validator')
 const sharp = require('sharp')
 
 // Firestore collection name
@@ -178,28 +181,13 @@ exports.deleteCartItem = onCall(async (req) => {
 })
 
 exports.createOrder = onCall(async (req) => {
+  // I'm just practicing, find way to finish payment on sever side is the way better!
   const db = admin.firestore()
   const uid = req.auth.uid
-  const paymentData = {
-    firstName: req.data.firstName,
-    lastName: req.data.lastName,
-    email: req.data.email,
-    address: req.data.address,
-    address2: req.data.address2,
-    country: req.data.country,
-    state: req.data.state,
-    zip: req.data.zip,
-    payment: 'payPal', // Hard coded!
-    isPayed: true,
-    isDelivered: false,
-    isShipped: false,
-    paymentResults: {
-      id: req.data.paymentId,
-      status: req.data.status,
-      update_time: req.data.update_time,
-      email: req.data.payerEmail,
-    },
-  }
+  const { errors, orderData } = validateOrderData(req)
+
+  if (Object.values(errors).some(Boolean))
+    throw new HttpsError('invalid-argument', 'Form submitted wrong', errors)
 
   try {
     const newOrderRef = db.collection(`users/${uid}/orders`).doc()
@@ -217,7 +205,7 @@ exports.createOrder = onCall(async (req) => {
       })
     })
 
-    batch.set(newOrderRef, paymentData)
+    batch.set(newOrderRef, orderData)
     await batch.commit()
 
     // Empty cart
