@@ -51,7 +51,7 @@ const Root = () => {
       </div>
 
       <div className="mt-5 row">
-        <Pagination />
+        <Pagination total={6} />
       </div>
     </>
   )
