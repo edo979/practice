@@ -34,6 +34,9 @@ import CheckoutForm, {
 } from './routes/User/CheckoutForm.jsx'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import Order, { loader as orderLoader } from './routes/User/Order.jsx'
+import OrdersList, {
+  loader as adminOrdersList,
+} from './routes/Admin/OrdersList.jsx'
 
 const router = createBrowserRouter([
   {
@@ -84,6 +87,12 @@ const router = createBrowserRouter([
                     action: deleteAction,
                   },
                 ],
+              },
+              // Orders:
+              {
+                path: 'orderlist',
+                element: <OrdersList />,
+                loader: adminOrdersList,
               },
             ],
           },

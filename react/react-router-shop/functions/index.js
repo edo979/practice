@@ -17,6 +17,7 @@ const STORAGE_COLLECTION = 'proShop'
 
 admin.initializeApp() // TODO: add user authorization
 
+// ADMIN
 // PRODUCTS
 exports.addProduct = onCall(async (req) => {
   const db = admin.firestore()
@@ -92,6 +93,14 @@ exports.deleteProduct = onCall(async (req) => {
   }
 })
 
+// ORDERS
+exports.getOrdersAdmin = onCall(async (req) => {
+  if (req.auth.token.role !== 'admin') throw new HttpsError('permission-denied')
+
+  return {}
+})
+
+// USER
 // CART ITEMS
 exports.addCartItem = onCall(async (req) => {
   const db = admin.firestore()
