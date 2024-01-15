@@ -14,6 +14,7 @@ const sharp = require('sharp')
 // Firestore collection name
 const PRODUCTS = 'products'
 const STORAGE_COLLECTION = 'proShop'
+const productsPerPage = 2
 
 admin.initializeApp() // TODO: add user authorization
 
@@ -38,14 +39,38 @@ exports.addProduct = onCall(async (req) => {
 
 exports.getProducts = onCall(async (req) => {
   const db = admin.firestore()
+  const lastProdId = req.data.lastProdId
 
-  try {
-    const snapshot = await db.collection(PRODUCTS).get()
-    if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
+  if (lastProdId) {
+    const lastDocRef = db.collection(PRODUCTS).doc(lastProdId)
+    const lastDocSnap = await lastDocRef.get()
 
-    return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  } catch (error) {
-    throw new HttpsError('internal', 'Server error!')
+    try {
+      const snapshot = await db
+        .collection(PRODUCTS)
+        .startAfter(lastDocSnap)
+        .limit(productsPerPage)
+        .get()
+
+      if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
+
+      return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    } catch (error) {
+      throw new HttpsError('internal', 'Server error!')
+    }
+  } else {
+    try {
+      const snapshot = await db
+        .collection(PRODUCTS)
+        .limit(productsPerPage)
+        .get()
+
+      if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
+
+      return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    } catch (error) {
+      throw new HttpsError('internal', 'Server error!')
+    }
   }
 })
 

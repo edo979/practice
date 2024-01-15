@@ -1,11 +1,11 @@
 import { getFunctions, httpsCallable } from 'firebase/functions'
 
-export const getProducts = async () => {
+export const getProducts = async (data) => {
   const functions = getFunctions()
   const getProductsFunction = httpsCallable(functions, 'getProducts')
 
   try {
-    const res = await getProductsFunction()
+    const res = await getProductsFunction(data)
     const products = res.data
     return products
   } catch (error) {
