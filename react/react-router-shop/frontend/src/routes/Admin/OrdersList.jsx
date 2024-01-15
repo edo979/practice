@@ -4,7 +4,8 @@ import { getUser } from '../../db/auth'
 export async function loader() {
   await getUser()
   const res = await getOrders()
-
+  const orders = res.data
+  console.log(orders)
   return null
 }
 

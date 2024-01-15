@@ -95,7 +95,36 @@ exports.deleteProduct = onCall(async (req) => {
 
 // ORDERS
 exports.getOrdersAdmin = onCall(async (req) => {
-  if (req.auth.token.role !== 'admin') throw new HttpsError('permission-denied')
+  try {
+    if (req.auth.token.role !== 'admin')
+      throw new HttpsError('permission-denied')
+  } catch (error) {
+    throw new HttpsError('permission-denied')
+  }
+
+  const db = admin.firestore()
+
+  try {
+    const snapshot = await db.collection('/users').get()
+    if (snapshot.empty) console.log('users col is empty')
+    // const users = snapshot.docs.map((doc) => {
+    //   console.log('inside user snap')
+    //   console.log(doc.id)
+    //   return doc.id
+    // })
+    // const orderSnap = await db.collection(`users/${users[0]}/orders`).get()
+    // const userOrders = orderSnap.docs.map((doc) => ({
+    //   id: doc.id,
+    //   ...doc.data(),
+    // }))
+
+    // console.log('jah')
+    // console.log(users)
+    // console.log(userOrders)
+    // return userOrders
+  } catch (error) {
+    throw new HttpsError('internal')
+  }
 
   return {}
 })
