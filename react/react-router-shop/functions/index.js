@@ -40,39 +40,35 @@ exports.addProduct = onCall(async (req) => {
 exports.getProducts = onCall(async (req) => {
   const db = admin.firestore()
   const currentLastId = req.data?.currentLastId
+  const collectionRef = db.collection(PRODUCTS)
 
-  if (currentLastId) {
-    try {
-      const docRef = db.collection(PRODUCTS).doc(currentLastId)
-      const snapshot = await db
-        .collection(PRODUCTS)
-        .startAfter(docRef)
+  try {
+    let snapshot = null
+    let numOfProducts = 0
+
+    if (currentLastId) {
+      const lastRef = collectionRef.doc(currentLastId)
+      snapshot = await collectionRef
+        .startAfter(lastRef)
         .limit(productsPerPage)
         .get()
-      if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
+    } else {
+      snapshot = await collectionRef.limit(productsPerPage).get()
+      const countSnap = await collectionRef.count().get()
+      numOfProducts = countSnap.data().count
+    }
 
-      return snapshot.docs.map((doc) => ({
+    if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
+
+    return {
+      products: snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
-      }))
-    } catch (error) {
-      throw new HttpsError('internal', 'Server error!')
+      })),
+      numOfProducts,
     }
-  } else {
-    try {
-      const snapshot = await db
-        .collection(PRODUCTS)
-        .limit(productsPerPage)
-        .get()
-      if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
-
-      return snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }))
-    } catch (error) {
-      throw new HttpsError('internal', 'Server error!')
-    }
+  } catch (error) {
+    throw new HttpsError('internal', 'Server error!')
   }
 })
 

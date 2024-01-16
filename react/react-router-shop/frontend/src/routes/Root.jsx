@@ -4,19 +4,18 @@ import { getProducts } from '../db/products'
 import { Link, useLoaderData } from 'react-router-dom'
 
 export async function loader() {
-  const products = await getProducts()
-  return { products }
+  const { products, numOfProducts } = await getProducts()
+  return { products, numOfProducts }
 }
 
 const Root = () => {
-  const { products } = useLoaderData()
+  const { products, numOfProducts } = useLoaderData()
   const [productsBatch, setProductsBatch] = useState(products || [])
 
   const loadMoreProductHandler = async () => {
-    const newProducts = await getProducts({
+    const { products: newProducts } = await getProducts({
       currentLastId: productsBatch[productsBatch.length - 1].id,
     })
-    console.log(newProducts)
 
     setProductsBatch((prev) => [...prev, ...newProducts])
   }
@@ -62,7 +61,11 @@ const Root = () => {
 
       <div className="mt-5 row">
         <div className="col">
-          <button className="btn btn-primary" onClick={loadMoreProductHandler}>
+          <button
+            className="btn btn-primary"
+            onClick={loadMoreProductHandler}
+            disabled={numOfProducts === productsBatch.length}
+          >
             Load more products
           </button>
         </div>
