@@ -1,36 +1,31 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Rating from '../components/Rating'
 import { getProducts } from '../db/products'
 import { Link, useLoaderData } from 'react-router-dom'
 
-export async function loader({ request }) {
-  const url = new URL(request.url)
-  const currentLastId = url.searchParams.get('q')
-  const { lastProductId, productBatch } = await getProducts({ currentLastId })
-
-  return { lastProductId, productBatch }
+export async function loader() {
+  const products = await getProducts()
+  return { products }
 }
 
 const Root = () => {
-  const { lastProductId, productBatch } = useLoaderData()
-  const [downloadedProducts, setDownloadedProducts] = useState([])
-  const [currentLastId, setCurrentLastId] = useState(null)
+  const { products } = useLoaderData()
+  const [productsBatch, setProductsBatch] = useState(products || [])
 
-  useEffect(() => {
-    setCurrentLastId(lastProductId)
+  const loadMoreProductHandler = async () => {
+    const newProducts = await getProducts({
+      currentLastId: productsBatch[productsBatch.length - 1].id,
+    })
+    console.log(newProducts)
 
-    if (!currentLastId && currentLastId === lastProductId) return
-
-    setDownloadedProducts((curr) => [...curr, ...productBatch])
-  }, [lastProductId])
-
-  //console.log(nextBatchData)
+    setProductsBatch((prev) => [...prev, ...newProducts])
+  }
 
   return (
     <>
       <div className="mt-5 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-lg-4">
-        {downloadedProducts.map((product, i) => (
-          <div className="col" key={product.id + '' + i}>
+        {productsBatch.map((product) => (
+          <div className="col" key={product.id}>
             <div className="card h-100">
               <Link to={`/product/${product.id}`}>
                 <img
@@ -66,7 +61,11 @@ const Root = () => {
       </div>
 
       <div className="mt-5 row">
-        <Link to={`/?q=${lastProductId}`}>Load more products</Link>
+        <div className="col">
+          <button className="btn btn-primary" onClick={loadMoreProductHandler}>
+            Load more products
+          </button>
+        </div>
       </div>
     </>
   )
