@@ -1,20 +1,36 @@
 import Pagination from '../components/Pagination'
 import Rating from '../components/Rating'
 import { getProducts } from '../db/products'
-import { Link, useLoaderData } from 'react-router-dom'
+import { Form, Link, useActionData, useLoaderData } from 'react-router-dom'
 
 export async function loader() {
-  const products = await getProducts()
-  return { products }
+  const { lastProductId, productBatch } = await getProducts()
+  return { lastProductId, productBatch }
+}
+
+export async function action({ request }) {
+  const formData = await request.formData()
+  const currentLastProductId = formData.get('lastProductId')
+  const nextBatchData = { nextLastProductId: null, nextProductBatch: null }
+
+  const { lastProductId, productBatch } = await getProducts(
+    currentLastProductId
+  )
+  nextBatchData.nextLastProductId = lastProductId
+  nextBatchData.nextProductBatch = productBatch
+
+  return nextBatchData
 }
 
 const Root = () => {
-  const { products } = useLoaderData()
+  const { lastProductId, productBatch } = useLoaderData()
+  const nextBatchData = useActionData()
+  console.log(nextBatchData)
 
   return (
     <>
       <div className="mt-5 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-lg-4">
-        {products.map((product) => (
+        {productBatch.map((product) => (
           <div className="col" key={product.id}>
             <div className="card h-100">
               <Link to={`/product/${product.id}`}>
@@ -51,7 +67,10 @@ const Root = () => {
       </div>
 
       <div className="mt-5 row">
-        <Pagination total={6} />
+        <Form method="post">
+          <input type="hidden" name="lastProductId" value={lastProductId} />
+          <button className="btn btn-primary">Load more products</button>
+        </Form>
       </div>
     </>
   )

@@ -42,10 +42,16 @@ exports.getProducts = onCall(async (req) => {
 
   try {
     const snapshot = await db.collection(PRODUCTS).limit(productsPerPage).get()
-
     if (snapshot.empty) throw new HttpsError('not-found', 'No products!')
 
-    return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    const last = snapshot.docs[snapshot.docs.length - 1]
+    const lastProductId = last.id
+    const productBatch = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }))
+
+    return { lastProductId, productBatch }
   } catch (error) {
     throw new HttpsError('internal', 'Server error!')
   }
