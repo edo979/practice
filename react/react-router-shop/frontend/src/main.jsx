@@ -5,10 +5,7 @@ import './index.css'
 
 // Router
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Root, {
-  loader as productsLoader,
-  action as productsAction,
-} from './routes/root.jsx'
+import Root, { loader as productsLoader } from './routes/root.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
 import Product, { loader as productLoader } from './routes/Product.jsx'
@@ -51,7 +48,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Root />,
         loader: productsLoader,
-        action: productsAction,
       },
       { path: 'signin', element: <SignIn />, action: signinAction },
       { path: 'signup', element: <SignUp />, action: signupAction },

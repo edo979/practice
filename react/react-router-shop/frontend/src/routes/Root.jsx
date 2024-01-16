@@ -1,37 +1,36 @@
-import Pagination from '../components/Pagination'
+import { useEffect, useState } from 'react'
 import Rating from '../components/Rating'
 import { getProducts } from '../db/products'
-import { Form, Link, useActionData, useLoaderData } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 
-export async function loader() {
-  const { lastProductId, productBatch } = await getProducts()
+export async function loader({ request }) {
+  const url = new URL(request.url)
+  const currentLastId = url.searchParams.get('q')
+  const { lastProductId, productBatch } = await getProducts({ currentLastId })
+
   return { lastProductId, productBatch }
-}
-
-export async function action({ request }) {
-  const formData = await request.formData()
-  const currentLastProductId = formData.get('lastProductId')
-  const nextBatchData = { nextLastProductId: null, nextProductBatch: null }
-
-  const { lastProductId, productBatch } = await getProducts(
-    currentLastProductId
-  )
-  nextBatchData.nextLastProductId = lastProductId
-  nextBatchData.nextProductBatch = productBatch
-
-  return nextBatchData
 }
 
 const Root = () => {
   const { lastProductId, productBatch } = useLoaderData()
-  const nextBatchData = useActionData()
-  console.log(nextBatchData)
+  const [downloadedProducts, setDownloadedProducts] = useState([])
+  const [currentLastId, setCurrentLastId] = useState(null)
+
+  useEffect(() => {
+    setCurrentLastId(lastProductId)
+
+    if (!currentLastId && currentLastId === lastProductId) return
+
+    setDownloadedProducts((curr) => [...curr, ...productBatch])
+  }, [lastProductId])
+
+  //console.log(nextBatchData)
 
   return (
     <>
       <div className="mt-5 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-lg-4">
-        {productBatch.map((product) => (
-          <div className="col" key={product.id}>
+        {downloadedProducts.map((product, i) => (
+          <div className="col" key={product.id + '' + i}>
             <div className="card h-100">
               <Link to={`/product/${product.id}`}>
                 <img
@@ -67,10 +66,7 @@ const Root = () => {
       </div>
 
       <div className="mt-5 row">
-        <Form method="post">
-          <input type="hidden" name="lastProductId" value={lastProductId} />
-          <button className="btn btn-primary">Load more products</button>
-        </Form>
+        <Link to={`/?q=${lastProductId}`}>Load more products</Link>
       </div>
     </>
   )

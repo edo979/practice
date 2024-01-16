@@ -39,6 +39,7 @@ exports.addProduct = onCall(async (req) => {
 
 exports.getProducts = onCall(async (req) => {
   const db = admin.firestore()
+  const currentLastId = req.data.currentLastId
 
   try {
     const snapshot = await db.collection(PRODUCTS).limit(productsPerPage).get()
