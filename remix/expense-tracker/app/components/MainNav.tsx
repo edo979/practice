@@ -34,7 +34,7 @@ export default function MainNav() {
               </NavLink>
             </li>
           </ul>
-          <Link to="/" className="btn btn-success">
+          <Link to="/auth" className="btn btn-success">
             Login
           </Link>
         </div>
