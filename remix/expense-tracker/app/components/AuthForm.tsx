@@ -12,12 +12,13 @@ export default function AuthForm() {
       <div className="row align-items-center g-lg-5 py-5">
         <div className="col-lg-7 text-center text-lg-start">
           <h1 className="display-4 fw-bold lh-1 text-body-emphasis mb-3">
-            Vertically centered hero sign-up form
+            Welcome to expense tracker app
           </h1>
           <p className="col-lg-10 fs-4">
-            Below is an example form built entirely with Bootstrap’s form
-            controls. Each required form group has a validation state that can
-            be triggered by attempting to submit the form without completing it.
+            Please enter your email address and password to the form and you
+            will be redirect to your profile. You don't have an account? Please
+            select "Create User" to create a new account, after creating account
+            you will be redirect to your profile.
           </p>
         </div>
 
