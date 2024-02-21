@@ -1,3 +1,9 @@
+import Modal from '~/components/Modal'
+
 export default function ExpenseAdd() {
-  return <h1>Add new Expense</h1>
+  return (
+    <Modal>
+      <p>Modal body</p>
+    </Modal>
+  )
 }

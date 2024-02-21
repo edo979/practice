@@ -19,7 +19,7 @@ export default function ExpensesLayout() {
         <div className="col-8 d-flex justify-content-center align-items-center gap-4">
           <h1 className="h4">Expenses:</h1>
           <div>
-            <Link to="#" className="btn btn-light">
+            <Link to="add" className="btn btn-light">
               🪙 Add expense
             </Link>
             <Link to="#" className="btn btn-light ms-2">
