@@ -15,15 +15,23 @@ export default function ExpensesLayout() {
 
   return (
     <>
-      <div className="row">
-        <div className="col">
-          <h1>Expense Layout</h1>
+      <div className="mt-4 row justify-content-center">
+        <div className="col-8 d-flex justify-content-center align-items-center gap-4">
+          <h1 className="h4">Expenses:</h1>
+          <div>
+            <Link to="#" className="btn btn-light">
+              🪙 Add expense
+            </Link>
+            <Link to="#" className="btn btn-light ms-2">
+              🔎 View details
+            </Link>
+          </div>
         </div>
       </div>
 
       <Outlet />
 
-      <div className="row justify-content-center ">
+      <div className="mt-2 row justify-content-center">
         <div className="col-8">
           <ol className="list-group list-group-numbered">
             {expenses.map((expense) => (
