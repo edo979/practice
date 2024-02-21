@@ -29,8 +29,6 @@ export default function ExpensesLayout() {
         </div>
       </div>
 
-      <Outlet />
-
       <div className="mt-2 row justify-content-center">
         <div className="col-8">
           <ol className="list-group list-group-numbered">
@@ -58,6 +56,8 @@ export default function ExpensesLayout() {
           </ol>
         </div>
       </div>
+
+      <Outlet />
     </>
   )
 }
