@@ -1,6 +1,6 @@
 import { Link, Outlet, json, useLoaderData } from '@remix-run/react'
 
-const dummy_data = [
+export const dummy_data = [
   { id: 1, title: 'First expense', amount: 15, date: 1707519600000 },
   { id: 2, title: 'Second expense', amount: 10, date: 1707951600000 },
   { id: 3, title: 'Third expense', amount: 25, date: 1708383600000 },
@@ -22,7 +22,7 @@ export default function ExpensesLayout() {
             <Link to="add" className="btn btn-light">
               🪙 Add expense
             </Link>
-            <Link to="#" className="btn btn-light ms-sm-3">
+            <Link to=".." className="btn btn-light ms-sm-3">
               🔎 View details
             </Link>
           </div>
@@ -42,11 +42,14 @@ export default function ExpensesLayout() {
                   <div className="fw-bold">{expense.title}</div>
                   <span>${expense.amount}</span>
                 </div>
-                <small>
-                  <Link to="#" title="Delete" className="text-decoration-none">
-                    ❌
-                  </Link>
-                </small>
+
+                <button
+                  title="Delete"
+                  className="btn btn-outline-danger btn-sm px-1 py-0"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <b>X</b>
+                </button>
               </Link>
             ))}
           </ol>
