@@ -1,11 +1,11 @@
-import { useLoaderData } from '@remix-run/react'
+import { Form, useLoaderData } from '@remix-run/react'
 import { ExpenseLoaderT } from '~/routes/expenses.$id'
 
 function ExpenseForm() {
   const expense = useLoaderData<ExpenseLoaderT | null>()
 
   return (
-    <form>
+    <Form method="post">
       <div className="mb-3">
         <label htmlFor="title" className="form-label fw-bold">
           Expense title:
@@ -35,7 +35,7 @@ function ExpenseForm() {
           Save
         </button>
       </div>
-    </form>
+    </Form>
   )
 }
 
