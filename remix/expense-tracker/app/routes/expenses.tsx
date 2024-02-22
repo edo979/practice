@@ -16,13 +16,13 @@ export default function ExpensesLayout() {
   return (
     <>
       <div className="mt-4 row justify-content-center">
-        <div className="col-8 d-flex justify-content-center align-items-center gap-4">
+        <div className="col-8 d-flex flex-column justify-content-center align-items-center gap-4 flex-md-row">
           <h1 className="h4">Expenses:</h1>
-          <div>
+          <div className="d-grid gap-3 col-12 d-sm-block col-sm-auto">
             <Link to="add" className="btn btn-light">
               🪙 Add expense
             </Link>
-            <Link to="#" className="btn btn-light ms-2">
+            <Link to="#" className="btn btn-light ms-sm-3">
               🔎 View details
             </Link>
           </div>
