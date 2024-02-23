@@ -1,4 +1,5 @@
 import { Link, Outlet, json, useLoaderData } from '@remix-run/react'
+import { db } from '~/data/firebaseInit.server'
 
 export const dummy_data = [
   { id: 1, title: 'First expense', amount: 15, date: 1707519600000 },
@@ -6,8 +7,29 @@ export const dummy_data = [
   { id: 3, title: 'Third expense', amount: 25, date: 1708383600000 },
 ]
 
+export type Expense = {
+  id: string
+  title: string
+  amount: number
+  date: number
+}
+
 export const loader = async () => {
-  return json(dummy_data)
+  try {
+    const expensesCollRef = db.collection('expenses')
+    const snpashot = await expensesCollRef.get()
+    const expenses: Expense[] = snpashot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }))
+
+    return json(expenses)
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+
+  //return json(dummy_data)
 }
 
 export default function ExpensesLayout() {
