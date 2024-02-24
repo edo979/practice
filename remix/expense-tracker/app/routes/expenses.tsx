@@ -17,16 +17,20 @@ export type Expense = {
 export const loader = async () => {
   try {
     const expensesCollRef = db.collection('expenses')
-    const snpashot = await expensesCollRef.get()
-    const expenses: Expense[] = snpashot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
+    const snapshot = await expensesCollRef.get()
+    const expenses: Expense[] = snapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as Expense)
+    )
 
     return json(expenses)
   } catch (error) {
-    console.log(error)
-    return null
+    throw new Response("Error while try to get your's expenses!", {
+      status: 500,
+    })
   }
 
   //return json(dummy_data)
