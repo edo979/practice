@@ -35,14 +35,15 @@ export default function Index() {
 
       <div className="row flex-lg-row-reverse align-items-center g-5 py-5 mt-lg-2">
         <div className="col-10 col-sm-8 col-lg-6 mx-auto me-lg-0 mt-lg-0">
-          <img
-            src="/images/hero-charts.png"
-            className="d-block mx-lg-auto img-fluid"
-            alt="Bootstrap Themes"
-            width="700"
-            height="500"
-            loading="lazy"
-          />
+          <picture className="d-block mx-lg-auto">
+            <source srcSet="/images/charts-lg.jpg" media="(min-width: 600px)" />
+            <img
+              src="/images/charts-md.jpg"
+              alt="Bootstrap Themes"
+              width="500"
+              className="img-fluid"
+            />
+          </picture>
           <div className="text-center opacity-50">
             <small>
               Image by{' '}
