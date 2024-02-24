@@ -21,8 +21,8 @@ export default function ExpensesLayout() {
     if (!confirm('Are you sure you want to delete!')) return
 
     deleteExpenseFetcher.submit(null, {
-      method: 'POST',
-      action: `${id}/destroy`,
+      method: 'DELETE',
+      action: `${id}`,
     })
   }
 
