@@ -54,29 +54,33 @@ export default function ExpensesLayout() {
       <div className="mt-2 row justify-content-center">
         <div className="col-8">
           <ol className="list-group list-group-numbered">
-            {expenses.map((expense) => (
-              <Link
-                to={`${expense.id}`}
-                key={expense.id}
-                className="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
-              >
-                <div className="ms-2 me-auto">
-                  <div className="fw-bold">{expense.title}</div>
-                  <span>${expense.amount}</span>
-                </div>
-
-                <button
-                  title="Delete"
-                  className="btn btn-outline-secondary btn-sm px-2 py-0"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    deleteExpenseHandler(expense.id)
-                  }}
+            {expenses.length > 0 ? (
+              expenses.map((expense) => (
+                <Link
+                  to={`${expense.id}`}
+                  key={expense.id}
+                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
                 >
-                  <b>X</b>
-                </button>
-              </Link>
-            ))}
+                  <div className="ms-2 me-auto">
+                    <div className="fw-bold">{expense.title}</div>
+                    <span>${expense.amount}</span>
+                  </div>
+
+                  <button
+                    title="Delete"
+                    className="btn btn-outline-secondary btn-sm px-2 py-0"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      deleteExpenseHandler(expense.id)
+                    }}
+                  >
+                    <b>X</b>
+                  </button>
+                </Link>
+              ))
+            ) : (
+              <p>There was no expenses!</p>
+            )}
           </ol>
         </div>
       </div>
