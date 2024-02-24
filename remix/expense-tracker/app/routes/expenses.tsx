@@ -1,5 +1,5 @@
 import { Link, Outlet, json, useLoaderData } from '@remix-run/react'
-import { db } from '~/data/firebaseInit.server'
+import { Expense, getAllExpenses } from '~/data/firebaseInit.server'
 
 export const dummy_data = [
   { id: 1, title: 'First expense', amount: 15, date: 1707519600000 },
@@ -7,38 +7,15 @@ export const dummy_data = [
   { id: 3, title: 'Third expense', amount: 25, date: 1708383600000 },
 ]
 
-export type Expense = {
-  id: string
-  title: string
-  amount: number
-  date: number
-}
-
 export const loader = async () => {
-  try {
-    const expensesCollRef = db.collection('expenses')
-    const snapshot = await expensesCollRef.get()
-    const expenses: Expense[] = snapshot.docs.map(
-      (doc) =>
-        ({
-          id: doc.id,
-          ...doc.data(),
-        } as Expense)
-    )
-
-    return json(expenses)
-  } catch (error) {
-    throw new Response("Error while try to get your's expenses!", {
-      status: 500,
-    })
-  }
-
-  //return json(dummy_data)
+  const expenses = await getAllExpenses()
+  // console.log(expenses)
+  return expenses
 }
 
 export default function ExpensesLayout() {
   const expenses = useLoaderData<typeof loader>()
-
+  console.log(expenses)
   return (
     <>
       <div className="mt-4 row justify-content-center">
