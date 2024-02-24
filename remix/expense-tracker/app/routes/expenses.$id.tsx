@@ -11,13 +11,21 @@ export const loader = () => {
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const expenseId = params.id
   if (!expenseId)
-    throw new Response("That expense isn't exist!", { status: 401 })
+    throw new Response("That expense isn't exist!", {
+      status: 401,
+      statusText: 'Invalid Expense',
+    })
 
   if (request.method === 'POST') {
   }
 
   if (request.method === 'DELETE') {
-    await deleteExpense(expenseId)
+    try {
+      await deleteExpense(expenseId)
+    } catch (error) {
+      console.log(expenseId)
+      throw error
+    }
     return null
   }
 }

@@ -1,4 +1,13 @@
-import { Link, Outlet, json, useFetcher, useLoaderData } from '@remix-run/react'
+import {
+  Link,
+  Outlet,
+  isRouteErrorResponse,
+  json,
+  useFetcher,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react'
+import ErrorContainer from '~/components/ErrorContainer'
 import { Expense, getAllExpenses } from '~/data/firebase.server'
 
 export const dummy_data = [
@@ -75,4 +84,22 @@ export default function ExpensesLayout() {
       <Outlet />
     </>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <ErrorContainer
+        title={error.data}
+        message={`${error.status} ${error.statusText}`}
+        redirectTo="/expenses"
+      />
+    )
+  } else if (error instanceof Error) {
+    return <ErrorContainer title={error.message} redirectTo="/expenses" />
+  } else {
+    return <ErrorContainer title="Unknown Error!" redirectTo="/expenses" />
+  }
 }

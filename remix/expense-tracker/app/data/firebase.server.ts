@@ -53,6 +53,9 @@ export const getAllExpenses = async () => {
 }
 
 export const deleteExpense = async (id: string) => {
+  const docSnap = await expensesColRef.doc(id).get()
+  if (!docSnap.exists) throw new Response('Expense not found!', { status: 404 })
+
   try {
     await expensesColRef.doc(id).delete()
   } catch (error) {
