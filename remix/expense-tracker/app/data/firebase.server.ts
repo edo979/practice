@@ -51,3 +51,11 @@ export const getAllExpenses = async () => {
     })
   }
 }
+
+export const deleteExpense = async (id: string) => {
+  try {
+    await expensesColRef.doc(id).delete()
+  } catch (error) {
+    throw new Response('Error deleting expense!', { status: 500 })
+  }
+}

@@ -1,4 +1,4 @@
-import { ExpenseRaw } from './firebaseInit.server'
+import { ExpenseRaw } from './firebase.server'
 
 function isValidTitle(value: string | undefined) {
   return (

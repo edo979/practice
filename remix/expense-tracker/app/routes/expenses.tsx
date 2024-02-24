@@ -1,5 +1,5 @@
-import { Link, Outlet, json, useLoaderData } from '@remix-run/react'
-import { Expense, getAllExpenses } from '~/data/firebaseInit.server'
+import { Link, Outlet, json, useFetcher, useLoaderData } from '@remix-run/react'
+import { Expense, getAllExpenses } from '~/data/firebase.server'
 
 export const dummy_data = [
   { id: 1, title: 'First expense', amount: 15, date: 1707519600000 },
@@ -15,7 +15,17 @@ export const loader = async () => {
 
 export default function ExpensesLayout() {
   const expenses = useLoaderData<typeof loader>()
-  console.log(expenses)
+  const deleteExpenseFetcher = useFetcher()
+
+  function deleteExpenseHandler(id: string) {
+    if (!confirm('Are you sure you want to delete!')) return
+
+    deleteExpenseFetcher.submit(null, {
+      method: 'POST',
+      action: `${id}/destroy`,
+    })
+  }
+
   return (
     <>
       <div className="mt-4 row justify-content-center">
@@ -48,8 +58,11 @@ export default function ExpensesLayout() {
 
                 <button
                   title="Delete"
-                  className="btn btn-outline-danger btn-sm px-1 py-0"
-                  onClick={(e) => e.preventDefault()}
+                  className="btn btn-outline-secondary btn-sm px-2 py-0"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    deleteExpenseHandler(expense.id)
+                  }}
                 >
                   <b>X</b>
                 </button>

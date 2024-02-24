@@ -4,7 +4,6 @@ import { ExpenseLoaderT } from '~/routes/expenses.$id'
 function ExpenseForm() {
   const expense = useLoaderData<ExpenseLoaderT | null>()
   const formErrors = useActionData<Record<string, string>>()
-  console.log(formErrors)
 
   return (
     <>
