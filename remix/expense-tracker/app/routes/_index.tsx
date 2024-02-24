@@ -44,18 +44,6 @@ export default function Index() {
               className="img-fluid"
             />
           </picture>
-          <div className="text-center opacity-50">
-            <small>
-              Image by{' '}
-              <a href="https://pixabay.com/users/clker-free-vector-images-3736/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=297122">
-                Clker-Free-Vector-Images
-              </a>{' '}
-              from{' '}
-              <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=297122">
-                Pixabay
-              </a>
-            </small>
-          </div>
         </div>
         <div className="col-lg-6 mt-lg-0">
           <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">
