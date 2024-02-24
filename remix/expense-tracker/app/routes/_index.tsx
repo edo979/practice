@@ -41,7 +41,7 @@ export default function Index() {
               src="/images/charts-md.jpg"
               alt="Bootstrap Themes"
               width="500"
-              className="img-fluid"
+              className="img-fluid rounded-4"
             />
           </picture>
         </div>
