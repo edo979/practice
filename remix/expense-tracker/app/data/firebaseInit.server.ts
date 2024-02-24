@@ -25,7 +25,7 @@ if (!admin.apps.length) {
 export const firestore = admin.firestore()
 const expensesColRef = firestore.collection('expenses')
 
-export const addExpense = async (data: Expense) => {
+export const addExpense = async (data: Omit<Expense, 'id'>) => {
   try {
     await expensesColRef.add({ ...data })
   } catch (error) {
