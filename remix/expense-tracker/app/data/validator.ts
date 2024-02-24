@@ -1,16 +1,16 @@
-import { Expense, ExpenseRaw } from './firebaseInit.server'
+import { ExpenseRaw } from './firebaseInit.server'
 
 function isValidTitle(value: string | undefined) {
   return (
     value &&
     typeof value === 'string' &&
     value.trim().length > 0 &&
-    value.trim().length <= 10
+    value.trim().length <= 30
   )
 }
 
 function isValidAmount(value: string | undefined) {
-  if (!value || typeof value === 'string') return false
+  if (!value || typeof value !== 'string') return false
   const amount = parseFloat(value)
   return !isNaN(amount) && amount > 0
 }
@@ -27,15 +27,14 @@ export function validateExpenseInput(input: ExpenseRaw) {
 
   if (!isValidTitle(input.title)) {
     validationErrors.title =
-      'Invalid expense title. Must be at least 10 characters long.'
+      'Invalid expense title. Must be at most 30 characters long.'
   }
   if (!isValidAmount(input.amount)) {
-    validationErrors.title =
+    validationErrors.amount =
       'Invalid expense amount. Must be a number greater than zero.'
   }
   if (!isValidDate(input.date)) {
-    validationErrors.title =
-      'Invalid expense date. Must be a date before today.'
+    validationErrors.date = 'Invalid expense date. Must be a date before today.'
   }
 
   if (Object.keys(validationErrors).length > 0) throw validationErrors

@@ -1,4 +1,3 @@
-import { Link } from '@remix-run/react'
 import { PropsWithChildren } from 'react'
 
 function Modal({ children }: PropsWithChildren) {
@@ -13,21 +12,8 @@ function Modal({ children }: PropsWithChildren) {
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Menage Expense</h5>
-              <Link to=".." className="btn-close" aria-label="Close" />
-            </div>
-
-            <div className="modal-body">{children}</div>
-
-            <div className="modal-footer">
-              {/* <Link to=".." className="btn btn-secondary">
-                Close
-              </Link>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button> */}
-            </div>
+            {/* Modal header and footer is in the children node! */}
+            {children}
           </div>
         </div>
       </div>
