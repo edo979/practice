@@ -1,36 +1,36 @@
-[debug] [2024-02-24T09:53:55.055Z] ----------------------------------------------------------------------
-[debug] [2024-02-24T09:53:55.058Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\PC\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import=./emulators-data --export-on-exit
-[debug] [2024-02-24T09:53:55.058Z] CLI Version:   13.3.1
-[debug] [2024-02-24T09:53:55.058Z] Platform:      win32
-[debug] [2024-02-24T09:53:55.058Z] Node Version:  v21.6.1
-[debug] [2024-02-24T09:53:55.059Z] Time:          Sat Feb 24 2024 10:53:55 GMT+0100 (Centralnoevropsko standardno vrijeme)
-[debug] [2024-02-24T09:53:55.059Z] Env Overrides: FIRESTORE_EMULATOR_HOST
-[debug] [2024-02-24T09:53:55.059Z] ----------------------------------------------------------------------
+[debug] [2024-02-25T09:41:18.485Z] ----------------------------------------------------------------------
+[debug] [2024-02-25T09:41:18.487Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\PC\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import=./emulators-data --export-on-exit
+[debug] [2024-02-25T09:41:18.488Z] CLI Version:   13.3.1
+[debug] [2024-02-25T09:41:18.488Z] Platform:      win32
+[debug] [2024-02-25T09:41:18.488Z] Node Version:  v21.6.1
+[debug] [2024-02-25T09:41:18.488Z] Time:          Sun Feb 25 2024 10:41:18 GMT+0100 (Centralnoevropsko standardno vrijeme)
+[debug] [2024-02-25T09:41:18.488Z] Env Overrides: FIRESTORE_EMULATOR_HOST
+[debug] [2024-02-25T09:41:18.488Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2024-02-24T09:53:55.163Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2024-02-24T09:53:55.163Z] > authorizing via signed-in user (prezentabilan@gmail.com)
-[debug] [2024-02-24T09:53:55.227Z] openjdk version "21.0.2" 2024-01-16
+[debug] [2024-02-25T09:41:18.602Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-02-25T09:41:18.602Z] > authorizing via signed-in user (prezentabilan@gmail.com)
+[debug] [2024-02-25T09:41:19.005Z] openjdk version "21.0.2" 2024-01-16
 
-[debug] [2024-02-24T09:53:55.227Z] OpenJDK Runtime Environment (build 21.0.2+13-58)
+[debug] [2024-02-25T09:41:19.006Z] OpenJDK Runtime Environment (build 21.0.2+13-58)
 OpenJDK 64-Bit Server VM (build 21.0.2+13-58, mixed mode, sharing)
 
-[debug] [2024-02-24T09:53:55.250Z] Parsed Java major version: 21
+[debug] [2024-02-25T09:41:19.050Z] Parsed Java major version: 21
 [info] i  emulators: Starting emulators: firestore {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: firestore"}}
-[debug] [2024-02-24T09:53:55.261Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-02-24T09:53:55.261Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-02-24T09:53:55.262Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2024-02-24T09:53:55.262Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[debug] [2024-02-24T09:53:55.270Z] [hub] writing locator at C:\Users\PC\AppData\Local\Temp\hub-expense-tracker-app.json
+[debug] [2024-02-25T09:41:19.061Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-02-25T09:41:19.061Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-02-25T09:41:19.061Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-02-25T09:41:19.061Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2024-02-25T09:41:19.071Z] [hub] writing locator at C:\Users\PC\AppData\Local\Temp\hub-expense-tracker-app.json
 [info] i  firestore: Importing data from C:\Users\PC\jsWorkplace\practice\remix\expense-tracker\emulators-data\firestore_export\firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from C:\\Users\\PC\\jsWorkplace\\practice\\remix\\expense-tracker\\emulators-data\\firestore_export\\firestore_export.overall_export_metadata"}}
-[debug] [2024-02-24T09:53:55.283Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2024-02-24T09:53:55.284Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
-[debug] [2024-02-24T09:53:55.284Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\PC\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.1.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","expense-tracker-app","--seed_from_export","C:\\Users\\PC\\jsWorkplace\\practice\\remix\\expense-tracker\\emulators-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","C:\\Users\\PC\\jsWorkplace\\practice\\remix\\expense-tracker\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\PC\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"expense-tracker-app\",\"--seed_from_export\",\"C:\\\\Users\\\\PC\\\\jsWorkplace\\\\practice\\\\remix\\\\expense-tracker\\\\emulators-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"C:\\\\Users\\\\PC\\\\jsWorkplace\\\\practice\\\\remix\\\\expense-tracker\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
+[debug] [2024-02-25T09:41:19.087Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2024-02-25T09:41:19.087Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2024-02-25T09:41:19.087Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\PC\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.1.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--project_id","expense-tracker-app","--seed_from_export","C:\\Users\\PC\\jsWorkplace\\practice\\remix\\expense-tracker\\emulators-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","C:\\Users\\PC\\jsWorkplace\\practice\\remix\\expense-tracker\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\PC\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--project_id\",\"expense-tracker-app\",\"--seed_from_export\",\"C:\\\\Users\\\\PC\\\\jsWorkplace\\\\practice\\\\remix\\\\expense-tracker\\\\emulators-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"C:\\\\Users\\\\PC\\\\jsWorkplace\\\\practice\\\\remix\\\\expense-tracker\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
-[debug] [2024-02-24T09:53:56.320Z] Feb 24, 2024 10:53:56 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+[debug] [2024-02-25T09:41:20.532Z] Feb 25, 2024 10:41:20 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
 INFO: Started WebSocket server on ws://127.0.0.1:9150
- {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 24, 2024 10:53:56 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\r\nINFO: Started WebSocket server on ws://127.0.0.1:9150\r\n"}}
-[debug] [2024-02-24T09:53:56.360Z] API endpoint: http:// {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://"}}
-[debug] [2024-02-24T09:53:56.360Z] 127.0.0.1:8080
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 10:41:20 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\r\nINFO: Started WebSocket server on ws://127.0.0.1:9150\r\n"}}
+[debug] [2024-02-25T09:41:20.575Z] API endpoint: http:// {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://"}}
+[debug] [2024-02-25T09:41:20.576Z] 127.0.0.1:8080
 If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
 
    export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
@@ -44,13 +44,13 @@ Dev App Server is now running.
 
  {"metadata":{"emulator":{"name":"firestore"},"message":"127.0.0.1:8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\r\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nIf you are running a Firestore in Datastore Mode project, run:\r\n\n   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080\n\nNote: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.\r\nDev App Server is now running.\n\r\n"}}
 [info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
-[debug] [2024-02-24T09:53:56.580Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2024-02-24T09:53:56.580Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2024-02-24T09:53:56.580Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\PC\\.cache\\firebase\\emulators\\ui-v1.11.7\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\PC\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.7\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[debug] [2024-02-25T09:41:20.667Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2024-02-25T09:41:20.667Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2024-02-25T09:41:20.667Z] Starting Emulator UI with command {"binary":"node","args":["C:\\Users\\PC\\.cache\\firebase\\emulators\\ui-v1.11.7\\server\\server.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"C:\\\\Users\\\\PC\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.11.7\\\\server\\\\server.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2024-02-24T09:53:56.685Z] Web / API server started at 127.0.0.1:4000
+[debug] [2024-02-25T09:41:20.785Z] Web / API server started at 127.0.0.1:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at 127.0.0.1:4000\n"}}
-[debug] [2024-02-24T09:53:56.686Z] Web / API server started at ::1:4000
+[debug] [2024-02-25T09:41:20.786Z] Web / API server started at ::1:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at ::1:4000\n"}}
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
@@ -68,3 +68,21 @@ Dev App Server is now running.
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
+[debug] [2024-02-25T09:41:28.664Z] Feb 25, 2024 10:41:28 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 10:41:28 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\r\nINFO: Connected to new websocket client\r\n"}}
+[debug] [2024-02-25T09:41:28.693Z] Feb 25, 2024 10:41:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 10:41:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected non-HTTP/2 connection.\r\n"}}
+[debug] [2024-02-25T09:41:28.816Z] Feb 25, 2024 10:41:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 10:41:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected HTTP/2 connection.\r\n"}}
+[debug] [2024-02-25T09:42:05.602Z] Feb 25, 2024 10:42:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 10:42:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\r\nINFO: Detected HTTP/2 connection.\r\n"}}
+[debug] [2024-02-25T10:03:33.744Z] Feb 25, 2024 11:03:33 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 11:03:33 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\r\nINFO: Websocket client disconnected\r\n"}}
+[debug] [2024-02-25T12:26:06.737Z] Feb 25, 2024 1:26:06 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 25, 2024 1:26:06 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\r\nINFO: Connected to new websocket client\r\n"}}
