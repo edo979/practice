@@ -1,12 +1,12 @@
 import admin from 'firebase-admin'
 
-export type ExpenseRaw = {
+export type ExpenseRawT = {
   title?: string
   amount?: string
   date?: string
 }
 
-export type Expense = {
+export type ExpenseT = {
   id: string
   title: string
   amount: number
@@ -25,7 +25,7 @@ if (!admin.apps.length) {
 export const firestore = admin.firestore()
 const expensesColRef = firestore.collection('expenses')
 
-export const addExpense = async (data: Omit<Expense, 'id'>) => {
+export const addExpense = async (data: Omit<ExpenseT, 'id'>) => {
   try {
     await expensesColRef.add({ ...data })
   } catch (error) {
@@ -36,12 +36,12 @@ export const addExpense = async (data: Omit<Expense, 'id'>) => {
 export const getAllExpenses = async () => {
   try {
     const snapshot = await expensesColRef.get()
-    const expenses: Expense[] = snapshot.docs.map(
+    const expenses: ExpenseT[] = snapshot.docs.map(
       (doc) =>
         ({
           id: doc.id,
           ...doc.data(),
-        } as Expense)
+        } as ExpenseT)
     )
 
     return expenses
@@ -52,7 +52,7 @@ export const getAllExpenses = async () => {
   }
 }
 
-export const updateExpense = async (id: string, data: Omit<Expense, 'id'>) => {
+export const updateExpense = async (id: string, data: Omit<ExpenseT, 'id'>) => {
   const docRef = expensesColRef.doc(id)
   const docSnap = await docRef.get()
   if (!docSnap.exists) throw new Response('Expense not found!', { status: 404 })

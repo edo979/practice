@@ -1,18 +1,13 @@
-import { ActionFunctionArgs } from '@remix-run/node'
+import { ActionFunctionArgs, redirect } from '@remix-run/node'
 import ExpenseForm from '~/components/ExpenseForm'
 import Modal from '~/components/Modal'
-import { dummy_data } from './expenses'
 import {
-  Expense,
-  ExpenseRaw,
+  ExpenseT,
+  ExpenseRawT,
   deleteExpense,
   updateExpense,
 } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
-
-export const loader = () => {
-  return dummy_data[0]
-}
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const expenseId = params.id
@@ -24,7 +19,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
   if (request.method === 'PATCH') {
     const formData = await request.formData()
-    const expenseData = Object.fromEntries(formData) as ExpenseRaw
+    const expenseData = Object.fromEntries(formData) as ExpenseRawT
 
     try {
       validateExpenseInput(expenseData)
@@ -36,24 +31,25 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       title: expenseData.title,
       amount: parseFloat(expenseData.amount!),
       date: expenseData.date,
-    } as unknown as Omit<Expense, 'id'>
+    } as unknown as Omit<ExpenseT, 'id'>
 
     try {
       await updateExpense(expenseId, expense)
     } catch (error) {
       throw error
     }
+
+    return redirect('..')
   } else if (request.method === 'DELETE') {
     try {
       await deleteExpense(expenseId)
     } catch (error) {
       throw error
     }
+
     return null
   }
 }
-
-export type ExpenseLoaderT = typeof loader
 
 export default function Expense() {
   return (

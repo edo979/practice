@@ -1,12 +1,12 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
 import ExpenseForm from '~/components/ExpenseForm'
 import Modal from '~/components/Modal'
-import { Expense, ExpenseRaw, addExpense } from '~/data/firebase.server'
+import { ExpenseT, ExpenseRawT, addExpense } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
-  const expenseData = Object.fromEntries(formData) as ExpenseRaw
+  const expenseData = Object.fromEntries(formData) as ExpenseRawT
 
   try {
     validateExpenseInput(expenseData)
@@ -18,7 +18,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     title: expenseData.title,
     amount: parseFloat(expenseData.amount!),
     date: expenseData.date,
-  } as unknown as Omit<Expense, 'id'>
+  } as unknown as Omit<ExpenseT, 'id'>
 
   await addExpense(expense)
 

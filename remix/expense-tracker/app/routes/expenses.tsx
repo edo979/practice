@@ -2,19 +2,12 @@ import {
   Link,
   Outlet,
   isRouteErrorResponse,
-  json,
   useFetcher,
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
 import ErrorContainer from '~/components/ErrorContainer'
-import { Expense, getAllExpenses } from '~/data/firebase.server'
-
-export const dummy_data = [
-  { id: 1, title: 'First expense', amount: 15, date: 1707519600000 },
-  { id: 2, title: 'Second expense', amount: 10, date: 1707951600000 },
-  { id: 3, title: 'Third expense', amount: 25, date: 1708383600000 },
-]
+import { getAllExpenses } from '~/data/firebase.server'
 
 export const loader = async () => {
   const expenses = await getAllExpenses()

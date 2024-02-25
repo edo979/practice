@@ -1,9 +1,21 @@
-import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
-import { ExpenseLoaderT } from '~/routes/expenses.$id'
+import {
+  Form,
+  Link,
+  useActionData,
+  useMatches,
+  useParams,
+} from '@remix-run/react'
+import { ExpenseT } from '~/data/firebase.server'
 
 function ExpenseForm() {
-  const expense = useLoaderData<ExpenseLoaderT | null>()
+  const params = useParams()
+
   const formErrors = useActionData<Record<string, string>>()
+
+  const matches = useMatches()
+  const expenses = matches.find((match) => match.id === 'routes/expenses')
+    ?.data as ExpenseT[]
+  const expense = expenses.find((item) => item.id === params.id)
 
   return (
     <>
@@ -16,7 +28,7 @@ function ExpenseForm() {
       </div>
 
       <div className="modal-body">
-        <Form method="post" id="add-expense-form">
+        <Form method={expense ? 'PATCH' : 'POST'} id="add-expense-form">
           <div className="mb-3">
             <label htmlFor="title" className="form-label fw-bold">
               Expense title:
@@ -45,7 +57,13 @@ function ExpenseForm() {
             <label htmlFor="date" className="form-label fw-bold mb-0">
               Date:
             </label>
-            <input className="form-control" type="date" name="date" id="date" />
+            <input
+              className="form-control"
+              type="date"
+              name="date"
+              id="date"
+              defaultValue={expense?.date}
+            />
           </div>
         </Form>
       </div>

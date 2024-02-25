@@ -1,4 +1,4 @@
-import { ExpenseRaw } from './firebase.server'
+import { ExpenseRawT } from './firebase.server'
 
 function isValidTitle(value: string | undefined) {
   return (
@@ -22,7 +22,7 @@ function isValidDate(value: string | undefined) {
   )
 }
 
-export function validateExpenseInput(input: ExpenseRaw) {
+export function validateExpenseInput(input: ExpenseRawT) {
   let validationErrors: Record<string, string> = {}
 
   if (!isValidTitle(input.title)) {
