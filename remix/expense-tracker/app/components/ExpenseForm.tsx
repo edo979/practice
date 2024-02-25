@@ -19,7 +19,7 @@ function ExpenseForm() {
     ?.data as ExpenseT[]
   const expense = expenses.find((item) => item.id === params.id)
 
-  if (params.id && !expense) throw new Error('That Expense does not exist')
+  if (params.id && !expense) throw new Error("That Expense doesn't exist")
 
   const today = new Date().toISOString().slice(0, 10)
 
@@ -54,9 +54,9 @@ function ExpenseForm() {
                 'is-valid': isValidInput('title'),
               })}
               defaultValue={expense?.title || ''}
-              // min="3"
-              // max="30"
-              // required
+              min="3"
+              max="30"
+              required
             />
             <FormInvalidInputMsg error={formErrors?.title} />
           </div>
@@ -76,7 +76,7 @@ function ExpenseForm() {
                     'is-valid': isValidInput('amount'),
                   })}
                   defaultValue={expense?.amount || ''}
-                  // min="0"
+                  min="0"
                   step="0.01"
                 />
               </div>
@@ -96,7 +96,7 @@ function ExpenseForm() {
                   type="date"
                   name="date"
                   id="date"
-                  // max={today}
+                  max={today}
                   defaultValue={expense?.date || today}
                   title="jah jah"
                 />

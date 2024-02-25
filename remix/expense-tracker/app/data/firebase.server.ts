@@ -46,7 +46,7 @@ export const getAllExpenses = async () => {
 
     return expenses
   } catch (error) {
-    throw new Response("Error while try to get your's expenses!", {
+    throw new Response('Error retrieving your expenses!', {
       status: 500,
     })
   }
@@ -55,7 +55,8 @@ export const getAllExpenses = async () => {
 export const updateExpense = async (id: string, data: Omit<ExpenseT, 'id'>) => {
   const docRef = expensesColRef.doc(id)
   const docSnap = await docRef.get()
-  if (!docSnap.exists) throw new Response('Expense not found!', { status: 404 })
+  if (!docSnap.exists)
+    throw new Response("Expense doesn't found!", { status: 404 })
 
   try {
     await docRef.update({ ...data })
@@ -66,7 +67,8 @@ export const updateExpense = async (id: string, data: Omit<ExpenseT, 'id'>) => {
 
 export const deleteExpense = async (id: string) => {
   const docSnap = await expensesColRef.doc(id).get()
-  if (!docSnap.exists) throw new Response('Expense not found!', { status: 404 })
+  if (!docSnap.exists)
+    throw new Response("Expense doesn't found!", { status: 404 })
 
   try {
     await expensesColRef.doc(id).delete()
