@@ -5,7 +5,9 @@ import {
   useMatches,
   useParams,
 } from '@remix-run/react'
+import classNames from 'classnames'
 import { ExpenseT } from '~/data/firebase.server'
+import FormInvalidInputMsg from './FormInvalidInputMsg'
 
 function ExpenseForm() {
   const params = useParams()
@@ -16,6 +18,14 @@ function ExpenseForm() {
   const expenses = matches.find((match) => match.id === 'routes/expenses')
     ?.data as ExpenseT[]
   const expense = expenses.find((item) => item.id === params.id)
+
+  const today = new Date().toISOString().slice(0, 10)
+
+  function isValidInput(fieldName: string) {
+    const haveErrors = formErrors && Object.keys(formErrors).length > 0
+    const isValid = haveErrors && formErrors[fieldName] === undefined
+    return isValid
+  }
 
   return (
     <>
@@ -37,33 +47,60 @@ function ExpenseForm() {
               type="text"
               name="title"
               id="title"
-              className="form-control"
+              className={classNames('form-control', {
+                'is-invalid': formErrors?.title,
+                'is-valid': isValidInput('title'),
+              })}
               defaultValue={expense?.title || ''}
+              // min="3"
+              // max="30"
+              // required
             />
+            <FormInvalidInputMsg error={formErrors?.title} />
           </div>
 
-          <div className="d-flex align-items-center gap-2">
-            <label htmlFor="amount" className="form-label fw-bold mb-0">
-              Amount:
-            </label>
-            <input
-              type="number"
-              name="amount"
-              id="amount"
-              className="form-control w-50"
-              defaultValue={expense?.amount || ''}
-            />
+          <div className="d-flex align-items-top gap-2">
+            <div>
+              <div className="d-flex align-items-center gap-2">
+                <label htmlFor="amount" className="form-label fw-bold mb-0">
+                  Amount:
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  id="amount"
+                  className={classNames('form-control w-100', {
+                    'is-invalid': formErrors?.amount,
+                    'is-valid': isValidInput('amount'),
+                  })}
+                  defaultValue={expense?.amount || ''}
+                  // min="0"
+                  step="0.01"
+                />
+              </div>
+              <FormInvalidInputMsg error={formErrors?.amount} />
+            </div>
 
-            <label htmlFor="date" className="form-label fw-bold mb-0">
-              Date:
-            </label>
-            <input
-              className="form-control"
-              type="date"
-              name="date"
-              id="date"
-              defaultValue={expense?.date}
-            />
+            <div className="w-100">
+              <div className="d-flex align-items-center gap-2">
+                <label htmlFor="date" className="form-label fw-bold mb-0">
+                  Date:
+                </label>
+                <input
+                  className={classNames('form-control', {
+                    'is-invalid': formErrors?.date,
+                    'is-valid': isValidInput('date'),
+                  })}
+                  type="date"
+                  name="date"
+                  id="date"
+                  // max={today}
+                  defaultValue={expense?.date || today}
+                  title="jah jah"
+                />
+              </div>
+              <FormInvalidInputMsg error={formErrors?.date} />
+            </div>
           </div>
         </Form>
       </div>
