@@ -19,6 +19,8 @@ function ExpenseForm() {
     ?.data as ExpenseT[]
   const expense = expenses.find((item) => item.id === params.id)
 
+  if (params.id && !expense) throw new Error('That Expense does not exist')
+
   const today = new Date().toISOString().slice(0, 10)
 
   function isValidInput(fieldName: string) {

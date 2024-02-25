@@ -11,7 +11,6 @@ import { getAllExpenses } from '~/data/firebase.server'
 
 export const loader = async () => {
   const expenses = await getAllExpenses()
-  // console.log(expenses)
   return expenses
 }
 

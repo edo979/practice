@@ -11,11 +11,7 @@ import { validateExpenseInput } from '~/data/validator'
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const expenseId = params.id
-  if (!expenseId)
-    throw new Response("That expense isn't exist!", {
-      status: 401,
-      statusText: 'Invalid Expense',
-    })
+  if (!expenseId) return { error: 'Expense not found!' }
 
   if (request.method === 'PATCH') {
     const formData = await request.formData()
@@ -48,6 +44,8 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     }
 
     return null
+  } else {
+    return { error: 'Expense not found!' }
   }
 }
 
