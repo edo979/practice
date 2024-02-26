@@ -6,7 +6,6 @@ const ExpenseChart = () => {
 
   useEffect(() => {
     // Initialize chart only once
-
     const chart = new Chart(canvasRef.current!, {
       type: 'bar',
       data: {
