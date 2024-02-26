@@ -36,7 +36,7 @@ export default function ExpensesLayout() {
             <Link to="add" className="btn btn-light">
               🪙 Add expense
             </Link>
-            <Link to=".." className="btn btn-light ms-sm-3">
+            <Link to="details" className="btn btn-light ms-sm-3">
               🔎 View details
             </Link>
           </div>
