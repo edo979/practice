@@ -10,7 +10,7 @@ export type ExpenseT = {
   id: string
   title: string
   amount: number
-  date: number
+  date: string
 }
 
 // Initialize Firebase Admin SDK without a service account

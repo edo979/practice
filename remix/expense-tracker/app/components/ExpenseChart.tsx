@@ -1,7 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { Chart } from 'chart.js/auto'
 
-const ExpenseChart = () => {
+type ExpenseChartPropsT = {
+  labels: string[]
+  data: number[]
+}
+
+const ExpenseChart = ({ labels, data }: ExpenseChartPropsT) => {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -9,24 +14,11 @@ const ExpenseChart = () => {
     const chart = new Chart(canvasRef.current!, {
       type: 'bar',
       data: {
-        labels: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
+        labels,
         datasets: [
           {
-            label: 'My First Dataset',
-            data: [65, 59, 80, 81, 56, 55, 40, 39, 70, 23, 45, 51],
+            label: 'Expenses',
+            data,
             backgroundColor: [
               'rgba(255, 99, 132, 0.5)',
               'rgba(255, 159, 64, 0.5)',
