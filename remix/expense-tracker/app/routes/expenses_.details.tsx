@@ -8,8 +8,6 @@ export const loader = async () => {
   const data: number[] = []
   const expenseMap = new Map<string, number>()
 
-  console.log(expenses)
-
   expenses.forEach((expense) => {
     const monthName = new Date(expense.date).toLocaleDateString('en-Us', {
       month: 'short',
