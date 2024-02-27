@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import ExpenseChart from '~/components/ExpenseChart'
 import { getAllExpenses } from '~/data/firebase.server'
 
@@ -36,8 +36,24 @@ export default function ExpensesDetails() {
   const expenseData = useLoaderData<typeof loader>()
 
   return (
-    <div className="col-12 col-xl-8 mx-auto">
-      <ExpenseChart {...expenseData} />
-    </div>
+    <>
+      <div className="row mt-3 border-bottom">
+        <div className="col-auto my-auto">
+          <Link to="/expenses" className="btn btn-sm btn-outline-secondary">
+            👈 Back
+          </Link>
+        </div>
+
+        <div className="col">
+          <h1 className="text-center">Expenses Details</h1>
+        </div>
+      </div>
+
+      <div className="row mt-5">
+        <div className="col-12 col-xl-8 mx-auto">
+          <ExpenseChart {...expenseData} />
+        </div>
+      </div>
+    </>
   )
 }
