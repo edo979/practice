@@ -35,15 +35,15 @@ export default function ExpensesLayout() {
       <div className="mt-4 row justify-content-center">
         <h1 className="h4 text-center">In and Out list:</h1>
         <div className="col-8 d-flex flex-column justify-content-center align-items-center gap-4 flex-md-row">
-          <div className="d-grid gap-3 col-12 d-sm-flex col-sm-auto">
-            <Link to="add" className="btn btn-outline-danger">
-              ➖ Add expense
+          <div className="d-grid gap-3 col-12 d-sm-flex col-sm-auto mt-4">
+            <Link to="add" className="btn btn-outline-secondary">
+              ➖ Expense
             </Link>
-            <Link to="add?type=in" className="btn btn-outline-success">
-              ➕ Add income
+            <Link to="add?type=in" className="btn btn-outline-secondary">
+              ➕ Income
             </Link>
-            <Link to="details" className="btn btn-outline-primary">
-              🔎 View details
+            <Link to="details" className="btn btn-outline-secondary">
+              🔎 Details
             </Link>
           </div>
         </div>
@@ -51,33 +51,43 @@ export default function ExpensesLayout() {
 
       <div className="mt-2 row justify-content-center">
         <div className="col-8">
-          <ol className="list-group list-group-numbered">
+          <ol className="list-group list-group-numbered shadow mt-1">
             {expenses.length > 0 ? (
               expenses.map((expense) => (
                 <Link
                   to={`${expense.id}`}
                   key={expense.id}
-                  className={classNames(
-                    'list-group-item list-group-item-action d-flex justify-content-between align-items-start',
-                    { 'bg-success-subtle': expense.income }
-                  )}
+                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-start p-3"
                 >
                   <div
                     className={classNames('ms-2 me-auto', {
                       'text-success-emphasis fw-bold': expense.income,
                     })}
                   >
-                    <div>
-                      <small className="me-2">
-                        {new Date(expense.date).toLocaleDateString('en-Us', {
-                          day: '2-digit',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
-                      </small>
-                      {expense.title}
-                    </div>
-                    <span>${expense.amount}</span>
+                    <div>{expense.title}</div>
+                    <span
+                      className={classNames(
+                        'badge shadow-sm d-flex align-items-center mt-1 p-1 pe-2 border rounded-pill',
+                        {
+                          'text-light-emphasis bg-light-subtle border-light-subtle':
+                            !expense.income,
+                          'text-success-emphasis bg-success-subtle border-success-subtle':
+                            expense.income,
+                        }
+                      )}
+                      style={
+                        {
+                          '--bs-badge-font-size': '0.825rem',
+                        } as React.CSSProperties
+                      }
+                    >
+                      {new Date(expense.date).toLocaleDateString('en-Us', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                      <span className="vr mx-2"></span>${expense.amount}
+                    </span>
                   </div>
 
                   <button

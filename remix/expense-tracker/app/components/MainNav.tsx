@@ -2,7 +2,7 @@ import { Link, NavLink } from '@remix-run/react'
 
 export default function MainNav() {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg shadow-sm bg-body-tertiary">
       <div className="container-fluid">
         <button
           className="navbar-toggler"

@@ -100,7 +100,7 @@ function ExpenseForm() {
                   name="date"
                   id="date"
                   max={today}
-                  defaultValue={expense?.date || today}
+                  defaultValue={expense?.date.toString().slice(0, 10) || today}
                   title="jah jah"
                 />
               </div>
@@ -118,7 +118,7 @@ function ExpenseForm() {
           type="submit"
           className="btn btn-primary"
         >
-          Save
+          👌Save
         </button>
       </div>
     </>
