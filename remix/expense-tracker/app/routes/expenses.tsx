@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
+import classNames from 'classnames'
 import ErrorContainer from '~/components/ErrorContainer'
 import { getAllExpenses } from '~/data/firebase.server'
 
@@ -54,11 +55,18 @@ export default function ExpensesLayout() {
                 <Link
                   to={`${expense.id}`}
                   key={expense.id}
-                  className="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+                  className={classNames(
+                    'list-group-item list-group-item-action d-flex justify-content-between align-items-start',
+                    { 'bg-success-subtle': expense.income }
+                  )}
                 >
-                  <div className="ms-2 me-auto">
-                    <div className="fw-bold">{expense.title}</div>
-                    <span>${expense.amount}</span>
+                  <div
+                    className={classNames('ms-2 me-auto', {
+                      'text-success-emphasis fw-bold': expense.income,
+                    })}
+                  >
+                    <div className="">{expense.title}</div>
+                    <span className="">${expense.amount}</span>
                   </div>
 
                   <button
