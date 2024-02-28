@@ -28,6 +28,8 @@ export default function ExpensesLayout() {
     })
   }
 
+  console.log()
+
   return (
     <>
       <div className="mt-4 row justify-content-center">
@@ -65,8 +67,17 @@ export default function ExpensesLayout() {
                       'text-success-emphasis fw-bold': expense.income,
                     })}
                   >
-                    <div className="">{expense.title}</div>
-                    <span className="">${expense.amount}</span>
+                    <div>
+                      <small className="me-2">
+                        {new Date(expense.date).toLocaleDateString('en-Us', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </small>
+                      {expense.title}
+                    </div>
+                    <span>${expense.amount}</span>
                   </div>
 
                   <button

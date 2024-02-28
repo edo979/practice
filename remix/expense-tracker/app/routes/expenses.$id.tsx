@@ -6,6 +6,7 @@ import {
   ExpenseRawT,
   deleteExpense,
   updateExpense,
+  getTimestamp,
 } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
 
@@ -23,11 +24,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       return error
     }
 
-    const expense = {
-      title: expenseData.title,
+    const expense: Omit<ExpenseT, 'id'> = {
+      title: expenseData.title!,
       amount: parseFloat(expenseData.amount!),
-      date: expenseData.date,
-    } as unknown as Omit<ExpenseT, 'id'>
+      date: new Date(expenseData.date!),
+    }
 
     try {
       await updateExpense(expenseId, expense)

@@ -1,4 +1,5 @@
 import admin from 'firebase-admin'
+import { Timestamp } from 'firebase-admin/firestore'
 
 export type ExpenseRawT = {
   title?: string
@@ -11,7 +12,7 @@ export type ExpenseT = {
   id: string
   title: string
   amount: number
-  date: string
+  date: Date
   income?: boolean
 }
 
@@ -24,12 +25,19 @@ if (!admin.apps.length) {
 }
 
 // Get a Firestore instance
-export const firestore = admin.firestore()
+const firestore = admin.firestore()
 const expensesColRef = firestore.collection('expenses')
+
+// TODO: Delete this
+export const getTimestamp = (date: string) =>
+  admin.firestore.Timestamp.fromDate(new Date(date))
 
 export const addExpense = async (data: Omit<ExpenseT, 'id'>) => {
   try {
-    await expensesColRef.add({ ...data })
+    await expensesColRef.add({
+      ...data,
+      date: admin.firestore.Timestamp.fromDate(data.date),
+    })
   } catch (error) {
     throw new Response('Error adding expense!', { status: 500 })
   }
@@ -43,6 +51,7 @@ export const getAllExpenses = async () => {
         ({
           id: doc.id,
           ...doc.data(),
+          date: doc.data().date?.toDate() ?? doc.data().date,
         } as ExpenseT)
     )
 
@@ -61,7 +70,10 @@ export const updateExpense = async (id: string, data: Omit<ExpenseT, 'id'>) => {
     throw new Response("Expense doesn't found!", { status: 404 })
 
   try {
-    await docRef.update({ ...data })
+    await docRef.update({
+      ...data,
+      date: admin.firestore.Timestamp.fromDate(data.date),
+    })
   } catch (error) {
     throw new Response('Error updating expense!', { status: 500 })
   }
