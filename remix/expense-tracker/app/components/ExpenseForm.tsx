@@ -106,6 +106,8 @@ function ExpenseForm() {
               </div>
               <FormInvalidInputMsg error={formErrors?.date} />
             </div>
+
+            {isIncome && <input type="hidden" name="income" value="true" />}
           </div>
         </Form>
       </div>

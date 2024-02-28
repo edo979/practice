@@ -18,6 +18,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     title: expenseData.title,
     amount: parseFloat(expenseData.amount!),
     date: expenseData.date,
+    income: expenseData.income === 'true' ? true : false,
   } as unknown as Omit<ExpenseT, 'id'>
 
   await addExpense(expense)

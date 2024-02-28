@@ -4,6 +4,7 @@ export type ExpenseRawT = {
   title?: string
   amount?: string
   date?: string
+  income?: string
 }
 
 export type ExpenseT = {
@@ -11,6 +12,7 @@ export type ExpenseT = {
   title: string
   amount: number
   date: string
+  income?: boolean
 }
 
 // Initialize Firebase Admin SDK without a service account
