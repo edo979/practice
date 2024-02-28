@@ -30,13 +30,16 @@ export default function ExpensesLayout() {
   return (
     <>
       <div className="mt-4 row justify-content-center">
+        <h1 className="h4 text-center">In and Out list:</h1>
         <div className="col-8 d-flex flex-column justify-content-center align-items-center gap-4 flex-md-row">
-          <h1 className="h4">Expenses:</h1>
-          <div className="d-grid gap-3 col-12 d-sm-block col-sm-auto">
-            <Link to="add" className="btn btn-light">
-              🪙 Add expense
+          <div className="d-grid gap-3 col-12 d-sm-flex col-sm-auto">
+            <Link to="add" className="btn btn-outline-danger">
+              ➖ Add expense
             </Link>
-            <Link to="details" className="btn btn-light ms-sm-3">
+            <Link to="add?type=in" className="btn btn-outline-success">
+              ➕ Add income
+            </Link>
+            <Link to="details" className="btn btn-outline-primary">
               🔎 View details
             </Link>
           </div>

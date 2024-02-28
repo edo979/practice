@@ -4,6 +4,7 @@ import {
   useActionData,
   useMatches,
   useParams,
+  useSearchParams,
 } from '@remix-run/react'
 import classNames from 'classnames'
 import { ExpenseT } from '~/data/firebase.server'
@@ -11,6 +12,8 @@ import FormInvalidInputMsg from './FormInvalidInputMsg'
 
 function ExpenseForm() {
   const params = useParams()
+  const [searchParams] = useSearchParams()
+  const isIncome = searchParams.get('type') === 'in' ? true : false
 
   const formErrors = useActionData<Record<string, string>>()
 
@@ -43,7 +46,7 @@ function ExpenseForm() {
         <Form method={expense ? 'PATCH' : 'POST'} id="add-expense-form">
           <div className="mb-3">
             <label htmlFor="title" className="form-label fw-bold">
-              Expense title:
+              {isIncome ? 'Income title:' : 'Expense title:'}
             </label>
             <input
               type="text"

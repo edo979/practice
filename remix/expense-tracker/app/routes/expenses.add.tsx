@@ -4,7 +4,7 @@ import Modal from '~/components/Modal'
 import { ExpenseT, ExpenseRawT, addExpense } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, params }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const expenseData = Object.fromEntries(formData) as ExpenseRawT
 
