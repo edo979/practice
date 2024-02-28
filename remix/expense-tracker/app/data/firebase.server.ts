@@ -45,7 +45,7 @@ export const addExpense = async (data: Omit<ExpenseT, 'id'>) => {
 
 export const getAllExpenses = async () => {
   try {
-    const snapshot = await expensesColRef.get()
+    const snapshot = await expensesColRef.orderBy('date', 'asc').get()
     const expenses: ExpenseT[] = snapshot.docs.map(
       (doc) =>
         ({
