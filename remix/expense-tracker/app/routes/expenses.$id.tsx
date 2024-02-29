@@ -6,7 +6,6 @@ import {
   ExpenseRawT,
   deleteTransaction,
   updateTransaction,
-  getTimestamp,
 } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
 

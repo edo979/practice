@@ -1,15 +1,10 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
 import ExpenseForm from '~/components/ExpenseForm'
 import Modal from '~/components/Modal'
-import {
-  ExpenseT,
-  ExpenseRawT,
-  addTransaction,
-  getTimestamp,
-} from '~/data/firebase.server'
+import { ExpenseT, ExpenseRawT, addTransaction } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
 
-export const action = async ({ request, params }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const expenseData = Object.fromEntries(formData) as ExpenseRawT
 
