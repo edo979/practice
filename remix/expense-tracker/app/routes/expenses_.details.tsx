@@ -3,31 +3,56 @@ import ExpenseChart from '~/components/ExpenseChart'
 import { getAllExpenses } from '~/data/firebase.server'
 
 export const loader = async () => {
-  const expenses = await getAllExpenses()
+  const transactions = await getAllExpenses()
   const labels: string[] = []
-  const data: number[] = []
-  const expenseMap = new Map<string, number>()
+  const incomes: number[] = []
+  const expenses: number[] = []
+  const transactionsMap = new Map<
+    string,
+    { incomes: number; expenses: number }
+  >()
 
-  expenses.forEach((expense) => {
-    const monthName = new Date(expense.date).toLocaleDateString('en-Us', {
+  transactions.forEach((entry) => {
+    const monthName = new Date(entry.date).toLocaleDateString('en-Us', {
       month: 'short',
     })
+    const isIncome = entry.income === true
 
-    if (expenseMap.has(monthName)) {
-      let monthSum = expenseMap.get(monthName)
-      if (monthSum === undefined) monthSum = 0
-      expenseMap.set(monthName, monthSum + expense.amount)
+    if (transactionsMap.has(monthName)) {
+      const monthTransactions = transactionsMap.get(monthName)
+
+      if (isIncome) {
+        let monthIncomeSum = monthTransactions?.incomes
+        if (monthIncomeSum === undefined) monthIncomeSum = 0
+        transactionsMap.set(monthName, {
+          expenses: monthTransactions?.expenses || 0,
+          incomes: monthIncomeSum + entry.amount,
+        })
+      } else {
+        let monthExpenseSum = monthTransactions?.expenses
+        if (monthExpenseSum === undefined) monthExpenseSum = 0
+        transactionsMap.set(monthName, {
+          expenses: monthExpenseSum + entry.amount,
+          incomes: monthTransactions?.incomes || 0,
+        })
+      }
     } else {
-      expenseMap.set(monthName, expense.amount)
+      transactionsMap.set(
+        monthName,
+        isIncome
+          ? { incomes: entry.amount, expenses: 0 }
+          : { incomes: 0, expenses: entry.amount }
+      )
     }
   })
 
-  expenseMap.forEach((value, key) => {
+  transactionsMap.forEach((value, key) => {
     labels.push(key)
-    data.push(value)
+    incomes.push(value.incomes)
+    expenses.push(value.expenses)
   })
 
-  return { labels, data }
+  return { labels, incomes, expenses }
 }
 
 export default function ExpensesDetails() {
