@@ -8,10 +8,10 @@ import {
 } from '@remix-run/react'
 import classNames from 'classnames'
 import ErrorContainer from '~/components/ErrorContainer'
-import { getAllExpenses } from '~/data/firebase.server'
+import { getAllTransactions } from '~/data/firebase.server'
 
 export const loader = async () => {
-  const expenses = await getAllExpenses()
+  const expenses = await getAllTransactions()
   return expenses
 }
 

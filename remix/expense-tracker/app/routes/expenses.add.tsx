@@ -4,7 +4,7 @@ import Modal from '~/components/Modal'
 import {
   ExpenseT,
   ExpenseRawT,
-  addExpense,
+  addTransaction,
   getTimestamp,
 } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
@@ -26,7 +26,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     income: expenseData.income === 'true' ? true : false,
   }
 
-  await addExpense(expense)
+  await addTransaction(expense)
 
   return redirect('..')
 }

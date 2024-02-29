@@ -1,9 +1,9 @@
 import { Link, useLoaderData } from '@remix-run/react'
 import ExpenseChart from '~/components/ExpenseChart'
-import { getAllExpenses } from '~/data/firebase.server'
+import { getAllTransactions } from '~/data/firebase.server'
 
 export const loader = async () => {
-  const transactions = await getAllExpenses()
+  const transactions = await getAllTransactions()
   const labels: string[] = []
   const incomes: number[] = []
   const expenses: number[] = []

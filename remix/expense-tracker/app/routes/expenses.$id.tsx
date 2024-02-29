@@ -4,8 +4,8 @@ import Modal from '~/components/Modal'
 import {
   ExpenseT,
   ExpenseRawT,
-  deleteExpense,
-  updateExpense,
+  deleteTransaction,
+  updateTransaction,
   getTimestamp,
 } from '~/data/firebase.server'
 import { validateExpenseInput } from '~/data/validator'
@@ -31,7 +31,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     }
 
     try {
-      await updateExpense(expenseId, expense)
+      await updateTransaction(expenseId, expense)
     } catch (error) {
       throw error
     }
@@ -39,7 +39,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     return redirect('..')
   } else if (request.method === 'DELETE') {
     try {
-      await deleteExpense(expenseId)
+      await deleteTransaction(expenseId)
     } catch (error) {
       throw error
     }

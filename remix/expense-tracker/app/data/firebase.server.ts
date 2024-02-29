@@ -32,7 +32,7 @@ const expensesColRef = firestore.collection('expenses')
 export const getTimestamp = (date: string) =>
   admin.firestore.Timestamp.fromDate(new Date(date))
 
-export const addExpense = async (data: Omit<ExpenseT, 'id'>) => {
+export const addTransaction = async (data: Omit<ExpenseT, 'id'>) => {
   try {
     await expensesColRef.add({
       ...data,
@@ -43,7 +43,7 @@ export const addExpense = async (data: Omit<ExpenseT, 'id'>) => {
   }
 }
 
-export const getAllExpenses = async () => {
+export const getAllTransactions = async () => {
   try {
     const snapshot = await expensesColRef.orderBy('date', 'asc').get()
     const expenses: ExpenseT[] = snapshot.docs.map(
@@ -63,7 +63,10 @@ export const getAllExpenses = async () => {
   }
 }
 
-export const updateExpense = async (id: string, data: Omit<ExpenseT, 'id'>) => {
+export const updateTransaction = async (
+  id: string,
+  data: Omit<ExpenseT, 'id'>
+) => {
   const docRef = expensesColRef.doc(id)
   const docSnap = await docRef.get()
   if (!docSnap.exists)
@@ -79,7 +82,7 @@ export const updateExpense = async (id: string, data: Omit<ExpenseT, 'id'>) => {
   }
 }
 
-export const deleteExpense = async (id: string) => {
+export const deleteTransaction = async (id: string) => {
   const docSnap = await expensesColRef.doc(id).get()
   if (!docSnap.exists)
     throw new Response("Expense doesn't found!", { status: 404 })
