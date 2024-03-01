@@ -1,7 +1,6 @@
 import { ExpenseT } from './firebase.server'
-import type { loader } from '~/routes/expenses_.details'
 
-export function calculateDataFromTransaction(transactions: ExpenseT[]) {
+export const calculateDataFromTransaction = (transactions: ExpenseT[]) => {
   const labels: string[] = []
   const incomes: number[] = []
   const expenses: number[] = []

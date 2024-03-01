@@ -106,3 +106,19 @@ export const deleteTransaction = async (userId: string, id: string) => {
     throw new Response('Error deleting expense!', { status: 500 })
   }
 }
+
+// ****************************************************************
+// BALANCE
+// ****************************************************************
+export const getBalance = async (userId: string) => {
+  const userColl = firestore.collection(`expenseApp`)
+  const docRef = userColl.doc(userId)
+  const docSnap = await docRef.get()
+  if (!docSnap.exists) throw new Response('No User!', { status: 404 })
+
+  try {
+    return docSnap.data() as { current: number; limit: number }
+  } catch (error) {
+    throw new Response('Error getting user balance!', { status: 500 })
+  }
+}

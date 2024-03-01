@@ -1,19 +1,34 @@
-import { Link, useLoaderData } from '@remix-run/react'
+import { ActionFunctionArgs } from '@remix-run/node'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import DiffChart from '~/components/DiffChart'
 import ExpenseChart from '~/components/ExpenseChart'
-import { ExpenseT, getAllTransactions } from '~/data/firebase.server'
-import { calculateDataFromTransaction } from '~/data/utils.client'
+import {
+  ExpenseT,
+  getAllTransactions,
+  getBalance,
+} from '~/data/firebase.server'
+import { calculateDataFromTransaction } from '~/data/utils'
 
 export const loader = async () => {
   const userId = 'testuserid'
   const transactions = await getAllTransactions(userId)
+  const balance = await getBalance(userId)
 
-  return transactions
+  return { transactions, balance }
+}
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const userId = 'testuserid'
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+  console.log(data)
 }
 
 export default function ExpensesDetails() {
-  const transactions = useLoaderData() as unknown as ExpenseT[]
-  const expenseData = calculateDataFromTransaction(transactions)
+  const { transactions, balance } = useLoaderData<typeof loader>()
+  const expenseData = calculateDataFromTransaction(
+    transactions as unknown as ExpenseT[]
+  )
   const monthDiffs = expenseData.incomes.map(
     (value, i) => value - expenseData.expenses[i]
   )
@@ -100,7 +115,9 @@ export default function ExpensesDetails() {
               <h4 className="my-0 fw-normal">Overdraft limit</h4>
             </div>
             <div className="card-body">
-              <h4 className="card-title pricing-card-title h1">$0</h4>
+              <h4 className="card-title pricing-card-title h1">
+                ${balance.limit}
+              </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
                   Maximum amount of money you can borrow from your bank when you
@@ -109,12 +126,13 @@ export default function ExpensesDetails() {
               </ul>
             </div>
             <div className="card-footer px-4">
-              <button
+              <Link
+                to="edit?t=overdraft-limit"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
                 ✏️ Edit
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -125,7 +143,9 @@ export default function ExpensesDetails() {
               <h4 className="my-0 fw-normal">Total Balance</h4>
             </div>
             <div className="card-body">
-              <h4 className="card-title pricing-card-title h1">$0</h4>
+              <h4 className="card-title pricing-card-title h1">
+                ${balance.current + balance.limit}
+              </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
                   This shows everything, both your money and the overdraft
@@ -151,7 +171,9 @@ export default function ExpensesDetails() {
               <h4 className="my-0 fw-normal">Available Balance</h4>
             </div>
             <div className="card-body">
-              <h4 className="card-title pricing-card-title h1">$0</h4>
+              <h4 className="card-title pricing-card-title h1">
+                ${balance.current}
+              </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
                   This represents your money without considering the overdraft.
@@ -169,6 +191,8 @@ export default function ExpensesDetails() {
           </div>
         </div>
       </div>
+
+      <Outlet />
     </main>
   )
 }
