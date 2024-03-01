@@ -1,13 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { Chart } from 'chart.js/auto'
 
-type ExpenseChartPropsT = {
+type DiffChartPropsT = {
   labels: string[]
-  incomes: number[]
-  expenses: number[]
+  data: number[]
 }
 
-const ExpenseChart = ({ labels, incomes, expenses }: ExpenseChartPropsT) => {
+const DiffChart = ({ labels, data }: DiffChartPropsT) => {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -18,18 +17,10 @@ const ExpenseChart = ({ labels, incomes, expenses }: ExpenseChartPropsT) => {
         labels,
         datasets: [
           {
-            label: 'Expenses',
-            data: expenses,
-            backgroundColor: 'rgba(255, 99, 132, 0.35)',
-            borderColor: 'rgb(255, 99, 132)',
-            borderWidth: 1,
-            barPercentage: 0.6,
-          },
-          {
-            label: 'Incomes',
-            data: incomes,
-            backgroundColor: 'rgba(75, 192, 192, 0.45)',
-            borderColor: 'rgb(75, 192, 192)',
+            label: 'Savings',
+            data,
+            backgroundColor: 'rgba(54, 162, 235, 0.35)',
+            borderColor: 'rgb(54, 162, 235)',
             borderWidth: 1,
             barPercentage: 0.6,
           },
@@ -37,9 +28,6 @@ const ExpenseChart = ({ labels, incomes, expenses }: ExpenseChartPropsT) => {
       },
       options: {
         scales: {
-          x: {
-            stacked: true,
-          },
           y: {
             beginAtZero: true,
           },
@@ -47,7 +35,7 @@ const ExpenseChart = ({ labels, incomes, expenses }: ExpenseChartPropsT) => {
         plugins: {
           title: {
             display: true,
-            text: 'Income vs Expense',
+            text: 'Income - Expense',
             font: {
               size: 20,
               weight: 'bold',
@@ -64,4 +52,4 @@ const ExpenseChart = ({ labels, incomes, expenses }: ExpenseChartPropsT) => {
   return <canvas ref={canvasRef} id="chart"></canvas>
 }
 
-export default ExpenseChart
+export default DiffChart

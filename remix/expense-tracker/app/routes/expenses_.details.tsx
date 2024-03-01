@@ -1,4 +1,5 @@
 import { Link, useLoaderData } from '@remix-run/react'
+import DiffChart from '~/components/DiffChart'
 import ExpenseChart from '~/components/ExpenseChart'
 import { getAllTransactions } from '~/data/firebase.server'
 
@@ -75,6 +76,12 @@ export default function ExpensesDetails() {
       <div className="row mt-5">
         <div className="col-12 col-xl-8 mx-auto">
           <ExpenseChart {...expenseData} />
+        </div>
+      </div>
+
+      <div className="row mt-5">
+        <div className="col-12 col-xl-8 mx-auto">
+          <DiffChart labels={expenseData.labels} data={[-200, 350]} />
         </div>
       </div>
     </>
