@@ -1,64 +1,19 @@
 import { Link, useLoaderData } from '@remix-run/react'
 import DiffChart from '~/components/DiffChart'
 import ExpenseChart from '~/components/ExpenseChart'
-import { getAllTransactions } from '~/data/firebase.server'
+import { ExpenseT, getAllTransactions } from '~/data/firebase.server'
+import { calculateDataFromTransaction } from '~/data/utils.client'
 
 export const loader = async () => {
   const userId = 'testuserid'
   const transactions = await getAllTransactions(userId)
-  const labels: string[] = []
-  const incomes: number[] = []
-  const expenses: number[] = []
-  const transactionsMap = new Map<
-    string,
-    { incomes: number; expenses: number }
-  >()
 
-  transactions.forEach((entry) => {
-    const monthName = new Date(entry.date).toLocaleDateString('en-Us', {
-      month: 'short',
-    })
-    const isIncome = entry.income === true
-
-    if (transactionsMap.has(monthName)) {
-      const monthTransactions = transactionsMap.get(monthName)
-
-      if (isIncome) {
-        let monthIncomeSum = monthTransactions?.incomes
-        if (monthIncomeSum === undefined) monthIncomeSum = 0
-        transactionsMap.set(monthName, {
-          expenses: monthTransactions?.expenses || 0,
-          incomes: monthIncomeSum + entry.amount,
-        })
-      } else {
-        let monthExpenseSum = monthTransactions?.expenses
-        if (monthExpenseSum === undefined) monthExpenseSum = 0
-        transactionsMap.set(monthName, {
-          expenses: monthExpenseSum + entry.amount,
-          incomes: monthTransactions?.incomes || 0,
-        })
-      }
-    } else {
-      transactionsMap.set(
-        monthName,
-        isIncome
-          ? { incomes: entry.amount, expenses: 0 }
-          : { incomes: 0, expenses: entry.amount }
-      )
-    }
-  })
-
-  transactionsMap.forEach((value, key) => {
-    labels.push(key)
-    incomes.push(value.incomes)
-    expenses.push(value.expenses)
-  })
-
-  return { labels, incomes, expenses }
+  return transactions
 }
 
 export default function ExpensesDetails() {
-  const expenseData = useLoaderData<typeof loader>()
+  const transactions = useLoaderData() as unknown as ExpenseT[]
+  const expenseData = calculateDataFromTransaction(transactions)
   const monthDiffs = expenseData.incomes.map(
     (value, i) => value - expenseData.expenses[i]
   )
