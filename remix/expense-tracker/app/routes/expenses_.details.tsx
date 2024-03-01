@@ -64,7 +64,7 @@ export default function ExpensesDetails() {
   )
 
   return (
-    <>
+    <main>
       <div className="row mt-3 border-bottom">
         <div className="col-auto my-auto">
           <Link to="/expenses" className="btn btn-sm btn-outline-secondary">
@@ -78,21 +78,21 @@ export default function ExpensesDetails() {
       </div>
 
       <div className="row mt-5">
-        <div className="col-12 col-xl-8 mx-auto">
+        <div className="col">
           <ExpenseChart {...expenseData} />
         </div>
       </div>
 
       <div className="row mt-5">
-        <div className="col-12 col-xl-8 mx-auto">
+        <div className="col">
           <DiffChart labels={expenseData.labels} data={monthDiffs} />
         </div>
       </div>
 
       <div className="row mt-5">
-        <div className="col-12 col-xl-8 mx-auto">
+        <div className="col">
           <h2>Expense data:</h2>
-          <table className="table table-striped table-bordered fs-5">
+          <table className="table table-striped table-bordered mt-3 fs-5">
             <thead>
               <tr className="text-center">
                 <th>Income</th>
@@ -131,6 +131,89 @@ export default function ExpensesDetails() {
           </table>
         </div>
       </div>
-    </>
+
+      <div className="row mt-5">
+        <div className="col">
+          <h2>Balance:</h2>
+        </div>
+      </div>
+
+      <div className="row row-cols-1 row-cols-sm-3 mt-2 mb-5 text-center">
+        <div className="col">
+          <div className="card h-100 mb-4 rounded-3 shadow-sm">
+            <div className="card-header py-3">
+              <h4 className="my-0 fw-normal">Overdraft limit</h4>
+            </div>
+            <div className="card-body">
+              <h4 className="card-title pricing-card-title h1">$0</h4>
+              <ul className="list-unstyled mt-3 mb-4">
+                <li>
+                  Maximum amount of money you can borrow from your bank when you
+                  have spent all of your own money.
+                </li>
+              </ul>
+            </div>
+            <div className="card-footer px-4">
+              <button
+                type="button"
+                className="w-100 btn btn-lg btn-outline-dark"
+              >
+                ✏️ Edit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="col">
+          <div className="card h-100 mb-4 rounded-3 shadow-sm">
+            <div className="card-header py-3">
+              <h4 className="my-0 fw-normal">Total Balance</h4>
+            </div>
+            <div className="card-body">
+              <h4 className="card-title pricing-card-title h1">$0</h4>
+              <ul className="list-unstyled mt-3 mb-4">
+                <li>
+                  This shows everything, both your money and the overdraft
+                  limit.
+                </li>
+                <li>Including overdraft.</li>
+              </ul>
+            </div>
+            <div className="card-footer px-4">
+              <button
+                type="button"
+                className="w-100 btn btn-lg btn-outline-dark"
+              >
+                ✏️ Edit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="col">
+          <div className="card h-100 mb-4 rounded-3 shadow-sm">
+            <div className="card-header py-3">
+              <h4 className="my-0 fw-normal">Available Balance</h4>
+            </div>
+            <div className="card-body">
+              <h4 className="card-title pricing-card-title h1">$0</h4>
+              <ul className="list-unstyled mt-3 mb-4">
+                <li>
+                  This represents your money without considering the overdraft.
+                </li>
+              </ul>
+            </div>
+            <div className="card-footer px-4">
+              <button
+                type="button"
+                className="w-100 btn btn-lg btn-outline-dark"
+              >
+                ✏️ Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   )
 }
