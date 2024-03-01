@@ -26,7 +26,11 @@ if (!admin.apps.length) {
 
 // Get a Firestore instance
 const firestore = admin.firestore()
-const expensesColRef = firestore.collection('expenses')
+const expensesColRef = firestore.collection(
+  'expenseApp/testuserid/transactions'
+)
+const getUserTransactions = (userId: string) =>
+  firestore.collection(`expenseApp/${userId}/transactions`)
 
 // TODO: Delete this
 export const getTimestamp = (date: string) =>
@@ -43,8 +47,9 @@ export const addTransaction = async (data: Omit<ExpenseT, 'id'>) => {
   }
 }
 
-export const getAllTransactions = async () => {
+export const getAllTransactions = async (userId: string) => {
   try {
+    const expensesColRef = getUserTransactions(userId)
     const snapshot = await expensesColRef.orderBy('date', 'asc').get()
     const expenses: ExpenseT[] = snapshot.docs.map(
       (doc) =>

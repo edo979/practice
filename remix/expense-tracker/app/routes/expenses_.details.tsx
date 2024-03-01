@@ -4,7 +4,8 @@ import ExpenseChart from '~/components/ExpenseChart'
 import { getAllTransactions } from '~/data/firebase.server'
 
 export const loader = async () => {
-  const transactions = await getAllTransactions()
+  const userId = 'testuserid'
+  const transactions = await getAllTransactions(userId)
   const labels: string[] = []
   const incomes: number[] = []
   const expenses: number[] = []

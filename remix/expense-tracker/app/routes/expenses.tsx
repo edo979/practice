@@ -11,12 +11,13 @@ import ErrorContainer from '~/components/ErrorContainer'
 import { getAllTransactions } from '~/data/firebase.server'
 
 export const loader = async () => {
-  const expenses = await getAllTransactions()
-  return expenses
+  const userId = 'testuserid'
+  const transactions = await getAllTransactions(userId)
+  return transactions
 }
 
 export default function ExpensesLayout() {
-  const expenses = useLoaderData<typeof loader>()
+  const transactions = useLoaderData<typeof loader>()
   const deleteExpenseFetcher = useFetcher()
 
   function deleteExpenseHandler(id: string) {
@@ -52,27 +53,27 @@ export default function ExpensesLayout() {
       <div className="mt-2 row justify-content-center">
         <div className="col-8">
           <ol className="list-group list-group-numbered shadow mt-1">
-            {expenses.length > 0 ? (
-              expenses.map((expense) => (
+            {transactions.length > 0 ? (
+              transactions.map((entry) => (
                 <Link
-                  to={`${expense.id}`}
-                  key={expense.id}
+                  to={`${entry.id}`}
+                  key={entry.id}
                   className="list-group-item list-group-item-action d-flex justify-content-between align-items-start p-3"
                 >
                   <div
                     className={classNames('ms-2 me-auto', {
-                      'text-success-emphasis fw-bold': expense.income,
+                      'text-success-emphasis fw-bold': entry.income,
                     })}
                   >
-                    <div>{expense.title}</div>
+                    <div>{entry.title}</div>
                     <span
                       className={classNames(
                         'badge shadow-sm d-flex align-items-center mt-1 p-1 pe-2 border rounded-pill',
                         {
                           'text-light-emphasis bg-light-subtle border-light-subtle':
-                            !expense.income,
+                            !entry.income,
                           'text-success-emphasis bg-success-subtle border-success-subtle':
-                            expense.income,
+                            entry.income,
                         }
                       )}
                       style={
@@ -81,12 +82,12 @@ export default function ExpensesLayout() {
                         } as React.CSSProperties
                       }
                     >
-                      {new Date(expense.date).toLocaleDateString('en-Us', {
+                      {new Date(entry.date).toLocaleDateString('en-Us', {
                         day: '2-digit',
                         month: 'short',
                         year: 'numeric',
                       })}
-                      <span className="vr mx-2"></span>${expense.amount}
+                      <span className="vr mx-2"></span>${entry.amount}
                     </span>
                   </div>
 
@@ -95,7 +96,7 @@ export default function ExpensesLayout() {
                     className="btn btn-outline-secondary btn-sm px-2 py-0"
                     onClick={(e) => {
                       e.preventDefault()
-                      deleteExpenseHandler(expense.id)
+                      deleteExpenseHandler(entry.id)
                     }}
                   >
                     <b>X</b>
