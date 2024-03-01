@@ -58,6 +58,9 @@ export const loader = async () => {
 
 export default function ExpensesDetails() {
   const expenseData = useLoaderData<typeof loader>()
+  const monthDiffs = expenseData.incomes.map(
+    (value, i) => value - expenseData.expenses[i]
+  )
 
   return (
     <>
@@ -81,7 +84,7 @@ export default function ExpensesDetails() {
 
       <div className="row mt-5">
         <div className="col-12 col-xl-8 mx-auto">
-          <DiffChart labels={expenseData.labels} data={[-200, 350]} />
+          <DiffChart labels={expenseData.labels} data={monthDiffs} />
         </div>
       </div>
     </>
