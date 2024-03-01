@@ -7,7 +7,10 @@ import {
   getAllTransactions,
   getBalance,
 } from '~/data/firebase.server'
-import { calculateDataFromTransaction } from '~/data/utils'
+import {
+  calculateDataFromTransaction,
+  calculateTotalBalance,
+} from '~/data/utils'
 
 export const loader = async () => {
   const userId = 'testuserid'
@@ -104,7 +107,7 @@ export default function ExpensesDetails() {
 
       <div className="row mt-5">
         <div className="col">
-          <h2>Balance:</h2>
+          <h2 id="balance">Balance:</h2>
         </div>
       </div>
 
@@ -127,7 +130,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-footer px-4">
               <Link
-                to="edit?t=overdraft-limit"
+                to="edit?t=overdraft-limit#balance"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
@@ -144,7 +147,11 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-body">
               <h4 className="card-title pricing-card-title h1">
-                ${balance.current + balance.limit}
+                $
+                {calculateTotalBalance({
+                  limit: balance.limit,
+                  current: balance.current,
+                })}
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
@@ -155,12 +162,13 @@ export default function ExpensesDetails() {
               </ul>
             </div>
             <div className="card-footer px-4">
-              <button
+              <Link
+                to="edit?t=total-balance#balance"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
                 ✏️ Edit
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -181,12 +189,13 @@ export default function ExpensesDetails() {
               </ul>
             </div>
             <div className="card-footer px-4">
-              <button
+              <Link
+                to="edit?t=available-balance#balance"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
                 ✏️ Edit
-              </button>
+              </Link>
             </div>
           </div>
         </div>

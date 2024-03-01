@@ -51,3 +51,13 @@ export const calculateDataFromTransaction = (transactions: ExpenseT[]) => {
 
   return { labels, incomes, expenses }
 }
+
+export const calculateTotalBalance = ({
+  limit,
+  current,
+}: {
+  limit: number
+  current: number
+}) => {
+  return limit + current
+}
