@@ -40,7 +40,7 @@ export default function ExpensesDetails() {
     <main>
       <div className="row mt-3 border-bottom">
         <div className="col-auto my-auto">
-          <Link to="/expenses" className="btn btn-sm btn-outline-secondary">
+          <Link to="/expenses" className="btn btn-sm btn-outline-dark">
             👈 Back
           </Link>
         </div>
@@ -198,6 +198,14 @@ export default function ExpensesDetails() {
               </Link>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="row my-5 pb-3 border-bottom">
+        <div className="col-auto my-auto">
+          <Link to="/expenses" className="btn btn-sm btn-outline-dark">
+            👈 Back
+          </Link>
         </div>
       </div>
 
