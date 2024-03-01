@@ -7,6 +7,7 @@ import { validateExpenseInput } from '~/data/validator'
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const expenseData = Object.fromEntries(formData) as ExpenseRawT
+  const userId = 'testuserid'
 
   try {
     validateExpenseInput(expenseData)
@@ -21,7 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     income: expenseData.income === 'true' ? true : false,
   }
 
-  await addTransaction(expense)
+  await addTransaction(userId, expense)
 
   return redirect('..')
 }

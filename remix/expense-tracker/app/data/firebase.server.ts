@@ -36,8 +36,12 @@ const getUserTransactions = (userId: string) =>
 export const getTimestamp = (date: string) =>
   admin.firestore.Timestamp.fromDate(new Date(date))
 
-export const addTransaction = async (data: Omit<ExpenseT, 'id'>) => {
+export const addTransaction = async (
+  userId: string,
+  data: Omit<ExpenseT, 'id'>
+) => {
   try {
+    const expensesColRef = getUserTransactions(userId)
     await expensesColRef.add({
       ...data,
       date: admin.firestore.Timestamp.fromDate(data.date),
@@ -69,9 +73,11 @@ export const getAllTransactions = async (userId: string) => {
 }
 
 export const updateTransaction = async (
+  userId: string,
   id: string,
   data: Omit<ExpenseT, 'id'>
 ) => {
+  const expensesColRef = getUserTransactions(userId)
   const docRef = expensesColRef.doc(id)
   const docSnap = await docRef.get()
   if (!docSnap.exists)

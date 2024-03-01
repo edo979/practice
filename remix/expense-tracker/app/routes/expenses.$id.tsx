@@ -32,7 +32,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     }
 
     try {
-      await updateTransaction(expenseId, expense)
+      await updateTransaction(userId, expenseId, expense)
     } catch (error) {
       throw error
     }
