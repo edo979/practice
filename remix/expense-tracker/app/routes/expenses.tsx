@@ -52,9 +52,9 @@ export default function ExpensesLayout() {
 
       <div className="mt-2 row justify-content-center">
         <div className="col-8">
-          <ol className="list-group list-group-numbered shadow mt-1">
-            {transactions.length > 0 ? (
-              transactions.map((entry) => (
+          {transactions.length > 0 ? (
+            <ol className="list-group list-group-numbered shadow mt-1">
+              {transactions.map((entry) => (
                 <Link
                   to={`${entry.id}`}
                   key={entry.id}
@@ -102,11 +102,13 @@ export default function ExpensesLayout() {
                     <b>X</b>
                   </button>
                 </Link>
-              ))
-            ) : (
-              <p>There was no expenses!</p>
-            )}
-          </ol>
+              ))}
+            </ol>
+          ) : (
+            <div className="alert alert-primary mt-4" role="alert">
+              There was no transactions!
+            </div>
+          )}
         </div>
       </div>
 

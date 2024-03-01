@@ -11,6 +11,8 @@ import { validateExpenseInput } from '~/data/validator'
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const expenseId = params.id
+  const userId = 'testuserid'
+
   if (!expenseId) return { error: 'Expense not found!' }
 
   if (request.method === 'PATCH') {
@@ -38,7 +40,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     return redirect('..')
   } else if (request.method === 'DELETE') {
     try {
-      await deleteTransaction(expenseId)
+      await deleteTransaction(userId, expenseId)
     } catch (error) {
       throw error
     }

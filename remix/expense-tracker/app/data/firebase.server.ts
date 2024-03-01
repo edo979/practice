@@ -87,8 +87,10 @@ export const updateTransaction = async (
   }
 }
 
-export const deleteTransaction = async (id: string) => {
+export const deleteTransaction = async (userId: string, id: string) => {
+  const expensesColRef = getUserTransactions(userId)
   const docSnap = await expensesColRef.doc(id).get()
+
   if (!docSnap.exists)
     throw new Response("Expense doesn't found!", { status: 404 })
 
