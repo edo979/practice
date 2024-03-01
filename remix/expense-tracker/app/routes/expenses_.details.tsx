@@ -87,6 +87,49 @@ export default function ExpensesDetails() {
           <DiffChart labels={expenseData.labels} data={monthDiffs} />
         </div>
       </div>
+
+      <div className="row mt-5">
+        <div className="col-12 col-xl-8 mx-auto">
+          <h2>Expense data:</h2>
+          <table className="table table-striped table-bordered fs-5">
+            <thead>
+              <tr className="text-center">
+                <th>Income</th>
+                <th>Expense</th>
+                <th>Saving</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              <tr>
+                <th colSpan={3}>Averages:</th>
+              </tr>
+              <tr>
+                <td>
+                  {expenseData.incomes.reduce((acc, value) => acc + value, 0) /
+                    expenseData.incomes.length}
+                </td>
+                <td>
+                  {expenseData.expenses.reduce((acc, value) => acc + value, 0) /
+                    expenseData.expenses.length}
+                </td>
+                <td>
+                  {monthDiffs.reduce((acc, value) => acc + value, 0) /
+                    monthDiffs.length}
+                </td>
+              </tr>
+              <tr>
+                <th colSpan={3}>Max:</th>
+              </tr>
+              {/* MAX */}
+              <tr>
+                <td>{Math.max(...expenseData.incomes)}</td>
+                <td>{Math.max(...expenseData.expenses)}</td>
+                <td>{Math.max(...monthDiffs)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   )
 }
