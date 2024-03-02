@@ -151,10 +151,9 @@ export default function ExpensesDetails() {
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
-                  This shows everything, both your money and the overdraft
-                  limit.
+                  This shows sum, both your money and the overdraft limit.
                 </li>
-                <li>Including overdraft.</li>
+                <li>Manually sync your balance here!</li>
               </ul>
             </div>
             <div className="card-footer px-4">
@@ -185,13 +184,9 @@ export default function ExpensesDetails() {
               </ul>
             </div>
             <div className="card-footer px-4">
-              <Link
-                to="edit?f=available-balance#balance"
-                type="button"
-                className="w-100 btn btn-lg btn-outline-dark"
-              >
-                ✏️ Edit
-              </Link>
+              <small>
+                Available balance should be calculate from limit and total.
+              </small>
             </div>
           </div>
         </div>
