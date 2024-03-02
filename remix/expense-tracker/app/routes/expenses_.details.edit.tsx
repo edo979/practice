@@ -1,7 +1,16 @@
+import { ActionFunctionArgs } from '@remix-run/node'
 import { Form, Link, useMatches, useSearchParams } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import Modal from '~/components/Modal'
 import { calculateTotalBalance } from '~/data/utils'
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const userId = 'testuserid'
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+
+  return null
+}
 
 export default function EditDetails() {
   const limitInputRef = useRef<HTMLInputElement>(null)
@@ -40,7 +49,7 @@ export default function EditDetails() {
         </div>
 
         <div className="modal-body">
-          <Form method="POST" id="edit-details-form">
+          <Form method="post" id="edit-details-form">
             <div className="mb-3">
               <label htmlFor="limit" className="form-label fw-bold">
                 Overdraft limit

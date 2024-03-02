@@ -1,4 +1,3 @@
-import { ActionFunctionArgs } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import DiffChart from '~/components/DiffChart'
 import ExpenseChart from '~/components/ExpenseChart'
@@ -18,13 +17,6 @@ export const loader = async () => {
   const balance = await getBalance(userId)
 
   return { transactions, balance }
-}
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const userId = 'testuserid'
-  const formData = await request.formData()
-  const data = Object.fromEntries(formData)
-  console.log(data)
 }
 
 export default function ExpensesDetails() {
