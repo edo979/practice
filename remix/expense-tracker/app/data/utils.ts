@@ -1,3 +1,4 @@
+import { formatNumber } from 'chart.js/helpers'
 import { BalanceDetailsT, ExpenseT } from './firebase.server'
 
 export const calculateDataFromTransaction = (transactions: ExpenseT[]) => {
@@ -57,4 +58,10 @@ export const calculateAvailableBalance = ({
   total,
 }: BalanceDetailsT) => {
   return total - limit
+}
+
+export const showFormattedNumber = (number: number) => {
+  return number.toLocaleString('hr-Hr', {
+    minimumFractionDigits: 2,
+  })
 }

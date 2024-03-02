@@ -16,6 +16,7 @@ import {
 import {
   calculateDataFromTransaction,
   calculateAvailableBalance,
+  showFormattedNumber,
 } from '~/data/utils'
 
 export const loader = async () => {
@@ -118,7 +119,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-body">
               <h4 className="card-title pricing-card-title h1">
-                ${balance.limit}
+                ${showFormattedNumber(balance.limit)}
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
@@ -146,7 +147,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-body">
               <h4 className="card-title pricing-card-title h1">
-                ${balance.total}
+                ${showFormattedNumber(balance.total)}
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
@@ -175,7 +176,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-body">
               <h4 className="card-title pricing-card-title h1">
-                ${calculateAvailableBalance(balance)}
+                ${showFormattedNumber(calculateAvailableBalance(balance))}
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>

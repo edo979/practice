@@ -6,7 +6,7 @@ import {
   useMatches,
   useSearchParams,
 } from '@remix-run/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import FormInvalidInputMsg from '~/components/FormInvalidInputMsg'
 import Modal from '~/components/Modal'
 import {
@@ -14,7 +14,7 @@ import {
   BalanceDetailsT,
   updateBalance,
 } from '~/data/firebase.server'
-import { calculateAvailableBalance } from '~/data/utils'
+import { calculateAvailableBalance, showFormattedNumber } from '~/data/utils'
 import { validateBalanceDetailsInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -54,15 +54,24 @@ export default function EditDetails() {
     (match) => match.pathname === '/expenses/details'
   )?.data as { balance: BalanceDetailsT }
 
+  const [limitValue, setLimitValue] = useState(balance.limit)
+  const [totalValue, setTotalValue] = useState(balance.total)
+
   useEffect(() => {
     if (field === 'overdraft-limit') {
       limitInputRef.current?.focus()
     } else if (field === 'total-balance') {
       totalInputRef.current?.focus()
-    } else if (field === 'available-balance') {
-      availableInputRef.current?.focus()
     }
   }, [field])
+
+  useEffect(() => {
+    if (availableInputRef.current)
+      availableInputRef.current.value = calculateAvailableBalance({
+        limit: limitValue,
+        total: totalValue,
+      }).toFixed(2)
+  }, [limitValue, totalValue])
 
   return (
     <Modal>
@@ -85,6 +94,7 @@ export default function EditDetails() {
               </label>
               <input
                 ref={limitInputRef}
+                onChange={(e) => setLimitValue(parseFloat(e.target.value) ?? 0)}
                 type="number"
                 name="limit"
                 id="limit"
@@ -101,6 +111,7 @@ export default function EditDetails() {
               </label>
               <input
                 ref={totalInputRef}
+                onChange={(e) => setTotalValue(parseFloat(e.target.value) ?? 0)}
                 type="number"
                 name="total"
                 id="total"
@@ -121,7 +132,6 @@ export default function EditDetails() {
                 name="available"
                 id="available"
                 className="form-control"
-                defaultValue={calculateAvailableBalance(balance)}
                 step="0.05"
                 disabled
               />
