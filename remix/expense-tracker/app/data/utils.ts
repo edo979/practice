@@ -1,4 +1,4 @@
-import { ExpenseT } from './firebase.server'
+import { BalanceDetailsT, ExpenseT } from './firebase.server'
 
 export const calculateDataFromTransaction = (transactions: ExpenseT[]) => {
   const labels: string[] = []
@@ -52,12 +52,9 @@ export const calculateDataFromTransaction = (transactions: ExpenseT[]) => {
   return { labels, incomes, expenses }
 }
 
-export const calculateTotalBalance = ({
+export const calculateAvailableBalance = ({
   limit,
-  current,
-}: {
-  limit: number
-  current: number
-}) => {
-  return limit + current
+  total,
+}: BalanceDetailsT) => {
+  return total - limit
 }

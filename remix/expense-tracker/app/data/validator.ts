@@ -51,9 +51,5 @@ export function validateBalanceDetailsInput(input: BalanceDetailsMutationT) {
     validationErrors.total =
       'Invalid total input. Must be a number greater than zero!'
 
-  if (!isValidAmount(input.available))
-    validationErrors.available =
-      'Invalid available input. Must be a number greater than zero!'
-
   if (Object.keys(validationErrors).length > 0) throw validationErrors
 }

@@ -19,13 +19,11 @@ export type ExpenseT = {
 export type BalanceDetailsMutationT = {
   limit?: string
   total?: string
-  available?: string
 }
 
 export type BalanceDetailsT = {
   limit: number
   total: number
-  available: number
 }
 
 // Initialize Firebase Admin SDK without a service account
@@ -41,6 +39,7 @@ const firestore = admin.firestore()
 const expensesColRef = firestore.collection(
   'expenseApp/testuserid/transactions'
 )
+
 const getUserTransactions = (userId: string) =>
   firestore.collection(`expenseApp/${userId}/transactions`)
 
@@ -130,7 +129,7 @@ export const getBalance = async (userId: string) => {
   if (!docSnap.exists) throw new Response('No User!', { status: 404 })
 
   try {
-    return docSnap.data() as { current: number; limit: number }
+    return docSnap.data() as BalanceDetailsT
   } catch (error) {
     throw new Response('Error getting user balance!', { status: 500 })
   }

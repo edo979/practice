@@ -9,8 +9,12 @@ import {
 import { useEffect, useRef } from 'react'
 import FormInvalidInputMsg from '~/components/FormInvalidInputMsg'
 import Modal from '~/components/Modal'
-import { BalanceDetailsMutationT, updateBalance } from '~/data/firebase.server'
-import { calculateTotalBalance } from '~/data/utils'
+import {
+  BalanceDetailsMutationT,
+  BalanceDetailsT,
+  updateBalance,
+} from '~/data/firebase.server'
+import { calculateAvailableBalance } from '~/data/utils'
 import { validateBalanceDetailsInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -27,15 +31,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return error
   }
 
-  try {
-    await updateBalance(userId, {
-      limit: parseFloat(balanceMutationData.limit!),
-      available: parseFloat(balanceMutationData.available!),
-      total: parseFloat(balanceMutationData.total!),
-    })
-  } catch (error) {
-    throw error
-  }
+  await updateBalance(userId, {
+    limit: parseFloat(balanceMutationData.limit!),
+    total: parseFloat(balanceMutationData.total!),
+  })
 
   return redirect('/expenses/details#balance')
 }
@@ -53,7 +52,7 @@ export default function EditDetails() {
   const matches = useMatches()
   const { balance } = matches.find(
     (match) => match.pathname === '/expenses/details'
-  )?.data as { balance: { limit: number; current: number } }
+  )?.data as { balance: BalanceDetailsT }
 
   useEffect(() => {
     if (field === 'overdraft-limit') {
@@ -106,7 +105,7 @@ export default function EditDetails() {
                 name="total"
                 id="total"
                 className="form-control"
-                defaultValue={calculateTotalBalance(balance)}
+                defaultValue={balance.total}
                 step="0.05"
                 required
               />
@@ -122,9 +121,9 @@ export default function EditDetails() {
                 name="available"
                 id="available"
                 className="form-control"
-                defaultValue={balance.current}
+                defaultValue={calculateAvailableBalance(balance)}
                 step="0.05"
-                required
+                disabled
               />
               <FormInvalidInputMsg error={formErrors?.available} />
             </div>

@@ -15,7 +15,7 @@ import {
 } from '~/data/firebase.server'
 import {
   calculateDataFromTransaction,
-  calculateTotalBalance,
+  calculateAvailableBalance,
 } from '~/data/utils'
 
 export const loader = async () => {
@@ -146,11 +146,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-body">
               <h4 className="card-title pricing-card-title h1">
-                $
-                {calculateTotalBalance({
-                  limit: balance.limit,
-                  current: balance.current,
-                })}
+                ${balance.total}
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
@@ -179,7 +175,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-body">
               <h4 className="card-title pricing-card-title h1">
-                ${balance.current}
+                ${calculateAvailableBalance(balance)}
               </h4>
               <ul className="list-unstyled mt-3 mb-4">
                 <li>
