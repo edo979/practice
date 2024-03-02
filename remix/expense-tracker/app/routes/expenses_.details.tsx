@@ -1,5 +1,12 @@
-import { Link, Outlet, useLoaderData } from '@remix-run/react'
+import {
+  Link,
+  Outlet,
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react'
 import DiffChart from '~/components/DiffChart'
+import ErrorContainer from '~/components/ErrorContainer'
 import ExpenseChart from '~/components/ExpenseChart'
 import {
   ExpenseT,
@@ -97,9 +104,9 @@ export default function ExpensesDetails() {
         </div>
       </div>
 
-      <div className="row mt-5">
+      <div className="row mt-5" id="balance">
         <div className="col">
-          <h2 id="balance">Balance:</h2>
+          <h2>Balance:</h2>
         </div>
       </div>
 
@@ -204,4 +211,32 @@ export default function ExpensesDetails() {
       <Outlet />
     </main>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <ErrorContainer
+        title={error.data}
+        message={`${error.status} ${error.statusText}`}
+        redirectTo="/expenses/details#balance"
+      />
+    )
+  } else if (error instanceof Error) {
+    return (
+      <ErrorContainer
+        title={error.message}
+        redirectTo="/expenses/details#balance"
+      />
+    )
+  } else {
+    return (
+      <ErrorContainer
+        title="Unknown Error!"
+        redirectTo="/expenses/details#balance"
+      />
+    )
+  }
 }

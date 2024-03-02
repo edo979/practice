@@ -1,4 +1,4 @@
-import { ExpenseRawT } from './firebase.server'
+import { BalanceDetailsMutationT, ExpenseRawT } from './firebase.server'
 
 function isValidTitle(value: string | undefined) {
   return (
@@ -36,6 +36,24 @@ export function validateExpenseInput(input: ExpenseRawT) {
   if (!isValidDate(input.date)) {
     validationErrors.date = 'Invalid expense date. Must be a date before today.'
   }
+
+  if (Object.keys(validationErrors).length > 0) throw validationErrors
+}
+
+export function validateBalanceDetailsInput(input: BalanceDetailsMutationT) {
+  let validationErrors: Record<string, string> = {}
+
+  if (!isValidAmount(input.limit))
+    validationErrors.limit =
+      'Invalid limit input. Must be a number greater than zero!'
+
+  if (!isValidAmount(input.total))
+    validationErrors.total =
+      'Invalid total input. Must be a number greater than zero!'
+
+  if (!isValidAmount(input.available))
+    validationErrors.available =
+      'Invalid available input. Must be a number greater than zero!'
 
   if (Object.keys(validationErrors).length > 0) throw validationErrors
 }

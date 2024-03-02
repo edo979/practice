@@ -1,18 +1,48 @@
-import { ActionFunctionArgs } from '@remix-run/node'
-import { Form, Link, useMatches, useSearchParams } from '@remix-run/react'
+import { ActionFunctionArgs, redirect } from '@remix-run/node'
+import {
+  Form,
+  Link,
+  useActionData,
+  useMatches,
+  useSearchParams,
+} from '@remix-run/react'
 import { useEffect, useRef } from 'react'
+import FormInvalidInputMsg from '~/components/FormInvalidInputMsg'
 import Modal from '~/components/Modal'
+import { BalanceDetailsMutationT, updateBalance } from '~/data/firebase.server'
 import { calculateTotalBalance } from '~/data/utils'
+import { validateBalanceDetailsInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = 'testuserid'
   const formData = await request.formData()
-  const data = Object.fromEntries(formData)
+  const balanceMutationData = Object.fromEntries(
+    formData
+  ) as BalanceDetailsMutationT
 
-  return null
+  try {
+    validateBalanceDetailsInput(balanceMutationData)
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+
+  try {
+    await updateBalance(userId, {
+      limit: parseFloat(balanceMutationData.limit!),
+      available: parseFloat(balanceMutationData.available!),
+      total: parseFloat(balanceMutationData.total!),
+    })
+  } catch (error) {
+    throw error
+  }
+
+  return redirect('/expenses/details#balance')
 }
 
 export default function EditDetails() {
+  const formErrors = useActionData<Record<string, string>>()
+
   const limitInputRef = useRef<HTMLInputElement>(null)
   const totalInputRef = useRef<HTMLInputElement>(null)
   const availableInputRef = useRef<HTMLInputElement>(null)
@@ -42,9 +72,9 @@ export default function EditDetails() {
           <h5 className="modal-title align-items-baseline">
             Menage Balance Details
           </h5>
-          {/* {formErrors && (
-          <p className="my-0 mx-auto text-danger">Form has some errors!</p>
-        )} */}
+          {formErrors && (
+            <p className="my-0 mx-auto text-danger">Form has some errors!</p>
+          )}
           <Link to="..#balance" className="btn-close" aria-label="Close" />
         </div>
 
@@ -64,7 +94,7 @@ export default function EditDetails() {
                 step="0.05"
                 required
               />
-              {/* <FormInvalidInputMsg error={formErrors?.title} /> */}
+              <FormInvalidInputMsg error={formErrors?.limit} />
             </div>
             <div className="mb-3">
               <label htmlFor="total" className="form-label fw-bold">
@@ -80,7 +110,7 @@ export default function EditDetails() {
                 step="0.05"
                 required
               />
-              {/* <FormInvalidInputMsg error={formErrors?.title} /> */}
+              <FormInvalidInputMsg error={formErrors?.total} />
             </div>
             <div className="mb-3">
               <label htmlFor="available" className="form-label fw-bold">
@@ -96,7 +126,7 @@ export default function EditDetails() {
                 step="0.05"
                 required
               />
-              {/* <FormInvalidInputMsg error={formErrors?.title} /> */}
+              <FormInvalidInputMsg error={formErrors?.available} />
             </div>
           </Form>
         </div>

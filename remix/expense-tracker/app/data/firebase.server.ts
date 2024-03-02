@@ -16,6 +16,18 @@ export type ExpenseT = {
   income?: boolean
 }
 
+export type BalanceDetailsMutationT = {
+  limit?: string
+  total?: string
+  available?: string
+}
+
+export type BalanceDetailsT = {
+  limit: number
+  total: number
+  available: number
+}
+
 // Initialize Firebase Admin SDK without a service account
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -114,11 +126,27 @@ export const getBalance = async (userId: string) => {
   const userColl = firestore.collection(`expenseApp`)
   const docRef = userColl.doc(userId)
   const docSnap = await docRef.get()
+
   if (!docSnap.exists) throw new Response('No User!', { status: 404 })
 
   try {
     return docSnap.data() as { current: number; limit: number }
   } catch (error) {
     throw new Response('Error getting user balance!', { status: 500 })
+  }
+}
+
+export const updateBalance = async (userId: string, data: BalanceDetailsT) => {
+  const userColl = firestore.collection(`expenseApp`)
+  const docRef = userColl.doc(userId)
+  const docSnap = await docRef.get()
+
+  if (!docSnap.exists)
+    throw new Response('User data not found!', { status: 404 })
+
+  try {
+    await docRef.update(data)
+  } catch (error) {
+    throw new Response('Error updating user balance!', { status: 500 })
   }
 }

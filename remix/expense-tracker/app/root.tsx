@@ -7,8 +7,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
 } from '@remix-run/react'
 import MainNav from './components/MainNav'
+import ErrorContainer from './components/ErrorContainer'
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
@@ -46,4 +49,21 @@ export default function App() {
       </body>
     </html>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <ErrorContainer
+        title={error.data}
+        message={`${error.status} ${error.statusText}`}
+      />
+    )
+  } else if (error instanceof Error) {
+    return <ErrorContainer title={error.message} />
+  } else {
+    return <ErrorContainer title="Unknown Error!" />
+  }
 }
