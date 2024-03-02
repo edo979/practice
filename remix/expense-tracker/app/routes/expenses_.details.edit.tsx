@@ -5,6 +5,7 @@ import {
   useActionData,
   useMatches,
   useSearchParams,
+  useSubmit,
 } from '@remix-run/react'
 import { useEffect, useRef, useState } from 'react'
 import FormInvalidInputMsg from '~/components/FormInvalidInputMsg'
@@ -14,7 +15,7 @@ import {
   BalanceDetailsT,
   updateBalance,
 } from '~/data/firebase.server'
-import { calculateAvailableBalance, showFormattedNumber } from '~/data/utils'
+import { calculateAvailableBalance } from '~/data/utils'
 import { validateBalanceDetailsInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -45,6 +46,7 @@ export default function EditDetails() {
   const limitInputRef = useRef<HTMLInputElement>(null)
   const totalInputRef = useRef<HTMLInputElement>(null)
   const availableInputRef = useRef<HTMLInputElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const [searchParams] = useSearchParams()
   const field = searchParams.get('f') || 'overdraft-limit'
@@ -56,6 +58,28 @@ export default function EditDetails() {
 
   const [limitValue, setLimitValue] = useState(balance.limit)
   const [totalValue, setTotalValue] = useState(balance.total)
+
+  const submit = useSubmit()
+
+  function submitFormHandler() {
+    if (balance.total !== totalValue) {
+      const diff = totalValue - balance.total
+      const formData = new FormData()
+
+      if (diff > 0) formData.append('income', 'true')
+      formData.append('amount', Math.abs(diff).toFixed(2))
+      formData.append('title', 'NN')
+      formData.append('date', new Date().toString().slice(0, 10))
+
+      submit(formData, {
+        method: 'POST',
+        action: '/expenses/add',
+        navigate: false,
+      })
+    }
+
+    submit(formRef.current, { method: 'POST' })
+  }
 
   useEffect(() => {
     if (field === 'overdraft-limit') {
@@ -87,7 +111,7 @@ export default function EditDetails() {
         </div>
 
         <div className="modal-body">
-          <Form method="post" id="edit-details-form">
+          <Form ref={formRef} method="post">
             <div className="mb-3">
               <label htmlFor="limit" className="form-label fw-bold">
                 Overdraft limit
@@ -141,11 +165,7 @@ export default function EditDetails() {
         </div>
 
         <div className="modal-footer">
-          <button
-            form="edit-details-form"
-            type="submit"
-            className="btn btn-primary"
-          >
+          <button className="btn btn-primary" onClick={submitFormHandler}>
             👌Save
           </button>
         </div>
