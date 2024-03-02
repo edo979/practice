@@ -130,7 +130,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-footer px-4">
               <Link
-                to="edit?t=overdraft-limit#balance"
+                to="edit?f=overdraft-limit#balance"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
@@ -163,7 +163,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-footer px-4">
               <Link
-                to="edit?t=total-balance#balance"
+                to="edit?f=total-balance#balance"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
@@ -190,7 +190,7 @@ export default function ExpensesDetails() {
             </div>
             <div className="card-footer px-4">
               <Link
-                to="edit?t=available-balance#balance"
+                to="edit?f=available-balance#balance"
                 type="button"
                 className="w-100 btn btn-lg btn-outline-dark"
               >
