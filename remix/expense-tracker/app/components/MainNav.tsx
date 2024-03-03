@@ -1,7 +1,7 @@
-import { Link, NavLink } from '@remix-run/react'
+import { Link, NavLink, useLoaderData } from '@remix-run/react'
 
 export default function MainNav() {
-  const userId = '123'
+  const { userId } = useLoaderData() as { userId: string }
 
   return (
     <nav className="navbar navbar-expand-lg shadow-sm bg-body-tertiary">

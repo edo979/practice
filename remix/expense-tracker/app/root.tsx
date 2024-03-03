@@ -1,5 +1,5 @@
 import { cssBundleHref } from '@remix-run/css-bundle'
-import type { LinksFunction } from '@remix-run/node'
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -12,10 +12,17 @@ import {
 } from '@remix-run/react'
 import MainNav from './components/MainNav'
 import ErrorContainer from './components/ErrorContainer'
+import { getUserIdFromAuthCookie, requireAuthCookie } from './auth/auth.server'
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const userId = await getUserIdFromAuthCookie(request)
+
+  return { userId }
+}
 
 export default function App() {
   return (
