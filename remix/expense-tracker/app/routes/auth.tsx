@@ -5,18 +5,27 @@ import AuthForm from '~/components/AuthForm'
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
   const userData = Object.fromEntries(formData) as UserDataRawT
-  //TODO: validate user data
+  const searchParams = new URL(request.url).searchParams
+  const mode = searchParams.get('mode')
 
-  const userId = await createAccount({
-    email: userData.email!,
-    password: userData.password!,
-  })
+  if (mode === 'sign-up') {
+    //TODO: validate user data
 
-  return redirect('/', {
-    headers: {
-      'Set-Cookie': await authCookie.serialize(userId),
-    },
-  })
+    const userId = await createAccount({
+      email: userData.email!,
+      password: userData.password!,
+    })
+
+    return redirect('/', {
+      headers: {
+        'Set-Cookie': await authCookie.serialize(userId),
+      },
+    })
+  } else {
+    // TODO: validate user data for login
+  }
+
+  return null
 }
 
 export default function Auth() {

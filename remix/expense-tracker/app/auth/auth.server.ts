@@ -55,3 +55,7 @@ export async function requireAuthCookie(request: Request) {
 export async function createAccount(data: UserDataT) {
   return 123
 }
+
+export async function getUser(data: UserDataT) {
+  return '123'
+}
