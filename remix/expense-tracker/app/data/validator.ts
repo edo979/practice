@@ -1,4 +1,4 @@
-import { BalanceDetailsMutationT, ExpenseRawT } from './firebase.server'
+import { BalanceDetailsMutationT, ExpenseRawT } from './expense.server'
 
 function isValidTitle(value: string | undefined) {
   return (

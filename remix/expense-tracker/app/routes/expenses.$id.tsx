@@ -6,7 +6,7 @@ import {
   ExpenseRawT,
   deleteTransaction,
   updateTransaction,
-} from '~/data/firebase.server'
+} from '~/data/expense.server'
 import { validateExpenseInput } from '~/data/validator'
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {

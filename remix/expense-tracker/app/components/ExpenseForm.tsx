@@ -7,7 +7,7 @@ import {
   useSearchParams,
 } from '@remix-run/react'
 import classNames from 'classnames'
-import { ExpenseT } from '~/data/firebase.server'
+import { ExpenseT } from '~/data/expense.server'
 import FormInvalidInputMsg from './FormInvalidInputMsg'
 
 function ExpenseForm() {

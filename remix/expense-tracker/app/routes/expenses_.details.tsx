@@ -10,11 +10,7 @@ import { requireAuthCookie } from '~/auth/auth.server'
 import DiffChart from '~/components/DiffChart'
 import ErrorContainer from '~/components/ErrorContainer'
 import ExpenseChart from '~/components/ExpenseChart'
-import {
-  ExpenseT,
-  getAllTransactions,
-  getBalance,
-} from '~/data/firebase.server'
+import { ExpenseT, getAllTransactions, getBalance } from '~/data/expense.server'
 import {
   calculateDataFromTransaction,
   calculateAvailableBalance,

@@ -1,5 +1,5 @@
 import { formatNumber } from 'chart.js/helpers'
-import { BalanceDetailsT, ExpenseT } from './firebase.server'
+import { BalanceDetailsT, ExpenseT } from './expense.server'
 
 export const calculateDataFromTransaction = (transactions: ExpenseT[]) => {
   const labels: string[] = []

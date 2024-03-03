@@ -14,7 +14,7 @@ import {
   BalanceDetailsMutationT,
   BalanceDetailsT,
   updateBalance,
-} from '~/data/firebase.server'
+} from '~/data/expense.server'
 import { calculateAvailableBalance } from '~/data/utils'
 import { validateBalanceDetailsInput } from '~/data/validator'
 

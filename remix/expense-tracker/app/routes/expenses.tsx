@@ -10,7 +10,7 @@ import {
 import classNames from 'classnames'
 import { requireAuthCookie } from '~/auth/auth.server'
 import ErrorContainer from '~/components/ErrorContainer'
-import { getAllTransactions } from '~/data/firebase.server'
+import { getAllTransactions } from '~/data/expense.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireAuthCookie(request)
