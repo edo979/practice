@@ -1,10 +1,6 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
-import {
-  UserDataRawT,
-  authCookie,
-  createAccount,
-  getUser,
-} from '~/auth/auth.server'
+import { authCookie } from '~/auth/auth.server'
+import { UserDataRawT, saveUser, getUser } from '~/data/user.server'
 import { safeRedirect } from '~/auth/utils.server'
 import AuthForm from '~/components/AuthForm'
 
@@ -18,16 +14,20 @@ export async function action({ request }: ActionFunctionArgs) {
   if (mode === 'sign-up') {
     //TODO: validate user data
 
-    const userId = await createAccount({
-      email: userData.email!,
-      password: userData.password!,
-    })
+    try {
+      const userId = await saveUser({
+        email: userData.email!,
+        password: userData.password!,
+      })
 
-    return redirect(redirectTo, {
-      headers: {
-        'Set-Cookie': await authCookie.serialize(userId),
-      },
-    })
+      return redirect(redirectTo, {
+        headers: {
+          'Set-Cookie': await authCookie.serialize(userId),
+        },
+      })
+    } catch (error) {
+      return error
+    }
   } else if (mode === 'logout') {
     return redirect('/', {
       headers: {

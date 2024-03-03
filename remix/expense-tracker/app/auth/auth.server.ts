@@ -1,15 +1,5 @@
 import { createCookie, redirect } from '@remix-run/node'
 
-export type UserDataRawT = {
-  email?: string
-  password?: string
-}
-
-export type UserDataT = {
-  email: string
-  password: string
-}
-
 const secret = process.env.COOKIE_SECRET || 'some77default88secret'
 
 export const authCookie = createCookie('auth', {
@@ -46,16 +36,4 @@ export async function requireAuthCookie(request: Request) {
     })
 
   return userId
-}
-
-// ****************************************************************
-// User
-// ****************************************************************
-
-export async function createAccount(data: UserDataT) {
-  return 123
-}
-
-export async function getUser(data: UserDataT) {
-  return 'testuserid'
 }
