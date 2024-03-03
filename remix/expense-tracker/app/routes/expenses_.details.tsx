@@ -1,3 +1,4 @@
+import { LoaderFunctionArgs } from '@remix-run/node'
 import {
   Link,
   Outlet,
@@ -5,6 +6,7 @@ import {
   useLoaderData,
   useRouteError,
 } from '@remix-run/react'
+import { requireAuthCookie } from '~/auth/auth.server'
 import DiffChart from '~/components/DiffChart'
 import ErrorContainer from '~/components/ErrorContainer'
 import ExpenseChart from '~/components/ExpenseChart'
@@ -19,8 +21,8 @@ import {
   showFormattedNumber,
 } from '~/data/utils'
 
-export const loader = async () => {
-  const userId = 'testuserid'
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const userId = await requireAuthCookie(request)
   const transactions = await getAllTransactions(userId)
   const balance = await getBalance(userId)
 
