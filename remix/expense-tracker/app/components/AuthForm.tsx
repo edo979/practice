@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from '@remix-run/react'
+import { Form, Link, useSearchParams } from '@remix-run/react'
 
 export default function AuthForm() {
   const [searchParams] = useSearchParams()
@@ -23,7 +23,10 @@ export default function AuthForm() {
         </div>
 
         <div className="col-md-10 mx-auto col-lg-5">
-          <form className="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+          <Form
+            className="p-4 p-md-5 border rounded-3 bg-body-tertiary"
+            method="post"
+          >
             <div className="form-floating mb-3">
               <input
                 type="email"
@@ -81,7 +84,7 @@ export default function AuthForm() {
                 </small>
               </>
             )}
-          </form>
+          </Form>
         </div>
       </div>
     </div>
