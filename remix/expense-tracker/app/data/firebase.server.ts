@@ -34,12 +34,13 @@ if (!admin.apps.length) {
 }
 
 const firestore = admin.firestore()
-const expensesColRef = firestore.collection(
-  'expenseApp/testuserid/transactions'
-)
 
 const getUserTransactions = (userId: string) =>
   firestore.collection(`expenseApp/${userId}/transactions`)
+
+// ****************************************************************
+// TRANSACTIONS
+// ****************************************************************
 
 export const addTransaction = async (
   userId: string,
