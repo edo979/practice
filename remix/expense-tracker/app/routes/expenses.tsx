@@ -1,3 +1,4 @@
+import { LoaderFunctionArgs } from '@remix-run/node'
 import {
   Link,
   Outlet,
@@ -7,12 +8,14 @@ import {
   useRouteError,
 } from '@remix-run/react'
 import classNames from 'classnames'
+import { requireAuthCookie } from '~/auth/auth.server'
 import ErrorContainer from '~/components/ErrorContainer'
 import { getAllTransactions } from '~/data/firebase.server'
 
-export const loader = async () => {
-  const userId = 'testuserid'
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const userId = await requireAuthCookie(request)
   const transactions = await getAllTransactions(userId)
+
   return transactions
 }
 

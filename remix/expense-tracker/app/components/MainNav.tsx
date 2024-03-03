@@ -1,6 +1,8 @@
-import { Link, NavLink } from '@remix-run/react'
+import { Link, NavLink, useLoaderData } from '@remix-run/react'
 
 export default function MainNav() {
+  const { userId } = useLoaderData<{ userId: string | null }>()
+
   return (
     <nav className="navbar navbar-expand-lg shadow-sm bg-body-tertiary">
       <div className="container-fluid">
@@ -34,9 +36,15 @@ export default function MainNav() {
               </NavLink>
             </li>
           </ul>
-          <Link to="/auth" className="btn btn-secondary">
-            Login
-          </Link>
+          {!userId ? (
+            <Link to="/auth" className="btn btn-secondary">
+              Login
+            </Link>
+          ) : (
+            <Link to="/auth" className="btn btn-secondary">
+              Logout
+            </Link>
+          )}
         </div>
       </div>
     </nav>
