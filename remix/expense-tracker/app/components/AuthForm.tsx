@@ -54,10 +54,10 @@ export default function AuthForm() {
                   type="password1"
                   name="password1"
                   className="form-control"
-                  id="floatingPassword"
+                  id="floatingPassword1"
                   placeholder="Confirm Password"
                 />
-                <label htmlFor="floatingPassword">Confirm Password</label>
+                <label htmlFor="floatingPassword1">Confirm Password</label>
               </div>
             )}
 
