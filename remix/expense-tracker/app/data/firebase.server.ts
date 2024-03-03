@@ -26,7 +26,6 @@ export type BalanceDetailsT = {
   total: number
 }
 
-// Initialize Firebase Admin SDK without a service account
 if (!admin.apps.length) {
   admin.initializeApp({
     projectId: 'expense-tracker-app',
@@ -34,7 +33,6 @@ if (!admin.apps.length) {
   })
 }
 
-// Get a Firestore instance
 const firestore = admin.firestore()
 const expensesColRef = firestore.collection(
   'expenseApp/testuserid/transactions'
@@ -42,10 +40,6 @@ const expensesColRef = firestore.collection(
 
 const getUserTransactions = (userId: string) =>
   firestore.collection(`expenseApp/${userId}/transactions`)
-
-// TODO: Delete this
-export const getTimestamp = (date: string) =>
-  admin.firestore.Timestamp.fromDate(new Date(date))
 
 export const addTransaction = async (
   userId: string,
@@ -88,13 +82,14 @@ export const updateTransaction = async (
   id: string,
   data: Omit<ExpenseT, 'id'>
 ) => {
-  const expensesColRef = getUserTransactions(userId)
-  const docRef = expensesColRef.doc(id)
-  const docSnap = await docRef.get()
-  if (!docSnap.exists)
-    throw new Response("Expense doesn't found!", { status: 404 })
-
   try {
+    const expensesColRef = getUserTransactions(userId)
+    const docRef = expensesColRef.doc(id)
+    const docSnap = await docRef.get()
+
+    if (!docSnap.exists)
+      throw new Response("Expense doesn't found!", { status: 404 })
+
     await docRef.update({
       ...data,
       date: admin.firestore.Timestamp.fromDate(data.date),
@@ -105,13 +100,13 @@ export const updateTransaction = async (
 }
 
 export const deleteTransaction = async (userId: string, id: string) => {
-  const expensesColRef = getUserTransactions(userId)
-  const docSnap = await expensesColRef.doc(id).get()
-
-  if (!docSnap.exists)
-    throw new Response("Expense doesn't found!", { status: 404 })
-
   try {
+    const expensesColRef = getUserTransactions(userId)
+    const docSnap = await expensesColRef.doc(id).get()
+
+    if (!docSnap.exists)
+      throw new Response("Expense doesn't found!", { status: 404 })
+
     await expensesColRef.doc(id).delete()
   } catch (error) {
     throw new Response('Error deleting expense!', { status: 500 })
@@ -123,12 +118,13 @@ export const deleteTransaction = async (userId: string, id: string) => {
 // ****************************************************************
 export const getBalance = async (userId: string) => {
   const userColl = firestore.collection(`expenseApp`)
-  const docRef = userColl.doc(userId)
-  const docSnap = await docRef.get()
-
-  if (!docSnap.exists) throw new Response('No User!', { status: 404 })
 
   try {
+    const docRef = userColl.doc(userId)
+    const docSnap = await docRef.get()
+
+    if (!docSnap.exists) throw new Response('No User!', { status: 404 })
+
     return docSnap.data() as BalanceDetailsT
   } catch (error) {
     throw new Response('Error getting user balance!', { status: 500 })
