@@ -1,5 +1,5 @@
 import admin from 'firebase-admin'
-import { Timestamp } from 'firebase-admin/firestore'
+import { firestore } from './firebase.server'
 
 export type ExpenseRawT = {
   title?: string
@@ -25,15 +25,6 @@ export type BalanceDetailsT = {
   limit: number
   total: number
 }
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: 'expense-tracker-app',
-    databaseURL: 'http://127.0.0.1:8080',
-  })
-}
-
-const firestore = admin.firestore()
 
 const getUserTransactions = (userId: string) =>
   firestore.collection(`expenseApp/${userId}/transactions`)
