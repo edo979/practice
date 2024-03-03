@@ -39,7 +39,7 @@ export async function requireAuthCookie(request: Request) {
   const userId = await getUserIdFromAuthCookie(request)
 
   if (!userId)
-    throw redirect('/auth', {
+    throw redirect(`/auth?redirectTo=${new URL(request.url).pathname}`, {
       headers: {
         'Set-Cookie': await authCookie.serialize('', { maxAge: 0 }),
       },

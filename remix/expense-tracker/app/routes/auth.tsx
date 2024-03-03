@@ -5,6 +5,7 @@ import {
   createAccount,
   getUser,
 } from '~/auth/auth.server'
+import { safeRedirect } from '~/auth/utils.server'
 import AuthForm from '~/components/AuthForm'
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -12,6 +13,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const userData = Object.fromEntries(formData) as UserDataRawT
   const searchParams = new URL(request.url).searchParams
   const mode = searchParams.get('mode')
+  const redirectTo = safeRedirect(searchParams.get('redirectTo'), '/expenses')
 
   if (mode === 'sign-up') {
     //TODO: validate user data
@@ -21,7 +23,7 @@ export async function action({ request }: ActionFunctionArgs) {
       password: userData.password!,
     })
 
-    return redirect('/expenses', {
+    return redirect(redirectTo, {
       headers: {
         'Set-Cookie': await authCookie.serialize(userId),
       },
@@ -39,7 +41,7 @@ export async function action({ request }: ActionFunctionArgs) {
       password: userData.password!,
     })
 
-    return redirect('/expenses', {
+    return redirect(redirectTo, {
       headers: {
         'Set-Cookie': await authCookie.serialize(userId),
       },
