@@ -41,9 +41,11 @@ export default function MainNav() {
               Login
             </Link>
           ) : (
-            <Link to="/auth" className="btn btn-secondary">
-              Logout
-            </Link>
+            <form method="post" action="/auth?mode=logout">
+              <button type="submit" className="btn btn-secondary">
+                Logout
+              </button>
+            </form>
           )}
         </div>
       </div>

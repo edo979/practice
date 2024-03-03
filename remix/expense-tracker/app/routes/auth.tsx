@@ -1,5 +1,10 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
-import { UserDataRawT, authCookie, createAccount } from '~/auth/auth.server'
+import {
+  UserDataRawT,
+  authCookie,
+  createAccount,
+  getUser,
+} from '~/auth/auth.server'
 import AuthForm from '~/components/AuthForm'
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -16,13 +21,29 @@ export async function action({ request }: ActionFunctionArgs) {
       password: userData.password!,
     })
 
-    return redirect('/', {
+    return redirect('/expenses', {
       headers: {
         'Set-Cookie': await authCookie.serialize(userId),
       },
     })
+  } else if (mode === 'logout') {
+    return redirect('/', {
+      headers: {
+        'Set-Cookie': await authCookie.serialize('', { maxAge: 0 }),
+      },
+    })
   } else {
     // TODO: validate user data for login
+    const userId = await getUser({
+      email: userData.email!,
+      password: userData.password!,
+    })
+
+    return redirect('/expenses', {
+      headers: {
+        'Set-Cookie': await authCookie.serialize(userId),
+      },
+    })
   }
 
   return null

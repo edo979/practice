@@ -57,5 +57,5 @@ export async function createAccount(data: UserDataT) {
 }
 
 export async function getUser(data: UserDataT) {
-  return '123'
+  return 'testuserid'
 }
