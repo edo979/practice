@@ -42,23 +42,20 @@ export async function action({ request }: ActionFunctionArgs) {
   } else {
     // LOGIN USER
 
-    let userCredentials = null
     try {
-      userCredentials = validateUserCredentials(userData)
+      const userCredentials = validateUserCredentials(userData)
+      const userId = await getUser(userCredentials)
+
+      if (!userId) return { error: 'Wrong user credentials!' }
+
+      return redirect(redirectTo, {
+        headers: {
+          'Set-Cookie': await authCookie.serialize(userId),
+        },
+      })
     } catch (error) {
       return error
     }
-
-    const userId = await getUser({
-      email: userData.email!,
-      password: userData.password!,
-    })
-
-    return redirect(redirectTo, {
-      headers: {
-        'Set-Cookie': await authCookie.serialize(userId),
-      },
-    })
   }
 }
 
