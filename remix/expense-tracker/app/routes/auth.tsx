@@ -11,12 +11,16 @@ export async function action({ request }: ActionFunctionArgs) {
   const searchParams = new URL(request.url).searchParams
   const mode = searchParams.get('mode')
   const redirectTo = safeRedirect(searchParams.get('redirectTo'), '/expenses')
-
   if (mode === 'sign-up') {
     if (userData.password !== userData.password1)
-      throw { error: 'Form submitted wrong!' }
+      return { error: 'Form submitted wrong!' }
 
-    const userCredentials = validateUserCredentials(userData)
+    let userCredentials = null
+    try {
+      userCredentials = validateUserCredentials(userData)
+    } catch (error) {
+      return error
+    }
 
     try {
       const userId = await saveUser(userCredentials)

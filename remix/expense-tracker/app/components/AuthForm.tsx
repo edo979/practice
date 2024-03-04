@@ -1,8 +1,13 @@
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { useRef, useState } from 'react'
+import FormInvalidInputMsg from './FormInvalidInputMsg'
 
 export default function AuthForm() {
-  const errors = useActionData() as { error: string }
+  const errors = useActionData() as {
+    error: string
+    email: string
+    password: string
+  }
 
   const [searchParams] = useSearchParams()
   const authMode = searchParams.get('mode') || 'login'
@@ -20,6 +25,12 @@ export default function AuthForm() {
       setIsPasswordMatch(value === passRef.current?.value)
     }
   }
+
+  let errorMessage = ''
+  if (errors?.error) errorMessage = errors.error
+
+  if (errors && Object.keys(errors).length)
+    errorMessage = 'Form have some errors!'
 
   return (
     <div className="container col-xl-10 col-xxl-8 px-4 py-5">
@@ -41,7 +52,7 @@ export default function AuthForm() {
             className="p-4 p-md-5 border rounded-3 bg-body-tertiary"
             method="post"
           >
-            {errors?.error && <p className="text-danger">{errors.error}</p>}
+            {errorMessage && <p className="text-danger">{errorMessage}</p>}
             <div className="form-floating mb-3">
               <input
                 type="email"
@@ -51,6 +62,7 @@ export default function AuthForm() {
                 placeholder="name@example.com"
               />
               <label htmlFor="floatingInput">Email address</label>
+              {errors?.email && <FormInvalidInputMsg error={errors.email} />}
             </div>
             <div className="form-floating mb-3">
               <input
@@ -62,6 +74,9 @@ export default function AuthForm() {
                 placeholder="Password"
               />
               <label htmlFor="floatingPassword">Password</label>
+              {errors?.password && (
+                <FormInvalidInputMsg error={errors.password} />
+              )}
             </div>
 
             {authMode === 'sign-up' && (
@@ -76,7 +91,7 @@ export default function AuthForm() {
                 />
                 <label htmlFor="floatingPassword1">Confirm Password</label>
                 {!isPasswordMatch && (
-                  <small className="text-danger">Password don't match!</small>
+                  <FormInvalidInputMsg error={`Password don't match!`} />
                 )}
               </div>
             )}
