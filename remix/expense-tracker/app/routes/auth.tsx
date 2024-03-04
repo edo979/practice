@@ -40,7 +40,15 @@ export async function action({ request }: ActionFunctionArgs) {
       },
     })
   } else {
-    // TODO: validate user data for login
+    // LOGIN USER
+
+    let userCredentials = null
+    try {
+      userCredentials = validateUserCredentials(userData)
+    } catch (error) {
+      return error
+    }
+
     const userId = await getUser({
       email: userData.email!,
       password: userData.password!,
