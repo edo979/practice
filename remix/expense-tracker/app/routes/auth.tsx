@@ -11,18 +11,13 @@ export async function action({ request }: ActionFunctionArgs) {
   const searchParams = new URL(request.url).searchParams
   const mode = searchParams.get('mode')
   const redirectTo = safeRedirect(searchParams.get('redirectTo'), '/expenses')
+
   if (mode === 'sign-up') {
     if (userData.password !== userData.password1)
       return { error: 'Form submitted wrong!' }
 
-    let userCredentials = null
     try {
-      userCredentials = validateUserCredentials(userData)
-    } catch (error) {
-      return error
-    }
-
-    try {
+      const userCredentials = validateUserCredentials(userData)
       const userId = await saveUser(userCredentials)
 
       return redirect(redirectTo, {
@@ -31,6 +26,7 @@ export async function action({ request }: ActionFunctionArgs) {
         },
       })
     } catch (error) {
+      if (error instanceof Error) throw new Error('Server error!')
       return error
     }
   } else if (mode === 'logout') {
@@ -54,6 +50,7 @@ export async function action({ request }: ActionFunctionArgs) {
         },
       })
     } catch (error) {
+      if (error instanceof Error) throw new Error('Server error!')
       return error
     }
   }

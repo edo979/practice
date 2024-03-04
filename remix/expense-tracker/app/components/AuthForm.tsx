@@ -22,9 +22,7 @@ export default function AuthForm() {
 
   const handlePasswordCheck = (value: string) => {
     setPasswordConfirm(value)
-    if (value.length >= 6) {
-      setIsPasswordMatch(value === passRef.current?.value)
-    }
+    setIsPasswordMatch(value === passRef.current?.value)
   }
 
   let errorMessage = ''
@@ -62,6 +60,7 @@ export default function AuthForm() {
                 })}
                 id="floatingInput"
                 placeholder="name@example.com"
+                required
               />
               <label htmlFor="floatingInput">Email address</label>
               {errors?.email && <FormInvalidInputMsg error={errors.email} />}
@@ -76,6 +75,7 @@ export default function AuthForm() {
                 })}
                 id="floatingPassword"
                 placeholder="Password"
+                required
               />
               <label htmlFor="floatingPassword">Password</label>
               {errors?.password && (
@@ -94,6 +94,7 @@ export default function AuthForm() {
                   })}
                   id="floatingPassword1"
                   placeholder="Confirm Password"
+                  required
                 />
                 <label htmlFor="floatingPassword1">Confirm Password</label>
                 {!isPasswordMatch && (
@@ -105,7 +106,7 @@ export default function AuthForm() {
             <button
               className="w-100 btn btn-lg btn-primary"
               type="submit"
-              disabled={passwordConfirm.length > 5 && !isPasswordMatch}
+              disabled={!isPasswordMatch}
             >
               {submitBtnCaption}
             </button>
