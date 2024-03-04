@@ -3,6 +3,7 @@ import { authCookie } from '~/auth/auth.server'
 import { UserDataRawT, saveUser, getUser } from '~/data/user.server'
 import { safeRedirect } from '~/auth/utils.server'
 import AuthForm from '~/components/AuthForm'
+import { validateUserCredentials } from '~/auth/validator'
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
@@ -12,13 +13,13 @@ export async function action({ request }: ActionFunctionArgs) {
   const redirectTo = safeRedirect(searchParams.get('redirectTo'), '/expenses')
 
   if (mode === 'sign-up') {
-    //TODO: validate user data
+    if (userData.password !== userData.password1)
+      throw { error: 'Form submitted wrong!' }
+
+    const userCredentials = validateUserCredentials(userData)
 
     try {
-      const userId = await saveUser({
-        email: userData.email!,
-        password: userData.password!,
-      })
+      const userId = await saveUser(userCredentials)
 
       return redirect(redirectTo, {
         headers: {

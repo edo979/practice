@@ -4,6 +4,7 @@ import { firestore } from './firebase.server'
 export type UserDataRawT = {
   email?: string
   password?: string
+  password1?: string
 }
 
 export type UserDataT = {

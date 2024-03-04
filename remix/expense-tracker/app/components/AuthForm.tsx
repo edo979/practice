@@ -1,4 +1,5 @@
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
+import { useRef, useState } from 'react'
 
 export default function AuthForm() {
   const errors = useActionData() as { error: string }
@@ -8,6 +9,17 @@ export default function AuthForm() {
   const submitBtnCaption = authMode === 'login' ? 'Login' : 'Create User'
   const toggleBtnCaption =
     authMode === 'login' ? 'Create User' : 'Login with existing user'
+
+  const passRef = useRef<HTMLInputElement>(null)
+  const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true)
+
+  const handlePasswordCheck = (value: string) => {
+    setPasswordConfirm(value)
+    if (value.length >= 6) {
+      setIsPasswordMatch(value === passRef.current?.value)
+    }
+  }
 
   return (
     <div className="container col-xl-10 col-xxl-8 px-4 py-5">
@@ -42,6 +54,7 @@ export default function AuthForm() {
             </div>
             <div className="form-floating mb-3">
               <input
+                ref={passRef}
                 type="password"
                 name="password"
                 className="form-control"
@@ -54,6 +67,7 @@ export default function AuthForm() {
             {authMode === 'sign-up' && (
               <div className="form-floating mb-3">
                 <input
+                  onChange={(e) => handlePasswordCheck(e.target.value)}
                   type="password"
                   name="password1"
                   className="form-control"
@@ -61,10 +75,17 @@ export default function AuthForm() {
                   placeholder="Confirm Password"
                 />
                 <label htmlFor="floatingPassword1">Confirm Password</label>
+                {!isPasswordMatch && (
+                  <small className="text-danger">Password don't match!</small>
+                )}
               </div>
             )}
 
-            <button className="w-100 btn btn-lg btn-primary" type="submit">
+            <button
+              className="w-100 btn btn-lg btn-primary"
+              type="submit"
+              disabled={passwordConfirm.length > 5 && !isPasswordMatch}
+            >
               {submitBtnCaption}
             </button>
 
