@@ -1,4 +1,3 @@
-import { redirect } from '@remix-run/node'
 import { firestore } from './firebase.server'
 
 export type UserDataRawT = {
@@ -17,7 +16,11 @@ const userColl = firestore.collection('users')
 export async function saveUser({ email, password }: UserDataT) {
   const snap = await userColl.where('email', '==', email).get()
 
-  if (!snap.empty) throw { error: 'User with that email already exists!' }
+  if (!snap.empty)
+    throw {
+      error: 'User with that email already exists!',
+      email: 'Please change email.',
+    }
 
   try {
     const docRef = await userColl.add({ email, password })

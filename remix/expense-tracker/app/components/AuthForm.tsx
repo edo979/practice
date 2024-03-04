@@ -1,6 +1,7 @@
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { useRef, useState } from 'react'
 import FormInvalidInputMsg from './FormInvalidInputMsg'
+import classNames from 'classnames'
 
 export default function AuthForm() {
   const errors = useActionData() as {
@@ -28,8 +29,7 @@ export default function AuthForm() {
 
   let errorMessage = ''
   if (errors?.error) errorMessage = errors.error
-
-  if (errors && Object.keys(errors).length)
+  else if (errors && Object.keys(errors).length)
     errorMessage = 'Form have some errors!'
 
   return (
@@ -57,7 +57,9 @@ export default function AuthForm() {
               <input
                 type="email"
                 name="email"
-                className="form-control"
+                className={classNames('form-control', {
+                  'is-invalid': errors?.email,
+                })}
                 id="floatingInput"
                 placeholder="name@example.com"
               />
@@ -69,7 +71,9 @@ export default function AuthForm() {
                 ref={passRef}
                 type="password"
                 name="password"
-                className="form-control"
+                className={classNames('form-control', {
+                  'is-invalid': errors?.password,
+                })}
                 id="floatingPassword"
                 placeholder="Password"
               />
@@ -85,7 +89,9 @@ export default function AuthForm() {
                   onChange={(e) => handlePasswordCheck(e.target.value)}
                   type="password"
                   name="password1"
-                  className="form-control"
+                  className={classNames('form-control', {
+                    'is-invalid': !isPasswordMatch,
+                  })}
                   id="floatingPassword1"
                   placeholder="Confirm Password"
                 />

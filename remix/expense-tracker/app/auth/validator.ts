@@ -29,10 +29,10 @@ export function validateUserCredentials(input: UserDataRawT) {
 
   if (!isValidPassword(input.password))
     validationErrors.password =
-      'Password must be longer than 6 and less than 30 characters'
+      'Password must be longer than 6 and less than 30 characters!'
 
   if (!isValidEmail(input.email))
-    validationErrors.email = 'Please enter a valid email'
+    validationErrors.email = 'Please enter a valid email!'
 
   if (Object.keys(validationErrors).length) throw validationErrors
 
