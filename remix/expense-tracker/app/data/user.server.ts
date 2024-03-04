@@ -16,10 +16,14 @@ const userColl = firestore.collection('users')
 export async function saveUser({ email, password }: UserDataT) {
   const snap = await userColl.where('email', '==', email).get()
 
-  if (!snap.empty) throw { formError: 'User with that email already exists!' }
+  if (!snap.empty) throw { error: 'User with that email already exists!' }
 
-  const docRef = await userColl.add({ email, password })
-  return docRef.id
+  try {
+    const docRef = await userColl.add({ email, password })
+    return docRef.id
+  } catch (error) {
+    throw { error: 'Server error!' }
+  }
 }
 
 export async function getUser(data: UserDataT) {

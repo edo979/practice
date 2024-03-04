@@ -1,6 +1,8 @@
-import { Form, Link, useSearchParams } from '@remix-run/react'
+import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 
 export default function AuthForm() {
+  const errors = useActionData() as { error: string }
+
   const [searchParams] = useSearchParams()
   const authMode = searchParams.get('mode') || 'login'
   const submitBtnCaption = authMode === 'login' ? 'Login' : 'Create User'
@@ -27,6 +29,7 @@ export default function AuthForm() {
             className="p-4 p-md-5 border rounded-3 bg-body-tertiary"
             method="post"
           >
+            {errors?.error && <p className="text-danger">{errors.error}</p>}
             <div className="form-floating mb-3">
               <input
                 type="email"
@@ -51,7 +54,7 @@ export default function AuthForm() {
             {authMode === 'sign-up' && (
               <div className="form-floating mb-3">
                 <input
-                  type="password1"
+                  type="password"
                   name="password1"
                   className="form-control"
                   id="floatingPassword1"
