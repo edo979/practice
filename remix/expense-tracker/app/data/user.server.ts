@@ -1,4 +1,5 @@
 import { firestore } from './firebase.server'
+import bcrypt from 'bcrypt'
 
 export type UserDataRawT = {
   email?: string
@@ -23,7 +24,11 @@ export async function saveUser({ email, password }: UserDataT) {
     }
 
   try {
-    const docRef = await userColl.add({ email, password })
+    const docRef = await userColl.add({
+      email,
+      password: await bcrypt.hash(password, 8),
+    })
+
     return docRef.id
   } catch (error) {
     throw { error: 'Server error!' }
