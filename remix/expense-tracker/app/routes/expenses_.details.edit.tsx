@@ -8,6 +8,7 @@ import {
   useSubmit,
 } from '@remix-run/react'
 import { useEffect, useRef, useState } from 'react'
+import { requireAuthCookie } from '~/auth/auth.server'
 import FormInvalidInputMsg from '~/components/FormInvalidInputMsg'
 import Modal from '~/components/Modal'
 import {
@@ -19,7 +20,7 @@ import { calculateAvailableBalance } from '~/data/utils'
 import { validateBalanceDetailsInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const userId = 'testuserid'
+  const userId = await requireAuthCookie(request)
   const formData = await request.formData()
   const balanceMutationData = Object.fromEntries(
     formData

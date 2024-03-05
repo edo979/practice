@@ -26,7 +26,7 @@ export type BalanceDetailsT = {
   total: number
 }
 
-const getUserTransactions = (userId: string) =>
+const getUserTransactionsColl = (userId: string) =>
   firestore.collection(`expensesApp/${userId}/transactions`)
 
 // ****************************************************************
@@ -38,7 +38,7 @@ export const addTransaction = async (
   data: Omit<ExpenseT, 'id'>
 ) => {
   try {
-    const expensesColRef = getUserTransactions(userId)
+    const expensesColRef = getUserTransactionsColl(userId)
     await expensesColRef.add({
       ...data,
       date: admin.firestore.Timestamp.fromDate(data.date),
@@ -50,7 +50,7 @@ export const addTransaction = async (
 
 export const getAllTransactions = async (userId: string) => {
   try {
-    const expensesColRef = getUserTransactions(userId)
+    const expensesColRef = getUserTransactionsColl(userId)
     const snapshot = await expensesColRef.orderBy('date', 'asc').get()
     const expenses: ExpenseT[] = snapshot.docs.map(
       (doc) =>
@@ -75,7 +75,7 @@ export const updateTransaction = async (
   data: Omit<ExpenseT, 'id'>
 ) => {
   try {
-    const expensesColRef = getUserTransactions(userId)
+    const expensesColRef = getUserTransactionsColl(userId)
     const docRef = expensesColRef.doc(id)
     const docSnap = await docRef.get()
 
@@ -93,7 +93,7 @@ export const updateTransaction = async (
 
 export const deleteTransaction = async (userId: string, id: string) => {
   try {
-    const expensesColRef = getUserTransactions(userId)
+    const expensesColRef = getUserTransactionsColl(userId)
     const docSnap = await expensesColRef.doc(id).get()
 
     if (!docSnap.exists)
@@ -108,11 +108,12 @@ export const deleteTransaction = async (userId: string, id: string) => {
 // ****************************************************************
 // BALANCE
 // ****************************************************************
-export const getBalance = async (userId: string) => {
-  const userColl = firestore.collection(`expenseApp`)
 
+const userCollRef = firestore.collection('expensesApp')
+
+export const getBalance = async (userId: string) => {
   try {
-    const docRef = userColl.doc(userId)
+    const docRef = userCollRef.doc(userId)
     const docSnap = await docRef.get()
 
     if (!docSnap.exists) throw new Response('No User!', { status: 404 })
@@ -124,14 +125,8 @@ export const getBalance = async (userId: string) => {
 }
 
 export const updateBalance = async (userId: string, data: BalanceDetailsT) => {
-  const userColl = firestore.collection(`expenseApp`)
-  const docRef = userColl.doc(userId)
-  const docSnap = await docRef.get()
-
-  if (!docSnap.exists)
-    throw new Response('User data not found!', { status: 404 })
-
   try {
+    const docRef = userCollRef.doc(userId)
     await docRef.update(data)
   } catch (error) {
     throw new Response('Error updating user balance!', { status: 500 })
