@@ -12,10 +12,10 @@ export type UserDataT = {
   password: string
 }
 
-const usersColl = firestore.collection('users')
+const getUserColl = firestore.collection('expensesApp')
 
 export async function saveUser({ email, password }: UserDataT) {
-  const snap = await usersColl.where('email', '==', email).get()
+  const snap = await getUserColl.where('email', '==', email).get()
 
   if (!snap.empty)
     throw {
@@ -24,9 +24,11 @@ export async function saveUser({ email, password }: UserDataT) {
     }
 
   try {
-    const docRef = await usersColl.add({
+    const docRef = await getUserColl.add({
       email,
       password: await bcrypt.hash(password, 8),
+      current: 0,
+      total: 0,
     })
 
     return docRef.id
@@ -36,7 +38,7 @@ export async function saveUser({ email, password }: UserDataT) {
 }
 
 export async function getUser({ email, password }: UserDataT) {
-  const snap = await usersColl.where('email', '==', email).get()
+  const snap = await getUserColl.where('email', '==', email).get()
 
   if (snap.empty) return null
 

@@ -1,13 +1,14 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
+import { requireAuthCookie } from '~/auth/auth.server'
 import ExpenseForm from '~/components/ExpenseForm'
 import Modal from '~/components/Modal'
 import { ExpenseT, ExpenseRawT, addTransaction } from '~/data/expense.server'
 import { validateExpenseInput } from '~/data/validator'
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const userId = await requireAuthCookie(request)
   const formData = await request.formData()
   const expenseData = Object.fromEntries(formData) as ExpenseRawT
-  const userId = 'testuserid'
 
   try {
     validateExpenseInput(expenseData)

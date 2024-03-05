@@ -27,7 +27,7 @@ export type BalanceDetailsT = {
 }
 
 const getUserTransactions = (userId: string) =>
-  firestore.collection(`expenseApp/${userId}/transactions`)
+  firestore.collection(`expensesApp/${userId}/transactions`)
 
 // ****************************************************************
 // TRANSACTIONS
