@@ -48,60 +48,70 @@ export default function ExpensesDetails() {
         </div>
       </div>
 
-      <div className="row mt-5">
-        <div className="col">
-          <ExpenseChart {...expenseData} />
-        </div>
-      </div>
+      {transactions.length ? (
+        <>
+          <div className="row mt-5">
+            <div className="col">
+              <ExpenseChart {...expenseData} />
+            </div>
+          </div>
 
-      <div className="row mt-5">
-        <div className="col">
-          <DiffChart labels={expenseData.labels} data={monthDiffs} />
-        </div>
-      </div>
+          <div className="row mt-5">
+            <div className="col">
+              <DiffChart labels={expenseData.labels} data={monthDiffs} />
+            </div>
+          </div>
 
-      <div className="row mt-5">
-        <div className="col">
-          <h2>Expense data:</h2>
-          <table className="table table-striped table-bordered mt-3 fs-5">
-            <thead>
-              <tr className="text-center">
-                <th>Income</th>
-                <th>Expense</th>
-                <th>Saving</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              <tr>
-                <th colSpan={3}>Averages:</th>
-              </tr>
-              <tr>
-                <td>
-                  {expenseData.incomes.reduce((acc, value) => acc + value, 0) /
-                    expenseData.incomes.length}
-                </td>
-                <td>
-                  {expenseData.expenses.reduce((acc, value) => acc + value, 0) /
-                    expenseData.expenses.length}
-                </td>
-                <td>
-                  {monthDiffs.reduce((acc, value) => acc + value, 0) /
-                    monthDiffs.length}
-                </td>
-              </tr>
-              <tr>
-                <th colSpan={3}>Max:</th>
-              </tr>
-              {/* MAX */}
-              <tr>
-                <td>{Math.max(...expenseData.incomes)}</td>
-                <td>{Math.max(...expenseData.expenses)}</td>
-                <td>{Math.max(...monthDiffs)}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+          <div className="row mt-5">
+            <div className="col">
+              <h2>Expense data:</h2>
+              <table className="table table-striped table-bordered mt-3 fs-5">
+                <thead>
+                  <tr className="text-center">
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>Saving</th>
+                  </tr>
+                </thead>
+                <tbody className="text-center">
+                  <tr>
+                    <th colSpan={3}>Averages:</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      {expenseData.incomes.reduce(
+                        (acc, value) => acc + value,
+                        0
+                      ) / expenseData.incomes.length}
+                    </td>
+                    <td>
+                      {expenseData.expenses.reduce(
+                        (acc, value) => acc + value,
+                        0
+                      ) / expenseData.expenses.length}
+                    </td>
+                    <td>
+                      {monthDiffs.reduce((acc, value) => acc + value, 0) /
+                        monthDiffs.length}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={3}>Max:</th>
+                  </tr>
+                  {/* MAX */}
+                  <tr>
+                    <td>{Math.max(...expenseData.incomes)}</td>
+                    <td>{Math.max(...expenseData.expenses)}</td>
+                    <td>{Math.max(...monthDiffs)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      ) : (
+        <b>No Expense Data Yet!</b>
+      )}
 
       <div className="row mt-5" id="balance">
         <div className="col">
