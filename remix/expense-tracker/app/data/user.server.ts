@@ -27,7 +27,7 @@ export async function saveUser({ email, password }: UserDataT) {
     const docRef = await getUserColl.add({
       email,
       password: await bcrypt.hash(password, 8),
-      current: 0,
+      limit: 0,
       total: 0,
     })
 

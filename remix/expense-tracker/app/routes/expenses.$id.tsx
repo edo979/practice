@@ -1,4 +1,5 @@
 import { ActionFunctionArgs, redirect } from '@remix-run/node'
+import { requireAuthCookie } from '~/auth/auth.server'
 import ExpenseForm from '~/components/ExpenseForm'
 import Modal from '~/components/Modal'
 import {
@@ -11,7 +12,7 @@ import { validateExpenseInput } from '~/data/validator'
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const expenseId = params.id
-  const userId = 'testuserid'
+  const userId = await requireAuthCookie(request)
 
   if (!expenseId) return { error: 'Expense not found!' }
 

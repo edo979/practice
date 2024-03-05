@@ -93,13 +93,7 @@ export const updateTransaction = async (
 
 export const deleteTransaction = async (userId: string, id: string) => {
   try {
-    const expensesColRef = getUserTransactionsColl(userId)
-    const docSnap = await expensesColRef.doc(id).get()
-
-    if (!docSnap.exists)
-      throw new Response("Expense doesn't found!", { status: 404 })
-
-    await expensesColRef.doc(id).delete()
+    await getUserTransactionsColl(userId).doc(id).delete()
   } catch (error) {
     throw new Response('Error deleting expense!', { status: 500 })
   }
