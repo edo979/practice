@@ -37,11 +37,26 @@ export const addTransaction = async (
   userId: string,
   data: Omit<ExpenseT, 'id'>
 ) => {
+  const userDocRef = firestore.collection('expensesApp').doc(userId)
+  const tranCollRef = firestore.collection(`expensesApp/${userId}/transactions`)
+
   try {
-    const expensesColRef = getUserTransactionsColl(userId)
-    await expensesColRef.add({
-      ...data,
-      date: admin.firestore.Timestamp.fromDate(data.date),
+    await firestore.runTransaction(async (t) => {
+      const doc = await t.get(userDocRef)
+
+      if (!doc.exists) {
+        throw new Error('No such user!')
+      }
+
+      const totalBalance = doc.data()?.total as number
+      t.update(userDocRef, {
+        total: data.income
+          ? totalBalance + data.amount
+          : totalBalance - data.amount,
+      })
+
+      const newTranRef = tranCollRef.doc()
+      t.set(newTranRef, data)
     })
   } catch (error) {
     throw new Response('Error adding expense!', { status: 500 })
