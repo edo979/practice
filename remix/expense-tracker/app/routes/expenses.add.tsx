@@ -25,6 +25,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   await addTransaction(userId, expense)
 
+  const redirectTo = formData.get('redirectTo')
+  if (redirectTo && typeof redirectTo === 'string') return redirect(redirectTo)
+
   return redirect('..')
 }
 

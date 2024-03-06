@@ -14,7 +14,7 @@ import Modal from '~/components/Modal'
 import {
   BalanceDetailsMutationT,
   BalanceDetailsT,
-  updateBalance,
+  updateLimit,
 } from '~/data/expense.server'
 import { calculateAvailableBalance } from '~/data/utils'
 import { validateBalanceDetailsInput } from '~/data/validator'
@@ -33,10 +33,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return error
   }
 
-  await updateBalance(userId, {
-    limit: parseFloat(balanceMutationData.limit!),
-    total: parseFloat(balanceMutationData.total!),
-  })
+  await updateLimit(userId, parseFloat(balanceMutationData.limit!))
 
   return redirect('/expenses/details#balance')
 }
@@ -70,16 +67,22 @@ export default function EditDetails() {
       if (diff > 0) formData.append('income', 'true')
       formData.append('amount', Math.abs(diff).toFixed(2))
       formData.append('title', 'NN')
-      formData.append('date', new Date().toString().slice(0, 10))
+      formData.append('date', new Date().toString())
+      formData.append('redirectTo', '/expenses/details#balance')
 
       submit(formData, {
         method: 'POST',
         action: '/expenses/add',
         navigate: false,
+        replace: true,
       })
     }
 
-    submit(formRef.current, { method: 'POST' })
+    if (balance.limit !== limitValue)
+      submit(
+        { limit: limitValue, total: totalValue },
+        { method: 'POST', navigate: false, replace: true }
+      )
   }
 
   useEffect(() => {

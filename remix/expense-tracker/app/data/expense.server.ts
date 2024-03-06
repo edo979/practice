@@ -56,7 +56,10 @@ export const addTransaction = async (
       })
 
       const newTranRef = tranCollRef.doc()
-      t.set(newTranRef, data)
+      t.set(newTranRef, {
+        ...data,
+        date: admin.firestore.Timestamp.fromDate(data.date),
+      })
     })
   } catch (error) {
     throw new Response('Error adding expense!', { status: 500 })
@@ -133,11 +136,11 @@ export const getBalance = async (userId: string) => {
   }
 }
 
-export const updateBalance = async (userId: string, data: BalanceDetailsT) => {
+export const updateLimit = async (userId: string, limit: number) => {
   try {
     const docRef = userCollRef.doc(userId)
-    await docRef.update(data)
+    await docRef.update({ limit })
   } catch (error) {
-    throw new Response('Error updating user balance!', { status: 500 })
+    throw new Response('Error updating balance limit!', { status: 500 })
   }
 }
